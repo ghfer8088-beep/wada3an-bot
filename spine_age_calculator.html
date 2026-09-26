@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>حاسبة عمر العمود الفقري الحقيقي | Smart Check Tools - وداعاً للألم</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700;800;900&family=Tajawal:wght@500;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0a0f1d;
+      --card-bg: #131d33;
+      --card-border: rgba(245, 158, 11, 0.25);
+      --gold: #f59e0b;
+      --gold-light: #fbbf24;
+      --gold-gradient: linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #d97706 100%);
+      --emerald: #10b981;
+      --red: #ef4444;
+      --blue: #3b82f6;
+      --text-white: #f8fafc;
+      --text-muted: #94a3b8;
+      --whatsapp: #25D366;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'IBM Plex Sans Arabic', 'Tajawal', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: radial-gradient(circle at top center, #1e293b 0%, #0a0f1d 100%);
+      color: var(--text-white);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px;
+      overflow-x: hidden;
+    }
+
+    .app-container {
+      width: 100%;
+      max-width: 620px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Top Brand Bar */
+    .top-header {
+      background: rgba(19, 29, 51, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+    }
+
+    .brand-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--gold-gradient);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+    }
+
+    .brand-meta h2 {
+      font-size: 14px;
+      font-weight: 800;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .brand-meta p {
+      font-size: 11px;
+      color: var(--gold-light);
+    }
+
+    .badge-tool {
+      background: rgba(59, 130, 246, 0.2);
+      border: 1px solid rgba(59, 130, 246, 0.4);
+      color: #93c5fd;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 10.5px;
+      font-weight: 700;
+    }
+
+    /* Hero intro */
+    .hero-card {
+      background: linear-gradient(180deg, rgba(19, 29, 51, 0.95) 0%, rgba(15, 23, 42, 0.95) 100%);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 24px 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+    }
+
+    .hero-card::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.15) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero-title {
+      font-size: 22px;
+      font-weight: 900;
+      line-height: 1.4;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #ffffff 0%, #fde68a 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 13.5px;
+      color: #cbd5e1;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .hero-badge-fun {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid var(--gold);
+      color: var(--gold-light);
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    /* Interactive Spine Visualizer */
+    .spine-anim-box {
+      width: 140px;
+      height: 170px;
+      margin: 0 auto 16px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    .vertebra {
+      width: 48px;
+      height: 12px;
+      background: #10b981;
+      border-radius: 4px;
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+
+    .disc-cushion {
+      width: 32px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.4);
+      border-radius: 2px;
+      transition: all 0.5s;
+    }
+
+    /* Progress bar */
+    .progress-wrapper {
+      margin-bottom: 16px;
+    }
+
+    .progress-bar-bg {
+      width: 100%;
+      height: 8px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 6px;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: var(--gold-gradient);
+      border-radius: 10px;
+      transition: width 0.4s ease;
+    }
+
+    .progress-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+
+    /* Question Screen */
+    .quiz-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 24px;
+      padding: 22px 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      display: none;
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .question-title {
+      font-size: 16.5px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .question-desc {
+      font-size: 12px;
+      color: #94a3b8;
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .option-btn {
+      background: rgba(255,255,255,0.04);
+      border: 1.5px solid rgba(255,255,255,0.1);
+      border-radius: 14px;
+      padding: 13px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-align: right;
+      color: #f1f5f9;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      font-size: 13.5px;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .option-btn:hover, .option-btn:active {
+      background: rgba(245, 158, 11, 0.12);
+      border-color: var(--gold);
+      transform: scale(0.99);
+    }
+
+    .option-btn .opt-emoji {
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .option-btn .opt-text {
+      flex: 1;
+    }
+
+    .option-btn .opt-funny {
+      display: block;
+      font-size: 11px;
+      color: #94a3b8;
+      font-weight: 400;
+      margin-top: 2px;
+    }
+
+    /* Start Button */
+    .btn-main {
+      width: 100%;
+      background: var(--gold-gradient);
+      color: #0f172a;
+      border: none;
+      padding: 15px 24px;
+      border-radius: 16px;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
+      transition: all 0.25s;
+    }
+
+    .btn-main:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(245, 158, 11, 0.55);
+    }
+
+    /* Result Screen */
+    .result-card {
+      background: linear-gradient(180deg, #131d33 0%, #0c1222 100%);
+      border: 2px solid var(--gold);
+      border-radius: 28px;
+      padding: 26px 20px;
+      text-align: center;
+      display: none;
+      animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 16px 50px rgba(0,0,0,0.6);
+    }
+
+    @keyframes popIn {
+      0% { opacity: 0; transform: scale(0.9); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    .result-badge {
+      display: inline-block;
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid var(--red);
+      color: #fca5a5;
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 11.5px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .age-comparison {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      margin: 16px 0;
+    }
+
+    .age-box {
+      background: rgba(255,255,255,0.05);
+      border-radius: 18px;
+      padding: 14px 18px;
+      flex: 1;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .age-box.real {
+      background: rgba(239, 68, 68, 0.1);
+      border-color: rgba(239, 68, 68, 0.4);
+    }
+
+    .age-box .title {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .age-box .number {
+      font-size: 32px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .age-box.real .number {
+      color: #ef4444;
+      text-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
+    }
+
+    .age-box .unit {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .spine-nickname {
+      font-size: 19px;
+      font-weight: 900;
+      color: var(--gold-light);
+      margin-bottom: 8px;
+    }
+
+    .funny-diagnosis {
+      font-size: 13px;
+      color: #e2e8f0;
+      line-height: 1.6;
+      background: rgba(15, 23, 42, 0.7);
+      border-radius: 14px;
+      padding: 12px 14px;
+      margin-bottom: 18px;
+      border-right: 3px solid var(--gold);
+      text-align: right;
+    }
+
+    /* Clinical Reassurance */
+    .reassurance-box {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 16px;
+      padding: 14px;
+      text-align: right;
+      margin-bottom: 20px;
+    }
+
+    .reassurance-box h4 {
+      color: #34d399;
+      font-size: 13.5px;
+      font-weight: 800;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .reassurance-box p {
+      font-size: 11.5px;
+      color: #cbd5e1;
+      line-height: 1.6;
+    }
+
+    /* Viral Share Section */
+    .share-viral-card {
+      background: rgba(37, 211, 102, 0.1);
+      border: 1.5px dashed var(--whatsapp);
+      border-radius: 16px;
+      padding: 14px;
+      margin-bottom: 18px;
+    }
+
+    .share-viral-card h4 {
+      color: #4ade80;
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .share-viral-card p {
+      font-size: 11px;
+      color: #cbd5e1;
+      margin-bottom: 10px;
+    }
+
+    .btn-share-whatsapp {
+      background: #25D366;
+      color: #ffffff;
+      border: none;
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      font-size: 13.5px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.35);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .btn-share-whatsapp:hover {
+      background: #1eb956;
+      transform: translateY(-2px);
+    }
+
+    /* Clinic Direct CTA */
+    .clinic-cta-card {
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid var(--gold);
+      border-radius: 18px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .clinic-cta-card h3 {
+      font-size: 15px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 4px;
+    }
+
+    .clinic-price-tag {
+      font-size: 12px;
+      color: var(--gold-light);
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-cta-phone {
+      flex: 1;
+      background: var(--gold-gradient);
+      color: #0f172a;
+      text-decoration: none;
+      padding: 11px;
+      border-radius: 10px;
+      font-size: 12.5px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .btn-cta-fb {
+      flex: 1;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #ffffff;
+      text-decoration: none;
+      padding: 11px;
+      border-radius: 10px;
+      font-size: 12.5px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    /* Footer */
+    .footer-note {
+      text-align: center;
+      font-size: 11px;
+      color: #64748b;
+      margin-top: 10px;
+      line-height: 1.5;
+    }
+
+    .footer-note a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="brand-box">
+        <div class="brand-icon">🦴</div>
+        <div class="brand-meta">
+          <h2>حاسبة عمر العمود الفقري <span style="font-size:10px; background:rgba(245,158,11,0.2); color:#fbbf24; border:1px solid #f59e0b; padding:1px 6px; border-radius:10px;">Pro</span></h2>
+          <p>وداعاً للألم (30minutes30) • خلدا والزرقاء</p>
+        </div>
+      </div>
+      <span class="badge-tool">Smart Check Tools ⚡</span>
+    </header>
+
+    <!-- Screen 1: Hero / Welcome Screen -->
+    <div id="screenIntro" class="hero-card">
+      <span class="hero-badge-fun">😂 اختبار فضولي صريح 100%</span>
+      <h1 class="hero-title">كم عمر عمودك الفقري الحقيقي مقارنة بعمرك في بطاقة الأحوال؟</h1>
+      <p class="hero-subtitle">
+        أغلب الناس في الأردن عمرهم بالهوية 30 سنة.. بس ظهرهم عايش في الثمانينات! 👴<br>
+        أجب عن 5 مواقف من حياتك اليومية، واكتشف العمر البيولوجي الحقيقي لفقراتك، ولقب ديسك ظهرك المضحك.
+      </p>
+
+      <!-- Spine Graphic Animation -->
+      <div class="spine-anim-box">
+        <div class="vertebra" id="v1"></div>
+        <div class="disc-cushion"></div>
+        <div class="vertebra" id="v2"></div>
+        <div class="disc-cushion"></div>
+        <div class="vertebra" id="v3"></div>
+        <div class="disc-cushion"></div>
+        <div class="vertebra" id="v4"></div>
+        <div class="disc-cushion"></div>
+        <div class="vertebra" id="v5"></div>
+      </div>
+
+      <!-- Chronological Age Input -->
+      <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:14px; margin-bottom:16px;">
+        <label style="display:block; font-size:13px; font-weight:700; color:#cbd5e1; margin-bottom:8px;">
+          كم عمرك المسجل في شهادة الميلاد / الهوية؟
+        </label>
+        <div style="display:flex; align-items:center; justify-content:center; gap:10px;">
+          <input type="number" id="inputAge" value="30" min="15" max="85" style="width:110px; background:#0f172a; border:2px solid var(--gold); border-radius:12px; padding:8px 12px; font-size:20px; font-weight:900; color:#fbbf24; text-align:center; outline:none;">
+          <span style="font-size:14px; font-weight:700; color:#94a3b8;">سنة</span>
+        </div>
+      </div>
+
+      <button onclick="startQuiz()" class="btn-main">
+        🚀 ابدأ فحص عمر ظهرك الحقيقي (40 ثانية)
+      </button>
+    </div>
+
+    <!-- Screen 2: Dynamic Question Card -->
+    <div id="screenQuiz" class="quiz-card">
+      <div class="progress-wrapper">
+        <div class="progress-bar-bg">
+          <div id="progressFill" class="progress-fill"></div>
+        </div>
+        <div class="progress-labels">
+          <span id="stepCounter">السؤال 1 من 5</span>
+          <span id="spineStatusIndicator">حالة الفقرات: شباب 🌿</span>
+        </div>
+      </div>
+
+      <h3 id="qTitle" class="question-title">عنوان السؤال</h3>
+      <p id="qDesc" class="question-desc">وصف السؤال</p>
+
+      <div id="optionsContainer" class="options-grid">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+
+    <!-- Screen 3: Calculation Loader -->
+    <div id="screenLoading" class="hero-card" style="display:none; padding:40px 20px;">
+      <div style="font-size:50px; animation: bounce 1s infinite;">🔍</div>
+      <h3 style="font-size:18px; font-weight:800; color:#ffffff; margin:14px 0 6px;">جاري حساب معامل اهتراء الغضاريف والفقرات...</h3>
+      <p style="font-size:12px; color:#94a3b8;" id="loadingPhrase">نفحص تيبس العضلات العميقة وضغط العصب الوركي ⚡</p>
+    </div>
+
+    <!-- Screen 4: Final Result Screen -->
+    <div id="screenResult" class="result-card">
+      <span class="result-badge" id="resAlertBadge">⚠️ تنبيه إجهاد فقرات متقدم</span>
+
+      <div class="age-comparison">
+        <div class="age-box">
+          <div class="title">عمرك في الهوية 🪪</div>
+          <div class="number" id="resChronoAge">30</div>
+          <div class="unit">سنة</div>
+        </div>
+
+        <div style="font-size:24px; color:var(--gold);">⚡</div>
+
+        <div class="age-box real">
+          <div class="title">عمر عمودك الفقري الفعلي 🦴</div>
+          <div class="number" id="resSpineAge">52</div>
+          <div class="unit">سنة بيولوجية</div>
+        </div>
+      </div>
+
+      <div class="spine-nickname" id="resNickname">"فقرات متقاعدة قبل أوانها!" 👴</div>
+
+      <div class="funny-diagnosis" id="resDiagnosis">
+        فقرات ظهرك شايلة هموم عمّان كلها! الغضاريف بين الفقرات القطنية L4-L5 بتصوت من القعدة الخاطئة وتيبس الأربطة، ومحتاج إعادة ضبط مصنع لمحاذاة الفقرات قبل ما يتحول لمرحلة ديسك صريح!
+      </div>
+
+      <!-- Psychological Reassurance -->
+      <div class="reassurance-box">
+        <h4>🌿 الخبر الممتاز: عمودك الفقري بيقدر يرجع شباب!</h4>
+        <p>
+          العمود الفقري والغضاريف مش زي عمر الهوية، ما بيحتاج عمليات جراحية ولا أدوية مهدئة.. بمجرد إعادة محاذاة الفقرات يدوياً (الكيروبراكتيك) وفك التشنج العضلي العميق، بيزول الضغط عن العصب وبيرجع عمودك الفقري لحيويته ومرونته الطبيعية! 🌸
+        </p>
+      </div>
+
+      <!-- Viral WhatsApp Share Box -->
+      <div class="share-viral-card">
+        <h4>📲 فاجئ أصحابك وأهلك في الواتساب!</h4>
+        <p>شارك نتيجتك بجروب العيلة أو الشغل وخلينا نشوف مين صاحب أقدم وأتعب عمود فقري بينكم 😂👇</p>
+        <a id="btnShareWhatsApp" href="#" target="_blank" class="btn-share-whatsapp">
+          <span>💬</span> مشاركة النتيجة المضحكة على واتساب
+        </a>
+      </div>
+
+      <!-- Booking / Clinic Direct Action -->
+      <div class="clinic-cta-card">
+        <h3>👑 حابب تفحص ظهرك وتجدد شباب فقراتك؟</h3>
+        <p class="clinic-price-tag">جلسة الكايروبراكتيك والتأهيل الشاملة: 20 دينار فقط بمقرنا بخلدا</p>
+
+        <div class="cta-buttons">
+          <a id="btnBookSession" href="#" target="_blank" class="btn-cta-phone">
+            <span>📅</span> احجز جلستك بخلدا (واتساب)
+          </a>
+          <a href="tel:0790360440" class="btn-cta-fb">
+            <span>📞</span> 0790360440
+          </a>
+        </div>
+      </div>
+
+      <button onclick="restartQuiz()" style="background:none; border:none; color:#94a3b8; font-size:12px; margin-top:16px; cursor:pointer; text-decoration:underline;">
+        🔄 إعادة الاختبار من جديد
+      </button>
+    </div>
+
+    <!-- Footer Note -->
+    <div class="footer-note">
+      أداة تفاعلية سريرية توعوية مطورة خصيصاً لمنصة <b>Smart Check Tools</b> لصالح مركز <b>وداعاً للألم (30minutes30)</b>.<br>
+      متخصصون بتقويم العمود الفقري (الكيروبراكتيك) والتأهيل الحركي يدوياً بدون جراحة وبدون أدوية • عمّان (خلدا) وزيارات منزلية بالزرقاء.
+    </div>
+
+  </div>
+
+  <script>
+    // 5 Witty, Highly Relatable Jordanian / Arab Lifestyle Questions
+    const QUESTIONS = [
+      {
+        title: "1. صوت طلوعك عن الكنبة أو السرير لما تقوم:",
+        desc: "كن صريحاً.. المؤثرات الصوتية اللي بتطلع منك هي الدليل الأول!",
+        options: [
+          { text: "بقفل شاشة التلفون وبقوم بخفة كأني غزال ما شاء الله", funny: "عمودك الفقري لساته بالمدرسة!", ageBonus: -3, color: "#10b981", emoji: "🦌" },
+          { text: "تنهيدة خفيفة مع كلمة 'يا فتاح يا عليم يا كريم'", funny: "مرحلة الإجهاد الأولي للفقرات", ageBonus: 3, color: "#fbbf24", emoji: "☕" },
+          { text: "صوت طقطقة بالظهر أو الركب مع 'أوف يا ربي'", funny: "الغضاريف بتعزف سيمفونية استغاثة!", ageBonus: 7, color: "#f97316", emoji: "🎻" },
+          { text: "لازم اتسند بإيدي الثنتين على ركبي كأني بطلع جبل نيبو!", funny: "الفقرات القطنية مقدمة على تقاعد مبكر!", ageBonus: 12, color: "#ef4444", emoji: "🏔️" }
+        ]
+      },
+      {
+        title: "2. كيف وضعية جلوسك بالدوام أو وأنت ممسك بالموبايل؟",
+        desc: "الجاذبية الأرضية وقعدة المكتب هي العدو اللدود للغضاريف:",
+        options: [
+          { text: "ظهري مستقيم ومفروض زي ضباط الجيش", funny: "أنت نادر الوجود في الأردن!", ageBonus: -2, color: "#10b981", emoji: "🎖️" },
+          { text: "جالس مع انحناء خفيف بالرقبة للأمام بتفحص الشاشة", funny: "رقبتك شايلة 15 كيلو زيادة!", ageBonus: 4, color: "#fbbf24", emoji: "📱" },
+          { text: "ساند كوعي اليمين على المكتب ومائل على جنب مثل برج بيزا المائل", funny: "عوجاج بمحاذاة الحوض وتشنج عضلات الظهر", ageBonus: 8, color: "#f97316", emoji: "🏛️" },
+          { text: "بتزحلق على الكرسي لحد ما أصير جالس على عصعوصي!", funny: "الفقرات L4-L5 في خطر انزلاق مباشر!", ageBonus: 14, color: "#ef4444", emoji: "🛹" }
+        ]
+      },
+      {
+        title: "3. لما يوقع مفتاحك أو قلمك على الأرض، كيف بتجيبه؟",
+        desc: "طريقة الانحناء بتكشف مرونة الأربطة وصحة الغضاريف:",
+        options: [
+          { text: "بثني ركبي وبنزل بظهري مستقيم باحترافية", funny: "تكنيك مثالي لحماية الديسك", ageBonus: -2, color: "#10b981", emoji: "🏋️" },
+          { text: "بمد إيدي وأنا مقوس ظهري مع مغثة خفيفة", funny: "تحميل أثقال عشوائي على الفقرات", ageBonus: 5, color: "#fbbf24", emoji: "🎣" },
+          { text: "بحاول ألقطه بأصابع رجلي عشان ما انحني واتعذب!", funny: "كسل ذكي بس دليل على تيبس الظهر!", ageBonus: 9, color: "#f97316", emoji: "🦶" },
+          { text: "بصفن فيه.. وبقول خليه مكانه بشتري غيره أحسن ما ينكسر ظهري!", funny: "حالة طوارئ قصوى في الأربطة!", ageBonus: 15, color: "#ef4444", emoji: "🚩" }
+        ]
+      },
+      {
+        title: "4. شعورك بأول 15 دقيقة بعد ما تصحى من النوم الصبح:",
+        desc: "الصباح بيكشف هل عضلاتك بتفك ولا بتزيد تيبسها:",
+        options: [
+          { text: "بقوم نشيط وبتمطط بكل راحة ومرونة", funny: "غضاريف مروية وممتلئة بالسوائل", ageBonus: -3, color: "#10b981", emoji: "☀️" },
+          { text: "بحس بتيبس وثقل بأسفل الظهر بده 10 دقائق ليفك", funny: "بدايات جفاف خفيف في الأقراص الغضروفية", ageBonus: 4, color: "#fbbf24", emoji: "🪵" },
+          { text: "رقبتي أو كتافي مشدودة وحاسس حالي نايم على صخرة", funny: "تشنج الألياف العضلية العنقية والصداع", ageBonus: 8, color: "#f97316", emoji: "🪨" },
+          { text: "خدران وتنميل نازل لرجلي أو أصابعي مع صعوبة بالمشية الأولى", funny: "إنذار عرق النسا وانضغاط العصب الوركي!", ageBonus: 15, color: "#ef4444", emoji: "⚡" }
+        ]
+      },
+      {
+        title: "5. اختبار لمس أصابع القدمين (وأنت واقف وركبك مفرودة):",
+        desc: "هذا هو الاختبار السريري الذهبي لمرونة السلسلة الخلفية:",
+        options: [
+          { text: "بلمس الأرض براحة إيدي كاملة بدون أي مشكلة", funny: "مرونة يابانية خارقة!", ageBonus: -4, color: "#10b981", emoji: "🧘" },
+          { text: "بلمس أصابع رجلي بس مع شد قوي خلف الفخذين", funny: "طبيعي، بس بدك شوية إطالات وتأهيل", ageBonus: 3, color: "#fbbf24", emoji: "👌" },
+          { text: "حدي الأقصى بوصل لنص قصبة الرجل وما بقدر أكمل!", funny: "قصر حاد في عضلات الهامسترينغ وضغط قطني", ageBonus: 8, color: "#f97316", emoji: "📏" },
+          { text: "أصابع رجلي سافروا ما بشوفهم، وإذا حاولت بقع على وجهي!", funny: "عمودك الفقري صار قطعة حديد مصدية!", ageBonus: 14, color: "#ef4444", emoji: "🔒" }
+        ]
+      }
+    ];
+
+    let currentStep = 0;
+    let baseAge = 30;
+    let accumulatedBonus = 0;
+
+    function startQuiz() {
+      const input = document.getElementById('inputAge');
+      baseAge = parseInt(input.value) || 30;
+      if (baseAge < 15) baseAge = 15;
+      if (baseAge > 85) baseAge = 85;
+
+      currentStep = 0;
+      accumulatedBonus = 0;
+
+      document.getElementById('screenIntro').style.display = 'none';
+      document.getElementById('screenQuiz').style.display = 'block';
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const q = QUESTIONS[currentStep];
+      const progress = ((currentStep) / QUESTIONS.length) * 100;
+      document.getElementById('progressFill').style.width = `${progress}%`;
+      document.getElementById('stepCounter').innerText = `السؤال ${currentStep + 1} من ${QUESTIONS.length}`;
+
+      document.getElementById('qTitle').innerText = q.title;
+      document.getElementById('qDesc').innerText = q.desc;
+
+      const container = document.getElementById('optionsContainer');
+      container.innerHTML = '';
+
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement('div');
+        btn.className = 'option-btn';
+        btn.innerHTML = `
+          <span class="opt-emoji">${opt.emoji}</span>
+          <div class="opt-text">
+            ${opt.text}
+            <span class="opt-funny">${opt.funny}</span>
+          </div>
+        `;
+        btn.onclick = () => selectOption(opt);
+        container.appendChild(btn);
+      });
+    }
+
+    function selectOption(opt) {
+      accumulatedBonus += opt.ageBonus;
+
+      // Animate spine visualization color
+      updateSpineColor(opt.color);
+
+      currentStep++;
+      if (currentStep < QUESTIONS.length) {
+        renderQuestion();
+      } else {
+        finishQuiz();
+      }
+    }
+
+    function updateSpineColor(color) {
+      const vItems = document.querySelectorAll('.vertebra');
+      vItems.forEach((v, idx) => {
+        setTimeout(() => {
+          v.style.background = color;
+          v.style.boxShadow = `0 0 12px ${color}88`;
+        }, idx * 60);
+      });
+    }
+
+    function finishQuiz() {
+      document.getElementById('screenQuiz').style.display = 'none';
+      document.getElementById('screenLoading').style.display = 'block';
+
+      const phrases = [
+        "جاري قياس الضغط الميكانيكي على الفقرة L4-L5...",
+        "جاري تحليل توتر مسار العصب الوركي وعرق النسا...",
+        "نقارن حالتك بـ 1500 حالة عولجت في وداعاً للألم..."
+      ];
+      let pIdx = 0;
+      const interval = setInterval(() => {
+        pIdx = (pIdx + 1) % phrases.length;
+        document.getElementById('loadingPhrase').innerText = phrases[pIdx];
+      }, 700);
+
+      setTimeout(() => {
+        clearInterval(interval);
+        showResults();
+      }, 2100);
+    }
+
+    function showResults() {
+      document.getElementById('screenLoading').style.display = 'none';
+      document.getElementById('screenResult').style.display = 'block';
+
+      // Calculate final spine age
+      let calculatedAge = baseAge + accumulatedBonus;
+      if (calculatedAge < 18) calculatedAge = 18;
+      const ageDiff = calculatedAge - baseAge;
+
+      document.getElementById('resChronoAge').innerText = baseAge;
+      document.getElementById('resSpineAge').innerText = calculatedAge;
+
+      let nickname = "";
+      let diagnosis = "";
+      let alertBadge = "";
+
+      if (ageDiff <= 0) {
+        alertBadge = "✨ ما شاء الله: فقرات فولاذية شابة!";
+        nickname = "عمودك الفقري رياضي وبرتبة شباب! 🌿";
+        diagnosis = `عمر عمودك الفقري (${calculatedAge} سنة) ممتاز ومطابق لمرونتك الحركية! حافظ عليه بتمارين الاستطالة، وتجنب الجلسات المكتبية الطويلة بدون حركة.`;
+      } else if (ageDiff <= 10) {
+        alertBadge = "⚠️ إجهاد فقرات خفيف إلى متوسط";
+        nickname = "فقرات شبعانة قعدة مكاتب! ☕";
+        diagnosis = `عمودك الفقري يسبق عمرك بـ ${ageDiff} سنوات! في ضغط وتيبس مبكر بالأربطة القطنية والعنقية. إعادة ضبط محاذاة الفقرات يدوياً الآن تحميك من أي انزلاق غضروفي مستقبلي.`;
+      } else if (ageDiff <= 20) {
+        alertBadge = "🚨 إنذار تيبس وضغط غضاريف حاد";
+        nickname = "عمود فقري متقاعد قبل أوانه! 👴";
+        diagnosis = `عمرك بالهوية ${baseAge} سنة، بس عمودك الفقري عمره ${calculatedAge} سنة! (أكبر منك بـ ${ageDiff} سنة). الفقرات القطنية L4-L5 تحت ضغط مستمر خانق للأعصاب، وتشنج العضلات العميقة مسوي لك تيبس دائم.`;
+      } else {
+        alertBadge = "💥 حالة طوارئ ديسك وعرق نسا";
+        nickname = "فقرات أثرية بتستغيث لإعادة ضبط مصنع! 🏛️";
+        diagnosis = `عمودك الفقري أكبر منك بـ ${ageDiff} سنة كاملة! في ضغط واضح على مخارج الأعصاب الوركية والعنقية، وتيبس بالحوض مسبب إجهاد مضاعف. لازم فحص كايروبراكتيك فوري لإزالة الضغط قبل أن يتفاقم الألم.`;
+      }
+
+      document.getElementById('resAlertBadge').innerText = alertBadge;
+      document.getElementById('resNickname').innerText = nickname;
+      document.getElementById('resDiagnosis').innerText = diagnosis;
+
+      // Prepare WhatsApp Share Text
+      const shareText = encodeURIComponent(
+        `😂 فحصت عمري بالهوية ${baseAge} سنة وطلع عمر عمودي الفقري الحقيقي ${calculatedAge} سنة!\nلقبي: "${nickname}"\nجرب اختبر ظهرك واعرف مين صاحب أقدم وأتعب عمود فقري بالجروب 😂👇\n` + window.location.href
+      );
+      document.getElementById('btnShareWhatsApp').href = `https://wa.me/?text=${shareText}`;
+
+      // Prepare Direct Clinic Booking Text
+      const clinicBookingText = encodeURIComponent(
+        `مرحباً "وداعاً للألم" 🌸\nفحصت عمري عبر أداة سمارت تشيك، وعمري بالهوية ${baseAge} سنة وطلع عمر عمودي الفقري ${calculatedAge} سنة (${nickname}).\nحابب أرتب موعد فحص كايروبراكتيك شامل وجلسة بخلدا (20 دينار).`
+      );
+      document.getElementById('btnBookSession').href = `https://wa.me/962790360440?text=${clinicBookingText}`;
+    }
+
+    function restartQuiz() {
+      document.getElementById('screenResult').style.display = 'none';
+      document.getElementById('screenIntro').style.display = 'block';
+      updateSpineColor('#10b981');
+    }
+  </script>
+</body>
+</html>

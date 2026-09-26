@@ -58,6 +58,16 @@ app.get('/', (req, res) => {
   res.send('👑 وداعاً للألم (30minutes30) - خادم الذكاء الاصطناعي لماسنجر فيسبوك يعمل بنشاط 24/7');
 });
 
+// Serve Spine Age Calculator (Smart Check Tools)
+app.get('/spine-age', (req, res) => {
+  res.sendFile(require('path').join(__dirname, 'spine_age_calculator.html'));
+});
+
+// Serve Royal Patients Directory
+app.get('/royal-patients', (req, res) => {
+  res.sendFile(require('path').join(__dirname, 'royal_patients.html'));
+});
+
 // 2. Incoming Messages Handler (POST /webhook)
 app.post('/webhook', (req, res) => {
   const body = req.body;

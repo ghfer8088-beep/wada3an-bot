@@ -169,36 +169,141 @@
       margin-bottom: 16px;
     }
 
-    /* Interactive Spine Visualizer */
-    .spine-anim-box {
-      width: 140px;
-      height: 170px;
+    /* Spine Boxing Ring Arena */
+    .spine-boxing-arena {
+      width: 100%;
+      max-width: 360px;
       margin: 0 auto 16px;
+      background: radial-gradient(circle at 50% 20%, #1e293b 0%, #070d19 90%);
+      border: 2px solid rgba(245, 158, 11, 0.45);
+      border-radius: 24px;
+      padding: 10px 12px 12px;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.7), inset 0 0 30px rgba(245, 158, 11, 0.08);
       position: relative;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    .arena-header {
       display: flex;
-      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px;
+      padding: 5px 12px;
+      margin-bottom: 6px;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .tag-weak {
+      color: #f87171;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .tag-vs {
+      background: rgba(245, 158, 11, 0.2);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.5);
+      padding: 1px 8px;
+      border-radius: 10px;
+      font-size: 10.5px;
+      font-weight: 900;
+    }
+
+    .tag-champ {
+      color: #34d399;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .boxing-svg {
+      width: 100%;
+      height: 185px;
+      display: block;
+      cursor: pointer;
+    }
+
+    /* CSS Keyframes for Spine Boxing */
+    @keyframes champBounce {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-5px) rotate(-1.5deg); }
+    }
+
+    @keyframes champPunchJab {
+      0%, 25%, 100% { transform: translate(0, 0); }
+      12% { transform: translate(-38px, -4px); }
+    }
+
+    @keyframes weakTremble {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      12% { transform: translate(-14px, 4px) rotate(-6deg); }
+      25% { transform: translate(4px, -2px) rotate(2deg); }
+      50% { transform: translateY(3px) rotate(-1deg); }
+      75% { transform: translateY(-2px) rotate(1deg); }
+    }
+
+    @keyframes hitStarPop {
+      0%, 8% { opacity: 0; transform: scale(0.2) rotate(-20deg); }
+      12% { opacity: 1; transform: scale(1.15) rotate(10deg); }
+      18% { opacity: 0.9; transform: scale(1) rotate(0deg); }
+      24%, 100% { opacity: 0; transform: scale(0.4) rotate(20deg); }
+    }
+
+    @keyframes discInflamePulse {
+      0%, 100% { opacity: 0.4; filter: drop-shadow(0 0 2px #ef4444); }
+      50% { opacity: 1; filter: drop-shadow(0 0 8px #ef4444); }
+    }
+
+    @keyframes champGlowPulse {
+      0%, 100% { filter: drop-shadow(0 0 3px rgba(16,185,129,0.4)); }
+      50% { filter: drop-shadow(0 0 10px rgba(16,185,129,0.8)); }
+    }
+
+    .anim-champ-body {
+      animation: champBounce 1.8s infinite ease-in-out;
+      transform-origin: 240px 165px;
+    }
+
+    .anim-champ-glove {
+      animation: champPunchJab 1.8s infinite cubic-bezier(0.25, 1, 0.5, 1);
+      transform-origin: 215px 75px;
+    }
+
+    .anim-weak-spine {
+      animation: weakTremble 1.8s infinite cubic-bezier(0.36, 0.07, 0.19, 0.97);
+      transform-origin: 105px 165px;
+    }
+
+    .anim-hit-fx {
+      animation: hitStarPop 1.8s infinite ease-out;
+      transform-origin: 155px 72px;
+    }
+
+    .pulse-inflamed {
+      animation: discInflamePulse 1.2s infinite ease-in-out;
+    }
+
+    .pulse-champ-glow {
+      animation: champGlowPulse 2s infinite ease-in-out;
+    }
+
+    .arena-footer-tip {
+      text-align: center;
+      font-size: 11px;
+      color: #94a3b8;
+      margin-top: 5px;
+      display: flex;
       align-items: center;
       justify-content: center;
-      gap: 5px;
+      gap: 6px;
+      cursor: pointer;
     }
-
-    .vertebra {
-      width: 48px;
-      height: 12px;
-      background: #10b981;
-      border-radius: 4px;
-      box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
-      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-    }
-
-    .disc-cushion {
-      width: 32px;
-      height: 4px;
-      background: rgba(255, 255, 255, 0.4);
-      border-radius: 2px;
-      transition: all 0.5s;
-    }
+    .arena-footer-tip:hover { color: #fbbf24; }
 
     /* Progress bar */
     .progress-wrapper {
@@ -599,17 +704,169 @@
         أجب عن 5 مواقف يومية لطيفة واكتشف: هل ظهرك لساته وكالة؟ ولا بدّه شد براغي؟ ولا على الشطب تقول واقع من طيارة؟! 😂
       </p>
 
-      <!-- Spine Graphic Animation -->
-      <div class="spine-anim-box">
-        <div class="vertebra" id="v1"></div>
-        <div class="disc-cushion"></div>
-        <div class="vertebra" id="v2"></div>
-        <div class="disc-cushion"></div>
-        <div class="vertebra" id="v3"></div>
-        <div class="disc-cushion"></div>
-        <div class="vertebra" id="v4"></div>
-        <div class="disc-cushion"></div>
-        <div class="vertebra" id="v5"></div>
+      <!-- Animated Spine Boxing Arena (نزال الفقرات) -->
+      <div class="spine-boxing-arena" onclick="triggerKnockoutCombo()">
+        <!-- Arena Header -->
+        <div class="arena-header">
+          <div class="tag-weak">
+            <span>🤕</span>
+            <span>ضحية المكاتب</span>
+          </div>
+          <div class="tag-vs">⚔️ نِزَالُ الفَقَرَات 🥊</div>
+          <div class="tag-champ">
+            <span>👑</span>
+            <span>بطل وداعاً للألم</span>
+          </div>
+        </div>
+
+        <!-- Boxing Canvas (SVG) -->
+        <svg class="boxing-svg" viewBox="0 0 340 190">
+          <defs>
+            <linearGradient id="ropeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#ef4444" stop-opacity="0.8"/>
+              <stop offset="50%" stop-color="#3b82f6" stop-opacity="0.9"/>
+              <stop offset="100%" stop-color="#10b981" stop-opacity="0.8"/>
+            </linearGradient>
+            <radialGradient id="ringSpotlight" cx="50%" cy="30%" r="60%">
+              <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.18"/>
+              <stop offset="60%" stop-color="#1e293b" stop-opacity="0.05"/>
+              <stop offset="100%" stop-color="transparent" stop-opacity="0"/>
+            </radialGradient>
+            <filter id="goldGlow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="3" result="blur" />
+              <feComposite in="SourceGraphic" in2="blur" operator="over" />
+            </filter>
+          </defs>
+
+          <!-- Ring Mat & Spotlight -->
+          <ellipse cx="170" cy="165" rx="145" ry="24" fill="url(#ringSpotlight)"/>
+          <ellipse cx="170" cy="165" rx="140" ry="20" fill="none" stroke="rgba(245,158,11,0.25)" stroke-width="1.5" stroke-dasharray="4,4"/>
+
+          <!-- Ring Ropes -->
+          <path d="M 20 65 Q 170 82 320 65" fill="none" stroke="url(#ropeGrad)" stroke-width="2" opacity="0.65"/>
+          <path d="M 20 98 Q 170 115 320 98" fill="none" stroke="url(#ropeGrad)" stroke-width="2" opacity="0.75"/>
+          <path d="M 20 132 Q 170 148 320 132" fill="none" stroke="url(#ropeGrad)" stroke-width="2.5" opacity="0.85"/>
+
+          <!-- Ring Corner Posts -->
+          <line x1="20" y1="45" x2="20" y2="168" stroke="#ef4444" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="20" cy="45" r="5" fill="#f87171"/>
+          <line x1="320" y1="45" x2="320" y2="168" stroke="#10b981" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="320" cy="45" r="5" fill="#34d399"/>
+
+          <!-- 1. LEFT FIGHTER: WEAK SPINE (الظهر الهزيل) -->
+          <g id="weakSpineFighter" class="anim-weak-spine">
+            <ellipse cx="102" cy="166" rx="28" ry="6" fill="rgba(0,0,0,0.5)"/>
+            <!-- Pelvis (Tilted) -->
+            <path d="M 85 160 Q 102 166 120 156 Q 102 148 85 160 Z" fill="#64748b" stroke="#475569" stroke-width="1.5"/>
+            <!-- Compressed C-Curved Vertebrae -->
+            <rect x="86" y="138" width="34" height="9" rx="3" fill="#64748b" stroke="#ef4444" stroke-width="1.5" transform="rotate(-6 103 142)"/>
+            <ellipse cx="104" cy="135" rx="16" ry="2.5" fill="#ef4444" class="pulse-inflamed"/>
+            <!-- Plaster / Bandage 🩹 -->
+            <line x1="97" y1="133" x2="111" y2="137" stroke="#fef08a" stroke-width="3" stroke-linecap="round"/>
+            <line x1="111" y1="133" x2="97" y2="137" stroke="#fef08a" stroke-width="3" stroke-linecap="round"/>
+
+            <rect x="80" y="121" width="32" height="9" rx="3" fill="#64748b" stroke="#334155" stroke-width="1.2" transform="rotate(-10 96 125)"/>
+            <ellipse cx="97" cy="118" rx="14" ry="2.5" fill="#f97316" opacity="0.8"/>
+
+            <rect x="76" y="104" width="30" height="9" rx="3" fill="#64748b" stroke="#334155" stroke-width="1.2" transform="rotate(-12 91 108)"/>
+            <ellipse cx="92" cy="101" rx="13" ry="2" fill="#e2e8f0" opacity="0.4"/>
+
+            <rect x="80" y="87" width="28" height="9" rx="3" fill="#64748b" stroke="#334155" stroke-width="1.2" transform="rotate(-8 94 91)"/>
+            <ellipse cx="95" cy="84" rx="12" ry="2" fill="#e2e8f0" opacity="0.4"/>
+
+            <rect x="89" y="70" width="26" height="8" rx="3" fill="#64748b" stroke="#334155" stroke-width="1.2" transform="rotate(4 102 74)"/>
+
+            <!-- Drooping Back Arm -->
+            <path d="M 76 100 Q 62 108 60 118" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round"/>
+            <circle cx="58" cy="122" r="10" fill="#3b82f6" stroke="#1d4ed8" stroke-width="1.5"/>
+
+            <!-- Dizzy Head -->
+            <g transform="translate(108, 48)">
+              <circle cx="0" cy="0" r="15" fill="#64748b" stroke="#94a3b8" stroke-width="1.5"/>
+              <!-- Ice Pack 🧊 -->
+              <ellipse cx="0" cy="-14" rx="11" ry="5" fill="#38bdf8" opacity="0.9"/>
+              <polygon points="-3,-14 3,-14 0,-21" fill="#0284c7"/>
+              <line x1="-5" y1="-14" x2="5" y2="-14" stroke="#ffffff" stroke-width="1.5"/>
+              <!-- Dizzy X Eyes -->
+              <line x1="2" y1="-3" x2="8" y2="3" stroke="#f87171" stroke-width="2" stroke-linecap="round"/>
+              <line x1="8" y1="-3" x2="2" y2="3" stroke="#f87171" stroke-width="2" stroke-linecap="round"/>
+              <line x1="-8" y1="-3" x2="-2" y2="3" stroke="#f87171" stroke-width="2" stroke-linecap="round"/>
+              <line x1="-2" y1="-3" x2="-8" y2="3" stroke="#f87171" stroke-width="2" stroke-linecap="round"/>
+              <path d="M -5 7 Q 0 4 5 7" fill="none" stroke="#fca5a5" stroke-width="1.5" stroke-linecap="round"/>
+              <!-- Sweat drop -->
+              <path d="M 16 -4 Q 19 0 16 3 Q 13 0 16 -4 Z" fill="#38bdf8"/>
+            </g>
+
+            <!-- Weak Front Glove -->
+            <path d="M 98 90 Q 115 95 125 90" fill="none" stroke="#475569" stroke-width="4" stroke-linecap="round"/>
+            <circle cx="132" cy="91" r="11" fill="#3b82f6" stroke="#60a5fa" stroke-width="1.5"/>
+            <line x1="126" y1="91" x2="134" y2="91" stroke="#ffffff" stroke-width="2"/>
+          </g>
+
+          <!-- 2. RIGHT FIGHTER: CHAMPION SPINE (بطل وداعاً للألم) -->
+          <g id="champSpineFighter" class="anim-champ-body">
+            <ellipse cx="238" cy="166" rx="28" ry="6" fill="rgba(0,0,0,0.5)"/>
+            <!-- Solid Pelvis -->
+            <path d="M 220 156 Q 238 164 256 156 Q 238 148 220 156 Z" fill="#047857" stroke="#10b981" stroke-width="2"/>
+
+            <!-- Upright Vertebrae & Hydrated Cyan Discs -->
+            <rect x="220" y="137" width="36" height="10" rx="3.5" fill="#10b981" stroke="#34d399" stroke-width="1.5" class="pulse-champ-glow"/>
+            <ellipse cx="238" cy="134" rx="16" ry="2.5" fill="#38bdf8"/>
+
+            <rect x="221" y="120" width="34" height="10" rx="3.5" fill="#10b981" stroke="#34d399" stroke-width="1.5" class="pulse-champ-glow"/>
+            <ellipse cx="238" cy="117" rx="15" ry="2.5" fill="#38bdf8"/>
+
+            <rect x="222" y="103" width="32" height="10" rx="3.5" fill="#10b981" stroke="#34d399" stroke-width="1.5" class="pulse-champ-glow"/>
+            <ellipse cx="238" cy="100" rx="14" ry="2.5" fill="#38bdf8"/>
+
+            <rect x="223" y="86" width="30" height="9.5" rx="3" fill="#10b981" stroke="#34d399" stroke-width="1.5" class="pulse-champ-glow"/>
+            <ellipse cx="238" cy="83" rx="13" ry="2" fill="#38bdf8"/>
+
+            <rect x="225" y="70" width="26" height="9" rx="3" fill="#10b981" stroke="#34d399" stroke-width="1.5" class="pulse-champ-glow"/>
+
+            <!-- Guard Glove (Back) -->
+            <path d="M 252 92 Q 262 98 260 108" fill="none" stroke="#059669" stroke-width="4" stroke-linecap="round"/>
+            <circle cx="260" cy="112" r="11" fill="#ef4444" stroke="#fbbf24" stroke-width="1.5"/>
+
+            <!-- Crowned Head -->
+            <g transform="translate(238, 44)">
+              <circle cx="0" cy="0" r="16" fill="#10b981" stroke="#fbbf24" stroke-width="2"/>
+              <!-- Golden Crown 👑 -->
+              <polygon points="-12,-14 -15,-25 -6,-19 0,-28 6,-19 15,-25 12,-14" fill="#fbbf24" stroke="#d97706" stroke-width="1"/>
+              <circle cx="0" cy="-20" r="1.8" fill="#ef4444"/>
+              <circle cx="-9" cy="-18" r="1.5" fill="#3b82f6"/>
+              <circle cx="9" cy="-18" r="1.5" fill="#3b82f6"/>
+
+              <!-- Confident Face -->
+              <path d="M -8 -3 Q -4 -7 0 -3" fill="none" stroke="#064e3b" stroke-width="2.2" stroke-linecap="round"/>
+              <path d="M 2 -3 Q 6 -7 10 -3" fill="none" stroke="#064e3b" stroke-width="2.2" stroke-linecap="round"/>
+              <path d="M -6 5 Q 1 12 8 5" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/>
+              <circle cx="-16" cy="-4" r="2" fill="#fde68a" opacity="0.8"/>
+              <circle cx="16" cy="6" r="1.5" fill="#fde68a" opacity="0.8"/>
+            </g>
+
+            <!-- Front Punching Arm & Red Glove 🥊 -->
+            <g class="anim-champ-glove">
+              <path d="M 224 88 Q 200 84 186 76" fill="none" stroke="#059669" stroke-width="5" stroke-linecap="round"/>
+              <circle cx="180" cy="74" r="13" fill="#ef4444" stroke="#fbbf24" stroke-width="2"/>
+              <path d="M 183 67 Q 192 73 186 82" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/>
+              <circle cx="173" cy="74" r="4" fill="#dc2626"/>
+            </g>
+          </g>
+
+          <!-- 3. COMIC HIT EFFECT -->
+          <g id="hitFxGroup" class="anim-hit-fx" transform="translate(148, 72)">
+            <polygon points="0,-22 6,-8 22,-14 12,-1 25,10 9,11 6,24 -3,12 -18,18 -11,5 -24,-3 -9,-7" fill="#fbbf24" stroke="#ef4444" stroke-width="2" filter="url(#goldGlow)"/>
+            <text id="hitText" x="0" y="4" text-anchor="middle" font-size="10.5" font-weight="900" fill="#0f172a" font-family="sans-serif">طَقْطَقَة! ⚡</text>
+          </g>
+        </svg>
+
+        <!-- Interactive Tip -->
+        <div class="arena-footer-tip" id="comboTip">
+          <span>👆</span>
+          <b>إضغط على الحلبة لتوجيه ضربة كايروبراكتيك قاضية!</b>
+          <span>🥊⚡</span>
+        </div>
       </div>
 
       <!-- Chronological Age Input -->
@@ -858,12 +1115,14 @@
 
     function updateSpineColor(color) {
       const vItems = document.querySelectorAll('.vertebra');
-      vItems.forEach((v, idx) => {
-        setTimeout(() => {
-          v.style.background = color;
-          v.style.boxShadow = `0 0 12px ${color}88`;
-        }, idx * 60);
-      });
+      if (vItems && vItems.length > 0) {
+        vItems.forEach((v, idx) => {
+          setTimeout(() => {
+            v.style.background = color;
+            v.style.boxShadow = `0 0 12px ${color}88`;
+          }, idx * 60);
+        });
+      }
     }
 
     function finishQuiz() {
@@ -953,9 +1212,46 @@
     function restartQuiz() {
       document.getElementById('screenResult').style.display = 'none';
       document.getElementById('screenIntro').style.display = 'block';
-      updateSpineColor('#10b981');
     }
 
+    // Spine Boxing Match Interactive Logic
+    const hitPhrases = ["طَقْطَقَة! ⚡", "فَكّ الحِصَار! 🌿", "كَايـرُو! 🥊", "تَعْدِيل! ✨", "رَوَاق! 💆‍♂️"];
+    let hitPhraseIdx = 0;
+    setInterval(() => {
+      hitPhraseIdx = (hitPhraseIdx + 1) % hitPhrases.length;
+      const hitText = document.getElementById('hitText');
+      if (hitText) hitText.textContent = hitPhrases[hitPhraseIdx];
+    }, 1800);
+
+    let isKnockingOut = false;
+    function triggerKnockoutCombo() {
+      if (isKnockingOut) return;
+      isKnockingOut = true;
+
+      const weakSpine = document.getElementById('weakSpineFighter');
+      const hitText = document.getElementById('hitText');
+      const comboTip = document.getElementById('comboTip');
+
+      if (hitText) hitText.textContent = "KO! 👑";
+      if (comboTip) comboTip.innerHTML = "<span>🎉</span> <b>ضربة كيروبراكتيك قاضية! فكت كل تشنجات الظهر!</b> <span>🌿</span>";
+
+      if (weakSpine) {
+        weakSpine.style.transition = "transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275)";
+        weakSpine.style.transform = "translate(-28px, 8px) rotate(-14deg)";
+        setTimeout(() => {
+          weakSpine.style.transform = "translate(8px, -6px) rotate(3deg)";
+          if (hitText) hitText.textContent = "ارْتَاحَ ظَهْرِي! 😍";
+          setTimeout(() => {
+            weakSpine.style.transform = "";
+            weakSpine.style.transition = "";
+            if (comboTip) comboTip.innerHTML = "<span>👆</span> <b>إضغط على الحلبة لتوجيه ضربة كايروبراكتيك قاضية!</b> <span>🥊⚡</span>";
+            isKnockingOut = false;
+          }, 1400);
+        }, 320);
+      } else {
+        isKnockingOut = false;
+      }
+    }
   </script>
 </body>
 </html>

@@ -1167,11 +1167,21 @@
       champ.bounce = Math.sin(animFrame * 0.08) * 8;
       champ.headY = 120 + champ.bounce * 0.5;
 
-      // Automatic Loop: Combo triggers every 11 seconds if not active
+      // Continuous Normal Sparring (Both Hands - Standing - No Falling)
       if (!champ.comboActive && !weak.isDown) {
         champ.autoTimer--;
-        if (champ.autoTimer <= 0) {
-          triggerKnockoutCombo();
+        if (champ.autoTimer <= 0 && champ.punchPhase === 'idle') {
+          const normalAttacks = [
+            { arm: 'left', type: 'jab' },
+            { arm: 'right', type: 'cross' },
+            { arm: 'left', type: 'hook' },
+            { arm: 'right', type: 'cross' }
+          ];
+          const atk = normalAttacks[Math.floor(Math.random() * normalAttacks.length)];
+          champ.punchArm = atk.arm;
+          champ.punchType = atk.type;
+          startPunch();
+          champ.autoTimer = 50 + Math.floor(Math.random() * 25);
         }
       }
 
@@ -1370,8 +1380,8 @@
       let targetHitX = weak.baseX + weak.recoilX + 38;
       let targetHitY = weak.headY + 15;
 
-      if (champ.comboStep === 4) {
-        // Final Knockout Punch! Opponent falls!
+      if (champ.comboActive && champ.comboStep === 4) {
+        // Final Knockout Punch! Opponent falls ONLY when user activates combo!
         createImpact(targetHitX - 8, targetHitY, "👑 K.O. قاضية! 💫");
         cameraShake = 14;
         weak.faceState = 'hit';

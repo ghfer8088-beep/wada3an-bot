@@ -1,0 +1,1589 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>وداعاً للألم - نظام الشات بوت والذكاء الاصطناعي المتطور</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Tajawal:wght@400;500;700;800&family=Cairo:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0866FF;
+      --primary-dark: #0052cc;
+      --bg: #f0f2f5;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --outgoing-bubble: #0866FF;
+      --success: #31A24C;
+      --whatsapp: #25D366;
+      --bubble-font-size: 15.5px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'IBM Plex Sans Arabic', 'Tajawal', 'Cairo', sans-serif; }
+    body { background-color: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
+
+    header {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-brand { display: flex; align-items: center; gap: 12px; }
+    .brand-logo {
+      width: 44px; height: 44px;
+      background: linear-gradient(135deg, #0866FF, #00C6FF);
+      color: white; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 19px;
+    }
+    .brand-info h1 { font-size: 16px; font-weight: 800; color: #111; }
+    .brand-info p { font-size: 11.5px; color: var(--text-muted); }
+
+    .header-actions { display: flex; gap: 8px; align-items: center; }
+
+    .ai-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #e0f2fe; color: #0369a1;
+      padding: 5px 12px; border-radius: 20px;
+      font-size: 11.5px; font-weight: 700;
+      border: 1px solid #bae6fd;
+    }
+
+    .pulse-dot {
+      width: 8px; height: 8px; background: #0284c7;
+      border-radius: 50%; box-shadow: 0 0 0 0 rgba(2, 132, 199, 0.7);
+      animation: pulse 1.6s infinite;
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(2, 132, 199, 0.7); }
+      70% { box-shadow: 0 0 0 8px rgba(2, 132, 199, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(2, 132, 199, 0); }
+    }
+
+    .app-layout {
+      max-width: 1440px; width: 100%;
+      margin: 16px auto; padding: 0 16px;
+      display: grid; grid-template-columns: 340px 1fr 320px;
+      gap: 16px; flex: 1;
+    }
+    @media (max-width: 1100px) { .app-layout { grid-template-columns: 1fr; } }
+
+    .side-panel {
+      background: var(--card-bg); border-radius: 16px;
+      border: 1px solid var(--border); padding: 14px;
+      display: flex; flex-direction: column; gap: 12px;
+      height: fit-content;
+    }
+    .panel-title {
+      font-size: 13.5px; font-weight: 800; color: #1f2937;
+      display: flex; align-items: center; gap: 6px;
+      border-bottom: 1px solid var(--border); padding-bottom: 6px;
+    }
+
+    .scenario-card {
+      background: #f8fafc; border: 1px solid #e2e8f0;
+      border-radius: 10px; padding: 9px 12px;
+      cursor: pointer; transition: all 0.2s; text-align: right;
+    }
+    .scenario-card:hover {
+      background: #eff6ff; border-color: #3b82f6;
+      transform: translateY(-1px);
+    }
+    .scenario-title { font-weight: 700; font-size: 12px; color: #0f172a; margin-bottom: 2px; }
+    .scenario-desc { font-size: 10.5px; color: var(--text-muted); line-height: 1.35; }
+
+    /* Messenger Screen */
+    .messenger-container {
+      background: #ffffff; border-radius: 16px;
+      border: 1px solid var(--border);
+      display: flex; flex-direction: column;
+      height: 750px; overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+
+    .messenger-header {
+      background: #ffffff; border-bottom: 1px solid var(--border);
+      padding: 10px 16px; display: flex;
+      align-items: center; justify-content: space-between;
+    }
+    .messenger-user { display: flex; align-items: center; gap: 10px; }
+    .user-avatar {
+      position: relative; width: 40px; height: 40px; border-radius: 50%;
+      background: linear-gradient(135deg, #0866FF, #0084FF);
+      color: white; display: flex; align-items: center; justify-content: center;
+      font-size: 16px; font-weight: bold;
+    }
+    .online-indicator {
+      position: absolute; bottom: 0; right: 0;
+      width: 10px; height: 10px; background: #31A24C;
+      border: 2px solid white; border-radius: 50%;
+    }
+    .user-meta h2 { font-size: 14px; font-weight: 800; }
+    .user-meta p { font-size: 11px; color: var(--text-muted); }
+
+    .chat-messages {
+      flex: 1; padding: 16px; overflow-y: auto;
+      display: flex; flex-direction: column; gap: 12px;
+      background: #f8fafc;
+    }
+
+    .message-row {
+      display: flex;
+      flex-direction: column;
+      max-width: 80%;
+      animation: fadeIn 0.2s ease-out;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+    .message-row.incoming {
+      align-self: flex-start;
+      align-items: flex-start;
+    }
+    .message-row.outgoing {
+      align-self: flex-end;
+      align-items: flex-end;
+    }
+
+    .bubble {
+      padding: 11px 17px;
+      border-radius: 20px;
+      font-size: var(--bubble-font-size, 15.5px);
+      line-height: 1.65;
+      letter-spacing: 0.15px;
+      word-break: break-word;
+      display: inline-block;
+      max-width: 100%;
+      font-weight: 500;
+    }
+    .incoming .bubble {
+      background: #ffffff;
+      color: #0f172a;
+      border-bottom-right-radius: 4px;
+      border: 1px solid #cbd5e1;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+    }
+    .outgoing .bubble {
+      background: var(--outgoing-bubble);
+      color: #ffffff;
+      border-bottom-left-radius: 4px;
+      font-weight: 500;
+      box-shadow: 0 2px 6px rgba(8, 102, 255, 0.18);
+    }
+
+    .msg-time {
+      font-size: 10.5px;
+      color: #94a3b8;
+      margin-top: 3px;
+      padding: 0 4px;
+    }
+    .outgoing .msg-time {
+      color: #94a3b8;
+    }
+
+    .quick-replies-container {
+      padding: 8px 12px; background: #ffffff;
+      border-top: 1px solid #f1f5f9; display: flex; gap: 6px;
+      overflow-x: auto; white-space: nowrap;
+    }
+    .quick-chip {
+      background: #f1f5f9; color: #0369a1;
+      border: 1px solid #bae6fd; border-radius: 20px;
+      padding: 5px 12px; font-size: 12px; font-weight: 600;
+      cursor: pointer; transition: all 0.2s; flex-shrink: 0;
+    }
+    .quick-chip:hover { background: #0284c7; color: white; }
+
+    .chat-input-area {
+      padding: 10px 14px; background: #ffffff;
+      border-top: 1px solid var(--border);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .chat-input {
+      flex: 1; padding: 11px 16px; border: 1px solid #cbd5e1;
+      border-radius: 24px; font-size: 14.5px; outline: none; font-weight: 500;
+    }
+    .chat-input:focus { border-color: var(--primary); }
+
+    .send-btn {
+      width: 38px; height: 38px; background: var(--primary);
+      color: white; border: none; border-radius: 50%;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      font-size: 15px;
+    }
+
+    .typing-indicator {
+      display: none; align-self: flex-start;
+      background: #ffffff; border: 1px solid #e2e8f0;
+      padding: 8px 12px; border-radius: 16px;
+      border-bottom-right-radius: 4px; gap: 4px; align-items: center;
+    }
+    .typing-indicator span {
+      width: 5px; height: 5px; background: #94a3b8;
+      border-radius: 50%; display: inline-block;
+      animation: bounce 1.2s infinite ease-in-out;
+    }
+    .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes bounce { 0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; } 40% { transform: scale(1); opacity: 1; } }
+
+    .ai-config-box {
+      background: #f8fafc; border: 1px solid #e2e8f0;
+      border-radius: 10px; padding: 12px; display: flex;
+      flex-direction: column; gap: 8px; font-size: 11.5px;
+    }
+    .api-key-input {
+      width: 100%; padding: 7px 10px; border: 1px solid #cbd5e1;
+      border-radius: 6px; font-size: 11px; outline: none;
+    }
+
+    .btn-action {
+      background: #0866FF; color: white; border: none;
+      padding: 7px 10px; border-radius: 6px; font-weight: 700;
+      font-size: 11.5px; cursor: pointer; text-align: center;
+    }
+    .btn-action:hover { background: #0052cc; }
+
+    .lead-box {
+      background: #f0fdf4; border: 1px solid #bbf7d0;
+      border-radius: 10px; padding: 10px; font-size: 11.5px;
+      color: #166534; line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-brand">
+      <div class="brand-logo">30</div>
+      <div class="brand-info">
+        <h1>وداعاً للألم (30minutes30)</h1>
+        <p>نظام الذكاء الاصطناعي التفاعلي المتقدم</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <a href="royal_patients.html" target="_blank" style="background:linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #d97706 100%); color:#0f172a; text-decoration:none; padding:6px 14px; border-radius:8px; font-size:11.5px; font-weight:800; display:flex; align-items:center; gap:6px; box-shadow:0 2px 10px rgba(245,158,11,0.35); transition:all 0.2s;" title="فتح بوابة المراجعين الملكية وكروت VIP وحملات البرودكاست على الواتساب">
+        👑 بوابة المراجعين الملكية والبرودكاست
+      </a>
+      <button onclick="openArchiveScannerModal()" style="background:#6366f1; color:white; border:none; padding:6px 13px; border-radius:8px; font-size:11.5px; font-weight:700; cursor:pointer; display:flex; align-items:center; gap:5px; box-shadow:0 2px 6px rgba(99,102,241,0.25); transition:all 0.2s;" title="مسح كافة الرسائل التاريخية في صفحة فيسبوك واستخراج الأرقام والشكاوى">
+        🗂️ مسح أرشيف ماسنجر القديم
+      </button>
+      <div class="ai-badge" id="aiStatusBadge">
+        <div class="pulse-dot"></div>
+        <span id="aiStatusText">محرك الذكاء الدلالي المطور</span>
+      </div>
+      <a href="https://wa.me/962790360440" target="_blank" style="text-decoration:none; background:#25D366; color:white; padding:5px 12px; border-radius:8px; font-size:11.5px; font-weight:700;">
+        واتساب: 0790360440
+      </a>
+    </div>
+  </header>
+
+  <div class="app-layout">
+
+    <!-- Right Column: Tested Cases -->
+    <div class="side-panel">
+      <div class="panel-title">
+        <span>🧪 اختبار الحالات الدقيقة</span>
+      </div>
+
+      <div class="scenario-card" onclick="simulatePatient('مش انا المصاب زوجي')">
+        <div class="scenario-title">👨‍👩‍👦 اختبار: "مش انا المصاب زوجي"</div>
+        <div class="scenario-desc">يفهم أن المريض هو الزوج، يدعو له ويسأل عن حالته.</div>
+      </div>
+
+      <div class="scenario-card" onclick="simulatePatient('عندي خدر وتنميل')">
+        <div class="scenario-title">✋ اختبار: "عندي خدر وتنميل"</div>
+        <div class="scenario-desc">يشخص التنميل مباشرة ويسأل: باليدين أم بالرجلين؟</div>
+      </div>
+
+      <div class="scenario-card" onclick="simulatePatient('بتعالجوا الديسك ؟')">
+        <div class="scenario-title">🩺 اختبار: "بتعالجوا الديسك ؟"</div>
+        <div class="scenario-desc">تأكيد علاج الديسك بدون جراحة وسؤال عن امتداده.</div>
+      </div>
+
+      <div class="scenario-card" onclick="simulatePatient('كم جلسة بحتاج ؟')">
+        <div class="scenario-title">❓ اختبار: "كم جلسة بحتاج ؟"</div>
+        <div class="scenario-desc">شرح عدم وجود بصمة ثابتة والتقييم بالجلسة الأولى.</div>
+      </div>
+
+      <div class="scenario-card" onclick="simulatePatient('والدتي كبيرة بالسن وركبتها بتوجعها')">
+        <div class="scenario-title">👵 اختبار: "والدتي كبيرة بالسن"</div>
+        <div class="scenario-desc">تفهم فئة كبار السن وعرض الزيارة المنزلية.</div>
+      </div>
+
+      <div class="scenario-card" onclick="simulatePatient('انا ام يوسف وعندي الم شديد بالورك والظهر')">
+        <div class="scenario-title">🧕 اختبار أنثى: "أنا أم يوسف"</div>
+        <div class="scenario-desc">التعرف على الكنية ومخاطبتها فوراً بصيغة التأنيث والتقدير.</div>
+      </div>
+
+      <div class="scenario-card" onclick="simulatePatient('0790123456 اسمي احمد وبدي احجز')">
+        <div class="scenario-title">📲 تقديم الاسم ورقم الهاتف</div>
+        <div class="scenario-desc">التقاط الهاتف فوراً وتأكيد حجز الموعد.</div>
+      </div>
+    </div>
+
+    <!-- Center Column: Live Messenger Simulator -->
+    <div class="messenger-container">
+      <div class="messenger-header">
+        <div class="messenger-user">
+          <div class="user-avatar">
+            🩺
+            <div class="online-indicator"></div>
+          </div>
+          <div class="user-meta">
+            <h2>وداعاً للألم - خلدا</h2>
+            <p id="chatSubTitle">متصل الآن • يفهم طبيعة المريض وسياق الحديث</p>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <button onclick="extractAndCollectData()" style="background:#10b981; color:#ffffff; border:none; border-radius:8px; padding:5px 12px; font-size:12px; font-weight:700; cursor:pointer; display:flex; align-items:center; gap:5px; box-shadow:0 2px 6px rgba(16,185,129,0.3); transition:all 0.2s;" title="مسح المحادثة بالكامل واستخراج الاسم والشكوى ورقم الهاتف">
+            📋 جمع البيانات
+          </button>
+          <div style="display:flex; align-items:center; background:#f1f5f9; border:1px solid #e2e8f0; border-radius:8px; padding:2px 8px; gap:5px;" title="تكبير وتصغير حجم الخط لكبار السن وضعاف النظر">
+            <span style="font-size:11px; color:#475569; font-weight:700;">🔍 حجم الخط:</span>
+            <button onclick="changeFontSize(-1)" style="border:none; background:none; cursor:pointer; font-weight:800; color:#475569; font-size:12px; padding:2px 5px;" title="تصغير">A-</button>
+            <button onclick="changeFontSize(1)" style="border:none; background:none; cursor:pointer; font-weight:800; color:#0866FF; font-size:14.5px; padding:2px 5px;" title="تكبير">A+</button>
+          </div>
+          <button onclick="clearChat()" style="background:none; border:1px solid #e2e8f0; border-radius:6px; padding:4px 8px; font-size:11px; cursor:pointer; color:#64748b;">
+            مسح المحادثة
+          </button>
+        </div>
+      </div>
+
+      <!-- Facebook Visitor Profile Bar (Name & Gender Simulation) -->
+      <div style="background:#f8fafc; border-bottom:1px solid #e2e8f0; padding:6px 14px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; font-size:11.5px;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="color:#0f172a; font-weight:700; display:flex; align-items:center; gap:4px;">
+            <span style="color:#0866FF;">👤</span> مراجع فيسبوك:
+          </span>
+          <input type="text" id="patientNameInput" placeholder="اسم المراجع..." value="أحمد" oninput="onProfileChange()" style="padding:4px 8px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px; width:100px; font-weight:600; outline:none;">
+          <select id="patientGenderInput" onchange="onProfileChange()" style="padding:4px 8px; border:1px solid #cbd5e1; border-radius:6px; font-size:11.5px; background:#fff; font-weight:600; cursor:pointer; outline:none;">
+            <option value="male" selected>👨 ذكر (أخي الكريم / أستاذ)</option>
+            <option value="female">👩 أنثى (أختي الكريمة / مدام)</option>
+          </select>
+        </div>
+        <div style="display:flex; align-items:center; gap:5px;">
+          <span style="font-size:10.5px; color:#64748b;">تبديل سريع:</span>
+          <button onclick="setQuickProfile('أحمد', 'male')" style="background:#ffffff; border:1px solid #cbd5e1; border-radius:6px; padding:3px 7px; font-size:11px; font-weight:600; cursor:pointer;">👨 أحمد</button>
+          <button onclick="setQuickProfile('أم يوسف', 'female')" style="background:#ffffff; border:1px solid #cbd5e1; border-radius:6px; padding:3px 7px; font-size:11px; font-weight:600; cursor:pointer;">👩 أم يوسف</button>
+          <button onclick="setQuickProfile('سارة', 'female')" style="background:#ffffff; border:1px solid #cbd5e1; border-radius:6px; padding:3px 7px; font-size:11px; font-weight:600; cursor:pointer;">👩 سارة</button>
+        </div>
+      </div>
+
+      <!-- Messages Body -->
+      <div class="chat-messages" id="chatContainer">
+        <div class="message-row incoming">
+          <div class="bubble" id="welcomeBubble">
+            <!-- Will be rendered dynamically via renderWelcomeMessage() -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Typing Indicator -->
+      <div class="typing-indicator" id="typingIndicator">
+        <span></span><span></span><span></span>
+      </div>
+
+      <!-- Quick Reply Chips -->
+      <div class="quick-replies-container">
+        <div class="quick-chip" onclick="handleQuickChip('مش انا المصاب زوجي')">👨‍👩‍👦 مش أنا زوجي</div>
+        <div class="quick-chip" onclick="handleQuickChip('عندي خدر وتنميل')">✋ عندي خدر وتنميل</div>
+        <div class="quick-chip" onclick="handleQuickChip('بتعالجوا الديسك ؟')">🩺 بتعالجوا الديسك؟</div>
+        <div class="quick-chip" onclick="handleQuickChip('شو طرق العلاج عندكم؟')">👐 شو طرق العلاج؟</div>
+        <div class="quick-chip" onclick="handleQuickChip('كم جلسة بحتاج ؟')">❓ كم جلسة بحتاج؟</div>
+        <div class="quick-chip" onclick="handleQuickChip('وين موقعكم؟')">📍 وين موقعكم؟</div>
+        <div class="quick-chip" onclick="handleQuickChip('بكم سعر الجلسة؟')">💰 كم السعر؟</div>
+      </div>
+
+      <!-- Input Bar -->
+      <div class="chat-input-area">
+        <input type="text" id="userInput" class="chat-input" placeholder="اكتب سؤالك هنا كأنك مريض..." onkeypress="handleKeyPress(event)">
+        <button class="send-btn" onclick="sendMessage()">➤</button>
+      </div>
+    </div>
+
+    <!-- Left Column: Gemini AI Connection & Leads -->
+    <div class="side-panel">
+      <!-- Gemini API Integration Section -->
+      <div class="panel-title">
+        <span>⚡ ربط Google Gemini AI الذكي</span>
+      </div>
+      <div class="ai-config-box">
+        <p style="color:#475569; font-size:11px; line-height:1.5;">
+          مفتاح واحد مجاني من Google يغطي <strong>1500 استفسار مريض يومياً مجاناً 100%</strong> بأحدث طراز Gemini 3.8 Flash!
+        </p>
+        <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:#0866FF; font-weight:700; text-decoration:none; font-size:11px;">
+          🔗 اضغط هنا للحصول على المفتاح مجاناً من Google AI Studio
+        </a>
+        <input type="password" id="geminiApiKey" class="api-key-input" placeholder="ألصق Gemini API Key هنا...">
+        <button class="btn-action" onclick="saveApiKey()">حفظ وتفعيل Gemini AI 🚀</button>
+        <span id="keyStatusText" style="font-size:10.5px; color:#16a34a; font-weight:700; display:none;">✅ متصل بذكاء Gemini 3.8 Flash الحقيقي!</span>
+      </div>
+
+      <!-- Captured Leads Box -->
+      <div class="panel-title" style="margin-top: 6px; display:flex; align-items:center; justify-content:space-between;">
+        <span>📥 سجل المرضى المجمّعة (<span id="leadsCount">0</span>)</span>
+        <div style="display:flex; gap:5px;">
+          <button onclick="exportLeadsToCSV()" style="background:#0866FF; color:#fff; border:none; border-radius:5px; padding:2px 7px; font-size:10.5px; font-weight:700; cursor:pointer;" title="تصدير ملف Excel">
+            📊 Excel
+          </button>
+          <button onclick="clearSavedLeads()" style="background:#fee2e2; color:#dc2626; border:none; border-radius:5px; padding:2px 6px; font-size:10.5px; font-weight:700; cursor:pointer;" title="مسح السجل">
+            🗑️
+          </button>
+        </div>
+      </div>
+      <div id="capturedLeadsBox" class="lead-box" style="max-height: 240px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;">
+        لا توجد بيانات مجمّعة حتى الآن. اضغط على زر "📋 جمع البيانات" أثناء أي محادثة لحفظ المراجع هنا!
+      </div>
+
+      <!-- Facts -->
+      <div class="panel-title" style="margin-top: 6px;">
+        <span>📌 ثوابت مركزنا</span>
+      </div>
+      <div style="font-size: 11px; color:#475569; line-height: 1.6;">
+        • <strong>الموقع:</strong> عمان - خلدا.<br>
+        • <strong>التغطية المنزلية:</strong> عمان + الزرقاء.<br>
+        • <strong>سعر الجلسة في مقرنا:</strong> 20 دينار فقط.<br>
+        • <strong>الزيارة المنزلية:</strong> حسب المنطقة والوقت.<br>
+        • <strong>عدد الجلسات:</strong> تقييم فردي بعد أول جلسة.
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    let memory = {
+      history: [],
+      patientName: 'أحمد',
+      patientGender: 'male',
+      patientPhone: null,
+      patientRelation: null,
+      complaint: null,
+      geminiKey: localStorage.getItem('wada3an_gemini_key') || ''
+    };
+
+    function getWelcomeMessage(name, gender) {
+      if (gender === 'female') {
+        const title = name ? `أختي الكريمة ${name}` : 'أختي الكريمة';
+        return `أهلاً وسهلاً بكِ ${title}، نورتينا في <strong>وداعاً للألم</strong> 🌸\nسلامتكم وألف لا بأس عليكِ يا رب..\n\nتفضلي يا أختي، كيف بنقدر نساعدك اليوم؟ شو الأعراض أو الاستفسار اللي شاغل بالك؟`;
+      } else {
+        const title = name ? `أخي الكريم أستاذ ${name}` : 'أخي الكريم';
+        return `أهلاً وسهلاً بك ${title}، نورتنا في <strong>وداعاً للألم</strong> 🌸\nسلامتكم وألف لا بأس عليك يا رب..\n\nتفضل يا غالي، كيف بنقدر نساعدك اليوم؟ شو الأعراض أو الاستفسار اللي شاغل بالك؟`;
+      }
+    }
+
+    function renderWelcomeMessage() {
+      const bubble = document.getElementById('welcomeBubble');
+      if (bubble) {
+        bubble.innerHTML = getWelcomeMessage(memory.patientName, memory.patientGender).replace(/\n/g, '<br>');
+      }
+    }
+
+    function onProfileChange() {
+      const nameInput = document.getElementById('patientNameInput');
+      const genderSelect = document.getElementById('patientGenderInput');
+      memory.patientName = nameInput ? nameInput.value.trim() : '';
+      memory.patientGender = genderSelect ? genderSelect.value : 'male';
+      if (memory.history.length === 0) {
+        renderWelcomeMessage();
+      }
+      updateLeadsUI();
+    }
+
+    function setQuickProfile(name, gender) {
+      const nameInput = document.getElementById('patientNameInput');
+      const genderSelect = document.getElementById('patientGenderInput');
+      if (nameInput) nameInput.value = name;
+      if (genderSelect) genderSelect.value = gender;
+      onProfileChange();
+      clearChat();
+    }
+
+    function syncProfileUI() {
+      const nameInput = document.getElementById('patientNameInput');
+      const genderSelect = document.getElementById('patientGenderInput');
+      if (nameInput && memory.patientName) nameInput.value = memory.patientName;
+      if (genderSelect && memory.patientGender) genderSelect.value = memory.patientGender;
+    }
+
+    // Initialize welcome on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      renderWelcomeMessage();
+      updateLeadsUI();
+    });
+
+    if (memory.geminiKey) {
+      document.getElementById('geminiApiKey').value = memory.geminiKey;
+      testKeyConnection(memory.geminiKey, false);
+    }
+
+    async function testKeyConnection(key, showAlert = true) {
+      const statusEl = document.getElementById('keyStatusText');
+      statusEl.style.display = 'block';
+      statusEl.style.color = '#0284c7';
+      statusEl.innerText = "⏳ جاري فحص الاتصال وتحديد أسرع نموذج متاح في Google...";
+
+      const models = [
+        "gemini-3.8-flash",
+        "gemini-3.5-flash-lite",
+        "gemini-3.1-pro"
+      ];
+
+      let lastError = null;
+      for (const m of models) {
+        try {
+          const url = `https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${key}`;
+          const res = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{ role: 'user', parts: [{ text: 'قل: متصل' }] }]
+            })
+          });
+
+          const data = await res.json();
+          if (res.ok) {
+            statusEl.style.color = '#16a34a';
+            statusEl.innerText = `✅ متصل بنجاح بنموذج (${m}) في Google!`;
+            document.getElementById('aiStatusText').innerText = `متصل بـ Google AI (${m}) 🚀`;
+            if (showAlert) alert(`تهانينا! المفتاح فعال وتم ربطه بنجاح بنموذج (${m}). جاهز للاستخدام الآن.`);
+            return true;
+          } else {
+            lastError = (data.error && data.error.message) ? data.error.message : res.statusText;
+            console.warn(`Test model ${m} failed:`, lastError);
+            // If it is high demand, try next model immediately
+          }
+        } catch (e) {
+          lastError = e.message;
+        }
+      }
+
+      statusEl.style.color = '#dc2626';
+      statusEl.innerText = `❌ ضغط مؤقت في سيرفرات Google: ${lastError}`;
+      if (showAlert) alert(`تنبيه: سيرفرات Google تشهد ضغطاً مؤقتاً (High Demand). تم تفعيل نظام التبديل التلقائي وسيعاود المحاولة ذاتياً.`);
+      return false;
+    }
+
+    async function saveApiKey() {
+      const key = document.getElementById('geminiApiKey').value.trim();
+      if (key) {
+        localStorage.setItem('wada3an_gemini_key', key);
+        memory.geminiKey = key;
+        await testKeyConnection(key, true);
+      } else {
+        localStorage.removeItem('wada3an_gemini_key');
+        memory.geminiKey = '';
+        document.getElementById('aiStatusText').innerText = "محرك الذكاء الدلالي المطور";
+        document.getElementById('keyStatusText').style.display = 'none';
+      }
+    }
+
+    function normalizeArabic(text) {
+      return text
+        .trim()
+        .toLowerCase()
+        .replace(/[\u064B-\u065F]/g, "")
+        .replace(/[إأآا]/g, "ا")
+        .replace(/ة/g, "ه")
+        .replace(/ى/g, "ي")
+        .replace(/[؟?.,!]/g, "")
+        .replace(/\s+/g, " ");
+    }
+
+    // High precision local engine fixing the exact cases
+    function smartLocalAI(rawText) {
+      const norm = normalizeArabic(rawText);
+      const original = rawText.trim();
+      const isFirstTurn = memory.history.filter(h => h.sender === 'outgoing').length <= 1;
+
+      // Detect Name & Gender introduction (اسمي أحمد، معاك ريم، أنا أم عبد الله...)
+      const nameMatch = original.match(/(?:اسمي|معاك|معك|انا|أنا|حضرتي)\s+([أ-يa-zA-Z]+(?:\s+[أ-يa-zA-Z]+)?)/);
+      if (nameMatch && !norm.includes("مش انا") && !norm.includes("تعبان") && !norm.includes("مريض") && !norm.includes("عندي")) {
+        const detectedName = nameMatch[1].trim();
+        const isFem = /^(ام|أم)\s+|[ةهى]$|^(ريم|سارة|ساره|نور|هدى|هدي|رنا|فاطمة|فاطمه|زينب|دلال|مريم|روان|منار|منى|مني|شهد|اية|ايه|اسراء|إسراء|نجوى|لمى|وفاء|سميرة|خديجة|عائشة)/.test(detectedName);
+        memory.patientName = detectedName;
+        memory.patientGender = isFem ? 'female' : 'male';
+        syncProfileUI();
+        updateLeadsUI();
+        if (isFem) {
+          return `يا هلا فيكِ أختي الكريمة ${detectedName}، نورتينا في وداعاً للألم وألف لا بأس عليكِ يا رب 🌸\n\nتفضلي احكيلي شو الأعراض أو الوجع اللي بتعاني منه لنفيدك بالحل الصحيح؟`;
+        } else {
+          return `يا هلا فيك أخي الكريم أستاذ ${detectedName}، نورتنا في وداعاً للألم وألف لا بأس عليك يا رب 🌸\n\nتفضل خبرني شو الأعراض أو الوجع اللي بتعاني منه لنفيدك بالحل الصحيح؟`;
+        }
+      }
+
+      // Treatment methods question (طرق العلاج، طريقة العلاج، كيف بتعالجوا، شو بتعملوا)
+      if (norm.includes("طريقه العلاج") || norm.includes("طرق العلاج") || norm.includes("كيف بتعالجوا") || norm.includes("شو بتعملوا") || norm.includes("شو بتسووا") || norm.includes("كيف العلاج")) {
+        return (isFirstTurn ? "أهلاً بك 🌸 " : "") + `المعالج في وداعاً للألم متخصص كايروبراكتيك وتقويم يدوي للعمود الفقري والمفاصل وتأهيل حركي بدون جراحة وبدون أي أدوية 🌿\n\nالعلاج بيعتمد على فحص ميكانيكية الفقرات، وإعادة محاذاتها بلطف لإزالة الضغط عن الأعصاب المضغوطة، وفك التشنجات العضلية العميقة.\n\nتفضل خبرني، شو المشكلة أو الألم اللي بتشتكي منه لنفيدك بطريقة التعامل معه؟`;
+      }
+
+      // Bot identity & age questions (كم عمرك، مين انت، شو اسمك، انت دكتور...)
+      if (norm.includes("كم عمرك") || norm.includes("شو اسمك") || norm.includes("مين انت") || norm.includes("مين معي") || norm.includes("انت دكتور") || norm.includes("انت روبوت") || norm.includes("ذكاء اصطناعي")) {
+        return `أنا المساعد لـ **وداعاً للألم** في عمّان - خلدا 😊\nمهمتي أساعدك وأجاوبك على كافة استفسارات الديسك وعرق النسا والكايروبراكتيك وترتيب المواعيد في مقرنا بخلدا أو الزيارات المنزلية.\n\nتفضل خبرني، كيف بقدر أخدمك اليوم؟ 🌸`;
+      }
+
+      // Check phone number
+      const phoneMatch = original.match(/(07[789]\d{7}|07\d{8})/);
+      if (phoneMatch) {
+        memory.patientPhone = phoneMatch[0];
+        updateLeadsUI();
+        return `تسلم يا غالي، تم تسجيل رقمك (${memory.patientPhone}) بملف الحجز 🌿\nرح يتواصل معك المعالج عبر الواتساب لتثبيت أقرب موعد وتزويدك باللوكيشن لمقرنا بخلدا. وألف لا بأس عليك.`;
+      }
+
+      // 1. Third-party patient (زوجي، والدتي، ابوي، ابني، اختي، الخ)
+      if (norm.includes("زوجي") || norm.includes("زوجتي") || norm.includes("والدتي") || norm.includes("امي") || norm.includes("والدي") || norm.includes("ابوي") || norm.includes("ابني") || norm.includes("بنتي") || norm.includes("اختي") || norm.includes("اخوي") || norm.includes("مش انا")) {
+        let relative = "المريض";
+        if (norm.includes("زوجي")) relative = "زوجك";
+        else if (norm.includes("والدتي") || norm.includes("امي")) relative = "الوالدة";
+        else if (norm.includes("والدي") || norm.includes("ابوي")) relative = "الوالد";
+        else if (norm.includes("ابني")) relative = "ابنك";
+
+        memory.patientRelation = relative;
+        updateLeadsUI();
+        return `ألف لا بأس على ${relative} وربي يشفيه ويعافيه ويخفف عنه يا رب 🌸\n\nاحكيلي شو الأعراض اللي بشتكي منها بالتحديد؟ وهل بيقدر يجي لمقرنا بخلدا ولا الحركة والنزول صعبة عليه وبفضل زيارة منزلية؟`;
+      }
+
+      // 2. Numbness & Tingling (خدر وتنميل)
+      if (norm.includes("خدر") || norm.includes("تنميل") || norm.includes("نمنمه") || norm.includes("وخز") || norm.includes("شكشكه")) {
+        memory.complaint = "خدر وتنميل بالأطراف";
+        updateLeadsUI();
+        return (isFirstTurn ? "سلامتك وألف لا بأس عليك يا رب 🌿\n" : "") + `الخدر والتنميل هو إشارة من الجسم بوجود عصب مضغوط ومخنوق؛ إذا كان بالرقبة بيمتد للأصابع والإيدين، وإذا كان بالفقرات القطنية بيمتد للأرجل والقدمين.\n\nبالجلسة بنحدد مخرج العصب المضغوط وبنحرره يدوياً لترجع التروية والإحساس الطبيعي.\n\nطمني، التنميل متركز باليدين ولا بالأرجل؟ وكم صار له معك؟`;
+      }
+
+      // 3. Greetings
+      if (/^(مرحبا|مرحبتين|هلا|اهلين|سلام|السلام عليكم|سلام عليكم|صباح الخير|مساء الخير|يعطيك العافيه|يعطيكم العافيه|الو|مساء الورد|هاي)$/.test(norm)) {
+        if (norm.includes("سلام عليكم") || norm.includes("السلام عليكم")) {
+          return "وعليكم السلام ورحمة الله وبركاته 🌸\nيا هلا فيك وألف لا بأس عليك.. تفضل يا غالي كيف بنقدر نساعدك اليوم في وداعاً للألم؟ شو المشكلة أو الألم اللي بتشتكي منه؟";
+        }
+        return "يا هلا فيك وألف مرحباً 🌸\nسلامتك يا رب.. تفضل احكيلي شو الألم أو الاستفسار اللي عندك حتى نفيدك بالحل؟";
+      }
+
+      // 4. Disc treatment confirmation ("بتعالجوا الديسك ؟" / "بتعالجوه")
+      if (norm.includes("بتعالجوا الديسك") || norm.includes("علاج الديسك") || norm.includes("بتعالج الديسك") || norm.includes("بتعالجوه") || norm.includes("بتعالجو") || (norm.includes("ديسك") && norm.includes("علاج"))) {
+        memory.complaint = "ديسك وأسفل الظهر";
+        updateLeadsUI();
+        return (isFirstTurn ? "يا هلا فيك 🌸\n" : "") + `نعم بالتأكيد بنعالجه، المعالج في وداعاً للألم متخصص كايروبراكتيك لعلاج الديسك والانزلاق الغضروفي بتقويم الفقرات وإزالة الضغط عن العصب بدون جراحة وبدون أدوية 🌿\n\nوجع الديسك متعب وبأثر على النوم والقعدة الطويلة. طمني يا غالي، الوجع محصور بأسفل الظهر ولا بتحسه نازل ع الأرداف أو الأرجل؟ وهل عملت صورة رنين (MRI) من قبل؟`;
+      }
+
+      // 5. Radiation to buttocks / legs / electric sensation ("نازل على الارداف" / "كهربا")
+      if (norm.includes("ارداف") || norm.includes("الارداف") || norm.includes("اليه") || norm.includes("ورك") || norm.includes("الوركه") || norm.includes("فخذ") || norm.includes("ساق") || norm.includes("كعب") || norm.includes("رجل") || norm.includes("كهربا") || norm.includes("كهرباء")) {
+        memory.complaint = "عرق النسا / ضغط العصب الوركي";
+        updateLeadsUI();
+        return (isFirstTurn ? "سلامتك وألف لا بأس عليك يا رب 🌿\n" : "") + `شعور الكهربا ونزول الألم للأرداف وخلف الفخذ علامة واضحة لانضغاط عصب عرق النسا، وهذا الألم بعيق الحركة وبصحيك من النوم عند التقلب.\n\nالمسكنات هون ما بتنفع لأنها ما بترفع الفقرة عن العصب؛ المعالج عندنا بفك الضغط المباشر يدوياً لترجع تمشي براحة تامة بإذن الله.\n\nطمني، الوجع بيزيد معك مع المشي والوقفة ولا بالقعدة؟ وهل واصل لأصابع القدم؟`;
+      }
+
+      // 6. Booking / Appointment request
+      if (norm.includes("حجز") || norm.includes("موعد") || norm.includes("احجز") || norm.includes("رتبلي") || norm.includes("بدي اجي") || norm.includes("بدي موعد") || norm.includes("تواصل") || norm.includes("رقم تليفون") || norm.includes("رقم تلفون")) {
+        return `بتشرفنا بأي وقت وألف سلامة عليك 🌸\nحتى يسجل المعالج اسمك ونثبت لك أقرب موعد مناسب للفحص والتقويم بمقرنا بخلدا أو نرتب زيارة منزلية، تفضل زودنا باسمك الكريم ورقم هاتفك، أو تواصل معنا مباشرة عبر الواتساب: 📲 0790360440`;
+      }
+
+      // 7. Session count
+      if (norm.includes("كم جلسه") || norm.includes("قديش جلسه") || norm.includes("عدد الجلسات") || norm.includes("بكم جلسه بطيب")) {
+        return (isFirstTurn ? "يا هلا فيك أخي الكريم 🌸\n\n" : "") + `طبياً ومهنياً: **لا يوجد عدد جلسات ثابت كبصمة للجميع**؛ لأن استجابة الأنسجة ومستوى الضغط على العصب يختلف من شخص لآخر.\n\nفي **الجلسة الأولى** بنقوم بالفحص وتقويم الفقرات، وأغلب الحالات بتشعر بانشراح وزوال مباشر لثقل الألم من أول جلسة، والمعالج بحددلك بأمانة مدى حاجتك لمتابعة.\n\nشو المشكلة أو الألم اللي شاغل بالك حتى نفيدك بدقة؟`;
+      }
+
+      // 8. Price
+      if (norm.includes("سعر") || norm.includes("بكم") || norm.includes("تكلفه") || norm.includes("قديش") || norm.includes("كشفيتكم")) {
+        return `سعر الجلسة المتكاملة في مقرنا بخلدا هو **20 دينار فقط** 🌿 (تشمل الفحص السريري، تقويم الكايروبراكتيك، فك التشنجات العضلية العميقة، والتأهيل الحركي).\n\nأما الزيارات المنزلية فسعرها يعتمد على موقعك في عمّان أو الزرقاء والوقت.\n\nبتحب نحددلك موعد بمقرنا بخلدا ليرتاح ظهرك؟`;
+      }
+
+      // 9. Location
+      if (norm.includes("وين موقعكم") || norm.includes("وين العياده") || norm.includes("عنوانكم") || norm.includes("موقعكم")) {
+        return `مقرنا في **عمّان - منطقة خلدا** 📍\nوللزيارات المنزلية نحن بنغطي كافة مناطق عمّان ومحافظة الزرقاء بالكامل لمن يفضل الراحة في منزله.\n\nبتحب تشرفنا بمقرنا في خلدا ولا بتفضل نرتبلك زيارة منزلية؟`;
+      }
+
+      // 10. What is chiropractic
+      if (norm.includes("شو يعني كايروبراكتيك") || norm.includes("شو الكايروبراكتيك") || norm.includes("تعريف")) {
+        return `الكايروبراكتيك في وداعاً للألم هو **علم تقويم العمود الفقري والمفاصل يدوياً** بدون جراحة وبدون أدوية 🌿\nفكرته: المسكنات بتخدر الدماغ مؤقتاً لساعات، لكن الفقرة بتضل ضاغطة على العصب! المعالج برجع محاذاة الفقرة لمكانها الطبيعي وبفك الضغط، فبروح الألم للأبد وبترجع حركة الجسم بمرونة.\n\nتفضل خبرني، شو الألم اللي حاب نساعدك بالخلاص منه؟`;
+      }
+
+      // General pain complaint or duration
+      if (norm.includes("وجع") || norm.includes("الم") || norm.includes("تعبان") || norm.includes("شهر") || norm.includes("اسبوع") || norm.includes("سنه") || norm.includes("ديسك")) {
+        return (isFirstTurn ? "سلامتك وما تشوف شر 🌸\n" : "") + `المعالج في وداعاً للألم متخصص بتقويم العمود الفقري والمفاصل والتأهيل الحركي بمقرنا بخلدا وعندنا زيارات منزلية بعمان والزرقاء.\n\nهذا الألم ما لازم تسكت عليه عشان ما يزيد الضغط على العصب. خبرنا وين مكمن الوجع بالزبط، وهل هو مستمر ولا بيجي مع حركة معينة؟`;
+      }
+
+      return (isFirstTurn ? "سلامتك وألف لا بأس عليك يا غالي 🌸\n" : "") + `المعالج في وداعاً للألم متخصص بتقويم العمود الفقري (الكايروبراكتيك) والتأهيل الحركي في مقرنا بخلدا، وعندنا كمان زيارات منزلية بعمان والزرقاء.\n\nتفضل خبرني شو الأعراض اللي حاسس فيها حالياً حتى نفيدك بالخطوة الصح؟`;
+    }
+
+    // Call Modern Gemini 3.8 Flash API with automatic retry on temporary traffic spikes
+    async function callGeminiAI(userText) {
+      const apiKey = memory.geminiKey;
+      const isFirstTurn = memory.history.filter(h => h.sender === 'outgoing').length <= 1;
+
+      const systemPrompt = `أنت المعالج والمستشار الإكلينيكي لـ "وداعاً للألم" (30minutes30) في عمّان، الأردن.
+شخصيتك: معالج حكيم، إنساني، محترم وودود جداً. تفهم نفسية المريض المتألم، خوفه من العمليات الجراحية، وإحباطه الشديد من كثرة المسكنات والإبر التي لا فائدة منها. أسلوبك يزرع الأمان، علمي ومقنع وبنبرة أردنية دافئة.
+
+استراتيجية الإقناع النفسي الطبي (4 مراحل ذكية لتوجيه المريض):
+1. التعاطف العاكس (Psychological Mirroring):
+   عندما يصف المريض وجعه (ديسك، عرق النسا، كهربا، خدر)، اعترف بصعوبة هذا الألم وتأثيره على نومه وحركته، ليشعر فوراً أنك تعيش معاناته وتفهم وجعه الحقيقي ("أنا حاسس فيك، هذا الألم متعب جداً وخاصة لما تيجي تنام أو تتقلب، وبخلي الحركة ثقيلة...").
+2. كشف السبب الجذري ومصيدة المسكنات (Root Cause vs Symptom Masking):
+   بيّن للمريض بلباقة ومنطق مقنع سر فشل الأدوية: "المسكنات والإبر بتخدر الإحساس بالدماغ لساعات فقط وبترهق المعدة، لكنها ما بترفع الفقرة عن مخرج العصب! مثل إطفاء جرس الإنذار وترك الحريق مشتعلاً! الكايروبراكتيك عندنا بحل جذر المشكلة؛ برجع محاذاة الفقرة يدوياً وبحرر العصب بدون أي أدوية ولا إبر ولا جراحة".
+3. الخطاف التشخيصي لشد الانتباه والمكوث بالمحادثة (Micro-Diagnostic Hooks):
+   أنهِ كل رد دائماً بسؤال تشخيصي ذكي ومحدد يربط ألمه بتفاصيل يومه وحركته ليجعل المريض يمكث في المحادثة ويجيب بشغف لأنه يشعر بأنك تجري له كشفاً استقصائياً خاصاً لحالته، مثل:
+   - "طمني، الوجع بيزيد معك بالقعدة الطويلة ولا مع المشي والوقوف؟"
+   - "هل شعور الكهربا أو التنميل واصل لأصابع القدم ولا محصور بالورك والفخذ؟"
+   - "هل الألم بصحيك من النوم لما تتقلب؟"
+   - "هل عملت صورة رنين مغناطيسي (MRI) من قبل؟"
+4. الاستدراج غير المباشر ليطلب المريض الحجز بلسانه (Organic Inbound Conversion):
+   - لا تضغط عليه بأسلوب بيع تجاري جاف ("احجز الآن وهات رقمك!").
+   - بل ازرع في عقله منطق الأمان وسرعة الحل: وضّح أن إهمال العصب يزيده تشنجاً وتعقيداً، بينما الراحة وتخفيف الضغط تبدأ من الجلسة الأولى وبأمان تام 100%.
+   - وجّهه بلطف: "إذا حاب يفحص المعالج ميكانيكا ظهرك ونرفع الضغط عن العصب لترتاح نهائياً، بنرتبلك جلسة فحص وتقويم متكاملة سواء بمقرنا بخلدا أو زيارة لبيتك."
+   - النتيجة: المريض يطلب الحجز بلسانه وبثقة ("يا ريت والله، كيف طريقة الحجز؟").
+
+قواعد حاسمة لا تحيد عنها:
+1. قاعدة الترحيب: الترحيب مرة واحدة فقط في أول رسالة! في الردود اللاحقة، ممنوع منعاً باتاً تكرار أي ديباجة ترحيب أو تحية؛ ادخل مباشرة في صلب الرد والتشخيص.
+2. ممنوع تماماً استخدام كلمة "عيادة"! استخدم دائماً: "نحن في وداعاً للألم" أو "في مقرنا بخلدا" أو "المعالج في وداعاً للألم".
+3. إذا سأل المريض عن "طرق العلاج / طريقة العلاج":
+   وضّح مباشرة: "المعالج في وداعاً للألم متخصص كايروبراكتيك وتقويم يدوي للعمود الفقري والمفاصل والتأهيل الحركي بدون أي أدوية ولا جراحة، حيث يعيد محاذاة الفقرات ويزيل الضغط عن الأعصاب ويفك التشنجات العضلية العميقة".
+4. ممنوع ذكر سعر الجلسة (20 دينار) إلا إذا سأل المريض عن السعر بوضوح (مثل: بكم، كم السعر، قديش، التكلفة)!
+5. طول الرد: معتدل ومؤثر (3 إلى 4 أسطر متناسقة ومريحة للقراءة بدون إطالة مملة).
+
+معلومات مركزنا المرجعية (تستخدم فقط عند السؤال عنها):
+- الموقع: عمّان - خلدا.
+- الزيارات المنزلية: عمان والزرقاء (فقط لمن يطلبها أو يتعذر عليه الحضور).
+- السعر: 20 دينار في مقرنا بخلدا (تذكر فقط عند السؤال عن التكلفة).
+- عدد الجلسات: يحدد بعد الفحص بالجلسة الأولى حسب استجابة الجسم.
+- واتساب: 0790360440 (يعطى عند الوصول لتأكيد الحجز).`;
+
+      // Build readable chat context
+      let contextHistory = "";
+      memory.history.slice(-6).forEach(h => {
+        const roleName = h.sender === 'outgoing' ? 'المريض' : 'أنت (المعالج)';
+        contextHistory += `${roleName}: ${h.text}\n`;
+      });
+
+      const turnRule = isFirstTurn 
+        ? "ملاحظة: هذه بداية المحادثة، يمكنك الترحيب بلطف مرة واحدة وباسم المراجع وجنسه."
+        : "تنبيه صارم: المحادثة جارية حالياً وليست البداية. ممنوع منعاً باتاً وضع أي جمل ترحيب أو تحية (مثل 'يا هلا' أو 'سلامتك')! ادخل فوراً في صلب الإجابة الطبية.";
+
+      const patientInfoPrompt = `معلومات المراجع (من الملف الشخصي على فيسبوك):
+- الاسم: ${memory.patientName || 'غير محدد بعد'}
+- الجنس: ${memory.patientGender === 'female' ? 'أنثى (خاطبها بصيغة التأنيث واللباقة دائماً: أختي الكريمة، تفضلي، سلامتكِ يا أختي)' : 'ذكر (خاطبه بصيغة التذكير والاحترام دائماً: أخي الكريم، أستاذ، تفضل يا غالي، سلامتك)'}
+${memory.patientName ? `- نادِ المراجع باسمه بلباقة عند الحاجة (مثال: "يا أستاذ ${memory.patientName}" أو "أختي ${memory.patientName}").` : ''}`;
+
+      const fullPrompt = `${systemPrompt}
+
+---
+${patientInfoPrompt}
+
+---
+سياق المحادثة السابقة:
+${contextHistory || 'بداية المحادثة'}
+
+${turnRule}
+
+رسالة المريض الحالية:
+${userText}
+
+ردك كمعالج ومستقبل استشارات (مباشر وطبيعي بدون تكرار ترحيب):`;
+
+      const payload = {
+        contents: [
+          {
+            role: "user",
+            parts: [{ text: fullPrompt }]
+          }
+        ],
+        generationConfig: {
+          temperature: 0.6,
+          maxOutputTokens: 600
+        }
+      };
+
+      const candidateModels = [
+        memory.activeModel || "gemini-3.8-flash",
+        "gemini-3.8-flash",
+        "gemini-3.5-flash-lite",
+        "gemini-3.1-pro"
+      ];
+      const uniqueModels = [...new Set(candidateModels)];
+      let lastError = null;
+
+      for (const m of uniqueModels) {
+        try {
+          const url = `https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${apiKey}`;
+          const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts) {
+              const fullText = data.candidates[0].content.parts.map(p => p.text || '').join('');
+              if (fullText.trim()) {
+                memory.activeModel = m;
+                document.getElementById('aiStatusText').innerText = `متصل بـ Google AI (${m}) 🚀`;
+                return fullText;
+              }
+            }
+          } else {
+            lastError = (data.error && data.error.message) ? data.error.message : response.statusText;
+            console.warn(`Model ${m} returned:`, lastError);
+          }
+        } catch (e) {
+          lastError = e.message;
+        }
+      }
+
+      throw new Error(lastError || 'Google API busy');
+    }
+
+    function appendMessage(sender, text) {
+      const container = document.getElementById('chatContainer');
+      const row = document.createElement('div');
+      row.className = `message-row ${sender}`;
+
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
+
+      const cleanText = text.trim().replace(/\n/g, '<br>');
+      row.innerHTML = `<div class="bubble">${cleanText}</div><div class="msg-time">${timeStr}</div>`;
+      container.appendChild(row);
+      container.scrollTop = container.scrollHeight;
+
+      memory.history.push({ sender, text: text.trim() });
+    }
+
+    async function sendMessage() {
+      const input = document.getElementById('userInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      appendMessage('outgoing', text);
+      input.value = '';
+
+      const typing = document.getElementById('typingIndicator');
+      typing.style.display = 'flex';
+      const container = document.getElementById('chatContainer');
+      container.scrollTop = container.scrollHeight;
+
+      let reply = "";
+      if (memory.geminiKey) {
+        try {
+          reply = await callGeminiAI(text);
+        } catch (err) {
+          console.warn('Gemini temporary busy, using smooth fallback:', err);
+          reply = smartLocalAI(text);
+        }
+      } else {
+        reply = smartLocalAI(text);
+      }
+
+      setTimeout(() => {
+        typing.style.display = 'none';
+        appendMessage('incoming', reply);
+      }, 100);
+    }
+
+    function handleKeyPress(e) {
+      if (e.key === 'Enter') {
+        sendMessage();
+      }
+    }
+
+    function simulatePatient(text) {
+      document.getElementById('userInput').value = text;
+      sendMessage();
+    }
+
+    function handleQuickChip(chipText) {
+      document.getElementById('userInput').value = chipText;
+      sendMessage();
+    }
+
+    let currentBubbleFontSize = 15.5;
+    function changeFontSize(delta) {
+      currentBubbleFontSize = Math.min(22, Math.max(13, currentBubbleFontSize + delta));
+      document.documentElement.style.setProperty('--bubble-font-size', currentBubbleFontSize + 'px');
+      document.querySelectorAll('.bubble').forEach(b => {
+        b.style.fontSize = currentBubbleFontSize + 'px';
+      });
+    }
+
+    function clearChat() {
+      const container = document.getElementById('chatContainer');
+      container.innerHTML = `
+        <div class="message-row incoming">
+          <div class="bubble" id="welcomeBubble">
+            ${getWelcomeMessage(memory.patientName, memory.patientGender).replace(/\n/g, '<br>')}
+          </div>
+        </div>
+      `;
+      memory.history = [];
+    }
+
+    function updateLeadsUI() {
+      renderLeadsList();
+    }
+
+    // Data Extraction & Collection Engine
+    async function extractAndCollectData() {
+      if (memory.history.length === 0) {
+        alert("تنبيه: لا توجد رسائل في المحادثة حالياً لجمع البيانات منها! اكتب سؤالاً أو جرّب أحد السيناريوهات أولاً.");
+        return;
+      }
+
+      // 1. Extract Phone Number
+      let phone = memory.patientPhone || null;
+      if (!phone) {
+        for (const h of memory.history) {
+          const match = h.text.match(/(?:07[789]\d{7}|07\d{8}|\+9627[789]\d{7})/);
+          if (match) {
+            phone = match[0];
+            memory.patientPhone = phone;
+            break;
+          }
+        }
+      }
+
+      // 2. Extract Patient Name
+      let name = memory.patientName || '';
+      for (const h of memory.history) {
+        if (h.sender === 'outgoing') {
+          const nameMatch = h.text.match(/(?:اسمي|معاك|معك|انا|أنا|حضرتي)\s+([أ-يa-zA-Z]+(?:\s+[أ-يa-zA-Z]+)?)/);
+          if (nameMatch && !h.text.includes("مش انا") && !h.text.includes("تعبان") && !h.text.includes("عندي")) {
+            name = nameMatch[1].trim();
+            memory.patientName = name;
+            break;
+          }
+        }
+      }
+      if (!name) {
+        const nameInput = document.getElementById('patientNameInput');
+        name = nameInput && nameInput.value.trim() ? nameInput.value.trim() : 'غير محدد';
+      }
+
+      // 3. Extract Medical Complaint (الشكوى)
+      let complaint = memory.complaint || '';
+      const patientMessages = memory.history
+        .filter(h => h.sender === 'outgoing')
+        .map(h => h.text)
+        .join(' - ');
+
+      // Try AI summarization if Gemini is active
+      if (memory.geminiKey) {
+        try {
+          const prompt = `أنت طبيب خبير. من خلال كلام المريض التالي في المحادثة:
+"${patientMessages}"
+لخّص بدقة وإيجاز شديد: ما هي الشكوى الطبية ومكان الألم في جملة واحدة فقط لا تتجاوز 10 كلمات:`;
+
+          const candidateModels = ["gemini-3.8-flash", "gemini-3.5-flash-lite", "gemini-3.1-pro"];
+          for (const m of candidateModels) {
+            try {
+              const url = `https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${memory.geminiKey}`;
+              const res = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ contents: [{ role: 'user', parts: [{ text: prompt }] }] })
+              });
+              const data = await res.json();
+              if (res.ok && data.candidates && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
+                complaint = data.candidates[0].content.parts[0].text.trim().replace(/^الشكوى:\s*/, '');
+                break;
+              }
+            } catch (e) {}
+          }
+        } catch (e) {
+          console.warn('AI summary failed, using heuristic fallback:', e);
+        }
+      }
+
+      // Fallback complaint synthesis if Gemini not available or empty
+      if (!complaint) {
+        const normAll = normalizeArabic(patientMessages);
+        if (normAll.includes("كهربا") || normAll.includes("ارداف") || normAll.includes("عرق النسا")) {
+          complaint = "عرق النسا / ضغط العصب الوركي مع شعور كهربا بالأرداف";
+        } else if (normAll.includes("خدر") || normAll.includes("تنميل")) {
+          complaint = "خدر وتنميل بالأطراف وانضغاط الأعصاب";
+        } else if (normAll.includes("ديسك") || normAll.includes("ظهر")) {
+          complaint = "انزلاق غضروفي (ديسك) وآلام أسفل الظهر";
+        } else if (normAll.includes("رقب") || normAll.includes("صداع")) {
+          complaint = "تشنج فقرات الرقبة وصداع عصبي";
+        } else if (normAll.includes("ركب")) {
+          complaint = "خشونة وآلام بمفصل الركبة";
+        } else {
+          complaint = patientMessages.slice(0, 80) || "استفسار ومتابعة عامة";
+        }
+      }
+
+      memory.complaint = complaint;
+
+      // Create new lead record
+      const now = new Date();
+      const newLead = {
+        id: Date.now(),
+        name: name,
+        gender: memory.patientGender || 'male',
+        complaint: complaint,
+        phone: phone || 'غير متوفر',
+        time: now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' }),
+        date: now.toLocaleDateString('ar-EG')
+      };
+
+      // Save to localStorage
+      let savedLeads = JSON.parse(localStorage.getItem('wada3an_leads_list') || '[]');
+      savedLeads.unshift(newLead);
+      localStorage.setItem('wada3an_leads_list', JSON.stringify(savedLeads));
+
+      // Update UI
+      renderLeadsList();
+
+      // Show Modal Content
+      const modal = document.getElementById('dataCollectModal');
+      const content = document.getElementById('modalDataContent');
+      content.innerHTML = `
+        <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:12px; padding:12px; margin-bottom:4px;">
+          <div style="color:#166534; font-weight:800; font-size:14px; margin-bottom:3px;">✅ تم مسح المحادثة وحفظ السجل بنجاح!</div>
+          <div style="color:#15803d; font-size:11px;">تم تخزين البيانات في قائمة المراجعين وجاهزة للمتابعة أو التصدير إلى Excel.</div>
+        </div>
+        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:14px; display:flex; flex-direction:column; gap:9px;">
+          <div><strong>👤 الاسم:</strong> <span style="color:#0866FF; font-weight:700;">${name}</span> (${newLead.gender === 'female' ? '👩 أنثى' : '👨 ذكر'})</div>
+          <div><strong>🩺 الشكوى والتشخيص:</strong> <span style="color:#0f172a; font-weight:600;">${complaint}</span></div>
+          <div><strong>📞 رقم التلفون:</strong> <span style="font-weight:700;">${phone ? '<a href="https://wa.me/962' + phone.replace(/^0/, '') + '" target="_blank" style="color:#16a34a; text-decoration:none;">' + phone + ' 📲 (مراسلة واتساب)</a>' : '<span style="color:#dc2626;">(لم يذكره المريض في هذه المحادثة)</span>'}</span></div>
+          <div style="font-size:11px; color:#64748b;">⏰ <strong>تاريخ ووقت المحادثة:</strong> ${newLead.date} - ${newLead.time}</div>
+        </div>
+      `;
+      modal.style.display = 'flex';
+    }
+
+    function closeCollectModal() {
+      document.getElementById('dataCollectModal').style.display = 'none';
+    }
+
+    function clearAndCloseModal() {
+      closeCollectModal();
+      clearChat();
+    }
+
+    function renderLeadsList() {
+      const box = document.getElementById('capturedLeadsBox');
+      const countEl = document.getElementById('leadsCount');
+      const leads = JSON.parse(localStorage.getItem('wada3an_leads_list') || '[]');
+      
+      if (countEl) countEl.innerText = leads.length;
+
+      if (leads.length === 0) {
+        box.innerHTML = `لا توجد بيانات مجمّعة حتى الآن. اضغط على زر "📋 جمع البيانات" أثناء أي محادثة لحفظ المراجع هنا!`;
+        return;
+      }
+
+      box.innerHTML = leads.map((lead, idx) => `
+        <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:8px 10px; font-size:11px; display:flex; flex-direction:column; gap:4px; box-shadow:0 1px 3px rgba(0,0,0,0.02);">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <strong>${idx + 1}. ${lead.name}</strong>
+            <span style="font-size:9.5px; color:#94a3b8;">${lead.time}</span>
+          </div>
+          <div style="color:#475569;">🩺 ${lead.complaint}</div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:2px;">
+            <span style="color:${lead.phone !== 'غير متوفر' ? '#16a34a' : '#94a3b8'}; font-weight:700;">📞 ${lead.phone}</span>
+            ${lead.phone !== 'غير متوفر' ? `<a href="https://wa.me/962${lead.phone.replace(/^0/, '')}" target="_blank" style="color:#25D366; text-decoration:none; font-weight:700; font-size:10px;">واتساب 💬</a>` : ''}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function clearSavedLeads() {
+      if (confirm("هل أنت متأكد من مسح جميع سجلات المرضى المجمّعة؟")) {
+        localStorage.removeItem('wada3an_leads_list');
+        renderLeadsList();
+      }
+    }
+
+    function exportLeadsToCSV() {
+      const leads = JSON.parse(localStorage.getItem('wada3an_leads_list') || '[]');
+      if (leads.length === 0) {
+        alert("لا توجد سجلات مرضى لتصديرها حالياً!");
+        return;
+      }
+
+      let csv = '\uFEFFالرقم,الاسم,الجنس,الشكوى,رقم الهاتف,الوقت,التاريخ\n';
+      leads.forEach((l, i) => {
+        const cleanComplaint = `"${l.complaint.replace(/"/g, '""')}"`;
+        csv += `${i + 1},${l.name},${l.gender === 'female' ? 'أنثى' : 'ذكر'},${cleanComplaint},${l.phone},${l.time},${l.date}\n`;
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `بيانات_مرضى_وداعا_للألم_${new Date().toISOString().slice(0, 10)}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    // Archive Scanner Engine (Mass Historical Extraction)
+    let scannedHistoricalLeads = [];
+
+    function openArchiveScannerModal() {
+      document.getElementById('archiveScannerModal').style.display = 'flex';
+    }
+
+    function closeArchiveScannerModal() {
+      document.getElementById('archiveScannerModal').style.display = 'none';
+    }
+
+    function switchScannerTab(tab) {
+      document.getElementById('tab-upload').style.display = tab === 'upload' ? 'block' : 'none';
+      document.getElementById('tab-api').style.display = tab === 'api' ? 'block' : 'none';
+      document.getElementById('tab-paste').style.display = tab === 'paste' ? 'block' : 'none';
+
+      document.querySelectorAll('.scanner-tab-btn').forEach(b => {
+        b.style.background = '#f1f5f9';
+        b.style.color = '#475569';
+      });
+      document.getElementById('btn-tab-' + tab).style.background = '#0866FF';
+      document.getElementById('btn-tab-' + tab).style.color = '#ffffff';
+    }
+
+    // 1. Parse JSON files from Facebook "Download Your Information"
+    async function handleArchiveFileUpload(event) {
+      const files = event.target.files;
+      if (!files || files.length === 0) return;
+
+      const progressBox = document.getElementById('scanProgressBox');
+      const progressText = document.getElementById('scanProgressText');
+      progressBox.style.display = 'block';
+      scannedHistoricalLeads = [];
+
+      let processedCount = 0;
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        progressText.innerText = `جاري مسح وتحليل ملف (${i + 1} من ${files.length}): ${file.name}...`;
+
+        try {
+          const text = await file.text();
+          const data = JSON.parse(text);
+
+          // Support Facebook JSON conversation format
+          if (data.messages && Array.isArray(data.messages)) {
+            parseFacebookThread(data);
+          } else if (Array.isArray(data)) {
+            data.forEach(thread => {
+              if (thread.messages) parseFacebookThread(thread);
+            });
+          }
+        } catch (err) {
+          console.warn('Error parsing file:', file.name, err);
+        }
+        processedCount++;
+      }
+
+      progressText.innerText = `✅ اكتمل المسح بنجاح! تم فحص ${processedCount} ملف واستخراج ${scannedHistoricalLeads.length} مراجع.`;
+      renderArchiveResults();
+    }
+
+    function parseFacebookThread(thread) {
+      // Find patient name (excluding page name)
+      let patientName = "مراجع فيسبوك";
+      if (thread.participants && Array.isArray(thread.participants)) {
+        const other = thread.participants.find(p => p.name && !p.name.includes("وداعا") && !p.name.includes("30minutes"));
+        if (other) patientName = other.name;
+      }
+
+      let phone = null;
+      let patientTextAll = "";
+      let lastDate = "";
+
+      thread.messages.forEach(msg => {
+        const content = msg.content || "";
+        const sender = msg.sender_name || "";
+        
+        // Skip automated bot / admin replies for complaints
+        if (!sender.includes("وداعا") && !sender.includes("30minutes")) {
+          patientTextAll += " " + content;
+          if (!patientName || patientName === "مراجع فيسبوك") {
+            patientName = sender;
+          }
+        }
+
+        // Look for Jordanian phone number
+        if (!phone) {
+          const match = content.match(/(?:07[789]\d{7}|07\d{8}|\+9627[789]\d{7})/);
+          if (match) phone = match[0];
+        }
+
+        if (msg.timestamp_ms) {
+          lastDate = new Date(msg.timestamp_ms).toLocaleDateString('ar-EG');
+        }
+      });
+
+      // Diagnose complaint from patient text
+      const complaint = extractComplaintFromText(patientTextAll);
+
+      // Only add if there is a complaint or a phone number
+      if (phone || patientTextAll.trim().length > 5) {
+        scannedHistoricalLeads.push({
+          id: Date.now() + Math.random(),
+          name: patientName || 'مراجع فيسبوك',
+          phone: phone || 'غير متوفر',
+          complaint: complaint,
+          date: lastDate || 'أرشيف قديم',
+          messagesCount: thread.messages.length
+        });
+      }
+    }
+
+    // 2. Scan from Pasted Text (سريعة للصق محادثات)
+    function scanFromPastedText() {
+      const text = document.getElementById('pastedChatsInput').value.trim();
+      if (!text) {
+        alert("يرجى لصق نصوص المحادثات أولاً في الخانة المخصصة!");
+        return;
+      }
+
+      scannedHistoricalLeads = [];
+      const lines = text.split('\n');
+      let currentName = "مراجع";
+      let currentPhone = null;
+      let currentComplaint = "";
+
+      // Regex for numbers
+      const phoneRegex = /(?:07[789]\d{7}|07\d{8}|\+9627[789]\d{7})/g;
+      const allPhones = text.match(phoneRegex) || [];
+
+      // Split by message blocks or scan phones
+      allPhones.forEach((ph, idx) => {
+        scannedHistoricalLeads.push({
+          id: Date.now() + idx,
+          name: `مراجع ${idx + 1}`,
+          phone: ph,
+          complaint: extractComplaintFromText(text),
+          date: 'أرشيف سابق',
+          messagesCount: 1
+        });
+      });
+
+      if (scannedHistoricalLeads.length === 0) {
+        scannedHistoricalLeads.push({
+          id: Date.now(),
+          name: 'مراجع مستخرج',
+          phone: 'غير متوفر',
+          complaint: extractComplaintFromText(text),
+          date: 'أرشيف سابق',
+          messagesCount: lines.length
+        });
+      }
+
+      renderArchiveResults();
+    }
+
+    // 3. Scan directly from Meta Graph API
+    async function scanFromMetaApi() {
+      const token = document.getElementById('metaPageTokenInput').value.trim();
+      if (!token) {
+        alert("يرجى إدخال Page Access Token لصفحتكم على فيسبوك!");
+        return;
+      }
+
+      const progressBox = document.getElementById('scanProgressBox');
+      const progressText = document.getElementById('scanProgressText');
+      progressBox.style.display = 'block';
+      progressText.innerText = "⏳ جاري الاتصال بخوادم فيسبوك وسحب سجلات المحادثات...";
+      scannedHistoricalLeads = [];
+
+      try {
+        let url = `https://graph.facebook.com/v19.0/me/conversations?fields=messages{message,from,created_time},senders&limit=50&access_token=${token}`;
+        let totalThreads = 0;
+
+        while (url && totalThreads < 500) {
+          const res = await fetch(url);
+          const data = await res.json();
+
+          if (data.error) {
+            throw new Error(data.error.message);
+          }
+
+          if (data.data && Array.isArray(data.data)) {
+            data.data.forEach(thread => {
+              totalThreads++;
+              let pName = "مراجع فيسبوك";
+              if (thread.senders && thread.senders.data && thread.senders.data[0]) {
+                pName = thread.senders.data[0].name;
+              }
+
+              let pText = "";
+              let phone = null;
+              let dateStr = "";
+
+              if (thread.messages && thread.messages.data) {
+                thread.messages.data.forEach(m => {
+                  const msgText = m.message || "";
+                  pText += " " + msgText;
+                  if (!phone) {
+                    const match = msgText.match(/(?:07[789]\d{7}|07\d{8}|\+9627[789]\d{7})/);
+                    if (match) phone = match[0];
+                  }
+                  if (m.created_time) dateStr = new Date(m.created_time).toLocaleDateString('ar-EG');
+                });
+              }
+
+              scannedHistoricalLeads.push({
+                id: Date.now() + Math.random(),
+                name: pName,
+                phone: phone || 'غير متوفر',
+                complaint: extractComplaintFromText(pText),
+                date: dateStr || 'سابق',
+                messagesCount: thread.messages ? thread.messages.data.length : 0
+              });
+            });
+
+            progressText.innerText = `جاري سحب المحادثات... تم فحص ${totalThreads} محادثة حتى الآن.`;
+            url = (data.paging && data.paging.next) ? data.paging.next : null;
+          } else {
+            break;
+          }
+        }
+
+        progressText.innerText = `✅ اكتمل الفحص السحابي! تم مسح ${totalThreads} محادثة واستخراج ${scannedHistoricalLeads.length} مراجع.`;
+        renderArchiveResults();
+      } catch (e) {
+        progressText.innerText = `❌ خطأ في الاتصال بـ Meta: ${e.message}`;
+      }
+    }
+
+    function extractComplaintFromText(text) {
+      const norm = normalizeArabic(text || "");
+      if (norm.includes("عرق النسا") || norm.includes("كهربا") || norm.includes("ارداف") || norm.includes("ورك")) {
+        return "عرق النسا وضغط العصب الوركي مع كهربا بالأرجل";
+      } else if (norm.includes("خدر") || norm.includes("تنميل") || norm.includes("نمنمه")) {
+        return "خدر وتنميل بالأطراف وانضغاط الأعصاب";
+      } else if (norm.includes("ديسك") || norm.includes("ظهر") || norm.includes("قطنيه")) {
+        return "انزلاق غضروفي (ديسك) وآلام أسفل الظهر";
+      } else if (norm.includes("رقب") || norm.includes("صداع") || norm.includes("كتف")) {
+        return "آلام وتشنج فقرات الرقبة والكتفين";
+      } else if (norm.includes("ركب") || norm.includes("مفصل")) {
+        return "خشونة وآلام مفاصل الركبة";
+      }
+      return text.slice(0, 75).trim() || "استفسار طبي وكشف عام";
+    }
+
+    function renderArchiveResults() {
+      const box = document.getElementById('archiveResultsTableBody');
+      const countEl = document.getElementById('archiveCountText');
+      const container = document.getElementById('archiveResultsSection');
+      
+      container.style.display = 'block';
+      countEl.innerText = `تم استخراج ${scannedHistoricalLeads.length} مراجع بنجاح!`;
+
+      if (scannedHistoricalLeads.length === 0) {
+        box.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:15px; color:#64748b;">لم يتم العثور على بيانات مراجعين في الملفات المحددة.</td></tr>`;
+        return;
+      }
+
+      box.innerHTML = scannedHistoricalLeads.map((item, idx) => `
+        <tr style="border-bottom:1px solid #f1f5f9;">
+          <td style="padding:8px 10px; font-weight:700;">${idx + 1}. ${item.name}</td>
+          <td style="padding:8px 10px; color:${item.phone !== 'غير متوفر' ? '#16a34a' : '#94a3b8'}; font-weight:700;">
+            ${item.phone}
+            ${item.phone !== 'غير متوفر' ? ` <a href="https://wa.me/962${item.phone.replace(/^0/, '')}" target="_blank" style="color:#25D366; text-decoration:none; font-size:10px;">(واتساب)</a>` : ''}
+          </td>
+          <td style="padding:8px 10px; color:#334155;">🩺 ${item.complaint}</td>
+          <td style="padding:8px 10px; color:#64748b; font-size:11px;">${item.date}</td>
+        </tr>
+      `).join('');
+    }
+
+    function exportArchiveToCSV() {
+      if (scannedHistoricalLeads.length === 0) {
+        alert("لا توجد بيانات مستخرجة لتصديرها!");
+        return;
+      }
+
+      let csv = '\uFEFFالرقم,اسم المريض,رقم الهاتف,الشكوى الطبية,تاريخ المحادثة\n';
+      scannedHistoricalLeads.forEach((l, i) => {
+        const cleanComplaint = `"${(l.complaint || '').replace(/"/g, '""')}"`;
+        const cleanName = `"${(l.name || '').replace(/"/g, '""')}"`;
+        csv += `${i + 1},${cleanName},${l.phone},${cleanComplaint},${l.date}\n`;
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `أرشيف_مرضى_فيسبوك_وداعا_للألم_${new Date().toISOString().slice(0, 10)}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function mergeArchiveToSavedLeads() {
+      if (scannedHistoricalLeads.length === 0) return;
+      let savedLeads = JSON.parse(localStorage.getItem('wada3an_leads_list') || '[]');
+      
+      scannedHistoricalLeads.forEach(item => {
+        savedLeads.unshift({
+          id: item.id || Date.now() + Math.random(),
+          name: item.name || 'مراجع فيسبوك',
+          gender: (item.name && (item.name.includes('أم ') || item.name.includes('ام ') || item.name.includes('سارة') || item.name.includes('فاطمة'))) ? 'female' : 'male',
+          complaint: item.complaint || 'فحص وتقويم الظهر والفقرات',
+          phone: item.phone || 'غير متوفر',
+          time: 'أرشيف',
+          date: item.date || 'محادثة سابقة',
+          status: 'new',
+          source: 'أرشيف ماسنجر فيسبوك'
+        });
+      });
+
+      localStorage.setItem('wada3an_leads_list', JSON.stringify(savedLeads));
+      renderLeadsList();
+      
+      if (confirm(`👑 رائع جداً! تم تحويل ${scannedHistoricalLeads.length} مريض مستخرج إلى كروت ملكية وحفظ أرقامهم.\n\nهل ترغب بفتح "بوابة المراجعين الملكية وحملات البرودكاست" الآن لمشاهدة الكروت وبدء إرسال رسائل الواتساب؟`)) {
+        window.open('royal_patients.html', '_blank');
+      }
+      closeArchiveScannerModal();
+    }
+
+    // Initialize leads list on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      renderWelcomeMessage();
+      renderLeadsList();
+    });
+  </script>
+
+  <!-- Data Collection Result Modal -->
+  <div id="dataCollectModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15,23,42,0.65); z-index:9999; align-items:center; justify-content:center; backdrop-filter:blur(3px);">
+    <div style="background:#ffffff; width:92%; max-width:480px; border-radius:18px; padding:22px 24px; box-shadow:0 25px 50px -12px rgba(0,0,0,0.25); animation:fadeIn 0.2s ease-out; border:1px solid #e2e8f0; font-family:'IBM Plex Sans Arabic', 'Tajawal', sans-serif;">
+      <div style="display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #f1f5f9; padding-bottom:12px; margin-bottom:14px;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size:24px;">📋</span>
+          <h3 style="font-size:16px; font-weight:800; color:#0f172a;">بيانات المراجع المستخرجة</h3>
+        </div>
+        <button onclick="closeCollectModal()" style="background:none; border:none; font-size:20px; cursor:pointer; color:#94a3b8; padding:2px 6px;">✕</button>
+      </div>
+      
+      <div id="modalDataContent" style="display:flex; flex-direction:column; gap:10px; font-size:13.5px; line-height:1.6; color:#1e293b;">
+        <!-- Dynamic Content -->
+      </div>
+
+      <div style="margin-top:16px; padding-top:12px; border-top:1px solid #f1f5f9; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+        <a href="royal_patients.html" target="_blank" style="background:linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #d97706 100%); color:#0f172a; text-decoration:none; padding:8px 12px; border-radius:8px; font-size:11.5px; font-weight:800; display:inline-flex; align-items:center; gap:5px; box-shadow:0 2px 8px rgba(245,158,11,0.3);">
+          👑 عرض الكرت الملكي للمراجع
+        </a>
+        <div style="display:flex; gap:6px;">
+          <button onclick="closeCollectModal()" style="background:#f1f5f9; color:#475569; border:none; border-radius:8px; padding:8px 12px; font-size:11.5px; font-weight:700; cursor:pointer;">
+            إبقاء المحادثة
+          </button>
+          <button onclick="clearAndCloseModal()" style="background:#0866FF; color:#ffffff; border:none; border-radius:8px; padding:8px 14px; font-size:11.5px; font-weight:700; cursor:pointer; display:flex; align-items:center; gap:5px;">
+            🧹 تجهيز للشخص التالي
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Historical Messenger Archive Scanner Modal -->
+  <div id="archiveScannerModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15,23,42,0.7); z-index:9999; align-items:center; justify-content:center; backdrop-filter:blur(4px);">
+    <div style="background:#ffffff; width:94%; max-width:760px; max-height:90vh; overflow-y:auto; border-radius:20px; padding:24px; box-shadow:0 25px 50px rgba(0,0,0,0.3); border:1px solid #e2e8f0; font-family:'IBM Plex Sans Arabic', 'Tajawal', sans-serif;">
+      
+      <div style="display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #e2e8f0; padding-bottom:14px; margin-bottom:16px;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span style="font-size:26px;">🗂️</span>
+          <div>
+            <h3 style="font-size:17px; font-weight:800; color:#0f172a;">مسح واستخراج أرشيف رسائل فيسبوك بالكامل</h3>
+            <p style="font-size:12px; color:#64748b; margin-top:2px;">استخراج أرقام الهواتف، الأسماء، والشكاوى الطبية من جميع محادثات الصفحة السابقة</p>
+          </div>
+        </div>
+        <button onclick="closeArchiveScannerModal()" style="background:none; border:none; font-size:22px; cursor:pointer; color:#94a3b8;">✕</button>
+      </div>
+
+      <!-- Scanner Source Tabs -->
+      <div style="display:flex; gap:8px; margin-bottom:16px; border-bottom:1px solid #f1f5f9; padding-bottom:10px;">
+        <button id="btn-tab-upload" class="scanner-tab-btn" onclick="switchScannerTab('upload')" style="background:#0866FF; color:#fff; border:none; border-radius:8px; padding:8px 14px; font-size:12px; font-weight:700; cursor:pointer;">
+          📁 رفع ملفات الأرشيف (JSON)
+        </button>
+        <button id="btn-tab-api" class="scanner-tab-btn" onclick="switchScannerTab('api')" style="background:#f1f5f9; color:#475569; border:none; border-radius:8px; padding:8px 14px; font-size:12px; font-weight:700; cursor:pointer;">
+          🌐 سحب آلي عبر فيسبوك API
+        </button>
+        <button id="btn-tab-paste" class="scanner-tab-btn" onclick="switchScannerTab('paste')" style="background:#f1f5f9; color:#475569; border:none; border-radius:8px; padding:8px 14px; font-size:12px; font-weight:700; cursor:pointer;">
+          📝 لصق نصوص محادثات
+        </button>
+      </div>
+
+      <!-- Tab 1: File Upload (The easiest & fastest) -->
+      <div id="tab-upload">
+        <div style="background:#eff6ff; border:1px dashed #60a5fa; border-radius:14px; padding:20px; text-align:center;">
+          <div style="font-size:32px; margin-bottom:8px;">📥</div>
+          <h4 style="font-size:14.5px; font-weight:700; color:#1e40af; margin-bottom:6px;">اختر أو أسقط ملفات الرسائل المستخرجة من فيسبوك</h4>
+          <p style="font-size:12px; color:#3b82f6; max-width:550px; margin:0 auto 14px; line-height:1.5;">
+            يمكنك تنزيل أرشيف رسائل صفحتكم مجاناً من فيسبوك عبر: 
+            <strong>إعدادات الصفحة ⬅️ معلوماتك على فيسبوك ⬅️ تنزيل معلوماتك ⬅️ الرسائل (بصيغة JSON)</strong>.
+          </p>
+          <input type="file" id="archiveFileInput" multiple accept=".json" onchange="handleArchiveFileUpload(event)" style="display:none;">
+          <button onclick="document.getElementById('archiveFileInput').click()" style="background:#0866FF; color:white; border:none; border-radius:8px; padding:9px 20px; font-size:13px; font-weight:700; cursor:pointer;">
+            📂 تصفح واختيار ملفات الرسائل (JSON)
+          </button>
+        </div>
+      </div>
+
+      <!-- Tab 2: Meta API -->
+      <div id="tab-api" style="display:none;">
+        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:14px; padding:16px; display:flex; flex-direction:column; gap:10px;">
+          <h4 style="font-size:13.5px; font-weight:700; color:#0f172a;">سحب المحادثات آلياً من خوادم فيسبوك مباشرة:</h4>
+          <p style="font-size:11.5px; color:#64748b;">ألصق Page Access Token الخاص بصفحة "وداعاً للألم" ليقوم النظام بقراءة كل المحادثات السابقة أوتوماتيكياً:</p>
+          <input type="password" id="metaPageTokenInput" placeholder="ألصق Page Access Token هنا..." style="padding:9px 12px; border:1px solid #cbd5e1; border-radius:8px; font-size:12px; outline:none;">
+          <button onclick="scanFromMetaApi()" style="background:#0866FF; color:white; border:none; border-radius:8px; padding:9px 16px; font-size:12.5px; font-weight:700; cursor:pointer;">
+            🚀 بدء المسح والسحب الآلي من فيسبوك
+          </button>
+        </div>
+      </div>
+
+      <!-- Tab 3: Paste Text -->
+      <div id="tab-paste" style="display:none;">
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <p style="font-size:12px; color:#64748b;">الصق نصوص المحادثات أو أرقام المراجعين هنا لفحصها واستخراج بياناتها فوراً:</p>
+          <textarea id="pastedChatsInput" rows="6" placeholder="الصق نصوص محادثات الماسنجر القديمة هنا..." style="width:100%; padding:10px; border:1px solid #cbd5e1; border-radius:8px; font-size:12px; outline:none; font-family:inherit;"></textarea>
+          <button onclick="scanFromPastedText()" style="background:#10b981; color:white; border:none; border-radius:8px; padding:9px 16px; font-size:12.5px; font-weight:700; cursor:pointer;">
+            ⚡ فحص واستخراج البيانات الآن
+          </button>
+        </div>
+      </div>
+
+      <!-- Progress indicator -->
+      <div id="scanProgressBox" style="display:none; margin-top:14px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; padding:10px 14px;">
+        <span id="scanProgressText" style="color:#166534; font-size:12px; font-weight:700;">جاري التحليل...</span>
+      </div>
+
+      <!-- Results Table -->
+      <div id="archiveResultsSection" style="display:none; margin-top:18px;">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+          <strong id="archiveCountText" style="color:#0f172a; font-size:13.5px;">النتائج المستخرجة:</strong>
+          <div style="display:flex; gap:8px;">
+            <button onclick="mergeArchiveToSavedLeads()" style="background:linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #d97706 100%); color:#0f172a; border:none; border-radius:8px; padding:7px 16px; font-size:12px; font-weight:800; cursor:pointer; display:flex; align-items:center; gap:6px; box-shadow:0 2px 10px rgba(245,158,11,0.35);">
+              👑 إنشاء كروت ملكية وفتح بوابة البرودكاست
+            </button>
+            <button onclick="exportArchiveToCSV()" style="background:#f1f5f9; color:#475569; border:1px solid #cbd5e1; border-radius:8px; padding:7px 12px; font-size:11px; font-weight:700; cursor:pointer;">
+              نسخة احتياطية (Excel)
+            </button>
+          </div>
+        </div>
+
+        <div style="max-height:260px; overflow-y:auto; border:1px solid #e2e8f0; border-radius:10px;">
+          <table style="width:100%; border-collapse:collapse; font-size:12px; text-align:right;">
+            <thead>
+              <tr style="background:#f8fafc; border-bottom:1px solid #e2e8f0; color:#475569;">
+                <th style="padding:8px 10px;">المريض</th>
+                <th style="padding:8px 10px;">رقم الهاتف</th>
+                <th style="padding:8px 10px;">الشكوى / التشخيص</th>
+                <th style="padding:8px 10px;">التاريخ</th>
+              </tr>
+            </thead>
+            <tbody id="archiveResultsTableBody">
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>

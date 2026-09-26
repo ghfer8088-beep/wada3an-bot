@@ -247,6 +247,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
+      line-height: 1.4;
     }
 
     .question-desc {
@@ -345,12 +346,9 @@
 
     .result-badge {
       display: inline-block;
-      background: rgba(239, 68, 68, 0.15);
-      border: 1px solid var(--red);
-      color: #fca5a5;
-      padding: 5px 14px;
+      padding: 6px 16px;
       border-radius: 20px;
-      font-size: 11.5px;
+      font-size: 13px;
       font-weight: 800;
       margin-bottom: 12px;
     }
@@ -359,21 +357,21 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 18px;
+      gap: 16px;
       margin: 16px 0;
     }
 
     .age-box {
       background: rgba(255,255,255,0.05);
       border-radius: 18px;
-      padding: 14px 18px;
+      padding: 14px 16px;
       flex: 1;
       border: 1px solid rgba(255,255,255,0.1);
     }
 
     .age-box.real {
-      background: rgba(239, 68, 68, 0.1);
-      border-color: rgba(239, 68, 68, 0.4);
+      background: rgba(245, 158, 11, 0.1);
+      border-color: var(--gold);
     }
 
     .age-box .title {
@@ -390,29 +388,29 @@
     }
 
     .age-box.real .number {
-      color: #ef4444;
-      text-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
+      color: #fbbf24;
+      text-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
     }
 
     .age-box .unit {
-      font-size: 12px;
+      font-size: 11.5px;
       color: var(--text-muted);
     }
 
     .spine-nickname {
-      font-size: 19px;
+      font-size: 20px;
       font-weight: 900;
-      color: var(--gold-light);
+      color: #ffffff;
       margin-bottom: 8px;
     }
 
     .funny-diagnosis {
       font-size: 13px;
       color: #e2e8f0;
-      line-height: 1.6;
+      line-height: 1.7;
       background: rgba(15, 23, 42, 0.7);
       border-radius: 14px;
-      padding: 12px 14px;
+      padding: 14px 16px;
       margin-bottom: 18px;
       border-right: 3px solid var(--gold);
       text-align: right;
@@ -582,11 +580,11 @@
 
     <!-- Screen 1: Hero / Welcome Screen -->
     <div id="screenIntro" class="hero-card">
-      <span class="hero-badge-fun">😂 اختبار فضولي صريح 100%</span>
+      <span class="hero-badge-fun">😂 اختبار فضولي صريح وخفيف الدم</span>
       <h1 class="hero-title">كم عمر عمودك الفقري الحقيقي مقارنة بعمرك في بطاقة الأحوال؟</h1>
       <p class="hero-subtitle">
         أغلب الناس في الأردن عمرهم بالهوية 30 سنة.. بس ظهرهم عايش في الثمانينات! 👴<br>
-        أجب عن 5 مواقف من حياتك اليومية، واكتشف العمر البيولوجي الحقيقي لفقراتك، ولقب ديسك ظهرك المضحك.
+        أجب عن 5 مواقف يومية لطيفة واكتشف: هل ظهرك لساته وكالة؟ ولا بدّه شد براغي؟ ولا على الشطب تقول واقع من طيارة؟! 😂
       </p>
 
       <!-- Spine Graphic Animation -->
@@ -605,7 +603,7 @@
       <!-- Chronological Age Input -->
       <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:14px; margin-bottom:16px;">
         <label style="display:block; font-size:13px; font-weight:700; color:#cbd5e1; margin-bottom:8px;">
-          كم عمرك المسجل في شهادة الميلاد / الهوية؟
+          كم عمرك المسجل في شهادة الميلاد / بطاقة الأحوال؟
         </label>
         <div style="display:flex; align-items:center; justify-content:center; gap:10px;">
           <input type="number" id="inputAge" value="30" min="15" max="85" style="width:110px; background:#0f172a; border:2px solid var(--gold); border-radius:12px; padding:8px 12px; font-size:20px; font-weight:900; color:#fbbf24; text-align:center; outline:none;">
@@ -614,7 +612,7 @@
       </div>
 
       <button onclick="startQuiz()" class="btn-main">
-        🚀 ابدأ فحص عمر ظهرك الحقيقي (40 ثانية)
+        🚀 ابدأ فحص ظهرك واكتشف النتيجة (30 ثانية)
       </button>
     </div>
 
@@ -626,7 +624,7 @@
         </div>
         <div class="progress-labels">
           <span id="stepCounter">السؤال 1 من 5</span>
-          <span id="spineStatusIndicator">حالة الفقرات: شباب 🌿</span>
+          <span id="spineStatusIndicator">فحص ميكانيكية الفقرات 🌿</span>
         </div>
       </div>
 
@@ -641,13 +639,13 @@
     <!-- Screen 3: Calculation Loader -->
     <div id="screenLoading" class="hero-card" style="display:none; padding:40px 20px;">
       <div style="font-size:50px; animation: bounce 1s infinite;">🔍</div>
-      <h3 style="font-size:18px; font-weight:800; color:#ffffff; margin:14px 0 6px;">جاري حساب معامل اهتراء الغضاريف والفقرات...</h3>
-      <p style="font-size:12px; color:#94a3b8;" id="loadingPhrase">نفحص تيبس العضلات العميقة وضغط العصب الوركي ⚡</p>
+      <h3 style="font-size:18px; font-weight:800; color:#ffffff; margin:14px 0 6px;">جاري فحص محاذاة الفقرات وليونة الغضاريف...</h3>
+      <p style="font-size:12px; color:#94a3b8;" id="loadingPhrase">بنقيس معامل المرونة وتوتر العصب الوركي ⚡</p>
     </div>
 
     <!-- Screen 4: Final Result Screen -->
     <div id="screenResult" class="result-card">
-      <span class="result-badge" id="resAlertBadge">⚠️ تنبيه إجهاد فقرات متقدم</span>
+      <div class="result-badge" id="resAlertBadge">ظهرك بدّه شد براغي! 🔧</div>
 
       <div class="age-comparison">
         <div class="age-box">
@@ -665,32 +663,32 @@
         </div>
       </div>
 
-      <div class="spine-nickname" id="resNickname">"فقرات متقاعدة قبل أوانها!" 👴</div>
+      <div class="spine-nickname" id="resNickname">ظهرك بدّه شد براغي 🔧⚙️</div>
 
       <div class="funny-diagnosis" id="resDiagnosis">
-        فقرات ظهرك شايلة هموم عمّان كلها! الغضاريف بين الفقرات القطنية L4-L5 بتصوت من القعدة الخاطئة وتيبس الأربطة، ومحتاج إعادة ضبط مصنع لمحاذاة الفقرات قبل ما يتحول لمرحلة ديسك صريح!
+        التشخيص الطريف
       </div>
 
       <!-- Psychological Reassurance -->
       <div class="reassurance-box">
-        <h4>🌿 الخبر الممتاز: عمودك الفقري بيقدر يرجع شباب!</h4>
+        <h4>🌿 الخبر الممتاز: عمودك الفقري بيقدر يرجع وكالة!</h4>
         <p>
-          العمود الفقري والغضاريف مش زي عمر الهوية، ما بيحتاج عمليات جراحية ولا أدوية مهدئة.. بمجرد إعادة محاذاة الفقرات يدوياً (الكيروبراكتيك) وفك التشنج العضلي العميق، بيزول الضغط عن العصب وبيرجع عمودك الفقري لحيويته ومرونته الطبيعية! 🌸
+          العمود الفقري والغضاريف مش زي عمر الهوية؛ ما بيحتاج جراحة ولا مسكنات مؤقتة.. بمجرد إعادة محاذاة الفقرات يدوياً (الكيروبراكتيك) وفك التشنج العضلي العميق، بيزول الضغط عن الأعصاب وبيرجع عمودك الفقري لحيويته ومرونته الطبيعية! 🌸
         </p>
       </div>
 
       <!-- Viral WhatsApp Share Box -->
       <div class="share-viral-card">
         <h4>📲 فاجئ أصحابك وأهلك في الواتساب!</h4>
-        <p>شارك نتيجتك بجروب العيلة أو الشغل وخلينا نشوف مين صاحب أقدم وأتعب عمود فقري بينكم 😂👇</p>
+        <p>شارك نتيجتك بجروب العيلة أو الشغل وخلينا نشوف مين اللي ظهره وكالة ومين اللي على الشطب 😂👇</p>
         <a id="btnShareWhatsApp" href="#" target="_blank" class="btn-share-whatsapp">
-          <span>💬</span> مشاركة النتيجة المضحكة على واتساب
+          <span>💬</span> مشاركة النتيجة الطريفة على واتساب
         </a>
       </div>
 
       <!-- Booking / Clinic Direct Action -->
       <div class="clinic-cta-card">
-        <h3>👑 حابب تفحص ظهرك وتجدد شباب فقراتك؟</h3>
+        <h3>👑 حابب تشد براغي ظهرك وترجعه وكالة؟</h3>
         <p class="clinic-price-tag">جلسة الكايروبراكتيك والتأهيل الشاملة: 20 دينار فقط بمقرنا بخلدا</p>
 
         <div class="cta-buttons">
@@ -717,56 +715,56 @@
   </div>
 
   <script>
-    // 5 Witty, Highly Relatable Jordanian / Arab Lifestyle Questions
+    // 5 Witty, Charming, Culturally Grounded Questions
     const QUESTIONS = [
       {
-        title: "1. صوت طلوعك عن الكنبة أو السرير لما تقوم:",
-        desc: "كن صريحاً.. المؤثرات الصوتية اللي بتطلع منك هي الدليل الأول!",
+        title: "1. طقوس النهوض من السرير أول ما يرن المنبّه الصبح:",
+        desc: "اللحظة الصادقة اللي بتكشف هل عضلاتك مرتاحة ولا لساتها نايمة:",
         options: [
-          { text: "بقفل شاشة التلفون وبقوم بخفة كأني غزال ما شاء الله", funny: "عمودك الفقري لساته بالمدرسة!", ageBonus: -3, color: "#10b981", emoji: "🦌" },
-          { text: "تنهيدة خفيفة مع كلمة 'يا فتاح يا عليم يا كريم'", funny: "مرحلة الإجهاد الأولي للفقرات", ageBonus: 3, color: "#fbbf24", emoji: "☕" },
-          { text: "صوت طقطقة بالظهر أو الركب مع 'أوف يا ربي'", funny: "الغضاريف بتعزف سيمفونية استغاثة!", ageBonus: 7, color: "#f97316", emoji: "🎻" },
-          { text: "لازم اتسند بإيدي الثنتين على ركبي كأني بطلع جبل نيبو!", funny: "الفقرات القطنية مقدمة على تقاعد مبكر!", ageBonus: 12, color: "#ef4444", emoji: "🏔️" }
+          { text: "بقفز من التخت بنشاط كأني داخل على بطولة رياضية ما شاء الله!", funny: "مرونة شباب فابريكة!", ageBonus: -3, color: "#10b981", emoji: "🤸" },
+          { text: "بقوم على مهل مع فنجان القهوة وتمديدة خفيفة حتى يستوعب الظهر.", funny: "طبيعي ورايق بدون ضغوطات", ageBonus: 2, color: "#fbbf24", emoji: "☕" },
+          { text: "بحس بتيبس بأسفل الظهر بده دقيقتين مشي حتى 'يفك التشنج'.", funny: "بدايات تيبس خفيف بالأربطة القطنية", ageBonus: 6, color: "#f97316", emoji: "🪵" },
+          { text: "بقوم على مراحل كأني برفع رافعة هيدروليكية مع زفرة ارتياح!", funny: "الفقرات محتاجة تليين وإعادة محاذاة!", ageBonus: 12, color: "#ef4444", emoji: "🏗️" }
         ]
       },
       {
-        title: "2. كيف وضعية جلوسك بالدوام أو وأنت ممسك بالموبايل؟",
-        desc: "الجاذبية الأرضية وقعدة المكتب هي العدو اللدود للغضاريف:",
+        title: "2. جلستك مع اللاب توب أو تصفح الموبايل بالبيت والدوام:",
+        desc: "وضعية الجلوس هي اللي بتحدد كم كيس إسمنت حاملة فقرات رقبتك وظهرك:",
         options: [
-          { text: "ظهري مستقيم ومفروض زي ضباط الجيش", funny: "أنت نادر الوجود في الأردن!", ageBonus: -2, color: "#10b981", emoji: "🎖️" },
-          { text: "جالس مع انحناء خفيف بالرقبة للأمام بتفحص الشاشة", funny: "رقبتك شايلة 15 كيلو زيادة!", ageBonus: 4, color: "#fbbf24", emoji: "📱" },
-          { text: "ساند كوعي اليمين على المكتب ومائل على جنب مثل برج بيزا المائل", funny: "عوجاج بمحاذاة الحوض وتشنج عضلات الظهر", ageBonus: 8, color: "#f97316", emoji: "🏛️" },
-          { text: "بتزحلق على الكرسي لحد ما أصير جالس على عصعوصي!", funny: "الفقرات L4-L5 في خطر انزلاق مباشر!", ageBonus: 14, color: "#ef4444", emoji: "🛹" }
+          { text: "ظهري مستقيم والأكتاف مرتاحة، وقعدة صحية 100%.", funny: "أنت فخر لطب الأعصاب والفقرات!", ageBonus: -2, color: "#10b981", emoji: "🎖️" },
+          { text: "مستقيم بالبداية، وبعد ربع ساعة ببلش انحني للشاشة تلقائياً.", funny: "الجاذبية بتسحب رقبتك لقدام شوية", ageBonus: 3, color: "#fbbf24", emoji: "📱" },
+          { text: "ساند على جنب ومائل على كوعي مثل تمثال في متحف!", funny: "عوجاج بمحاذاة الحوض وشد عضلي جانبي", ageBonus: 7, color: "#f97316", emoji: "🏛️" },
+          { text: "متكوّر على الكنبة والرقبة نازلة لتحت.. وضعية الروبيان المتأمل!", funny: "تحميل أثقال مضاعف على الفقرات L4-L5!", ageBonus: 13, color: "#ef4444", emoji: "🦐" }
         ]
       },
       {
-        title: "3. لما يوقع مفتاحك أو قلمك على الأرض، كيف بتجيبه؟",
-        desc: "طريقة الانحناء بتكشف مرونة الأربطة وصحة الغضاريف:",
+        title: "3. لما تقوم فجأة بعد قعدة طويلة على الكنبة أو بالسيارة:",
+        desc: "شو 'المؤثرات الصوتية' أو الإحساس اللي بيرافق وقفتك؟",
         options: [
-          { text: "بثني ركبي وبنزل بظهري مستقيم باحترافية", funny: "تكنيك مثالي لحماية الديسك", ageBonus: -2, color: "#10b981", emoji: "🏋️" },
-          { text: "بمد إيدي وأنا مقوس ظهري مع مغثة خفيفة", funny: "تحميل أثقال عشوائي على الفقرات", ageBonus: 5, color: "#fbbf24", emoji: "🎣" },
-          { text: "بحاول ألقطه بأصابع رجلي عشان ما انحني واتعذب!", funny: "كسل ذكي بس دليل على تيبس الظهر!", ageBonus: 9, color: "#f97316", emoji: "🦶" },
-          { text: "بصفن فيه.. وبقول خليه مكانه بشتري غيره أحسن ما ينكسر ظهري!", funny: "حالة طوارئ قصوى في الأربطة!", ageBonus: 15, color: "#ef4444", emoji: "🚩" }
+          { text: "سلاسة تامة وبدون أي صوت ولا حتى همسة.. خفيف ولطيف!", funny: "غضاريفك مروية ومزيّتة تمام!", ageBonus: -3, color: "#10b981", emoji: "🕊️" },
+          { text: "تنهيدة لطيفة وتعديل مسار للظهر مع أول خطوتين.", funny: "مجرد إجهاد عابر من طول القعدة", ageBonus: 3, color: "#fbbf24", emoji: "🚶" },
+          { text: "صوت طقطقة فقرات لطيف وكأن الظهر بحكي 'يا هلا بالشباب'.", funny: "الفقرات بتطلب إعادة تموضع يدوي لطيف", ageBonus: 7, color: "#f97316", emoji: "🎻" },
+          { text: "بحط إيدي على أسفل الظهر وبمشي أول خمس خطوات على شكل زاوية منفرجة!", funny: "تشنج العضلات العميقة خانق الحركة!", ageBonus: 13, color: "#ef4444", emoji: "📐" }
         ]
       },
       {
-        title: "4. شعورك بأول 15 دقيقة بعد ما تصحى من النوم الصبح:",
-        desc: "الصباح بيكشف هل عضلاتك بتفك ولا بتزيد تيبسها:",
+        title: "4. لما يوقع منك مفتاح أو غرض على الأرض.. كيف بتجيبه؟",
+        desc: "طريقة الانحناء بتكشف مرونة السلسلة الخلفية للعمود الفقري:",
         options: [
-          { text: "بقوم نشيط وبتمطط بكل راحة ومرونة", funny: "غضاريف مروية وممتلئة بالسوائل", ageBonus: -3, color: "#10b981", emoji: "☀️" },
-          { text: "بحس بتيبس وثقل بأسفل الظهر بده 10 دقائق ليفك", funny: "بدايات جفاف خفيف في الأقراص الغضروفية", ageBonus: 4, color: "#fbbf24", emoji: "🪵" },
-          { text: "رقبتي أو كتافي مشدودة وحاسس حالي نايم على صخرة", funny: "تشنج الألياف العضلية العنقية والصداع", ageBonus: 8, color: "#f97316", emoji: "🪨" },
-          { text: "خدران وتنميل نازل لرجلي أو أصابعي مع صعوبة بالمشية الأولى", funny: "إنذار عرق النسا وانضغاط العصب الوركي!", ageBonus: 15, color: "#ef4444", emoji: "⚡" }
+          { text: "بنزل بثني الركب مع ظهر مستقيم مثل مدربي اللياقة.", funny: "تكنيك وقائي عالمي لحماية الديسك", ageBonus: -2, color: "#10b981", emoji: "🏋️" },
+          { text: "بنحني عادي وبجيبه، بس بحس بشد خفيف خلف الفخذ.", funny: "طبيعي، بس بدك شوية إطالات", ageBonus: 4, color: "#fbbf24", emoji: "🌾" },
+          { text: "بحاول ألقطه بأصابع رجلي أو أقرّبه بالقدم عشان ما انحني!", funny: "كسل ذكي.. بس دليل على تيبس الحوض!", ageBonus: 8, color: "#f97316", emoji: "🦶" },
+          { text: "بصفن فيه دقيقة وبفكر: 'هل هو ضروري فعلاً ولا أخليه بالأرض؟' 😂", funny: "الظهر حاطط لافتة: 'ممنوع الانحناء منعاً باتاً'!", ageBonus: 14, color: "#ef4444", emoji: "🎯" }
         ]
       },
       {
-        title: "5. اختبار لمس أصابع القدمين (وأنت واقف وركبك مفرودة):",
-        desc: "هذا هو الاختبار السريري الذهبي لمرونة السلسلة الخلفية:",
+        title: "5. شعور الأرجل وأسفل الظهر بعد مشوار مشي نص ساعة:",
+        desc: "الأعصاب الوركية ومسار عرق النسا بيبين نشاطهم مع المشي المنتظم:",
         options: [
-          { text: "بلمس الأرض براحة إيدي كاملة بدون أي مشكلة", funny: "مرونة يابانية خارقة!", ageBonus: -4, color: "#10b981", emoji: "🧘" },
-          { text: "بلمس أصابع رجلي بس مع شد قوي خلف الفخذين", funny: "طبيعي، بس بدك شوية إطالات وتأهيل", ageBonus: 3, color: "#fbbf24", emoji: "👌" },
-          { text: "حدي الأقصى بوصل لنص قصبة الرجل وما بقدر أكمل!", funny: "قصر حاد في عضلات الهامسترينغ وضغط قطني", ageBonus: 8, color: "#f97316", emoji: "📏" },
-          { text: "أصابع رجلي سافروا ما بشوفهم، وإذا حاولت بقع على وجهي!", funny: "عمودك الفقري صار قطعة حديد مصدية!", ageBonus: 14, color: "#ef4444", emoji: "🔒" }
+          { text: "خفة ونشاط وانتعاش بالعضلات وبكمل مشوار ثاني بكل راحة.", funny: "تروية دموية وتدفق عصبي ممتاز", ageBonus: -4, color: "#10b981", emoji: "⚡" },
+          { text: "تعب عضلي طبيعي وجميل بعد المشي بروح مع كاسة مي وراحة.", funny: "مجهود رياضي سليم ومفيد", ageBonus: 2, color: "#fbbf24", emoji: "💧" },
+          { text: "ثقل بمنطقة الحوض ومغثة بأسفل الظهر بتخليني أدور على كرسي.", funny: "ضغط ميكانيكي بحاجة لموازنة الفقرات", ageBonus: 7, color: "#f97316", emoji: "🪑" },
+          { text: "كهربا خفيفة أو نمنمة نازلة باتجاه الفخذ أو الساق وبدي أرتاح فوراً.", funny: "إشارة إنذار مبكرة لضغط العصب الوركي!", ageBonus: 14, color: "#ef4444", emoji: "⚡" }
         ]
       }
     ];
@@ -818,8 +816,6 @@
 
     function selectOption(opt) {
       accumulatedBonus += opt.ageBonus;
-
-      // Animate spine visualization color
       updateSpineColor(opt.color);
 
       currentStep++;
@@ -845,9 +841,9 @@
       document.getElementById('screenLoading').style.display = 'block';
 
       const phrases = [
-        "جاري قياس الضغط الميكانيكي على الفقرة L4-L5...",
-        "جاري تحليل توتر مسار العصب الوركي وعرق النسا...",
-        "نقارن حالتك بـ 1500 حالة عولجت في وداعاً للألم..."
+        "جاري فحص ليونة الغضاريف القطنية والعنقية...",
+        "بنقيس مدى الضغط على مسار العصب الوركي...",
+        "بنقارن حالتك بمئات الحالات المعالجة بخلدا والزرقاء..."
       ];
       let pIdx = 0;
       const interval = setInterval(() => {
@@ -858,7 +854,7 @@
       setTimeout(() => {
         clearInterval(interval);
         showResults();
-      }, 2100);
+      }, 2000);
     }
 
     function showResults() {
@@ -876,38 +872,50 @@
       let nickname = "";
       let diagnosis = "";
       let alertBadge = "";
+      let badgeBg = "";
 
       if (ageDiff <= 0) {
-        alertBadge = "✨ ما شاء الله: فقرات فولاذية شابة!";
-        nickname = "عمودك الفقري رياضي وبرتبة شباب! 🌿";
-        diagnosis = `عمر عمودك الفقري (${calculatedAge} سنة) ممتاز ومطابق لمرونتك الحركية! حافظ عليه بتمارين الاستطالة، وتجنب الجلسات المكتبية الطويلة بدون حركة.`;
-      } else if (ageDiff <= 10) {
-        alertBadge = "⚠️ إجهاد فقرات خفيف إلى متوسط";
-        nickname = "فقرات شبعانة قعدة مكاتب! ☕";
-        diagnosis = `عمودك الفقري يسبق عمرك بـ ${ageDiff} سنوات! في ضغط وتيبس مبكر بالأربطة القطنية والعنقية. إعادة ضبط محاذاة الفقرات يدوياً الآن تحميك من أي انزلاق غضروفي مستقبلي.`;
-      } else if (ageDiff <= 20) {
-        alertBadge = "🚨 إنذار تيبس وضغط غضاريف حاد";
-        nickname = "عمود فقري متقاعد قبل أوانه! 👴";
-        diagnosis = `عمرك بالهوية ${baseAge} سنة، بس عمودك الفقري عمره ${calculatedAge} سنة! (أكبر منك بـ ${ageDiff} سنة). الفقرات القطنية L4-L5 تحت ضغط مستمر خانق للأعصاب، وتشنج العضلات العميقة مسوي لك تيبس دائم.`;
+        // Tier 1: وكالة ما شاء الله
+        alertBadge = "✨ ظهرك وكالة ما شاء الله!";
+        badgeBg = "rgba(16, 185, 129, 0.2); color:#34d399; border: 1px solid #10b981";
+        nickname = "ظهرك وكالة ما شاء الله! 🚗✨";
+        diagnosis = `ما شاء الله تبارك الرحمن، فقراتك شابة فابريكة بريحة بلادها! غضاريفك مروية، ومحاذاة الحوض عندك ممتازة. حافظ على هذا الكنز بالحركة المستمرة، وإذا حابب تشييك دوري وتأهيل حركي وقائي، أبوابنا بخلدا مفتوحة لك دائماً.`;
+      } else if (ageDiff <= 8) {
+        // Tier 2: بلش يعرج
+        alertBadge = "🚶‍♂️ ظهرك بلّش يعرج!";
+        badgeBg = "rgba(245, 158, 11, 0.2); color:#fbbf24; border: 1px solid #f59e0b";
+        nickname = "ظهرك بلّش يعرج.. بدّه شوية تليين! 🚶‍♂️⚠️";
+        diagnosis = `عمودك الفقري لساته محترم نفسه، بس القعدة الطويلة وقلة الحركة بلشت تعطي إشارات تيبس خفيفة بالأربطة القطنية. عمر عمودك الفقري سابق عمرك بـ ${ageDiff} سنوات.. وشوية تمديدات وإعادة ضبط محاذاة يدوية بترجعه وكالة فوراً قبل ما يتطور!`;
+      } else if (ageDiff <= 18) {
+        // Tier 3: بده شد براغي
+        alertBadge = "🔧 ظهرك بدّه شد براغي!";
+        badgeBg = "rgba(249, 115, 22, 0.2); color:#fb923c; border: 1px solid #f97316";
+        nickname = "ظهرك بدّه شد براغي وصيانة سريعة! 🔧⚙️";
+        diagnosis = `عمرك بالهوية ${baseAge} سنة، بس عمودك الفقري عمره ${calculatedAge} سنة! في تشنجات عضلية عميقة ماسكة بالفقرات القطنية وعاملة ضغط خفيف على مخارج الأعصاب. ظهرك عم بحكيلك بلطف: 'ارحمني من قعدة المكاتب والسيارات وتعال نعمل صيانة للفقرات!'`;
       } else {
-        alertBadge = "💥 حالة طوارئ ديسك وعرق نسا";
-        nickname = "فقرات أثرية بتستغيث لإعادة ضبط مصنع! 🏛️";
-        diagnosis = `عمودك الفقري أكبر منك بـ ${ageDiff} سنة كاملة! في ضغط واضح على مخارج الأعصاب الوركية والعنقية، وتيبس بالحوض مسبب إجهاد مضاعف. لازم فحص كايروبراكتيك فوري لإزالة الضغط قبل أن يتفاقم الألم.`;
+        // Tier 4: على الشطب تقول واقع من طيارة
+        alertBadge = "✈️ ظهرك على الشطب.. تقول واقع من طيارة!";
+        badgeBg = "rgba(239, 68, 68, 0.2); color:#f87171; border: 1px solid #ef4444";
+        nickname = "ظهرك على الشطب تقول واقع من طيارة! ✈️💥😂";
+        diagnosis = `سلامة ظهرك يا غالي وألف لا بأس عليك! فقراتك شايلة هموم البلد، وعضلاتك شادة لدرجة الغضاريف بتستغيث، وفي ضغط واضح خانق للعصب الوركي مسبب لك الخدران والتعب. بس ولا يهمك.. العمود الفقري بيرجع بتصالح ومحاذاة الفقرات بتفك الحصار يدوياً بدون جراحة وبدون إبر!`;
       }
 
-      document.getElementById('resAlertBadge').innerText = alertBadge;
+      const badgeElem = document.getElementById('resAlertBadge');
+      badgeElem.innerText = alertBadge;
+      badgeElem.style = `background:${badgeBg}; display:inline-block; padding:6px 16px; border-radius:20px; font-size:13px; font-weight:800; margin-bottom:12px;`;
+
       document.getElementById('resNickname').innerText = nickname;
       document.getElementById('resDiagnosis').innerText = diagnosis;
 
       // Prepare WhatsApp Share Text
       const shareText = encodeURIComponent(
-        `😂 فحصت عمري بالهوية ${baseAge} سنة وطلع عمر عمودي الفقري الحقيقي ${calculatedAge} سنة!\nلقبي: "${nickname}"\nجرب اختبر ظهرك واعرف مين صاحب أقدم وأتعب عمود فقري بالجروب 😂👇\n` + window.location.href
+        `😂 فحصت عمري بالهوية ${baseAge} سنة وطلع عمري الحقيقي لعمودي الفقري ${calculatedAge} سنة!\nوالنتيجة طلعت: "${nickname}"\nجرب اختبر ظهرك واعرف مين اللي ظهره وكالة ومين اللي على الشطب بالجروب 😂👇\n` + window.location.href
       );
       document.getElementById('btnShareWhatsApp').href = `https://wa.me/?text=${shareText}`;
 
       // Prepare Direct Clinic Booking Text
       const clinicBookingText = encodeURIComponent(
-        `مرحباً "وداعاً للألم" 🌸\nفحصت عمري عبر أداة سمارت تشيك، وعمري بالهوية ${baseAge} سنة وطلع عمر عمودي الفقري ${calculatedAge} سنة (${nickname}).\nحابب أرتب موعد فحص كايروبراكتيك شامل وجلسة بخلدا (20 دينار).`
+        `مرحباً مركز "وداعاً للألم" 🌸\nفحصت عمري عبر أداة سمارت تشيك، وعمري بالهوية ${baseAge} سنة وطلع عمر عمودي الفقري ${calculatedAge} سنة (${nickname}).\nحابب أرتب موعد فحص كايروبراكتيك شامل وجلسة صيانة لظهري بمقركم بخلدا (20 دينار).`
       );
       document.getElementById('btnBookSession').href = `https://wa.me/962790360440?text=${clinicBookingText}`;
     }

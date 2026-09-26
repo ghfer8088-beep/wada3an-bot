@@ -184,41 +184,80 @@
       user-select: none;
     }
 
+    .arena-title-banner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      background: linear-gradient(90deg, rgba(245, 158, 11, 0.08) 0%, rgba(245, 158, 11, 0.22) 50%, rgba(245, 158, 11, 0.08) 100%);
+      border: 1.5px solid rgba(245, 158, 11, 0.6);
+      border-radius: 14px;
+      padding: 6px 14px;
+      margin-bottom: 8px;
+      box-shadow: 0 4px 18px rgba(245, 158, 11, 0.22);
+    }
+
+    .arena-title-text {
+      font-size: 15.5px;
+      font-weight: 900;
+      color: #fbbf24;
+      text-shadow: 0 0 14px rgba(245, 158, 11, 0.8), 0 2px 4px rgba(0,0,0,0.8);
+      letter-spacing: 0.5px;
+    }
+
     .arena-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(15, 23, 42, 0.7);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 14px;
-      padding: 5px 12px;
-      margin-bottom: 6px;
-      font-size: 11px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 16px;
+      padding: 6px 12px;
+      margin-bottom: 8px;
+      font-size: 11.5px;
       font-weight: 800;
-    }
-
-    .tag-weak {
-      color: #f87171;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .tag-vs {
-      background: rgba(245, 158, 11, 0.2);
-      color: #fbbf24;
-      border: 1px solid rgba(245, 158, 11, 0.5);
-      padding: 1px 8px;
-      border-radius: 10px;
-      font-size: 10.5px;
-      font-weight: 900;
     }
 
     .tag-champ {
       color: #34d399;
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 6px;
+      font-weight: 800;
+      font-size: 11.5px;
+    }
+
+    .tag-weak {
+      color: #f87171;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 800;
+      font-size: 11.5px;
+    }
+
+    /* 3D Professional Boxing VS Emblem */
+    .pro-vs-badge {
+      width: 36px;
+      height: 36px;
+      background: radial-gradient(circle at 35% 35%, #ef4444 0%, #991b1b 65%, #450a0a 100%);
+      border: 2px solid #f59e0b;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 14px rgba(239, 68, 68, 0.7), 0 0 8px rgba(245, 158, 11, 0.6);
+      flex-shrink: 0;
+    }
+
+    .vs-label {
+      font-size: 13.5px;
+      font-weight: 900;
+      font-style: italic;
+      color: #ffffff;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.9), 0 0 6px #fbbf24;
+      letter-spacing: -0.5px;
     }
 
     canvas#spineCanvas {
@@ -644,13 +683,25 @@
 
       <!-- Animated Spine Boxing Arena (نزال الفقرات) -->
       <div class="spine-boxing-arena" onclick="triggerKnockoutCombo()">
-        <!-- Arena Header (Aligned with RTL fighters) -->
+        
+        <!-- Championship Title Banner (واضح وفخم) -->
+        <div class="arena-title-banner">
+          <span>🥊</span>
+          <span class="arena-title-text">نِـزَالُ الـفَـقَـرَات</span>
+          <span>⚡</span>
+        </div>
+
+        <!-- Arena Header (Aligned with RTL fighters with Pro VS Badge) -->
         <div class="arena-header">
           <div class="tag-champ">
             <span>👑</span>
             <span>بطل وداعاً للألم</span>
           </div>
-          <div class="tag-vs">⚔️ نِزَالُ الفَقَرَات 🥊</div>
+
+          <div class="pro-vs-badge">
+            <span class="vs-label">VS</span>
+          </div>
+
           <div class="tag-weak">
             <span>🤕</span>
             <span>ضحية المكاتب</span>
@@ -663,8 +714,8 @@
         <!-- Interactive Tip -->
         <div class="arena-footer-tip" id="comboTip">
           <span>👆</span>
-          <b>إضغط على الحلبة لتوجيه ضربة كايروبراكتيك قاضية!</b>
-          <span>🥊⚡</span>
+          <b>إضغط لتسديد ضربة كايروبراكتيك قاضية باليدين وإسقاط الخصم!</b>
+          <span>🥊💥</span>
         </div>
       </div>
 
@@ -1014,7 +1065,7 @@
     }
 
     // ========================================================
-    // HIGH-PERFORMANCE ARTICULATED CANVAS BOXING ENGINE
+    // HIGH-PERFORMANCE ARTICULATED TWO-HANDED BOXING ENGINE
     // ========================================================
     const canvas = document.getElementById('spineCanvas');
     const ctx = canvas.getContext('2d');
@@ -1043,10 +1094,15 @@
       icePackVy: 0,
       icePackRot: 0,
       discInflame: 0,
-      faceState: 'dizzy'
+      faceState: 'dizzy',
+      // Knockout Fall Physics
+      fallAngle: 0,
+      isDown: false,
+      downTimer: 0,
+      birdAngle: 0
     };
 
-    // Champion Spine (Right Fighter)
+    // Champion Spine (Right Fighter with 2 Active Arms)
     const champ = {
       baseX: 515,
       baseY: 330,
@@ -1054,15 +1110,18 @@
       headX: 515,
       headY: 120,
       torsoAngle: 0,
-      punchType: 'cross',
+      punchArm: 'right', // 'right' or 'left'
+      punchType: 'cross', // 'jab', 'cross', 'hook', 'uppercut'
       punchPhase: 'idle',
       punchTimer: 0,
-      gloveX: 435,
-      gloveY: 180,
-      guardGloveX: 525,
-      guardGloveY: 170,
-      comboQueue: [],
-      autoTimer: 35
+      // Active Gloves
+      rightGloveX: 435,
+      rightGloveY: 180,
+      leftGloveX: 495,
+      leftGloveY: 165,
+      comboActive: false,
+      comboStep: 0,
+      autoTimer: 60
     };
 
     const comicPhrases = ["طَقْطَقَة! 💥", "فَكّ الحِصَار! 🌿", "كَايـرُو! 🥊", "تَعْدِيل! ✨", "رَوَاق! 💆‍♂️"];
@@ -1070,7 +1129,7 @@
 
     function createImpact(x, y, text) {
       cameraShake = 7;
-      shockwaves.push({ x, y, r: 5, alpha: 1 });
+      shockwaves.push({ x, y, r: 6, alpha: 1 });
 
       hitPopups.push({
         x,
@@ -1078,8 +1137,8 @@
         text: text || comicPhrases[comicPhraseIdx++ % comicPhrases.length],
         alpha: 1,
         scale: 0.4,
-        targetScale: 1.3,
-        vy: -1.8
+        targetScale: 1.35,
+        vy: -1.9
       });
 
       for (let i = 0; i < 16; i++) {
@@ -1108,90 +1167,154 @@
       champ.bounce = Math.sin(animFrame * 0.08) * 8;
       champ.headY = 120 + champ.bounce * 0.5;
 
-      // Sparring Logic
-      if (champ.comboQueue.length > 0) {
-        if (champ.punchPhase === 'idle') {
-          startPunch(champ.comboQueue.shift());
-        }
-      } else {
+      // Automatic Loop: Combo triggers every 11 seconds if not active
+      if (!champ.comboActive && !weak.isDown) {
         champ.autoTimer--;
         if (champ.autoTimer <= 0) {
-          const attacks = ['cross', 'jab', 'uppercut', 'cross'];
-          startPunch(attacks[Math.floor(Math.random() * attacks.length)]);
-          champ.autoTimer = 80 + Math.floor(Math.random() * 35);
+          triggerKnockoutCombo();
         }
       }
 
-      const idleGloveX = champ.baseX - 70;
-      const idleGloveY = 190 + Math.sin(animFrame * 0.08) * 4;
+      // Combo Sequence Handler (Both Hands Alternating)
+      if (champ.comboActive && champ.punchPhase === 'idle' && !weak.isDown) {
+        if (champ.comboStep === 0) {
+          // Punch 1: Left Jab
+          champ.punchArm = 'left';
+          champ.punchType = 'jab';
+          startPunch();
+          champ.comboStep = 1;
+        } else if (champ.comboStep === 1) {
+          // Punch 2: Right Cross
+          champ.punchArm = 'right';
+          champ.punchType = 'cross';
+          startPunch();
+          champ.comboStep = 2;
+        } else if (champ.comboStep === 2) {
+          // Punch 3: Left Hook
+          champ.punchArm = 'left';
+          champ.punchType = 'hook';
+          startPunch();
+          champ.comboStep = 3;
+        } else if (champ.comboStep === 3) {
+          // Punch 4: Final Devastating Uppercut!
+          champ.punchArm = 'right';
+          champ.punchType = 'uppercut';
+          startPunch();
+          champ.comboStep = 4;
+        }
+      }
 
-      // Exact jaw contact point on weak spine
+      // Idle Glove Coordinates
+      const idleRightX = champ.baseX - 70;
+      const idleRightY = 190 + Math.sin(animFrame * 0.08) * 4;
+      const idleLeftX = champ.baseX - 25;
+      const idleLeftY = 170 + Math.sin(animFrame * 0.08 + 1) * 4;
+
+      // Contact Target on Weak Spine
       let targetHitX = weak.baseX + weak.recoilX + 38;
       let targetHitY = weak.headY + 15;
-      if (champ.punchType === 'uppercut') targetHitY = weak.headY + 28;
+      if (champ.punchType === 'uppercut') targetHitY = weak.headY + 30;
 
+      // Punch Animation Controller
       if (champ.punchPhase === 'idle') {
-        champ.gloveX += (idleGloveX - champ.gloveX) * 0.15;
-        champ.gloveY += (idleGloveY - champ.gloveY) * 0.15;
+        champ.rightGloveX += (idleRightX - champ.rightGloveX) * 0.15;
+        champ.rightGloveY += (idleRightY - champ.rightGloveY) * 0.15;
+        champ.leftGloveX += (idleLeftX - champ.leftGloveX) * 0.15;
+        champ.leftGloveY += (idleLeftY - champ.leftGloveY) * 0.15;
         champ.torsoAngle += (0 - champ.torsoAngle) * 0.1;
       } else if (champ.punchPhase === 'windup') {
-        champ.gloveX += (champ.baseX - 20 - champ.gloveX) * 0.35;
-        champ.gloveY += (205 - champ.gloveY) * 0.35;
-        champ.torsoAngle = 0.12;
+        if (champ.punchArm === 'right') {
+          champ.rightGloveX += (champ.baseX - 20 - champ.rightGloveX) * 0.35;
+          champ.rightGloveY += (205 - champ.rightGloveY) * 0.35;
+          champ.torsoAngle = 0.12;
+        } else {
+          champ.leftGloveX += (champ.baseX + 10 - champ.leftGloveX) * 0.35;
+          champ.leftGloveY += (195 - champ.leftGloveY) * 0.35;
+          champ.torsoAngle = -0.1;
+        }
         champ.punchTimer--;
         if (champ.punchTimer <= 0) {
           champ.punchPhase = 'strike';
           champ.punchTimer = 6;
         }
       } else if (champ.punchPhase === 'strike') {
-        champ.gloveX += (targetHitX - champ.gloveX) * 0.55;
-        champ.gloveY += (targetHitY - champ.gloveY) * 0.55;
-        champ.torsoAngle = -0.15;
-
-        if (Math.hypot(champ.gloveX - targetHitX, champ.gloveY - targetHitY) < 22 || champ.punchTimer === 1) {
-          champ.gloveX = targetHitX;
-          champ.gloveY = targetHitY;
-          champ.punchPhase = 'impact';
-          champ.punchTimer = 4;
-          triggerWeakHit(champ.punchType);
-          createImpact(targetHitX - 8, targetHitY);
+        if (champ.punchArm === 'right') {
+          champ.rightGloveX += (targetHitX - champ.rightGloveX) * 0.58;
+          champ.rightGloveY += (targetHitY - champ.rightGloveY) * 0.58;
+          champ.torsoAngle = -0.16;
+          if (Math.hypot(champ.rightGloveX - targetHitX, champ.rightGloveY - targetHitY) < 22 || champ.punchTimer === 1) {
+            champ.rightGloveX = targetHitX;
+            champ.rightGloveY = targetHitY;
+            handleHitImpact();
+          }
+        } else {
+          champ.leftGloveX += (targetHitX - champ.leftGloveX) * 0.58;
+          champ.leftGloveY += (targetHitY - champ.leftGloveY) * 0.58;
+          champ.torsoAngle = 0.15;
+          if (Math.hypot(champ.leftGloveX - targetHitX, champ.leftGloveY - targetHitY) < 22 || champ.punchTimer === 1) {
+            champ.leftGloveX = targetHitX;
+            champ.leftGloveY = targetHitY;
+            handleHitImpact();
+          }
         }
         champ.punchTimer--;
       } else if (champ.punchPhase === 'impact') {
         champ.punchTimer--;
         if (champ.punchTimer <= 0) {
           champ.punchPhase = 'recoil';
-          champ.punchTimer = 14;
+          champ.punchTimer = 10;
         }
       } else if (champ.punchPhase === 'recoil') {
-        champ.gloveX += (idleGloveX - champ.gloveX) * 0.22;
-        champ.gloveY += (idleGloveY - champ.gloveY) * 0.22;
+        champ.rightGloveX += (idleRightX - champ.rightGloveX) * 0.25;
+        champ.rightGloveY += (idleRightY - champ.rightGloveY) * 0.25;
+        champ.leftGloveX += (idleLeftX - champ.leftGloveX) * 0.25;
+        champ.leftGloveY += (idleLeftY - champ.leftGloveY) * 0.25;
         champ.torsoAngle += (0 - champ.torsoAngle) * 0.15;
         champ.punchTimer--;
-        if (champ.punchTimer <= 0) champ.punchPhase = 'idle';
+        if (champ.punchTimer <= 0) {
+          champ.punchPhase = 'idle';
+        }
       }
 
-      champ.guardGloveX = champ.baseX - 10 + Math.sin(animFrame * 0.08 + 1) * 3;
-      champ.guardGloveY = 175 + Math.sin(animFrame * 0.08) * 5;
-
-      // Weak Spine Reaction Physics
+      // Weak Spine Physics & Knockout State
+      weak.birdAngle += 0.08;
       weak.discInflame = Math.sin(animFrame * 0.1) * 0.5 + 0.5;
 
-      weak.recoilVx += -weak.recoilX * 0.18;
-      weak.recoilVx *= 0.78;
-      weak.recoilX += weak.recoilVx;
+      if (weak.isDown) {
+        // Falls backward onto the mat!
+        weak.fallAngle += (-1.45 - weak.fallAngle) * 0.22;
+        weak.recoilX += (-35 - weak.recoilX) * 0.2;
+        weak.downTimer--;
+        if (weak.downTimer <= 0) {
+          // Recovers and stands back up!
+          weak.isDown = false;
+          weak.fallAngle = 0;
+          weak.recoilX = 0;
+          weak.faceState = 'dizzy';
+          champ.comboActive = false;
+          champ.comboStep = 0;
+          champ.autoTimer = 90;
+          const tip = document.getElementById('comboTip');
+          if (tip) tip.innerHTML = "<span>👆</span> <b>إضغط لتسديد ضربة كايروبراكتيك قاضية باليدين وإسقاط الخصم!</b> <span>🥊💥</span>";
+        }
+      } else {
+        weak.fallAngle += (0 - weak.fallAngle) * 0.2;
+        weak.recoilVx += -weak.recoilX * 0.18;
+        weak.recoilVx *= 0.78;
+        weak.recoilX += weak.recoilVx;
 
-      weak.headRotV += -weak.headAngle * 0.15;
-      weak.headRotV *= 0.75;
-      weak.headAngle += weak.headRotV;
+        weak.headRotV += -weak.headAngle * 0.15;
+        weak.headRotV *= 0.75;
+        weak.headAngle += weak.headRotV;
 
-      weak.headVx += (0 - (weak.headX - (weak.baseX + weak.recoilX + 35))) * 0.2;
-      weak.headVx *= 0.72;
-      weak.headX += weak.headVx;
+        weak.headVx += (0 - (weak.headX - (weak.baseX + weak.recoilX + 35))) * 0.2;
+        weak.headVx *= 0.72;
+        weak.headX += weak.headVx;
 
-      weak.headVy += (0 - (weak.headY - (130 + Math.sin(animFrame * 0.06) * 4))) * 0.2;
-      weak.headVy *= 0.72;
-      weak.headY += weak.headVy;
+        weak.headVy += (0 - (weak.headY - (130 + Math.sin(animFrame * 0.06) * 4))) * 0.2;
+        weak.headVy *= 0.72;
+        weak.headY += weak.headVy;
+      }
 
       weak.icePackVy += 0.8;
       weak.icePackY += weak.icePackVy;
@@ -1201,28 +1324,28 @@
         weak.icePackRot *= 0.7;
       }
 
-      if (weak.faceState === 'hit' && Math.abs(weak.headAngle) < 0.08 && Math.abs(weak.recoilX) < 4) {
+      if (weak.faceState === 'hit' && Math.abs(weak.headAngle) < 0.08 && Math.abs(weak.recoilX) < 4 && !weak.isDown) {
         weak.faceState = 'dizzy';
       }
 
-      // Shockwaves update
+      // Shockwaves
       for (let i = shockwaves.length - 1; i >= 0; i--) {
         const sw = shockwaves[i];
-        sw.r += 3.5;
-        sw.alpha *= 0.88;
+        sw.r += 3.8;
+        sw.alpha *= 0.86;
         if (sw.alpha < 0.05) shockwaves.splice(i, 1);
       }
 
-      // Popups update
+      // Comic Popups
       for (let i = hitPopups.length - 1; i >= 0; i--) {
         const p = hitPopups[i];
         p.y += p.vy;
         p.scale += (p.targetScale - p.scale) * 0.25;
-        p.alpha -= 0.022;
+        p.alpha -= 0.02;
         if (p.alpha <= 0) hitPopups.splice(i, 1);
       }
 
-      // Particles update
+      // Particles
       for (let i = particles.length - 1; i >= 0; i--) {
         const pt = particles[i];
         pt.x += pt.vx;
@@ -1235,30 +1358,46 @@
       }
     }
 
-    function startPunch(type) {
-      champ.punchType = type;
+    function startPunch() {
       champ.punchPhase = 'windup';
       champ.punchTimer = 4;
     }
 
-    function triggerWeakHit(punchType) {
-      weak.faceState = 'hit';
-      if (punchType === 'uppercut') {
-        weak.headVy = -16;
-        weak.headRotV = -0.55;
-        weak.recoilVx = -14;
-        weak.icePackVy = -12;
-        weak.icePackRot = -0.4;
-      } else if (punchType === 'cross') {
-        weak.headVx = -24;
-        weak.headRotV = -0.45;
-        weak.recoilVx = -20;
-        weak.icePackVy = -8;
-        weak.icePackRot = -0.25;
+    function handleHitImpact() {
+      champ.punchPhase = 'impact';
+      champ.punchTimer = 4;
+
+      let targetHitX = weak.baseX + weak.recoilX + 38;
+      let targetHitY = weak.headY + 15;
+
+      if (champ.comboStep === 4) {
+        // Final Knockout Punch! Opponent falls!
+        createImpact(targetHitX - 8, targetHitY, "👑 K.O. قاضية! 💫");
+        cameraShake = 14;
+        weak.faceState = 'hit';
+        weak.isDown = true;
+        weak.downTimer = 95; // Stays down ~1.5s then stands back up
+        weak.icePackVy = -16;
+        weak.icePackRot = -0.6;
+        const tip = document.getElementById('comboTip');
+        if (tip) tip.innerHTML = "<span>🏆</span> <b>سقط الخصم بالضربة القاضية! فكت كل تشنجات الظهر!</b> <span>🌿✨</span>";
       } else {
-        weak.headVx = -14;
-        weak.headRotV = -0.25;
-        weak.recoilVx = -10;
+        createImpact(targetHitX - 8, targetHitY);
+        weak.faceState = 'hit';
+        if (champ.punchType === 'cross') {
+          weak.headVx = -24;
+          weak.headRotV = -0.45;
+          weak.recoilVx = -18;
+          weak.icePackVy = -8;
+        } else if (champ.punchType === 'hook') {
+          weak.headVx = -20;
+          weak.headRotV = 0.35;
+          weak.recoilVx = -16;
+        } else {
+          weak.headVx = -14;
+          weak.headRotV = -0.25;
+          weak.recoilVx = -10;
+        }
       }
     }
 
@@ -1316,13 +1455,20 @@
     function drawWeakSpine() {
       ctx.save();
       const bx = weak.baseX + weak.recoilX;
-      const by = weak.baseY;
+      const by = weak.baseY + (weak.isDown ? 25 : 0);
 
+      // Shadow
       ctx.fillStyle = 'rgba(0,0,0,0.5)';
       ctx.beginPath();
-      ctx.ellipse(bx + 15, by + 10, 45, 10, 0, 0, Math.PI * 2);
+      ctx.ellipse(bx + 15, by + 10, weak.isDown ? 75 : 45, 10, 0, 0, Math.PI * 2);
       ctx.fill();
 
+      // Transform whole body if knocked down
+      ctx.translate(bx, by);
+      ctx.rotate(weak.fallAngle);
+      ctx.translate(-bx, -by);
+
+      // Pelvis Base
       ctx.fillStyle = '#475569';
       ctx.strokeStyle = '#334155';
       ctx.lineWidth = 2;
@@ -1402,7 +1548,7 @@
       ctx.fill();
       ctx.restore();
 
-      if (weak.faceState === 'hit') {
+      if (weak.faceState === 'hit' || weak.isDown) {
         ctx.strokeStyle = '#ef4444';
         ctx.lineWidth = 3.5;
         ctx.beginPath();
@@ -1444,6 +1590,23 @@
       drawGlove(v2x + 60, v2y + 45, 18, '#3b82f6', '#1d4ed8');
 
       ctx.restore();
+
+      // Dizzy Birds / Stars circling overhead when down
+      if (weak.isDown) {
+        ctx.save();
+        for (let b = 0; b < 3; b++) {
+          const ang = weak.birdAngle + (b * Math.PI * 2 / 3);
+          const starX = (bx - 70) + Math.cos(ang) * 40;
+          const starY = (by - 120) + Math.sin(ang) * 14;
+          ctx.fillStyle = '#fbbf24';
+          ctx.strokeStyle = '#f59e0b';
+          ctx.lineWidth = 1.5;
+          drawStar(starX, starY, 4, 8, 3.5);
+          ctx.fill();
+          ctx.stroke();
+        }
+        ctx.restore();
+      }
     }
 
     function drawChampSpine() {
@@ -1473,15 +1636,30 @@
         drawVertebra(vx, vy, vw, vh, champ.torsoAngle * (i / 5), '#10b981', '#34d399', 2, true);
       }
 
+      // Champ Left Arm (Back Arm - Fully Articulated)
+      const leftShoulderX = bx + 18;
+      const leftShoulderY = by - 115;
+      const lgX = champ.leftGloveX;
+      const lgY = champ.leftGloveY;
+
+      const lMidX = (leftShoulderX + lgX) / 2;
+      const lMidY = (leftShoulderY + lgY) / 2;
+      const lArmLen = Math.hypot(lgX - leftShoulderX, lgY - leftShoulderY);
+      const lBend = Math.max(0, 36 - (lArmLen / 310) * 36);
+      const lElbowX = lMidX + Math.sin(0.4) * lBend;
+      const lElbowY = lMidY + Math.cos(0.4) * lBend + 15;
+
       ctx.strokeStyle = '#059669';
       ctx.lineWidth = 8;
       ctx.lineCap = 'round';
       ctx.beginPath();
-      ctx.moveTo(bx + 20, by - 110);
-      ctx.quadraticCurveTo(bx + 45, by - 90, champ.guardGloveX, champ.guardGloveY);
+      ctx.moveTo(leftShoulderX, leftShoulderY);
+      ctx.lineTo(lElbowX, lElbowY);
+      ctx.lineTo(lgX, lgY);
       ctx.stroke();
-      drawGlove(champ.guardGloveX, champ.guardGloveY, 20, '#ef4444', '#fbbf24', true);
+      drawGlove(lgX, lgY, 21, '#ef4444', '#fbbf24', true);
 
+      // Champ Head
       ctx.save();
       ctx.translate(champ.headX, champ.headY);
       ctx.rotate(champ.torsoAngle * 0.7);
@@ -1534,40 +1712,41 @@
       ctx.stroke();
       ctx.restore();
 
-      // Articulated Biceps & Forearm with Inverse Kinematics
-      const shoulderX = bx - 22;
-      const shoulderY = by - 120;
-      const gloveX = champ.gloveX;
-      const gloveY = champ.gloveY;
+      // Champ Right Arm (Front Arm - Fully Articulated)
+      const rightShoulderX = bx - 22;
+      const rightShoulderY = by - 120;
+      const rgX = champ.rightGloveX;
+      const rgY = champ.rightGloveY;
 
-      const midX = (shoulderX + gloveX) / 2;
-      const midY = (shoulderY + gloveY) / 2;
-      const armLen = Math.hypot(gloveX - shoulderX, gloveY - shoulderY);
-      const maxReach = 310;
-      const bendAmount = Math.max(0, 40 - (armLen / maxReach) * 40);
-
-      const elbowX = midX + Math.sin(0.4) * bendAmount;
-      const elbowY = midY + Math.cos(0.4) * bendAmount + 16;
+      const rMidX = (rightShoulderX + rgX) / 2;
+      const rMidY = (rightShoulderY + rgY) / 2;
+      const rArmLen = Math.hypot(rgX - rightShoulderX, rgY - rightShoulderY);
+      const rBend = Math.max(0, 40 - (rArmLen / 310) * 40);
+      const rElbowX = rMidX + Math.sin(0.4) * rBend;
+      const rElbowY = rMidY + Math.cos(0.4) * rBend + 16;
 
       ctx.strokeStyle = '#059669';
       ctx.lineWidth = 9;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
       ctx.beginPath();
-      ctx.moveTo(shoulderX, shoulderY);
-      ctx.lineTo(elbowX, elbowY);
-      ctx.lineTo(gloveX, gloveY);
+      ctx.moveTo(rightShoulderX, rightShoulderY);
+      ctx.lineTo(rElbowX, rElbowY);
+      ctx.lineTo(rgX, rgY);
       ctx.stroke();
 
-      drawGlove(gloveX, gloveY, 23, '#ef4444', '#fbbf24', true);
+      drawGlove(rgX, rgY, 23, '#ef4444', '#fbbf24', true);
 
+      // Motion Speed Lines
       if (champ.punchPhase === 'strike' || champ.punchPhase === 'impact') {
-        ctx.strokeStyle = 'rgba(251, 191, 36, 0.6)';
+        const curGloveX = champ.punchArm === 'right' ? rgX : lgX;
+        const curGloveY = champ.punchArm === 'right' ? rgY : lgY;
+        ctx.strokeStyle = 'rgba(251, 191, 36, 0.65)';
         ctx.lineWidth = 2.5;
         ctx.beginPath();
-        ctx.moveTo(gloveX + 28, gloveY - 8); ctx.lineTo(gloveX + 60, gloveY - 8);
-        ctx.moveTo(gloveX + 32, gloveY); ctx.lineTo(gloveX + 75, gloveY);
-        ctx.moveTo(gloveX + 28, gloveY + 8); ctx.lineTo(gloveX + 55, gloveY + 8);
+        ctx.moveTo(curGloveX + 28, curGloveY - 8); ctx.lineTo(curGloveX + 60, curGloveY - 8);
+        ctx.moveTo(curGloveX + 32, curGloveY); ctx.lineTo(curGloveX + 75, curGloveY);
+        ctx.moveTo(curGloveX + 28, curGloveY + 8); ctx.lineTo(curGloveX + 55, curGloveY + 8);
         ctx.stroke();
       }
 
@@ -1649,7 +1828,7 @@
       shockwaves.forEach(sw => {
         ctx.save();
         ctx.strokeStyle = `rgba(251, 191, 36, ${sw.alpha})`;
-        ctx.lineWidth = 3;
+        ctx.lineWidth = 3.5;
         ctx.beginPath();
         ctx.arc(sw.x, sw.y, sw.r, 0, Math.PI * 2);
         ctx.stroke();
@@ -1677,7 +1856,7 @@
         ctx.strokeStyle = '#ef4444';
         ctx.lineWidth = 2.5;
         ctx.beginPath();
-        drawStar(0, 0, 8, 38, 22);
+        drawStar(0, 0, 8, 42, 24);
         ctx.fill();
         ctx.stroke();
 
@@ -1736,13 +1915,13 @@
     }
 
     function triggerKnockoutCombo() {
-      const tip = document.getElementById('comboTip');
-      if (tip) tip.innerHTML = "<span>💥</span> <b>سلسلة ضربات كايروبراكتيك قاضية!</b> <span>⚡🥊</span>";
+      if (champ.comboActive || weak.isDown) return;
+      champ.comboActive = true;
+      champ.comboStep = 0;
+      champ.punchPhase = 'idle';
 
-      champ.comboQueue = ['jab', 'cross', 'uppercut'];
-      setTimeout(() => {
-        if (tip) tip.innerHTML = "<span>👆</span> <b>إضغط على الحلبة لتوجيه ضربة كايروبراكتيك قاضية!</b> <span>🥊⚡</span>";
-      }, 3000);
+      const tip = document.getElementById('comboTip');
+      if (tip) tip.innerHTML = "<span>💥</span> <b>سلسلة ضربات باليدين.. ترقب الضربة القاضية!</b> <span>⚡🥊</span>";
     }
 
     // Start 60fps Loop on load

@@ -547,16 +547,16 @@
 
     /* Viral Share Section */
     .share-viral-card {
-      background: rgba(37, 211, 102, 0.1);
-      border: 1.5px dashed var(--whatsapp);
+      background: rgba(7, 94, 84, 0.16);
+      border: 1.5px dashed rgba(37, 211, 102, 0.5);
       border-radius: 16px;
       padding: 16px;
       margin-bottom: 18px;
     }
 
     .share-viral-card h4 {
-      color: #4ade80;
-      font-size: 15px;
+      color: #34d399;
+      font-size: 15.5px;
       font-weight: 800;
       margin-bottom: 6px;
     }
@@ -569,27 +569,29 @@
     }
 
     .btn-share-whatsapp {
-      background: #25D366;
+      background: linear-gradient(135deg, #075e54 0%, #128c7e 100%);
       color: #ffffff;
-      border: none;
+      border: 1px solid rgba(52, 211, 153, 0.4);
       width: 100%;
-      padding: 13px;
+      padding: 14px 16px;
       border-radius: 12px;
-      font-size: 15px;
+      font-size: 15.5px;
       font-weight: 800;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.35);
+      gap: 10px;
+      box-shadow: 0 4px 18px rgba(7, 94, 84, 0.4);
       text-decoration: none;
-      transition: all 0.2s;
+      transition: all 0.25s ease;
+      letter-spacing: 0.2px;
     }
 
     .btn-share-whatsapp:hover {
-      background: #1eb956;
+      background: linear-gradient(135deg, #0a6f63 0%, #16a34a 100%);
       transform: translateY(-2px);
+      box-shadow: 0 6px 22px rgba(7, 94, 84, 0.55);
     }
 
     /* Clinic Direct CTA */
@@ -1070,20 +1072,25 @@
 
       const badgeElem = document.getElementById('resAlertBadge');
       badgeElem.innerText = alertBadge;
-      badgeElem.style = `background:${badgeBg}; display:inline-block; padding:6px 16px; border-radius:20px; font-size:13px; font-weight:800; margin-bottom:12px;`;
+      badgeElem.style = `background:${badgeBg}; display:inline-block; padding:8px 18px; border-radius:20px; font-size:14.5px; font-weight:900; margin-bottom:14px;`;
 
       document.getElementById('resNickname').innerText = nickname;
       document.getElementById('resDiagnosis').innerText = diagnosis;
 
       // Prepare WhatsApp Share Text
       const shareText = encodeURIComponent(
-        `😂 فحصت عمري بالهوية ${baseAge} سنة وطلع عمري الحقيقي لعمودي الفقري ${calculatedAge} سنة!\nوالنتيجة طلعت: "${nickname}"\nجرب اختبر ظهرك واعرف مين اللي ظهره وكالة ومين اللي على الشطب بالجروب 😂👇\n` + window.location.href
+        `😂 عملت فحص لعمر العمود الفقري وصُدمت بالنتيجة!\n` +
+        `🪪 عمري في بطاقة الأحوال: ${baseAge} سنة\n` +
+        `🦴 عمر عمودي الفقري طلع: ${calculatedAge} سنة!\n` +
+        `📢 تشخيص ظهري: "${nickname}"\n\n` +
+        `تعالوا يا جماعة افحصوا كم عمر عامودكم الفقري، خلينا نشوف مين ظهره لساته وكالة ومين بدّه شد براغي بالجروب 😂👇\n` +
+        window.location.href
       );
       document.getElementById('btnShareWhatsApp').href = `https://wa.me/?text=${shareText}`;
 
       // Prepare Direct Clinic Booking Text
       const clinicBookingText = encodeURIComponent(
-        `مرحباً مركز "وداعاً للألم" 🌸\nفحصت عمري عبر أداة سمارت تشيك، وعمري بالهوية ${baseAge} سنة وطلع عمر عمودي الفقري ${calculatedAge} سنة (${nickname}).\nحابب أرتب موعد جلسة كايروبراكتيك لظهري (عندكم بالمركز أو زيارة منزلية).`
+        `مرحباً مركز "وداعاً للألم" 🌸\nفحصت عمر عمودي الفقري عبر الأداة التفاعلية:\n- عمري بالهوية: ${baseAge} سنة\n- عمر عمودي الفقري: ${calculatedAge} سنة (${nickname})\nحابب أرتب موعد جلسة كايروبراكتيك لظهري (عندكم بمقركم بخلدا أو زيارة منزلية).`
       );
       document.getElementById('btnBookSession').href = `https://wa.me/962790360440?text=${clinicBookingText}`;
     }

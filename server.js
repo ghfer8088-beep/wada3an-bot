@@ -63,6 +63,11 @@ app.get('/spine-age', (req, res) => {
   res.sendFile(require('path').join(__dirname, 'spine_age_calculator.html'));
 });
 
+// Serve Logo
+app.get('/logo.jpg', (req, res) => {
+  res.sendFile(require('path').join(__dirname, 'logo.jpg'));
+});
+
 // Serve Royal Patients Directory
 app.get('/royal-patients', (req, res) => {
   res.sendFile(require('path').join(__dirname, 'royal_patients.html'));

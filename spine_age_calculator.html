@@ -73,13 +73,20 @@
     .brand-icon {
       width: 44px;
       height: 44px;
-      background: var(--gold-gradient);
-      border-radius: 12px;
+      border-radius: 50%;
+      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 22px;
       box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+      border: 2px solid var(--gold);
+      background: #0f172a;
+    }
+
+    .brand-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .brand-meta h2 {
@@ -569,10 +576,12 @@
     <!-- Top Header -->
     <header class="top-header">
       <div class="brand-box">
-        <div class="brand-icon">🦴</div>
+        <div class="brand-icon">
+          <img src="/logo.jpg" alt="وداعاً للألم">
+        </div>
         <div class="brand-meta">
           <h2>حاسبة عمر العمود الفقري <span style="font-size:10px; background:rgba(245,158,11,0.2); color:#fbbf24; border:1px solid #f59e0b; padding:1px 6px; border-radius:10px;">Pro</span></h2>
-          <p>وداعاً للألم (30minutes30) • خلدا والزرقاء</p>
+          <p>وداعاً للألم</p>
         </div>
       </div>
       <span class="badge-tool">Smart Check Tools ⚡</span>
@@ -580,8 +589,11 @@
 
     <!-- Screen 1: Hero / Welcome Screen -->
     <div id="screenIntro" class="hero-card">
+      <div style="margin-bottom:14px;">
+        <img src="/logo.jpg" alt="وداعاً للألم" style="width:78px; height:78px; border-radius:50%; border:2.5px solid var(--gold); box-shadow:0 0 22px rgba(245,158,11,0.45); object-fit:cover;">
+      </div>
       <span class="hero-badge-fun">😂 اختبار فضولي صريح وخفيف الدم</span>
-      <h1 class="hero-title">كم عمر عمودك الفقري الحقيقي مقارنة بعمرك في بطاقة الأحوال؟</h1>
+      <h1 class="hero-title">تعالوا يا غوالي نشوف كم عمر عامودكم الفقري</h1>
       <p class="hero-subtitle">
         أغلب الناس في الأردن عمرهم بالهوية 30 سنة.. بس ظهرهم عايش في الثمانينات! 👴<br>
         أجب عن 5 مواقف يومية لطيفة واكتشف: هل ظهرك لساته وكالة؟ ولا بدّه شد براغي؟ ولا على الشطب تقول واقع من طيارة؟! 😂
@@ -695,7 +707,7 @@
       <!-- Booking / Clinic Direct Action -->
       <div class="clinic-cta-card">
         <h3>👑 حابب تشد براغي ظهرك وترجعه وكالة؟</h3>
-        <p class="clinic-price-tag">جلسة الكايروبراكتيك والتأهيل الشاملة: 20 دينار فقط بمقرنا بخلدا</p>
+        <p class="clinic-price-tag">خذلك جلسة كايروبراكتيك ...  عنا او في بيتك ما بتفرق</p>
 
         <div class="cta-buttons">
           <a id="btnBookSession" href="#" target="_blank" class="btn-cta-phone">
@@ -714,8 +726,8 @@
 
     <!-- Footer Note -->
     <div class="footer-note">
-      أداة تفاعلية سريرية توعوية مطورة خصيصاً لمنصة <b>Smart Check Tools</b> لصالح مركز <b>وداعاً للألم (30minutes30)</b>.<br>
-      متخصصون بتقويم العمود الفقري (الكيروبراكتيك) والتأهيل الحركي يدوياً بدون جراحة وبدون أدوية • عمّان (خلدا) وزيارات منزلية بالزرقاء.
+      أداة تفاعلية سريرية توعوية مطورة خصيصاً لمنصة <b>Smart Check Tools</b> لصالح مركز <b>وداعاً للألم</b>.<br>
+      متخصصون بتقويم العمود الفقري (الكيروبراكتيك) والتأهيل الحركي يدوياً بدون جراحة وبدون أدوية • عمّان (خلدا).
     </div>
 
   </div>
@@ -861,7 +873,7 @@
       const phrases = [
         "جاري فحص ليونة الغضاريف القطنية والعنقية...",
         "بنقيس مدى الضغط على مسار العصب الوركي...",
-        "بنقارن حالتك بمئات الحالات المعالجة بخلدا والزرقاء..."
+        "بنقارن حالتك بمئات الحالات المعالجة سريرياً..."
       ];
       let pIdx = 0;
       const interval = setInterval(() => {
@@ -933,7 +945,7 @@
 
       // Prepare Direct Clinic Booking Text
       const clinicBookingText = encodeURIComponent(
-        `مرحباً مركز "وداعاً للألم" 🌸\nفحصت عمري عبر أداة سمارت تشيك، وعمري بالهوية ${baseAge} سنة وطلع عمر عمودي الفقري ${calculatedAge} سنة (${nickname}).\nحابب أرتب موعد فحص كايروبراكتيك شامل وجلسة صيانة لظهري بمقركم بخلدا (20 دينار).`
+        `مرحباً مركز "وداعاً للألم" 🌸\nفحصت عمري عبر أداة سمارت تشيك، وعمري بالهوية ${baseAge} سنة وطلع عمر عمودي الفقري ${calculatedAge} سنة (${nickname}).\nحابب أرتب موعد جلسة كايروبراكتيك لظهري (عندكم بالمركز أو زيارة منزلية).`
       );
       document.getElementById('btnBookSession').href = `https://wa.me/962790360440?text=${clinicBookingText}`;
     }

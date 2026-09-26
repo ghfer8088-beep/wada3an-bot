@@ -807,28 +807,43 @@
   <div id="importModal" class="modal-overlay">
     <div class="modal-box">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-        <h3 style="color:#fbbf24; font-size:16px; font-weight:800;">📂 استخراج ومسح أرشيف ماسنجر لإنشاء كروت ملكية</h3>
+        <h3 style="color:#fbbf24; font-size:16px; font-weight:800;">📂 مسح أرشيف ماسنجر واستخراج كروت المرضى الملكية</h3>
         <button onclick="closeImportModal()" style="background:none; border:none; color:#94a3b8; font-size:18px; cursor:pointer;">✕</button>
       </div>
 
-      <p style="font-size:12px; color:#cbd5e1; margin-bottom:14px; line-height:1.6;">
-        يمكنك رفع ملفات أرشيف فيسبوك (JSON) التي تم تنزيلها من صفحتكم، أو لصق نصوص المحادثات مباشرة لاستخراج كروت ملكية وأرقام واتساب فورية:
-      </p>
+      <!-- 1-Click Direct Cloud Scanner -->
+      <div style="background: linear-gradient(135deg, rgba(37,99,235,0.2) 0%, rgba(245,158,11,0.15) 100%); border: 1px solid #3b82f6; border-radius: 14px; padding: 18px; margin-bottom: 18px; text-align: center;">
+        <div style="font-size: 30px; margin-bottom: 6px;">⚡</div>
+        <h4 style="color: #60a5fa; font-size: 15px; font-weight: 800; margin-bottom: 6px;">السحب التلقائي المباشر من ماسنجر فيسبوك</h4>
+        <p style="font-size: 12px; color: #cbd5e1; margin-bottom: 14px; line-height: 1.6;">
+          يقوم هذا الخيار بالاتصال المباشر بصفحة <b>"وداعاً للألم"</b> عبر واجهة فيسبوك الرسمية وسحب كافة المحادثات واستخراج أرقام الهواتف والأسماء والشكاوى الطبية تلقائياً بنقرة واحدة!
+        </p>
+        <button id="btnDirectScan" onclick="startDirectMetaScan()" style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); color: white; border: none; padding: 11px 26px; border-radius: 12px; font-weight: 800; font-size: 13.5px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 18px rgba(37,99,235,0.45); transition: all 0.2s;">
+          🚀 ابدأ مسح المحادثات وسحب البيانات الآن
+        </button>
+        <div id="directScanProgress" style="display:none; margin-top:14px; font-size:12.5px; color:#fbbf24; font-weight:700;"></div>
+      </div>
 
-      <div style="border:2px dashed #f59e0b; border-radius:12px; padding:18px; text-align:center; background:rgba(245,158,11,0.05); margin-bottom:14px;">
-        <div style="font-size:26px; margin-bottom:6px;">📥</div>
-        <div style="font-size:12.5px; font-weight:700; color:#fbbf24; margin-bottom:4px;">اختر ملفات أرشيف ماسنجر (JSON)</div>
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+        <div style="flex:1; height:1px; background:rgba(255,255,255,0.15);"></div>
+        <span style="font-size:11px; color:#94a3b8; font-weight:700;">أو من ملفاتك المخزنة</span>
+        <div style="flex:1; height:1px; background:rgba(255,255,255,0.15);"></div>
+      </div>
+
+      <div style="border:2px dashed #f59e0b; border-radius:12px; padding:16px; text-align:center; background:rgba(245,158,11,0.05); margin-bottom:14px;">
+        <div style="font-size:24px; margin-bottom:4px;">📥</div>
+        <div style="font-size:12px; font-weight:700; color:#fbbf24; margin-bottom:4px;">رفع ملفات أرشيف ماسنجر (JSON)</div>
         <input type="file" id="modalArchiveFileInput" multiple accept=".json" onchange="handleModalArchiveUpload(event)" style="font-size:11px; color:#cbd5e1; margin-top:6px;">
       </div>
 
       <div style="margin-bottom:14px;">
         <label style="display:block; font-size:11.5px; font-weight:700; color:#cbd5e1; margin-bottom:4px;">أو الصق نصوص المحادثات هنا:</label>
-        <textarea id="modalPastedChats" rows="4" style="width:100%; background:rgba(15,23,42,0.8); border:1px solid rgba(255,255,255,0.15); border-radius:8px; padding:8px; color:#ffffff; font-size:12px;" placeholder="الصق أي محادثات سابقة تحتوي أرقام وأسماء..."></textarea>
+        <textarea id="modalPastedChats" rows="3" style="width:100%; background:rgba(15,23,42,0.8); border:1px solid rgba(255,255,255,0.15); border-radius:8px; padding:8px; color:#ffffff; font-size:12px;" placeholder="الصق أي محادثات سابقة تحتوي أرقام وأسماء..."></textarea>
       </div>
 
       <div style="display:flex; justify-content:flex-end; gap:8px;">
         <button onclick="closeImportModal()" class="btn-nav btn-outline-white">إلغاء</button>
-        <button onclick="processPastedChatsModal()" class="btn-nav btn-gold">🚀 مسح واستخراج الكروت</button>
+        <button onclick="processPastedChatsModal()" class="btn-nav btn-gold">📋 معالجة النصوص الملصقة</button>
       </div>
     </div>
   </div>
@@ -1476,6 +1491,116 @@
       renderRoyalCards();
       closeImportModal();
       showToast(`تم استخراج وإضافة ${added} كرت ملكي بنجاح! 👑`);
+    }
+
+    // ⚡ 1-Click Direct Facebook Cloud Scanner
+    async function startDirectMetaScan() {
+      const token = 'EAAW983LxTGwBSiAMUElWiAEI98xDMsWlafjSRc7LVFCvo8Hr2up77xJCo9R5GoDf72vS1sAF7btHoTrVKGF3KFxGxKZBJmdD5omDZAQItXkKtid49qlZBdAZB7AKVIiZCdTWo1OpksV8TUZAD98gPDMmciwPf353DEMDM6sE55zOrgZA2JWOITfCqyAXdJ56n7ZBp19LZBeAQwlJW1QQoCMP0knOj';
+      const pageId = '102533574608295';
+      const btn = document.getElementById('btnDirectScan');
+      const progress = document.getElementById('directScanProgress');
+
+      btn.disabled = true;
+      btn.style.opacity = '0.6';
+      btn.innerHTML = '⏳ جاري الاتصال بخوادم فيسبوك وسحب المحادثات...';
+      progress.style.display = 'block';
+      progress.innerText = '📡 جاري جلب سجلات المحادثات وتحليل الشكاوى وأرقام الهواتف...';
+
+      try {
+        let url = `https://graph.facebook.com/v21.0/${pageId}/conversations?fields=messages.limit(30){message,created_time},senders&limit=100&access_token=${token}`;
+        let totalThreads = 0;
+        let newlyAdded = 0;
+
+        while (url && totalThreads < 200) {
+          const res = await fetch(url);
+          const data = await res.json();
+
+          if (data.error) {
+            throw new Error(data.error.message);
+          }
+
+          if (data.data && Array.isArray(data.data)) {
+            data.data.forEach(thread => {
+              totalThreads++;
+              let pName = 'مراجع فيسبوك';
+              if (thread.senders && thread.senders.data && thread.senders.data[0]) {
+                const sName = thread.senders.data[0].name;
+                if (sName && !sName.includes('وداعا') && !sName.includes('30minutes')) {
+                  pName = sName;
+                }
+              }
+
+              let pTextAll = '';
+              let phone = 'غير متوفر';
+              let lastDate = new Date().toLocaleDateString('ar-EG');
+
+              if (thread.messages && thread.messages.data) {
+                thread.messages.data.forEach(m => {
+                  const msgText = m.message || '';
+                  pTextAll += ' ' + msgText;
+                  if (phone === 'غير متوفر') {
+                    const match = msgText.match(/(?:07[789]\d{7}|07\d{8}|\+9627[789]\d{7})/);
+                    if (match) phone = match[0];
+                  }
+                  if (m.created_time) {
+                    lastDate = new Date(m.created_time).toLocaleDateString('ar-EG');
+                  }
+                });
+              }
+
+              // Extract clinical complaint
+              let complaint = 'استفسار عن العلاج والمواعيد';
+              const norm = (pTextAll || '').toLowerCase();
+              if (norm.includes('ديسك') || norm.includes('انزلاق') || norm.includes('غضروف') || norm.includes('فقرات')) {
+                complaint = 'انزلاق غضروفي (ديسك) ومشاكل فقرات الظهر';
+              } else if (norm.includes('عرق النسا') || norm.includes('عصب') || norm.includes('خدران') || norm.includes('تنميل') || norm.includes('رجل')) {
+                complaint = 'عرق النسا وخدران الساقين وتنميل القدم';
+              } else if (norm.includes('رقب') || norm.includes('كتف') || norm.includes('صداع')) {
+                complaint = 'آلام الفقرات العنقية وتشنج الأكتاف';
+              } else if (norm.includes('مفصل') || norm.includes('ركب')) {
+                complaint = 'خشونة مفاصل الركبة وتيبس الحركة';
+              }
+
+              // Check if already exists by phone or name
+              const exists = currentPatients.some(p => (phone !== 'غير متوفر' && p.phone === phone) || (p.name === pName && pName !== 'مراجع فيسبوك'));
+              if (!exists) {
+                currentPatients.unshift({
+                  id: Date.now() + Math.random(),
+                  name: pName,
+                  gender: 'male',
+                  phone: phone,
+                  complaint: complaint,
+                  status: phone !== 'غير متوفر' ? 'confirmed' : 'new',
+                  date: lastDate,
+                  source: 'سحب ماسنجر المباشر'
+                });
+                newlyAdded++;
+              }
+            });
+          }
+
+          if (data.paging && data.paging.next && totalThreads < 200) {
+            url = data.paging.next;
+            progress.innerText = `⏳ تم سحب ${totalThreads} محادثة، جاري المتابعة...`;
+          } else {
+            url = null;
+          }
+        }
+
+        saveToStorage();
+        updateStats();
+        renderRoyalCards();
+        closeImportModal();
+        showToast(`🎉 تم مسح ${totalThreads} محادثة وتوليد ${newlyAdded} كرت ملكي بنجاح! 👑`);
+      } catch (err) {
+        console.error('Scan error:', err);
+        progress.innerText = `❌ خطأ أثناء المسح: ${err.message}`;
+        alert(`حدث خطأ أثناء الاتصال بفيسبوك: ${err.message}`);
+      } finally {
+        btn.disabled = false;
+        btn.style.opacity = '1';
+        btn.innerHTML = '🚀 ابدأ مسح المحادثات وسحب البيانات الآن';
+      }
     }
   </script>
 </body>

@@ -6,7 +6,7 @@
   <title>حاسبة عمر العمود الفقري الحقيقي | Smart Check Tools - وداعاً للألم</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700;800;900&family=Tajawal:wght@500;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-dark: #0a0f1d;
@@ -27,19 +27,27 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'IBM Plex Sans Arabic', 'Tajawal', sans-serif;
+      font-family: 'Cairo', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
       -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
     }
 
     body {
       background: radial-gradient(circle at top center, #1e293b 0%, #0a0f1d 100%);
       color: var(--text-white);
       min-height: 100vh;
+      min-height: 100dvh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 16px;
+      padding: 16px 16px calc(110px + env(safe-area-inset-bottom, 24px)) 16px;
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     .app-container {
@@ -48,7 +56,8 @@
       margin: 0 auto;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 18px;
+      padding-bottom: 24px;
     }
 
     /* Top Brand Bar */
@@ -90,7 +99,7 @@
     }
 
     .brand-meta h2 {
-      font-size: 14px;
+      font-size: 15.5px;
       font-weight: 800;
       color: #ffffff;
       display: flex;
@@ -99,18 +108,19 @@
     }
 
     .brand-meta p {
-      font-size: 11px;
+      font-size: 13px;
       color: var(--gold-light);
+      font-weight: 600;
     }
 
     .badge-tool {
       background: rgba(59, 130, 246, 0.2);
       border: 1px solid rgba(59, 130, 246, 0.4);
       color: #93c5fd;
-      padding: 4px 10px;
+      padding: 5px 12px;
       border-radius: 20px;
-      font-size: 10.5px;
-      font-weight: 700;
+      font-size: 12px;
+      font-weight: 800;
     }
 
     /* Hero intro */
@@ -139,20 +149,21 @@
     }
 
     .hero-title {
-      font-size: 22px;
+      font-size: 24px;
       font-weight: 900;
-      line-height: 1.4;
-      margin-bottom: 8px;
+      line-height: 1.45;
+      margin-bottom: 10px;
       background: linear-gradient(135deg, #ffffff 0%, #fde68a 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
     .hero-subtitle {
-      font-size: 13.5px;
-      color: #cbd5e1;
-      line-height: 1.6;
+      font-size: 15px;
+      color: #e2e8f0;
+      line-height: 1.75;
       margin-bottom: 20px;
+      font-weight: 500;
     }
 
     .hero-badge-fun {
@@ -164,7 +175,7 @@
       color: var(--gold-light);
       padding: 6px 14px;
       border-radius: 30px;
-      font-size: 12px;
+      font-size: 13.5px;
       font-weight: 800;
       margin-bottom: 16px;
     }
@@ -199,7 +210,7 @@
     }
 
     .arena-title-text {
-      font-size: 15.5px;
+      font-size: 16.5px;
       font-weight: 900;
       color: #fbbf24;
       text-shadow: 0 0 14px rgba(245, 158, 11, 0.8), 0 2px 4px rgba(0,0,0,0.8);
@@ -215,7 +226,7 @@
       border-radius: 16px;
       padding: 6px 12px;
       margin-bottom: 8px;
-      font-size: 11.5px;
+      font-size: 12.5px;
       font-weight: 800;
     }
 
@@ -225,7 +236,7 @@
       align-items: center;
       gap: 6px;
       font-weight: 800;
-      font-size: 11.5px;
+      font-size: 12.5px;
     }
 
     .tag-weak {
@@ -234,7 +245,7 @@
       align-items: center;
       gap: 6px;
       font-weight: 800;
-      font-size: 11.5px;
+      font-size: 12.5px;
     }
 
     /* 3D Professional Boxing VS Emblem */
@@ -271,14 +282,15 @@
 
     .arena-footer-tip {
       text-align: center;
-      font-size: 11px;
-      color: #94a3b8;
-      margin-top: 5px;
+      font-size: 12.5px;
+      color: #cbd5e1;
+      margin-top: 6px;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
       cursor: pointer;
+      line-height: 1.5;
     }
     .arena-footer-tip:hover { color: #fbbf24; }
 
@@ -307,8 +319,8 @@
     .progress-labels {
       display: flex;
       justify-content: space-between;
-      font-size: 11px;
-      color: var(--text-muted);
+      font-size: 12.5px;
+      color: #cbd5e1;
       font-weight: 700;
     }
 
@@ -329,34 +341,34 @@
     }
 
     .question-title {
-      font-size: 16.5px;
+      font-size: 19px;
       font-weight: 800;
       color: #ffffff;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
       display: flex;
       align-items: center;
       gap: 8px;
-      line-height: 1.4;
+      line-height: 1.5;
     }
 
     .question-desc {
-      font-size: 12px;
-      color: #94a3b8;
+      font-size: 14.5px;
+      color: #cbd5e1;
       margin-bottom: 16px;
-      line-height: 1.5;
+      line-height: 1.6;
     }
 
     .options-grid {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
     }
 
     .option-btn {
       background: rgba(255,255,255,0.04);
       border: 1.5px solid rgba(255,255,255,0.1);
       border-radius: 14px;
-      padding: 13px 16px;
+      padding: 14px 18px;
       display: flex;
       align-items: center;
       gap: 12px;
@@ -364,9 +376,9 @@
       color: #f1f5f9;
       cursor: pointer;
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      font-size: 13.5px;
-      font-weight: 600;
-      line-height: 1.4;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.5;
     }
 
     .option-btn:hover, .option-btn:active {
@@ -386,10 +398,10 @@
 
     .option-btn .opt-funny {
       display: block;
-      font-size: 11px;
-      color: #94a3b8;
-      font-weight: 400;
-      margin-top: 2px;
+      font-size: 13px;
+      color: #cbd5e1;
+      font-weight: 500;
+      margin-top: 3px;
     }
 
     /* Start Button */
@@ -398,10 +410,10 @@
       background: var(--gold-gradient);
       color: #0f172a;
       border: none;
-      padding: 15px 24px;
+      padding: 16px 24px;
       border-radius: 16px;
-      font-size: 16px;
-      font-weight: 800;
+      font-size: 17.5px;
+      font-weight: 900;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -435,11 +447,11 @@
 
     .result-badge {
       display: inline-block;
-      padding: 6px 16px;
+      padding: 8px 18px;
       border-radius: 20px;
-      font-size: 13px;
-      font-weight: 800;
-      margin-bottom: 12px;
+      font-size: 14.5px;
+      font-weight: 900;
+      margin-bottom: 14px;
     }
 
     .age-comparison {
@@ -464,14 +476,14 @@
     }
 
     .age-box .title {
-      font-size: 11px;
-      color: var(--text-muted);
+      font-size: 13.5px;
+      color: #cbd5e1;
       font-weight: 700;
       margin-bottom: 4px;
     }
 
     .age-box .number {
-      font-size: 32px;
+      font-size: 34px;
       font-weight: 900;
       line-height: 1;
     }
@@ -482,27 +494,29 @@
     }
 
     .age-box .unit {
-      font-size: 11.5px;
-      color: var(--text-muted);
+      font-size: 13px;
+      color: #cbd5e1;
+      font-weight: 600;
     }
 
     .spine-nickname {
-      font-size: 20px;
+      font-size: 22px;
       font-weight: 900;
       color: #ffffff;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
 
     .funny-diagnosis {
-      font-size: 13px;
-      color: #e2e8f0;
-      line-height: 1.7;
+      font-size: 15px;
+      color: #f1f5f9;
+      line-height: 1.8;
       background: rgba(15, 23, 42, 0.7);
       border-radius: 14px;
-      padding: 14px 16px;
+      padding: 16px 18px;
       margin-bottom: 18px;
-      border-right: 3px solid var(--gold);
+      border-right: 4px solid var(--gold);
       text-align: right;
+      font-weight: 600;
     }
 
     /* Clinical Reassurance */
@@ -510,25 +524,25 @@
       background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
       border: 1px solid rgba(16, 185, 129, 0.3);
       border-radius: 16px;
-      padding: 14px;
+      padding: 16px;
       text-align: right;
       margin-bottom: 20px;
     }
 
     .reassurance-box h4 {
       color: #34d399;
-      font-size: 13.5px;
+      font-size: 15.5px;
       font-weight: 800;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
       display: flex;
       align-items: center;
       gap: 6px;
     }
 
     .reassurance-box p {
-      font-size: 11.5px;
-      color: #cbd5e1;
-      line-height: 1.6;
+      font-size: 13.5px;
+      color: #e2e8f0;
+      line-height: 1.75;
     }
 
     /* Viral Share Section */
@@ -536,21 +550,22 @@
       background: rgba(37, 211, 102, 0.1);
       border: 1.5px dashed var(--whatsapp);
       border-radius: 16px;
-      padding: 14px;
+      padding: 16px;
       margin-bottom: 18px;
     }
 
     .share-viral-card h4 {
       color: #4ade80;
-      font-size: 13px;
+      font-size: 15px;
       font-weight: 800;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
 
     .share-viral-card p {
-      font-size: 11px;
+      font-size: 13.5px;
       color: #cbd5e1;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
+      line-height: 1.6;
     }
 
     .btn-share-whatsapp {
@@ -558,9 +573,9 @@
       color: #ffffff;
       border: none;
       width: 100%;
-      padding: 12px;
+      padding: 13px;
       border-radius: 12px;
-      font-size: 13.5px;
+      font-size: 15px;
       font-weight: 800;
       cursor: pointer;
       display: flex;
@@ -582,22 +597,23 @@
       background: rgba(245, 158, 11, 0.1);
       border: 1px solid var(--gold);
       border-radius: 18px;
-      padding: 16px;
+      padding: 18px 16px;
       text-align: center;
     }
 
     .clinic-cta-card h3 {
-      font-size: 15px;
+      font-size: 17px;
       font-weight: 800;
       color: #ffffff;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
 
     .clinic-price-tag {
-      font-size: 12px;
+      font-size: 14.5px;
       color: var(--gold-light);
-      margin-bottom: 12px;
+      margin-bottom: 14px;
       font-weight: 700;
+      line-height: 1.6;
     }
 
     .cta-buttons {
@@ -610,9 +626,9 @@
       background: var(--gold-gradient);
       color: #0f172a;
       text-decoration: none;
-      padding: 11px;
-      border-radius: 10px;
-      font-size: 12.5px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-size: 14px;
       font-weight: 800;
       display: flex;
       align-items: center;
@@ -626,9 +642,9 @@
       border: 1px solid rgba(255,255,255,0.2);
       color: #ffffff;
       text-decoration: none;
-      padding: 11px;
-      border-radius: 10px;
-      font-size: 12.5px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-size: 14px;
       font-weight: 700;
       display: flex;
       align-items: center;
@@ -639,15 +655,25 @@
     /* Footer */
     .footer-note {
       text-align: center;
-      font-size: 11px;
-      color: #64748b;
-      margin-top: 10px;
-      line-height: 1.5;
+      font-size: 12.5px;
+      color: #94a3b8;
+      margin-top: 14px;
+      margin-bottom: 10px;
+      line-height: 1.7;
+      padding: 0 10px;
     }
 
     .footer-note a {
       color: var(--gold);
       text-decoration: none;
+    }
+
+    /* Mobile clearance spacer to prevent bottom browser navbars from blocking content */
+    .mobile-footer-clearance {
+      width: 100%;
+      height: calc(60px + env(safe-area-inset-bottom, 24px));
+      min-height: 50px;
+      pointer-events: none;
     }
   </style>
 </head>
@@ -720,13 +746,13 @@
       </div>
 
       <!-- Chronological Age Input -->
-      <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:14px; margin-bottom:16px;">
-        <label style="display:block; font-size:13px; font-weight:700; color:#cbd5e1; margin-bottom:8px;">
+      <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:16px; margin-bottom:18px;">
+        <label style="display:block; font-size:15px; font-weight:700; color:#f1f5f9; margin-bottom:10px;">
           كم عمرك المسجل في شهادة الميلاد / بطاقة الأحوال؟
         </label>
-        <div style="display:flex; align-items:center; justify-content:center; gap:10px;">
-          <input type="number" id="inputAge" value="30" min="15" max="85" style="width:110px; background:#0f172a; border:2px solid var(--gold); border-radius:12px; padding:8px 12px; font-size:20px; font-weight:900; color:#fbbf24; text-align:center; outline:none;">
-          <span style="font-size:14px; font-weight:700; color:#94a3b8;">سنة</span>
+        <div style="display:flex; align-items:center; justify-content:center; gap:12px;">
+          <input type="number" id="inputAge" value="30" min="15" max="85" style="width:115px; background:#0f172a; border:2px solid var(--gold); border-radius:12px; padding:8px 12px; font-size:22px; font-weight:900; color:#fbbf24; text-align:center; outline:none;">
+          <span style="font-size:15px; font-weight:700; color:#cbd5e1;">سنة</span>
         </div>
       </div>
 
@@ -758,8 +784,8 @@
     <!-- Screen 3: Calculation Loader -->
     <div id="screenLoading" class="hero-card" style="display:none; padding:40px 20px;">
       <div style="font-size:50px; animation: bounce 1s infinite;">🔍</div>
-      <h3 style="font-size:18px; font-weight:800; color:#ffffff; margin:14px 0 6px;">جاري فحص محاذاة الفقرات وليونة الغضاريف...</h3>
-      <p style="font-size:12px; color:#94a3b8;" id="loadingPhrase">بنقيس معامل المرونة وتوتر العصب الوركي ⚡</p>
+      <h3 style="font-size:20px; font-weight:800; color:#ffffff; margin:14px 0 6px;">جاري فحص محاذاة الفقرات وليونة الغضاريف...</h3>
+      <p style="font-size:14.5px; color:#cbd5e1;" id="loadingPhrase">بنقيس معامل المرونة وتوتر العصب الوركي ⚡</p>
     </div>
 
     <!-- Screen 4: Final Result Screen -->
@@ -785,8 +811,8 @@
       <div class="spine-nickname" id="resNickname">ظهرك بدّه شد براغي 🔧⚙️</div>
 
       <!-- Clinical Disclaimer Note -->
-      <div style="background:rgba(245, 158, 11, 0.08); border:1px solid rgba(245, 158, 11, 0.25); border-radius:14px; padding:12px 14px; margin-bottom:14px; font-size:12px; color:#fde68a; line-height:1.6; display:flex; align-items:center; gap:8px; text-align:right;">
-        <span style="font-size:20px; flex-shrink:0;">💡</span>
+      <div style="background:rgba(245, 158, 11, 0.08); border:1px solid rgba(245, 158, 11, 0.25); border-radius:14px; padding:14px 16px; margin-bottom:16px; font-size:13.5px; color:#fde68a; line-height:1.7; display:flex; align-items:center; gap:10px; text-align:right;">
+        <span style="font-size:22px; flex-shrink:0;">💡</span>
         <span><b>تنويه صريح:</b> الأرقام هون حسبناها بروح المداعبة والابتسامة.. بس التيبس، الطقطقة، وتشنجات العضلات والضرر اللي حاسس فيه بعمودك الفقري حقيقي 100% وبدّه فحص سريري واهتمام قبل ما يتفاقم! 🌿</span>
       </div>
 
@@ -814,7 +840,7 @@
       <!-- Booking / Clinic Direct Action -->
       <div class="clinic-cta-card">
         <h3>👑 حابب تشد براغي ظهرك وترجعه وكالة؟</h3>
-        <p class="clinic-price-tag">خذلك جلسة كايروبراكتيك ...  عنا او في بيتك ما بتفرق</p>
+        <p class="clinic-price-tag">خذلك جلسة كايروبراكتيك ... عنا او في بيتك ما بتفرق</p>
 
         <div class="cta-buttons">
           <a id="btnBookSession" href="#" target="_blank" class="btn-cta-phone">
@@ -826,7 +852,7 @@
         </div>
       </div>
 
-      <button onclick="restartQuiz()" style="background:none; border:none; color:#94a3b8; font-size:12px; margin-top:16px; cursor:pointer; text-decoration:underline;">
+      <button onclick="restartQuiz()" style="background:none; border:none; color:#cbd5e1; font-size:14px; font-weight:700; margin-top:18px; cursor:pointer; text-decoration:underline;">
         🔄 إعادة الاختبار من جديد
       </button>
     </div>
@@ -836,6 +862,9 @@
       أداة تفاعلية سريرية توعوية مطورة خصيصاً لمنصة <b>Smart Check Tools</b> لصالح مركز <b>وداعاً للألم</b>.<br>
       متخصصون بتقويم العمود الفقري (الكيروبراكتيك) والتأهيل الحركي يدوياً بدون جراحة وبدون أدوية • عمّان (خلدا).
     </div>
+
+    <!-- Mobile Browser Bottom Clearance Spacer -->
+    <div class="mobile-footer-clearance"></div>
 
   </div>
 
@@ -1871,7 +1900,7 @@
         ctx.stroke();
 
         ctx.fillStyle = '#0f172a';
-        ctx.font = 'bold 15px "Segoe UI", sans-serif';
+        ctx.font = '900 16px "Cairo", sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText(hp.text, 0, 2);

@@ -221,8 +221,8 @@ function callSendApi(payload) {
     path: `/v19.0/me/messages?access_token=${PAGE_ACCESS_TOKEN}`,
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
-      'Content-Length': Buffer.byteLength(data)
+      'Content-Type': 'application/json; charset=utf-8',
+      'Content-Length': Buffer.byteLength(data, 'utf8')
     }
   };
 
@@ -245,7 +245,7 @@ function callSendApi(payload) {
     console.error('HTTPS request error:', e);
   });
 
-  req.write(data);
+  req.write(Buffer.from(data, 'utf8'));
   req.end();
 }
 

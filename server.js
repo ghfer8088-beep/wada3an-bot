@@ -13,6 +13,14 @@ const PORT = process.env.PORT || 3000;
 // In-memory conversation state & leads store
 const userState = new Map();
 const capturedLeads = [];
+const recentLogs = [];
+
+function addLog(type, data) {
+  const entry = { time: new Date().toISOString(), type, data };
+  console.log(`[${entry.time}] [${type}]`, JSON.stringify(data));
+  recentLogs.unshift(entry);
+  if (recentLogs.length > 50) recentLogs.pop();
+}
 
 // 1. Webhook Verification (GET /webhook)
 app.get('/webhook', (req, res) => {
@@ -20,17 +28,29 @@ app.get('/webhook', (req, res) => {
   const token = req.query['hub.verify_token'];
   const challenge = req.query['hub.challenge'];
 
+  addLog('WEBHOOK_GET', { query: req.query });
+
   if (mode && token) {
     if (mode === 'subscribe' && token === VERIFY_TOKEN) {
-      console.log('✅ WEBHOOK_VERIFIED successfully with Meta!');
+      addLog('WEBHOOK_VERIFY_SUCCESS', { challenge });
       res.status(200).send(challenge);
     } else {
-      console.warn('❌ Verification token mismatch.');
+      addLog('WEBHOOK_VERIFY_FAIL', { token, expected: VERIFY_TOKEN });
       res.sendStatus(403);
     }
   } else {
     res.sendStatus(400);
   }
+});
+
+// Logs endpoint
+app.get('/logs', (req, res) => {
+  res.json({
+    status: 'online',
+    server_time: new Date().toISOString(),
+    logs_count: recentLogs.length,
+    logs: recentLogs
+  });
 });
 
 // Home status
@@ -41,16 +61,20 @@ app.get('/', (req, res) => {
 // 2. Incoming Messages Handler (POST /webhook)
 app.post('/webhook', (req, res) => {
   const body = req.body;
+  addLog('WEBHOOK_POST', body);
 
   if (body.object === 'page' || body.object === 'instagram') {
-    body.entry.forEach(entry => {
-      const webhookEvent = entry.messaging ? entry.messaging[0] : null;
-      if (webhookEvent && webhookEvent.message && webhookEvent.message.text) {
-        const senderPsid = webhookEvent.sender.id;
-        const text = webhookEvent.message.text.trim();
-        handleUserMessage(senderPsid, text);
-      }
-    });
+    if (body.entry && Array.isArray(body.entry)) {
+      body.entry.forEach(entry => {
+        const webhookEvent = entry.messaging ? entry.messaging[0] : null;
+        if (webhookEvent && webhookEvent.message && webhookEvent.message.text) {
+          const senderPsid = webhookEvent.sender.id;
+          const text = webhookEvent.message.text.trim();
+          addLog('INCOMING_MESSAGE', { senderPsid, text });
+          handleUserMessage(senderPsid, text);
+        }
+      });
+    }
 
     res.status(200).send('EVENT_RECEIVED');
   } else {
@@ -207,14 +231,17 @@ function callSendApi(payload) {
     res.on('data', chunk => body += chunk);
     res.on('end', () => {
       if (res.statusCode !== 200) {
+        addLog('META_SEND_ERROR', { statusCode: res.statusCode, body });
         console.error('Meta API Error:', res.statusCode, body);
       } else {
+        addLog('META_SEND_SUCCESS', { statusCode: res.statusCode, body });
         console.log('Message delivered to Facebook user successfully.');
       }
     });
   });
 
   req.on('error', (e) => {
+    addLog('META_REQUEST_ERROR', { error: e.message });
     console.error('HTTPS request error:', e);
   });
 

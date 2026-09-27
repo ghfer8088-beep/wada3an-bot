@@ -71,6 +71,24 @@ app.get('/spine-age', (req, res) => {
   res.sendFile(require('path').join(__dirname, 'spine_age_calculator.html'));
 });
 
+// Serve All 7 Specialized Diagnostic Tools
+const diagnosticTools = [
+  'abhar',
+  'sheep-load',
+  'sciatica',
+  'sleep-posture',
+  'driver-strain',
+  'uneven-shoulder',
+  'pelvic-balance',
+  'tool'
+];
+
+diagnosticTools.forEach(toolRoute => {
+  app.get(`/${toolRoute}`, (req, res) => {
+    res.sendFile(require('path').join(__dirname, 'tool_runner.html'));
+  });
+});
+
 // Serve Logo
 app.get('/logo.jpg', (req, res) => {
   res.sendFile(require('path').join(__dirname, 'logo.jpg'));

@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title id="pageTitle">فحص سريري ذكي | Smart Check Tools - وداعاً للألم</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #080c16;
+      --bg-card: #111a2e;
+      --bg-card-hover: #16223d;
+      --gold: #f59e0b;
+      --gold-light: #fbbf24;
+      --gold-gradient: linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #d97706 100%);
+      --gold-glow: rgba(245, 158, 11, 0.35);
+      --emerald: #10b981;
+      --emerald-gradient: linear-gradient(135deg, #059669 0%, #10b981 100%);
+      --blue: #3b82f6;
+      --red: #ef4444;
+      --text-white: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-body: #cbd5e1;
+      --card-border: rgba(245, 158, 11, 0.25);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Cairo', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 0%, #172554 0%, #0a0f1d 45%, #050811 100%);
+      color: var(--text-white);
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px 14px calc(95px + env(safe-area-inset-bottom, 24px)) 14px;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .app-container {
+      width: 100%;
+      max-width: 620px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Top Navigation Bar */
+    .top-navbar {
+      background: rgba(17, 26, 46, 0.88);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .brand-logo-wrap {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid var(--gold);
+      box-shadow: 0 0 14px var(--gold-glow);
+      background: #0f172a;
+      flex-shrink: 0;
+    }
+
+    .brand-logo-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .brand-info h2 {
+      font-size: 14.5px;
+      font-weight: 900;
+      color: #ffffff;
+      line-height: 1.25;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .brand-info p {
+      font-size: 11.5px;
+      color: var(--gold-light);
+      font-weight: 600;
+    }
+
+    .back-hub-btn {
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid var(--card-border);
+      color: var(--gold-light);
+      padding: 6px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 800;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .back-hub-btn:hover {
+      background: rgba(245, 158, 11, 0.25);
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    /* Tool Header Card */
+    .tool-header-card {
+      background: linear-gradient(155deg, #131d33 0%, #0c1322 100%);
+      border: 1.5px solid var(--card-border);
+      border-radius: 22px;
+      padding: 20px 18px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.45);
+      text-align: center;
+    }
+
+    .tool-header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(245, 158, 11, 0.14);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      color: var(--gold-light);
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .tool-header-icon {
+      font-size: 46px;
+      margin-bottom: 8px;
+      display: inline-block;
+      animation: floatIcon 3s ease-in-out infinite;
+    }
+
+    @keyframes floatIcon {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .tool-header-title {
+      font-size: 20px;
+      font-weight: 900;
+      color: #ffffff;
+      line-height: 1.35;
+      margin-bottom: 8px;
+    }
+
+    .tool-header-desc {
+      font-size: 13.5px;
+      color: var(--text-body);
+      line-height: 1.65;
+    }
+
+    /* Progress Bar */
+    .progress-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .progress-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--text-muted);
+    }
+
+    .progress-bar-bg {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 25%;
+      background: var(--gold-gradient);
+      border-radius: 10px;
+      transition: width 0.35s ease;
+      box-shadow: 0 0 10px var(--gold);
+    }
+
+    /* Question Screen */
+    .question-card {
+      background: linear-gradient(155deg, #131d33 0%, #0c1322 100%);
+      border: 1.5px solid var(--card-border);
+      border-radius: 22px;
+      padding: 22px 18px;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.45);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .question-title-wrap {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .q-num-pill {
+      background: var(--gold-gradient);
+      color: #0f172a;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 900;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .question-title {
+      font-size: 16.5px;
+      font-weight: 900;
+      color: #ffffff;
+      line-height: 1.5;
+    }
+
+    /* Options List */
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .option-btn {
+      background: rgba(15, 23, 42, 0.75);
+      border: 1.5px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-align: right;
+      color: #e2e8f0;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.45;
+      cursor: pointer;
+      transition: all 0.22s ease;
+    }
+
+    .option-btn:hover {
+      background: rgba(245, 158, 11, 0.1);
+      border-color: rgba(245, 158, 11, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .option-btn.selected {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.22) 0%, rgba(217, 119, 6, 0.15) 100%);
+      border-color: var(--gold);
+      color: #ffffff;
+      box-shadow: 0 4px 18px rgba(245, 158, 11, 0.25);
+    }
+
+    .option-radio {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .option-btn.selected .option-radio {
+      border-color: var(--gold);
+      background: var(--gold);
+    }
+
+    .option-btn.selected .option-radio::after {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #0f172a;
+    }
+
+    .option-text {
+      flex: 1;
+    }
+
+    /* Navigation Buttons */
+    .nav-buttons-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .btn-nav-prev {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #94a3b8;
+      padding: 12px 18px;
+      border-radius: 14px;
+      font-size: 13.5px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-nav-prev:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+    }
+
+    .btn-nav-next {
+      flex: 1;
+      background: var(--gold-gradient);
+      color: #0f172a;
+      border: none;
+      padding: 13px 20px;
+      border-radius: 14px;
+      font-size: 14.5px;
+      font-weight: 900;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 18px rgba(245, 158, 11, 0.35);
+      transition: all 0.2s;
+    }
+
+    .btn-nav-next:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 22px rgba(245, 158, 11, 0.5);
+    }
+
+    .btn-nav-next:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    /* Scanning Loader Card */
+    .scanning-card {
+      background: linear-gradient(155deg, #131d33 0%, #0c1322 100%);
+      border: 2px solid var(--gold);
+      border-radius: 24px;
+      padding: 40px 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+    }
+
+    .pulse-scanner {
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      border: 3px solid var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      position: relative;
+      animation: pulseRings 1.4s infinite ease-out;
+    }
+
+    @keyframes pulseRings {
+      0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.6); }
+      70% { box-shadow: 0 0 0 20px rgba(245, 158, 11, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+    }
+
+    .scanning-title {
+      font-size: 18px;
+      font-weight: 900;
+      color: #ffffff;
+    }
+
+    .scanning-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* Results Screen */
+    .results-card {
+      background: linear-gradient(155deg, #131d33 0%, #0c1322 100%);
+      border: 2px solid var(--gold);
+      border-radius: 24px;
+      padding: 24px 18px;
+      box-shadow: 0 15px 45px rgba(0,0,0,0.65), 0 0 30px rgba(245, 158, 11, 0.15);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      text-align: center;
+    }
+
+    .results-top-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(245, 158, 11, 0.18);
+      border: 1px solid var(--gold);
+      color: #fbbf24;
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 800;
+      margin: 0 auto;
+    }
+
+    .results-icon {
+      font-size: 50px;
+      margin-top: 4px;
+    }
+
+    .results-title {
+      font-size: 21px;
+      font-weight: 900;
+      color: #ffffff;
+      line-height: 1.35;
+    }
+
+    .result-metric-box {
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      border-radius: 18px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .metric-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+
+    .metric-val {
+      font-size: 24px;
+      font-weight: 900;
+      color: var(--gold-light);
+    }
+
+    .result-diagnosis-quote {
+      background: rgba(245, 158, 11, 0.08);
+      border-right: 4px solid var(--gold);
+      padding: 14px 16px;
+      border-radius: 12px;
+      text-align: right;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #f1f5f9;
+      line-height: 1.7;
+    }
+
+    .result-tips-box {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 14px 16px;
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .tips-header {
+      font-size: 13.5px;
+      font-weight: 900;
+      color: #38bdf8;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tips-text {
+      font-size: 12.5px;
+      color: #cbd5e1;
+      line-height: 1.65;
+    }
+
+    /* Action Buttons in Results */
+    .cta-buttons-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .btn-share-wa {
+      background: #25D366;
+      color: #ffffff;
+      text-decoration: none;
+      padding: 14px 18px;
+      border-radius: 14px;
+      font-size: 14.5px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 16px rgba(37, 211, 102, 0.35);
+      transition: all 0.2s;
+    }
+
+    .btn-share-wa:hover {
+      background: #1eb956;
+      transform: translateY(-2px);
+    }
+
+    .btn-book-clinic {
+      background: var(--gold-gradient);
+      color: #0f172a;
+      text-decoration: none;
+      padding: 14px 18px;
+      border-radius: 14px;
+      font-size: 14.5px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 16px rgba(245, 158, 11, 0.35);
+      transition: all 0.2s;
+    }
+
+    .btn-book-clinic:hover {
+      transform: translateY(-2px);
+    }
+
+    .secondary-actions-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-call-direct {
+      flex: 1;
+      background: rgba(59, 130, 246, 0.16);
+      border: 1px solid rgba(59, 130, 246, 0.4);
+      color: #93c5fd;
+      text-decoration: none;
+      padding: 11px 12px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-other-tools {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #e2e8f0;
+      text-decoration: none;
+      padding: 11px 12px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-call-direct:hover, .btn-other-tools:hover {
+      background: rgba(255, 255, 255, 0.12);
+      transform: translateY(-1px);
+    }
+
+    /* Footer */
+    .app-footer {
+      text-align: center;
+      font-size: 11.5px;
+      color: #94a3b8;
+      line-height: 1.6;
+      margin-top: 10px;
+    }
+
+    .app-footer a {
+      color: var(--gold);
+      text-decoration: underline;
+      font-weight: 700;
+    }
+
+    .mobile-spacer {
+      width: 100%;
+      height: calc(40px + env(safe-area-inset-bottom, 24px));
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+
+    <!-- Top Brand Navbar -->
+    <header class="top-navbar">
+      <a href="/" class="brand-group">
+        <div class="brand-logo-wrap">
+          <img src="/logo.jpg" alt="وداعاً للألم">
+        </div>
+        <div class="brand-info">
+          <h2>وداعاً للألم <span style="font-size:10px; background:rgba(245,158,11,0.2); color:#fbbf24; border:1px solid #f59e0b; padding:1px 5px; border-radius:10px;">Care</span></h2>
+          <p>تقويم العمود الفقري والتأهيل الحركي</p>
+        </div>
+      </a>
+
+      <a href="/" class="back-hub-btn">
+        <span>⚡ المنصة</span>
+        <span>←</span>
+      </a>
+    </header>
+
+    <!-- View: Question Screen -->
+    <main id="quizScreen" style="display: flex; flex-direction: column; gap: 14px;">
+      
+      <!-- Tool Header -->
+      <div class="tool-header-card">
+        <div class="tool-header-badge" id="toolTag">فحص تخصصي 📌</div>
+        <div class="tool-header-icon" id="toolIcon">📌</div>
+        <h1 class="tool-header-title" id="toolTitle">كاشف مسمار الأبهر وعقد الأكتاف</h1>
+        <p class="tool-header-desc" id="toolDesc">
+          فحص سريري يحدد موضع النخزة الشبيهة بالسكين بين لوحي الكتف ومستوى انضغاط الفقرات الصدرية T3-T5.
+        </p>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="progress-wrap">
+        <div class="progress-meta">
+          <span id="progressText">السؤال 1 من 4</span>
+          <span id="progressPercent">25%</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="progressBar"></div>
+        </div>
+      </div>
+
+      <!-- Question Card -->
+      <div class="question-card">
+        <div class="question-title-wrap">
+          <span class="q-num-pill" id="qNum">1</span>
+          <h2 class="question-title" id="qTitle">أين يتركز موضع الألم أو النغزة الأساسية؟</h2>
+        </div>
+
+        <div class="options-list" id="optionsList">
+          <!-- Dynamically Injected Options -->
+        </div>
+
+        <div class="nav-buttons-row">
+          <button class="btn-nav-prev" id="btnPrev" onclick="prevQuestion()" style="display: none;">السابق</button>
+          <button class="btn-nav-next" id="btnNext" onclick="nextQuestion()" disabled>
+            <span>التالي</span>
+            <span>←</span>
+          </button>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- View: Scanning Loader -->
+    <div id="scanningScreen" style="display: none;" class="scanning-card">
+      <div class="pulse-scanner" id="scanIcon">⚡</div>
+      <h3 class="scanning-title" id="scanTitle">جاري تحليل بيانات الفحص والأعراض...</h3>
+      <p class="scanning-sub">مطابقة بيوميكانيكية مع معايير الكايروبراكتيك والتأهيل اليدوي</p>
+    </div>
+
+    <!-- View: Results Screen -->
+    <div id="resultsScreen" style="display: none;" class="results-card">
+      <div class="results-top-badge">👑 تقرير الفحص السريري الذكي</div>
+      
+      <div class="results-icon" id="resIcon">📌</div>
+      <h2 class="results-title" id="resTitle">تشخيص الحالة</h2>
+
+      <div class="result-metric-box">
+        <span class="metric-label" id="resMetricLabel">مؤشر الإجهاد</span>
+        <span class="metric-val" id="resMetricVal">88%</span>
+      </div>
+
+      <div class="result-diagnosis-quote" id="resDiagnosis">
+        <!-- Diagnosis text -->
+      </div>
+
+      <div class="result-tips-box">
+        <div class="tips-header">
+          <span>🌿</span>
+          <span id="resAdviceHeader">نصيحة الفريق الطبي التأهيلي</span>
+        </div>
+        <p class="tips-text" id="resAdvice">
+          <!-- Advice text -->
+        </p>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="cta-buttons-wrap">
+        <a href="#" id="btnShareWhatsApp" target="_blank" class="btn-share-wa">
+          <span>📢 شارك نتيجتك المضحكة بالواتساب</span>
+        </a>
+
+        <a href="#" id="btnBookClinic" target="_blank" class="btn-book-clinic">
+          <span>💬 احجز جلسة تقويم يدوية (خلدا)</span>
+        </a>
+
+        <div class="secondary-actions-row">
+          <a href="tel:0790360440" class="btn-call-direct">
+            <span>📞 اتصال 0790360440</span>
+          </a>
+          <a href="/" class="btn-other-tools">
+            <span>⚡ فحص أداة أخرى</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      بوابة أدوات الفحص الذكية • <a href="https://smartchecktools.com" target="_blank">Smart Check Tools</a> بالتعاون مع <b>وداعاً للألم</b>.<br>
+      <b>أداة التشخيص والعلاج بالذكاء الاصطناعي</b> • عمّان، الأردن © 2026.
+    </footer>
+
+    <div class="mobile-spacer"></div>
+
+  </div>
+
+  <script>
+    // ========================================================
+    // DATABASE OF ALL CLINICAL SMART CHECK TOOLS
+    // ========================================================
+    const TOOLS_DATA = {
+      'abhar': {
+        id: 'abhar',
+        tag: 'فحص تخصصي للفقرات الصدرية T3-T5 📌',
+        icon: '📌',
+        title: 'كاشف "مسمار الأبهر وعقد الأكتاف"',
+        desc: 'فحص سريري يحدد موضع النخزة الشبيهة بالسكين بين لوحي الكتف ومستوى انضغاط الفقرات الصدرية T3-T5.',
+        questions: [
+          {
+            title: 'أين يتركز موضع الألم أو النغزة الأساسية؟',
+            options: [
+              { text: 'بين لوح الكتف والعمود الفقري (كأنه مسمار أو سكين مغروز) 🔪', score: 3 },
+              { text: 'في أعلى الكتف وممتد إلى الرقبة وقاعدة الجمجمة ⚡', score: 2 },
+              { text: 'تحت لوح الكتف وبيمتد للأمام جهة القفص الصدري والقلب 🫁', score: 3 },
+              { text: 'وجع عام متفرق وخفيف بأعلى الظهر 🎯', score: 1 }
+            ]
+          },
+          {
+            title: 'متى بتشتد عليك النغزة أكثر شيء؟',
+            options: [
+              { text: 'لما آخذ نفس عميق أو أتثاءب أو أعطس 🫁', score: 3 },
+              { text: 'بعد ساعات طويلة من الشغل على اللابتوب أو الموبايل 💻', score: 2 },
+              { text: 'لما يلفحني هواء بارد أو مكيف السيارة 🥶', score: 2 },
+              { text: 'لما أتوتر أو أعصب بآخر النهار 🤯', score: 2 }
+            ]
+          },
+          {
+            title: 'لما تضغط بإصبعك أو بكرة تنس على النقطة شو بتشعر؟',
+            options: [
+              { text: 'وجع حاد جداً بس بريّح لحظياً وبشع بكهرباء 💥', score: 3 },
+              { text: 'صوت فرقعة وطقطقة كأنه فستق عم بتكسر 🥜', score: 3 },
+              { text: 'كتلة قاسية كأنها حجرة صغيرة تحت الجلد 🪨', score: 3 },
+              { text: 'وجع خفيف ما بتفرق كثير معي 🌿', score: 1 }
+            ]
+          },
+          {
+            title: 'كيف بتوصف قدرتك على تحريك رقبتك وكتفك حالياً؟',
+            options: [
+              { text: 'كتفي متخشب ومش قادر ألف راسي للآخر (نص لفة) 🧱', score: 3 },
+              { text: 'حركة كاملة بس مع ألم وشد مستمر ⚡', score: 2 },
+              { text: 'حركة مقيدة مع إحساس بثقل وصداع خلفي 🤕', score: 3 },
+              { text: 'مرن وحركتي طبيعية بس النغزة بتفاجئني 🔪', score: 1 }
+            ]
+          }
+        ],
+        results: {
+          high: {
+            title: 'مسمار أبهر حاد ومستفحل (عقدة بحارة T4) 📌',
+            metricLabel: 'درجة التشنج العضلي',
+            metricVal: '92% (شديد جداً)',
+            diagnosis: 'المنطقة عندك عاقدة عقد بحارة! عضلات ما بين لوحي الكتف (Rhomboids) متشنجة بشدة وتجر الفقرات الصدرية T3-T5 ومفصل الضلع، وهذا سبب نغزة السكينة اللي بتمنعك تأخذ نفس عميق!',
+            advice: 'لا تحاول تطقطق ظهرك بالعنف! العقدة محتاجة تحرير نقطي يدوي (Trigger Point Release) وإعادة موازنة للفقرات الصدرية بجلسة كايروبراكتيك متخصصة لفك المسمار من جذوره.',
+            waShare: '📌 فحصت مسمار الأبهر والسكينة بين كتافي على Smart Check Tools!\n🎯 النتيجة: مسمار أبهر مستفحل 92% وعقدة عضلية كأنها سكين بحاجة فك يدوي فوراً!\nكل واحد يفحص كتفه لنشوف مين عنده مسمار ومين كتفه وكالة 😂👇\nhttps://wada3an-bot.onrender.com/abhar'
+          },
+          moderate: {
+            title: 'تشنج ألياف صدرية وإجهاد مكتبي مبكر ⚡',
+            metricLabel: 'درجة التشنج العضلي',
+            metricVal: '68% (متوسط)',
+            diagnosis: 'ألياف العضلات بين الكتفين تعاني من إجهاد ونقص تروية دموية بسبب وضعية الجلوس، وبداية تشكل عقد ليفية خفيفة قابلة للتطور إذا أهملتها.',
+            advice: 'قم بتمارين الإطالة للصدر وكتفي الظهر كل 45 دقيقة، واستخدم كمادات دافئة مساءً، واستشر أخصائي التأهيل إذا استمرت النغزة.',
+            waShare: '📌 فحصت كتفي وطلعت النتيجة: تشنج ألياف صدرية 68% وبداية مسمار أبهر مكتبي!\nافحص كتفك قبل لا يعقد عليك 👇\nhttps://wada3an-bot.onrender.com/abhar'
+          }
+        }
+      },
+
+      'sheep-load': {
+        id: 'sheep-load',
+        tag: 'بيوميكانيك أحمال الفقرات 🐑',
+        icon: '🐑',
+        title: 'حاسبة "ضريبة القعدة وحمل الخروف"',
+        desc: 'احسب بدقة كم كيلوغراماً إضافياً تضعه فوق فقرات رقبتك وأسفل ظهرك بسبب ثني الرأس والجلوس المكتبي!',
+        questions: [
+          {
+            title: 'كم ساعة بتقضيها قاعد باليوم (مكتب + موبايل + سيارة)؟',
+            options: [
+              { text: 'أكثر من 11 ساعة (مقيم إقامة دائمة على الكرسي) 🪑', score: 3 },
+              { text: 'من 7 إلى 10 ساعات (دوام مكتبي معتاد وتصفح) 💼', score: 2 },
+              { text: 'من 4 إلى 6 ساعات يومياً ⏱️', score: 1 },
+              { text: 'أقل من 4 ساعات، حركتي مستمرة 🏃‍♂️', score: 0 }
+            ]
+          },
+          {
+            title: 'كيف زاوية رقبتك وأنت بتطّلع على الموبايل أو الشاشة؟',
+            options: [
+              { text: 'حاني راسي للأسفل تماماً نحو الصدر (زاوية 60°) 🐢', score: 4 },
+              { text: 'مميل راسي للأمام شوي (زاوية 30° - 45°) 📱', score: 2 },
+              { text: 'مستقيمة وعيني بمستوى الشاشة تقريباً 👓', score: 0 },
+              { text: 'متكئ على جنب وراسي مائل 🛋️', score: 3 }
+            ]
+          },
+          {
+            title: 'كيف وضعية جلوسك المفضلة على الكرسي؟',
+            options: [
+              { text: 'زاحل على الكرسي ومتكئ على أسفل ظهري (Slouching) 🛋️', score: 3 },
+              { text: 'حاطط رجل على رجل ومقوس الظهر للأمام 💻', score: 3 },
+              { text: 'كل 5 دقائق بوضعية عجيبة 🤸‍♂️', score: 2 },
+              { text: 'جالس على عظمة الحوض ومسند الظهر مستقيم 🪑', score: 0 }
+            ]
+          },
+          {
+            title: 'شو أول ردة فعل لظهرك لما توقف بعد قعدة ساعتين متواصلة؟',
+            options: [
+              { text: 'بأخذ وضعية الرجل العجوز وبمسك خصري ثواني تيتعدل 🧓', score: 3 },
+              { text: 'طقطقة وتخشب بدهم دقيقة تيفكوا ⚙️', score: 2 },
+              { text: 'وجع لساع بأسفل الظهر والرقبة ⚡', score: 3 },
+              { text: 'بوقف وبتحرك بنشاط بدون أي وجع 🦌', score: 0 }
+            ]
+          }
+        ],
+        results: {
+          high: {
+            title: 'حامل خروف بلدي نعيمي (32 كغم إضافي!) 🐑',
+            metricLabel: 'الوزن الإضافي الملقى على فقراتك',
+            metricVal: '+32 كغم ضغط زائد!',
+            diagnosis: 'وزن رأسك الطبيعي 5 كغم، ولكن مع ميلان الرقبة والجلوس المقوس، فإن الضغط البيوميكانيكي على فقراتك يعادل 32 كيلوغراماً! يعني حرفياً حامل خروف نعيمي فوق كتافك طوال ساعات الدوام!',
+            advice: 'غضاريف الرقبة وأسفل الظهر L4-L5 تحت خطر الانضغاط. تحتاج رفع شاشتك لمستوى العين، وتعديل بيئة الجلوس، وجلسة تأهيل حركي لإعادة التوازن للعمود الفقري.',
+            waShare: '🐑 عملت فحص ضريبة القعدة وحمل الخروف على Smart Check Tools!\nوزن راسي الطبيعي: 5 كغم 🧠\nالوزن الفعلي اللي حامله على فقراتي: +32 كغم (خروف نعيمي كامل فوق رقبتي وأنا مو حاسس!) 😂\nافحص كم خروف حامل على كتافك 👇\nhttps://wada3an-bot.onrender.com/sheep-load'
+          },
+          moderate: {
+            title: 'حامل حقيبة سفر ثقيلة (18 كغم إضافي) 🎒',
+            metricLabel: 'الوزن الإضافي الملقى على فقراتك',
+            metricVal: '+18 كغم ضغط زائد',
+            diagnosis: 'فقراتك تتحمل ضغطاً مضاعفاً يعادل حقيبة سفر محشوة بالأحمال. هذا الإجهاد يسرع من جفاف الغضاريف وتيبس أوتار الرقبة.',
+            advice: 'خذ استراحة مشي دقيقتين كل ساعة، واحرص على عدم ثني الرقبة أثناء استخدام الهاتف.',
+            waShare: '🐑 فحصت وزن الأحمال على فقراتي وطلع عندي 18 كغم ضغط زائد على الرقبة!\nافحص ظهرك وشوف كم كيلو حامل 👇\nhttps://wada3an-bot.onrender.com/sheep-load'
+          }
+        }
+      },
+
+      'sciatica': {
+        id: 'sciatica',
+        tag: 'فحص سريري لمسار العصب الوركي ⚡',
+        icon: '⚡',
+        title: 'فاحص انضغاط عرق النسا والوركي',
+        desc: 'تتبع مسار التنميل، الخدران، واللسعة الكهربائية لكشف انضغاط العصب الوركي أو متلازمة العضلة الكمثرية بالحوض.',
+        questions: [
+          {
+            title: 'مسار الألم وين بيمشي معك بالتحديد؟',
+            options: [
+              { text: 'من أسفل الظهر للمؤخرة وخلف الفخذ وتحت الركبة للقدم 👣', score: 4 },
+              { text: 'بجهة واحدة نازل مثل سلك كهرباء حامي ⚡', score: 3 },
+              { text: 'بأسفل الظهر والمؤخرة فقط بدون نزول للساق 🎯', score: 2 },
+              { text: 'تنميل متفرق بأصابع القدم فقط 🦶', score: 1 }
+            ]
+          },
+          {
+            title: 'شو نوع الإحساس الأكثر إزعاجاً لك؟',
+            options: [
+              { text: 'لسعة حارقة أو نبض كهربائي مفاجئ ⚡', score: 3 },
+              { text: 'تنميل وخدران كأنه نمل بيمشي على رجلي 🐜', score: 3 },
+              { text: 'ثقل وضعف بالرجل كأنها مش قادرة تشيلني 🦵', score: 3 },
+              { text: 'شد عضلي ببطة الساق أو الفخذ 🪢', score: 1 }
+            ]
+          },
+          {
+            title: 'هل الألم بيشتد مع الكحة، العطسة، أو الجلوس الطويل؟',
+            options: [
+              { text: 'نعم! مع الكحة أو العطسة بحس بصعقة كهربائية 💥', score: 4 },
+              { text: 'مع الجلوس الطويل بالسيارة أو الكرسي بصير لا يُطاق 🪑', score: 3 },
+              { text: 'مع المشي لمسافة معينة لازم أوقف وأجلس 🚶‍♂️', score: 2 },
+              { text: 'ما بتأثر بهيك أمور 🛡️', score: 0 }
+            ]
+          },
+          {
+            title: 'فحص رفع الساق مستقيمة (وأنت مستلقي على ظهرك):',
+            options: [
+              { text: 'ما بقدر أرفع رجلي فوق 30-45 درجة من شدة الألم 🛑', score: 4 },
+              { text: 'برفعها لـ 60 درجة مع شد وألم حارق بالخلف ⚠️', score: 2 },
+              { text: 'برفعها لـ 90 درجة بسهولة تامة وبدون ألم ✅', score: 0 },
+              { text: 'ما جربت بس بحس بالشد دايماً 🤷‍♂️', score: 1 }
+            ]
+          }
+        ],
+        results: {
+          high: {
+            title: 'انضغاط حاد بمسار العصب الوركي (عرق النسا L5-S1) ⚡',
+            metricLabel: 'مؤشر تهيج العصب الوركي',
+            metricVal: '89% (انضغاط شديد)',
+            diagnosis: 'أعراضك تشير بوضوح لانضغاط ميكانيكي على جذور العصب الوركي (Sciatica)، غالباً نتيجة نتوء غضروفي قطني أو تشنج عميق بالعضلة الكمثرية (Piriformis) يخنُق العصب.',
+            advice: 'تجنب الجلوس الطويل وحمل الأوزان فوراً. التقويم اليدوي للفقرات القطنية وتحرير مفصل الحوض (Sacroiliac Joint) بدون جراحة هو المسار العلمي لتخفيف الضغط وإيقاف التنميل.',
+            waShare: '⚡ فحصت انضغاط عرق النسا والوركي على Smart Check Tools!\nالنتيجة: انضغاط حاد بالعصب الوركي L5-S1 وسلك الكهرباء بدّه صيانة يدوية وتوسيع فقرات! 😂\nافحص أعصاب رجلك وظهرك قبل لا تطفي السيارة بالكامل 👇\nhttps://wada3an-bot.onrender.com/sciatica'
+          },
+          moderate: {
+            title: 'تهيج حوضي قطني مبكر (Pseudosciatica) 🌿',
+            metricLabel: 'مؤشر تهيج العصب الوركي',
+            metricVal: '58% (متوسط)',
+            diagnosis: 'أعراضك تتماشى مع إجهاد بمفصل الحوض وتشنج عضلات المقعدة العميقة، مسببة عرق نسا كاذب بدون تلف عصبي حاد.',
+            advice: 'مارس تمارين إطالة العضلة الكمثرية وتجنب وضع المحفظة بالجيب الخلفي، واستشر أخصائي التأهيل إذا نزل الألم تحت الركبة.',
+            waShare: '⚡ فحصت عرق النسا وطلع عندي تهيج حوضي مبكر 58%!\nافحص مسار عصبك الوركي 👇\nhttps://wada3an-bot.onrender.com/sciatica'
+          }
+        }
+      },
+
+      'sleep-posture': {
+        id: 'sleep-posture',
+        tag: 'هندسة النوم وتوازن الفقرات العنقية 🛌',
+        icon: '🛌',
+        title: 'رادار "وضعية النوم وتيبس الصباح"',
+        desc: 'كشف سبب استيقاظك برقبة باطونية متصلبة وتنميل باليدين، وفحص ملاءمة المخدة والمرتبة لانحناءات عمودك الفقري.',
+        questions: [
+          {
+            title: 'كيف بتصحى من النوم بالعادة أغلب الأيام؟',
+            options: [
+              { text: 'رقبتي معلقة ومتصلبة وما بقدر ألفها يمين أو يسار 🧱', score: 4 },
+              { text: 'بوجع وتخشب بأسفل الظهر بيحتاج ربع ساعة تيفك 🧓', score: 3 },
+              { text: 'تنميل وخدران بأصابعي أو إيدي ✋', score: 3 },
+              { text: 'بنشاط وراحة وخفة تامة 🕊️', score: 0 }
+            ]
+          },
+          {
+            title: 'شو وضعية نومك السائدة أغلب الليل؟',
+            options: [
+              { text: 'على البطن ولافف راسي لجهة وحدة طول الليل ⚠️', score: 4 },
+              { text: 'على الجنب بدون مخدة بين الركبتين 🌙', score: 2 },
+              { text: 'بتقلب طول الليل وبصحى بالمقلوب 🔄', score: 2 },
+              { text: 'على الظهر مع دعم مريح للرقبة 🛌', score: 0 }
+            ]
+          },
+          {
+            title: 'كيف بتوصف مخدتك الحالية؟',
+            options: [
+              { text: 'مخدتين عاليات فوق بعض كأنهم رصيف شارع 🧱', score: 3 },
+              { text: 'مخدة ريش ناعمة جداً راسي بيغوص فيها للبلاط 🪶', score: 3 },
+              { text: 'مخدة قديمة متكتلة وقاسية 🪵', score: 2 },
+              { text: 'مخدة طبية ميموري فوم مريحة 👍', score: 0 }
+            ]
+          },
+          {
+            title: 'شو نوع مرتبة السرير (الفرشة) عندك؟',
+            options: [
+              { text: 'طرية جداً وبتغوص وبتعمل حفرة بالوسط 🕳️', score: 3 },
+              { text: 'قاسية جداً كأنها لوح خشب 🪨', score: 2 },
+              { text: 'عمرها أكثر من 10 سنين وسبرينغاتها بتعزف 🎵', score: 3 },
+              { text: 'طبية متوازنة وتدعم انحناء الظهر 👍', score: 0 }
+            ]
+          }
+        ],
+        results: {
+          high: {
+            title: 'الرقبة الباطونية المتصلبة (التواء C4-C6) 🧱',
+            metricLabel: 'مؤشر إجهاد وضعية النوم',
+            metricVal: '86% (خطر على الفقرات)',
+            diagnosis: 'النوم على البطن أو استخدام مخدات غير ملائمة يضع فقراتك العنقية تحت التواء حاد طوال 7 ساعات متواصلة! هذا يعصر جذور الأعصاب ويسبب تيبس الصباح وتنميل اليدين.',
+            advice: 'توقف عن النوم على البطن فوراً! استبدل مخدتك بمخدة طبية بارتفاع يساوي المسافة بين كتفك وأذنك، واستفد من جلسة تقويم عنقي لفك التشنج المتبقي.',
+            waShare: '🛌 فحصت رادار وضعية نومي وتيبس الصباح على Smart Check Tools!\nالنتيجة: رقبتي بتصحى باطونية متصلبة بسبب المخدة ووضعية النوم الغلط 😂\nافحص نومتك وشوف ليش بتصحى كأنك ماكل قتلة 👇\nhttps://wada3an-bot.onrender.com/sleep-posture'
+          },
+          moderate: {
+            title: 'إجهاد وسائد متوسط وتخشب قطني صباحي 🛏️',
+            metricLabel: 'مؤشر إجهاد وضعية النوم',
+            metricVal: '62% (متوسط)',
+            diagnosis: 'وضعية نومك بحاجة لتعديلات طفيفة لدعم تقوس أسفل الظهر والرقبة لتجنب الاستيقاظ بتخشب موضعي.',
+            advice: 'ضع وسادة صغيرة بين ركبتيك عند النوم على الجنب لدعم الحوض، وتأكد من استبدال المرتبة إذا تجاوز عمرها 8 سنوات.',
+            waShare: '🛌 فحصت وضعية نومي وطلعت النتيجة: إجهاد وسائد وتخشب قطني 62%!\nافحص مخدتك وفرشتك 👇\nhttps://wada3an-bot.onrender.com/sleep-posture'
+          }
+        }
+      },
+
+      'driver-strain': {
+        id: 'driver-strain',
+        tag: 'فحص إجهاد السير وميلان الحوض 🚗',
+        icon: '🚗',
+        title: 'فاحص "تشنج الأزمات وفقرات السائقين"',
+        desc: 'فحص أثر أزمات السير المتكررة، دعسة البريك، ومحفظة الجيب الخلفي على فقراتك القطنية وعضلة الحوض.',
+        questions: [
+          {
+            title: 'كم ساعة بتقضيها بالسيارة يومياً بأزمات السير؟',
+            options: [
+              { text: 'أكثر من ساعتين ونصف (دوار الداخلية والمدينة بيتي الثاني) 🚦', score: 4 },
+              { text: 'سائق مهني (تطبيقات / تكسي / نقل) طوال اليوم 🚖', score: 4 },
+              { text: 'من ساعة إلى ساعتين 🚗', score: 2 },
+              { text: 'أقل من ساعة يومياً ⏱️', score: 0 }
+            ]
+          },
+          {
+            title: 'هل بتحط المحفظة أو الموبايل بجيب البنطلون الخلفي وأنت سايق؟',
+            options: [
+              { text: 'دايماً موجودة ومنتفخة فواتير وبطاقات! 💼', score: 4 },
+              { text: 'أحياناً بنسى وبخليهم ⚠️', score: 2 },
+              { text: 'مستحيل، بشيلهم قبل ما أركب السيارة 💳', score: 0 },
+              { text: 'ما بلبس بناطيل بجيوب خلفية 👖', score: 0 }
+            ]
+          },
+          {
+            title: 'كيف بتكون رجلك اليمين وجلستك أثناء دعسة البريك بالأزمة؟',
+            options: [
+              { text: 'مشدودة طول الوقت ومفصل الورك قالب لليمين ⚡', score: 3 },
+              { text: 'رجلي بتخدر أو بشد العصب من كثر التوقف 🛑', score: 3 },
+              { text: 'كرسي السائق مايل أو غير مريح 💺', score: 2 },
+              { text: 'مرتاحة والكعب مثبت بالأرض 👟', score: 0 }
+            ]
+          },
+          {
+            title: 'شو بتحس لما تنزل من السيارة بعد مشوار طويل؟',
+            options: [
+              { text: 'لازم أضل حاني ضهري 10 ثواني تيتعدل 🐢', score: 3 },
+              { text: 'لسعة بأسفل الظهر ومفصل الحوض كأنه مخلوع 🪵', score: 3 },
+              { text: 'وجع بالرقبة والأكتاف من مسكة الستيرنج 🚗', score: 2 },
+              { text: 'بنزل عادي ومستقيم بنشاط 🏃', score: 0 }
+            ]
+          }
+        ],
+        results: {
+          high: {
+            title: 'متلازمة السائق المأزوم ومحفظة الحوض المائل 🚗',
+            metricLabel: 'مؤشر إجهاد السواقة',
+            metricVal: '90% (إجهاد حرج)',
+            diagnosis: 'الجلوس على محفظة سميكة يرفع أحد جانبي الحوض بمقدار 2 سم، مما يلوي العمود الفقري طوال ساعات السواقة، ومع دعسة البريك المتكررة تتشنج عضلة البيريفورميس وتضغط على العصب الوركي!',
+            advice: 'أخرج المحفظة فوراً من جيبك الخلفي، وعدّل ميلان كرسي السائق لزاوية 100-110 درجات، واحجز جلسة موازنة حوض يدوية لفك التواء الفقرات القطنية.',
+            waShare: '🚗 فحصت تشنج الأزمات وفقرات السائقين على Smart Check Tools!\nالنتيجة: دوار الداخلية ومحفظة الجيب خلو حوضي مايل والفقرات بتصيح استغاثة! 😂\nافحص ظهرك وشوف شو عاملة فيك السواقة بأزمات البلد 👇\nhttps://wada3an-bot.onrender.com/driver-strain'
+          },
+          moderate: {
+            title: 'تشنج قطني وساقي خفيف بسبب الازدحام 🚦',
+            metricLabel: 'مؤشر إجهاد السواقة',
+            metricVal: '60% (متوسط)',
+            diagnosis: 'أوتار الساق ومفصل الورك تعاني من إجهاد الثبات المتكرر، وتحتاج لضبط وضعية الكرسي لتفادي الضغط المزمن.',
+            advice: 'قرّب كرسي السيارة بحيث تصل دعسة البريك بركبة مثنية قليلاً، واعمل تمارين استطالة خفيفة بعد المشاوير الطويلة.',
+            waShare: '🚗 فحصت إجهاد السواقة وطلعت النتيجة: تشنج أزمات متوسط 60%!\nافحص ظهرك وسواقتك 👇\nhttps://wada3an-bot.onrender.com/driver-strain'
+          }
+        }
+      },
+
+      'uneven-shoulder': {
+        id: 'uneven-shoulder',
+        tag: 'كاشف الجنف الوظيفي والميلان 🎒',
+        icon: '🎒',
+        title: 'مقياس "اعوجاج الشنتة والكتف المائل"',
+        desc: 'فحص تباين ارتفاع الكتفين وميلان الحوض الناتج عن حمل اللابتوب أو الشنطة على جانب واحد وتأثيره على اعوجاج الفقرات.',
+        questions: [
+          {
+            title: 'لما توقف قدام المراية وتتطلع على مستوى كتفيك:',
+            options: [
+              { text: 'كتف أوطى من الثاني بشكل ملحوظ (مائل) 📐', score: 4 },
+              { text: 'راسي مميل لجهة والكتف مشدود لفوق 🦒', score: 3 },
+              { text: 'ما انتبهت من قبل بس بحس بفرق بالملابس 🪞', score: 2 },
+              { text: 'مستويين تماماً بنفس الارتفاع ⚖️', score: 0 }
+            ]
+          },
+          {
+            title: 'كيف طريقة حملك للحقيبة أو اللابتوب يومياً؟',
+            options: [
+              { text: 'حقيبة كتف واحدة على نفس الجهة دايماً 💼', score: 4 },
+              { text: 'بحمل لابتوب أو غرض ثقيل بإيد وحدة دايماً ✋', score: 3 },
+              { text: 'حقيبة ظهر على الكتفين معاً بالتساوي 🎒', score: 0 },
+              { text: 'ما بحمل حقائب نهائياً 🚶‍♂️', score: 0 }
+            ]
+          },
+          {
+            title: 'هل بتلاحظ إن أكمام القميص أو بنطلونك بتسحل من جهة أكثر من الثانية؟',
+            options: [
+              { text: 'نعم دايماً جهة أطول من جهة وبتسحل 👔', score: 3 },
+              { text: 'حمالة الحقيبة أو سحاب الجاكيت بقع عن جهة وحدة 🧥', score: 3 },
+              { text: 'أحياناً بلاحظها بالملابس الرسمية 👗', score: 2 },
+              { text: 'لا، متساويين تماماً ✅', score: 0 }
+            ]
+          },
+          {
+            title: 'شو نوع الشد العضلي اللي بتحس فيه بظهرك؟',
+            options: [
+              { text: 'شد دائم جهة واحدة كأنه حبل مشدود بده ينقطع 🪢', score: 4 },
+              { text: 'وجع بنهاية اليوم تحت لوح الكتف المائل 🌇', score: 2 },
+              { text: 'ما في وجع بس الشكل مائل قدام الناس 🪞', score: 2 },
+              { text: 'مرتاح وما في شد مستمر 🌿', score: 0 }
+            ]
+          }
+        ],
+        results: {
+          high: {
+            title: 'جنف وظيفي وميلان بالكتف (2.5 سم هبوط) 🎒',
+            metricLabel: 'مقدار الميلان العضلي التقديري',
+            metricVal: '2.5 سم انحراف جانبي',
+            diagnosis: 'حمل الحقائب على جانب واحد جعل عضلات الترابيزيوس جهة اليمين تعمل بضعف طاقة جهة اليسار، مما سحب الفقرات الصدرية جانبياً وأحدث ميلاً في محور الكتفين والحوض!',
+            advice: 'استخدم حقيبة الظهر المزدوجة فوراً، وابدأ جلسات كايروبراكتيك لإعادة ضبط توازن العمود الفقري الصدري وفك انحراف الكتف قبل أن يتحول لجنف هيكلي دائم.',
+            waShare: '🎒 فحصت اعوجاج الشنتة وميلان الكتف على Smart Check Tools!\nالنتيجة: كتفي مائل 2.5 سم بسبب شنتة اللابتوب والجنف الوظيفي! 😂\nافحص كتافك قدام المراية وشوف إذا ظهرك مائل 👇\nhttps://wada3an-bot.onrender.com/uneven-shoulder'
+          },
+          moderate: {
+            title: 'تباين طفيف بارتفاع الكتفين ⚖️',
+            metricLabel: 'مقدار الميلان العضلي التقديري',
+            metricVal: '1.0 سم تباين خفيف',
+            diagnosis: 'يوجد عدم تماثل طفيف في القوة العضلية بين الجانبين، يمكن تداركه بسهولة بتبديل جهة الحمل وتمرين الجانب الأضعف.',
+            advice: 'بدّل جهة حمل الأغراض يومياً واحرص على أداء تمارين التمدد للجانبين بالتساوي.',
+            waShare: '🎒 فحصت ميلان كتافي والنتيجة: تباين خفيف 1 سم!\nافحص كتافك وشوف استقامتك 👇\nhttps://wada3an-bot.onrender.com/uneven-shoulder'
+          }
+        }
+      },
+
+      'pelvic-balance': {
+        id: 'pelvic-balance',
+        tag: 'فحص استقامة قاعدة العمود الفقري ⚖️',
+        icon: '⚖️',
+        title: 'مقياس توازن الحوض والديسك القطني',
+        desc: 'فحص استقامة الحوض وتساوي توزيع الأحمال لحماية غضاريف الفقرات القطنية L4-L5 و L5-S1 من الانزلاق والتآكل.',
+        questions: [
+          {
+            title: 'لما توقف وقفة عادية مسترخية، كيف بتوزع وزنك على رجليك؟',
+            options: [
+              { text: 'دايماً برمي وزني على رجل وحدة وبرخي الثانية (وضعية فلامنجو) 🦩', score: 4 },
+              { text: 'بتمايل كل شوي وما بقدر أثبت على رجليني 🔄', score: 2 },
+              { text: 'بفرّج رجليني لبرة كثير حتى أرتاح 👣', score: 2 },
+              { text: 'بالتساوي 50% على كل رجل ⚖️', score: 0 }
+            ]
+          },
+          {
+            title: 'كيف قعدتك المفضلة على الكنب أو الكرسي؟',
+            options: [
+              { text: 'حاطط رجلاً على رجل (Crossed legs) بالساعات 🦵', score: 3 },
+              { text: 'لافف حوضي وقاعد على جنب واحد 🛋️', score: 3 },
+              { text: 'متكئ للخلف والبطن بارز للأمام 🪑', score: 2 },
+              { text: 'جالس مستقيم والقدمين مفرودتين على الأرض 🧘', score: 0 }
+            ]
+          },
+          {
+            title: 'لما تنحني للأمام لتربط حذاءك أو تلتقط شيئاً عن الأرض:',
+            options: [
+              { text: 'بحس بنغزة حادة بأسفل الظهر وصعوبة بالاعتدال ⚡', score: 4 },
+              { text: 'لازم أثني ركبي وأمسك بركبتي حتى أقدر أوقف 🧓', score: 3 },
+              { text: 'ألم بيمتد لأعلى الفخذ والمؤخرة 💥', score: 3 },
+              { text: 'بنحني بمرونة وبلمس الأرض بدون ألم 👟', score: 0 }
+            ]
+          },
+          {
+            title: 'فحص نعل الحذاء من الأسفل (Sole wear pattern):',
+            options: [
+              { text: 'نعل الحذاء ممسوح من جهة وحدة أكثر من الثانية بشكل واضح 👞', score: 4 },
+              { text: 'التآكل خارجي من الكعب بس 👣', score: 2 },
+              { text: 'ما عمري دققت بنعل البوط 🧐', score: 1 },
+              { text: 'التآكل متساوي تماماً بالجهتين 👟', score: 0 }
+            ]
+          }
+        ],
+        results: {
+          high: {
+            title: 'دوران الحوض وإجهاد الديسك القطني L5-S1 ⚖️',
+            metricLabel: 'مؤشر عدم توازن الحوض',
+            metricVal: '88% (دوران حوضي حرج)',
+            diagnosis: 'ميلان وقفة الفلامنجو والقعدة برجل فوق رجل أحدثت التواء في مفصل الحوض العجزي (Pelvic Torsion). هذا يجعل غضروف L5-S1 يتحمل 70% من وزن جسمك على نقطة واحدة مما يهدد بانزلاق غضروفي حقيقي!',
+            advice: 'تجنب وضع رجل على رجل نهائياً. ضبط زوايا الحوض وتعديل توازن الفقرات القطنية يدوياً هو الأساس العلمي لتوزيع الأحمال بالتساوي وحماية الديسك من التلف.',
+            waShare: '⚖️ فحصت توازن الحوض والديسك القطني على Smart Check Tools!\nالنتيجة: الحوض عندي مايل كأنه فلامنجو والديسك L5-S1 عم يتحمل 70% من الوزن! 😂\nافحص توازن حوضك قبل لا يفلت الديسك 👇\nhttps://wada3an-bot.onrender.com/pelvic-balance'
+          },
+          moderate: {
+            title: 'عدم تكافؤ خفيف في توزيع وزن الحوض 🌿',
+            metricLabel: 'مؤشر عدم توازن الحوض',
+            metricVal: '54% (متوسط)',
+            diagnosis: 'يوجد ميل بسيط في توزيع الأحمال الحركية ناتج عن عادات الجلوس والوقوف غير المتوازنة.',
+            advice: 'احرص على الوقوف بوزن متساوٍ على القدمين ومارس تمارين تقوية عضلات الحوض والبطن الأساسية (Core exercises).',
+            waShare: '⚖️ فحصت توازن حوضي وطلع عندي عدم تكافؤ خفيف 54%!\nافحص استقامة حوضك 👇\nhttps://wada3an-bot.onrender.com/pelvic-balance'
+          }
+        }
+      }
+    };
+
+    // ========================================================
+    // ENGINE STATE & CONTROLLER
+    // ========================================================
+    let currentToolId = 'abhar';
+    let currentQuestionIdx = 0;
+    let selectedAnswers = [];
+
+    // Detect tool from URL path or query parameter
+    function detectTool() {
+      const path = window.location.pathname.replace(/^\//, '').trim();
+      const params = new URLSearchParams(window.location.search);
+      const queryId = params.get('id');
+
+      if (queryId && TOOLS_DATA[queryId]) {
+        currentToolId = queryId;
+      } else if (path && TOOLS_DATA[path]) {
+        currentToolId = path;
+      } else {
+        currentToolId = 'abhar'; // Default fallback
+      }
+    }
+
+    function initTool() {
+      detectTool();
+      const tool = TOOLS_DATA[currentToolId] || TOOLS_DATA['abhar'];
+
+      // Set Page Titles & Meta
+      document.getElementById('pageTitle').innerText = `${tool.title} | Smart Check Tools - وداعاً للألم`;
+      document.getElementById('toolTag').innerText = tool.tag;
+      document.getElementById('toolIcon').innerText = tool.icon;
+      document.getElementById('toolTitle').innerText = tool.title;
+      document.getElementById('toolDesc').innerText = tool.desc;
+
+      currentQuestionIdx = 0;
+      selectedAnswers = new Array(tool.questions.length).fill(null);
+
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const tool = TOOLS_DATA[currentToolId];
+      const q = tool.questions[currentQuestionIdx];
+      const totalQ = tool.questions.length;
+
+      // Update Progress
+      const pct = Math.round(((currentQuestionIdx + 1) / totalQ) * 100);
+      document.getElementById('progressText').innerText = `السؤال ${currentQuestionIdx + 1} من ${totalQ}`;
+      document.getElementById('progressPercent').innerText = `${pct}%`;
+      document.getElementById('progressBar').style.width = `${pct}%`;
+
+      // Update Question Card
+      document.getElementById('qNum').innerText = currentQuestionIdx + 1;
+      document.getElementById('qTitle').innerText = q.title;
+
+      // Render Options
+      const list = document.getElementById('optionsList');
+      list.innerHTML = '';
+
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        const isSelected = selectedAnswers[currentQuestionIdx] === idx;
+        btn.className = `option-btn ${isSelected ? 'selected' : ''}`;
+        btn.onclick = () => selectOption(idx);
+
+        btn.innerHTML = `
+          <div class="option-radio"></div>
+          <span class="option-text">${opt.text}</span>
+        `;
+        list.appendChild(btn);
+      });
+
+      // Update Navigation Buttons
+      const btnPrev = document.getElementById('btnPrev');
+      const btnNext = document.getElementById('btnNext');
+
+      btnPrev.style.display = currentQuestionIdx > 0 ? 'block' : 'none';
+      btnNext.disabled = selectedAnswers[currentQuestionIdx] === null;
+
+      if (currentQuestionIdx === totalQ - 1) {
+        btnNext.innerHTML = `<span>عرض النتيجة والتشخيص</span> <span>🚀</span>`;
+      } else {
+        btnNext.innerHTML = `<span>التالي</span> <span>←</span>`;
+      }
+    }
+
+    function selectOption(idx) {
+      selectedAnswers[currentQuestionIdx] = idx;
+      
+      // Haptic feedback if supported
+      if (window.navigator && window.navigator.vibrate) {
+        window.navigator.vibrate(30);
+      }
+
+      renderQuestion();
+      
+      // Smooth auto advance after 250ms for delightful snappy UX
+      setTimeout(() => {
+        if (currentQuestionIdx < TOOLS_DATA[currentToolId].questions.length - 1) {
+          nextQuestion();
+        }
+      }, 240);
+    }
+
+    function prevQuestion() {
+      if (currentQuestionIdx > 0) {
+        currentQuestionIdx--;
+        renderQuestion();
+      }
+    }
+
+    function nextQuestion() {
+      const tool = TOOLS_DATA[currentToolId];
+      if (selectedAnswers[currentQuestionIdx] === null) return;
+
+      if (currentQuestionIdx < tool.questions.length - 1) {
+        currentQuestionIdx++;
+        renderQuestion();
+      } else {
+        finishQuiz();
+      }
+    }
+
+    function finishQuiz() {
+      // Hide Quiz, Show Scanner
+      document.getElementById('quizScreen').style.display = 'none';
+      document.getElementById('scanningScreen').style.display = 'flex';
+
+      const tool = TOOLS_DATA[currentToolId];
+      document.getElementById('scanIcon').innerText = tool.icon;
+      document.getElementById('scanTitle').innerText = `جاري تحليل بيانات ${tool.title}...`;
+
+      // Simulate clinical assessment computation
+      setTimeout(() => {
+        calculateAndShowResults();
+      }, 1200);
+    }
+
+    function calculateAndShowResults() {
+      const tool = TOOLS_DATA[currentToolId];
+      let totalScore = 0;
+
+      selectedAnswers.forEach((ansIdx, qIdx) => {
+        if (ansIdx !== null && tool.questions[qIdx].options[ansIdx]) {
+          totalScore += tool.questions[qIdx].options[ansIdx].score;
+        }
+      });
+
+      // If score is above 60% of max, show high severity result
+      const maxScore = tool.questions.length * 3.5;
+      const isHigh = totalScore >= (maxScore * 0.55);
+      const res = isHigh ? tool.results.high : tool.results.moderate;
+
+      // Populate Results
+      document.getElementById('resIcon').innerText = tool.icon;
+      document.getElementById('resTitle').innerText = res.title;
+      document.getElementById('resMetricLabel').innerText = res.metricLabel;
+      document.getElementById('resMetricVal').innerText = res.metricVal;
+      document.getElementById('resDiagnosis').innerText = res.diagnosis;
+      document.getElementById('resAdvice').innerText = res.advice;
+
+      // WhatsApp Share Link
+      const waShareUrl = `https://wa.me/?text=${encodeURIComponent(res.waShare)}`;
+      document.getElementById('btnShareWhatsApp').href = waShareUrl;
+
+      // WhatsApp Booking Link with Wada3an Center Khalda
+      const clinicMsg = `مرحباً مركز وداعاً للألم 🌸 عملت فحص ${tool.title} على منصة Smart Check Tools وطلعت النتيجة: "${res.title}" وحابب أستفسر عن جلسات الكايروبراكتيك والتأهيل اليدوي في خلدا أو الزيارة المنزلية.`;
+      const waBookUrl = `https://wa.me/962790360440?text=${encodeURIComponent(clinicMsg)}`;
+      document.getElementById('btnBookClinic').href = waBookUrl;
+
+      // Transition to results
+      document.getElementById('scanningScreen').style.display = 'none';
+      document.getElementById('resultsScreen').style.display = 'flex';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', initTool);
+  </script>
+</body>
+</html>

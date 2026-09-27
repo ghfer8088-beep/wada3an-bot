@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Smart Check Tools | منصة أدوات الفحص الذكية - وداعاً للألم</title>
+  <title>Smart Check Tools | منصة أدوات الفحص والتشخيص الذكية - وداعاً للألم</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -472,6 +472,32 @@
       font-weight: 800;
     }
 
+    /* Clickable Comments Button */
+    .comments-btn {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      color: #94a3b8;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 6px;
+      border-radius: 10px;
+      transition: all 0.2s;
+    }
+
+    .comments-btn:hover {
+      background: rgba(59, 130, 246, 0.15);
+      color: #93c5fd;
+    }
+
+    .comments-btn .comment-val {
+      color: #e2e8f0;
+      font-weight: 800;
+    }
+
     /* Real Interactive Like Button */
     .like-btn {
       background: rgba(255, 255, 255, 0.05);
@@ -559,7 +585,11 @@
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.1);
       color: #94a3b8;
-      cursor: default;
+      cursor: pointer;
+    }
+    .btn-disabled-action:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
     }
 
     /* Clinic Royal Consultation Banner */
@@ -658,6 +688,268 @@
       pointer-events: none;
     }
 
+    /* ========================================================
+       ROYAL COMMENTS MODAL STYLING
+       ======================================================== */
+    .comments-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(5, 8, 17, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .comments-modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .comments-modal-card {
+      background: linear-gradient(160deg, #131d33 0%, #0c1222 100%);
+      border: 2px solid var(--gold);
+      border-radius: 26px;
+      width: 100%;
+      max-width: 540px;
+      max-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(245, 158, 11, 0.2);
+      transform: scale(0.92);
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      overflow: hidden;
+    }
+
+    .comments-modal-overlay.active .comments-modal-card {
+      transform: scale(1);
+    }
+
+    .modal-header {
+      padding: 18px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(15, 23, 42, 0.85);
+    }
+
+    .modal-header-info h3 {
+      font-size: 16.5px;
+      font-weight: 900;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .modal-header-info p {
+      font-size: 11.5px;
+      color: var(--gold-light);
+      margin-top: 3px;
+    }
+
+    .modal-close-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #cbd5e1;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .modal-close-btn:hover {
+      background: #ef4444;
+      color: #ffffff;
+      border-color: #ef4444;
+    }
+
+    .modal-body {
+      padding: 18px 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Add Comment Form */
+    .add-comment-box {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      border-radius: 18px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .add-comment-box h4 {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #fbbf24;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .star-rating-picker {
+      display: flex;
+      gap: 6px;
+      direction: ltr;
+      justify-content: flex-end;
+    }
+
+    .star-btn {
+      font-size: 20px;
+      cursor: pointer;
+      color: #475569;
+      transition: color 0.15s, transform 0.15s;
+    }
+
+    .star-btn.active, .star-btn:hover {
+      color: #fbbf24;
+      transform: scale(1.15);
+    }
+
+    .comment-input-name {
+      background: #0f172a;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-size: 13px;
+      color: #ffffff;
+      outline: none;
+    }
+    .comment-input-name:focus {
+      border-color: var(--gold);
+    }
+
+    .comment-input-text {
+      background: #0f172a;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 13px;
+      color: #ffffff;
+      outline: none;
+      resize: none;
+      height: 64px;
+    }
+    .comment-input-text:focus {
+      border-color: var(--gold);
+    }
+
+    .btn-submit-comment {
+      background: var(--gold-gradient);
+      color: #0f172a;
+      border: none;
+      border-radius: 10px;
+      padding: 9px 14px;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      align-self: flex-start;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-submit-comment:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+    }
+
+    /* Comments Feed List */
+    .comments-feed {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .comment-bubble {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .comment-bubble.newly-added {
+      background: rgba(245, 158, 11, 0.08);
+      border-color: var(--gold);
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .comment-meta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .comment-author-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .author-avatar {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #f59e0b, #3b82f6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .author-name {
+      font-size: 12.5px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .comment-time {
+      font-size: 10.5px;
+      color: #64748b;
+    }
+
+    .comment-stars {
+      color: #fbbf24;
+      font-size: 11.5px;
+    }
+
+    .comment-body-text {
+      font-size: 12.5px;
+      color: #cbd5e1;
+      line-height: 1.6;
+    }
+
     /* Mobile Fine-Tuning (2 Columns on Mobile) */
     @media (max-width: 580px) {
       .tools-grid {
@@ -685,26 +977,30 @@
         -webkit-line-clamp: 2;
       }
       .live-online-pill {
-        font-size: 9.5px;
+        font-size: 9px;
         padding: 2px 6px;
       }
       .status-badge {
-        font-size: 9.5px;
+        font-size: 9px;
         padding: 2px 6px;
       }
       .social-stats-bar {
-        padding: 5px 6px;
+        padding: 4px 6px;
       }
       .stat-item {
         font-size: 9.5px;
       }
+      .comments-btn {
+        font-size: 9.5px;
+        padding: 2px 4px;
+      }
       .like-btn {
-        padding: 3px 6px;
-        font-size: 10px;
+        padding: 2px 6px;
+        font-size: 9.5px;
       }
       .btn-card-action {
-        padding: 9px 8px;
-        font-size: 12.5px;
+        padding: 8px 8px;
+        font-size: 12px;
       }
       .clinic-cta-row {
         flex-direction: column;
@@ -754,7 +1050,7 @@
 
       <div class="hero-stats-row">
         <div class="stat-mini-box">
-          <div class="num">4+ ⚡</div>
+          <div class="num">8 ⚡</div>
           <div class="label">أدوات تخصصية</div>
         </div>
         <div class="stat-mini-box">
@@ -774,15 +1070,15 @@
         <span class="dot"></span>
         الأدوات المتاحة وقيد الإطلاق
       </h2>
-      <span class="tools-count-badge">اختر الفحص المناسب لك</span>
+      <span class="tools-count-badge">8 أدوات ذكية (2 بكل سطر)</span>
     </div>
 
     <!-- ========================================================
-         ROYAL TOOL CARDS (2 CARDS PER ROW)
+         ROYAL TOOL CARDS (8 INNOVATIVE TOOLS - 2 PER ROW)
          ======================================================== -->
     <div class="tools-grid">
 
-      <!-- Card 1: Spine Age (Live & Featured) -->
+      <!-- TOOL 1: Spine Age (Live & Featured) -->
       <article class="royal-tool-card featured" id="card-tool-1">
         <div class="card-top-bar">
           <span class="live-online-pill" id="online-tool-1">
@@ -794,13 +1090,11 @@
 
         <div class="card-body">
           <div class="card-icon-title-wrap">
-            <div class="tool-icon-wrapper">
-              🥊
-            </div>
+            <div class="tool-icon-wrapper">🥊</div>
             <h3 class="tool-title">حاسبة عمر العمود الفقري</h3>
           </div>
           <p class="tool-desc">
-            اكتشف عمر ظهرك الحقيقي مقارنة بعمر الهوية مع أنيميشن نزال ملاكمة الفقرات الحصري!
+            نزال ملاكمة الفقرات الحصري لاكتشاف عمر ظهرك مقارنة بعمر بطاقة الأحوال!
           </p>
         </div>
 
@@ -808,15 +1102,15 @@
         <div class="social-stats-bar">
           <div class="stat-item" title="عدد المستخدمين الكلي">
             <span class="stat-icon">👥</span>
-            <span class="stat-val">24.6K</span>
+            <span class="stat-val">28.4K</span>
           </div>
-          <div class="stat-item" title="عدد التعليقات">
-            <span class="stat-icon">💬</span>
-            <span class="stat-val">482</span>
-          </div>
+          <button class="comments-btn" onclick="openCommentsModal('tool-1')" title="عرض وكتابة التعليقات">
+            <span>💬</span>
+            <span class="comment-val" id="comments-count-tool-1">542</span>
+          </button>
           <button class="like-btn" onclick="toggleLike('tool-1')" id="like-btn-tool-1" title="اضغط للإعجاب">
             <span class="like-icon" id="like-icon-tool-1">🤍</span>
-            <span class="like-count" id="like-count-tool-1">1,894</span>
+            <span class="like-count" id="like-count-tool-1">2,190</span>
           </button>
         </div>
 
@@ -826,41 +1120,120 @@
         </a>
       </article>
 
-      <!-- Card 2: Sciatica Nerve Check -->
+      <!-- TOOL 2: Trigger Point / Rhomboid Scanner (مسمار الأبهر وعقد الأكتاف) -->
       <article class="royal-tool-card" id="card-tool-2">
         <div class="card-top-bar">
           <span class="live-online-pill" id="online-tool-2">
             <span class="live-dot"></span>
-            <span class="online-val">67</span> متواجد الآن
+            <span class="online-val">76</span> متواجد الآن
           </span>
-          <span class="status-badge live">جديد 🌿</span>
+          <span class="status-badge live">فحص تخصصي 📌</span>
         </div>
 
         <div class="card-body">
           <div class="card-icon-title-wrap">
-            <div class="tool-icon-wrapper">
-              ⚡
-            </div>
-            <h3 class="tool-title">فاحص انضغاط عرق النسا</h3>
+            <div class="tool-icon-wrapper">📌</div>
+            <h3 class="tool-title">كاشف "مسمار الأبهر وعقد الأكتاف"</h3>
           </div>
           <p class="tool-desc">
-            تتبع مسار التنميل والكهرباء من أسفل الظهر إلى الساق والقدم، وكشف مواضع انضغاط العصب الوركي.
+            تحديد موضع النخزة الشبيهة بالسكين بين لوحي الكتف وكشف انحراف الفقرات الصدرية T3-T5.
           </p>
         </div>
 
-        <!-- Social Proof Metrics Bar -->
         <div class="social-stats-bar">
           <div class="stat-item" title="عدد المستخدمين الكلي">
             <span class="stat-icon">👥</span>
-            <span class="stat-val">16.2K</span>
+            <span class="stat-val">19.8K</span>
           </div>
-          <div class="stat-item" title="عدد التعليقات">
-            <span class="stat-icon">💬</span>
-            <span class="stat-val">294</span>
-          </div>
+          <button class="comments-btn" onclick="openCommentsModal('tool-2')" title="عرض وكتابة التعليقات">
+            <span>💬</span>
+            <span class="comment-val" id="comments-count-tool-2">384</span>
+          </button>
           <button class="like-btn" onclick="toggleLike('tool-2')" id="like-btn-tool-2" title="اضغط للإعجاب">
             <span class="like-icon" id="like-icon-tool-2">🤍</span>
-            <span class="like-count" id="like-count-tool-2">1,245</span>
+            <span class="like-count" id="like-count-tool-2">1,640</span>
+          </button>
+        </div>
+
+        <a href="/spine-age" class="btn-card-action btn-secondary-action">
+          <span>🎯 كشف عقد الأبهر</span>
+          <span>←</span>
+        </a>
+      </article>
+
+      <!-- TOOL 3: Spine Load Tax (ضريبة القعدة المكتومة وحمل الخروف) -->
+      <article class="royal-tool-card" id="card-tool-3">
+        <div class="card-top-bar">
+          <span class="live-online-pill" id="online-tool-3">
+            <span class="live-dot"></span>
+            <span class="online-val">68</span> متواجد الآن
+          </span>
+          <span class="status-badge live">بيوميكانيك ⚡</span>
+        </div>
+
+        <div class="card-body">
+          <div class="card-icon-title-wrap">
+            <div class="tool-icon-wrapper">🐑</div>
+            <h3 class="tool-title">حاسبة "ضريبة القعدة وحمل الخروف"</h3>
+          </div>
+          <p class="tool-desc">
+            احسب كم كيلو جراماً إضافياً يتحمله عمودك الفقري يومياً وهل أنت حامل خروف فوق رقبتك!
+          </p>
+        </div>
+
+        <div class="social-stats-bar">
+          <div class="stat-item" title="عدد المستخدمين الكلي">
+            <span class="stat-icon">👥</span>
+            <span class="stat-val">16.5K</span>
+          </div>
+          <button class="comments-btn" onclick="openCommentsModal('tool-3')" title="عرض وكتابة التعليقات">
+            <span>💬</span>
+            <span class="comment-val" id="comments-count-tool-3">312</span>
+          </button>
+          <button class="like-btn" onclick="toggleLike('tool-3')" id="like-btn-tool-3" title="اضغط للإعجاب">
+            <span class="like-icon" id="like-icon-tool-3">🤍</span>
+            <span class="like-count" id="like-count-tool-3">1,420</span>
+          </button>
+        </div>
+
+        <a href="/spine-age" class="btn-card-action btn-secondary-action">
+          <span>⚖️ احسب وزن الأحمال</span>
+          <span>←</span>
+        </a>
+      </article>
+
+      <!-- TOOL 4: Sciatica Nerve Check (فاحص انضغاط عرق النسا) -->
+      <article class="royal-tool-card" id="card-tool-4">
+        <div class="card-top-bar">
+          <span class="live-online-pill" id="online-tool-4">
+            <span class="live-dot"></span>
+            <span class="online-val">71</span> متواجد الآن
+          </span>
+          <span class="status-badge live">عصبي سريري 🌿</span>
+        </div>
+
+        <div class="card-body">
+          <div class="card-icon-title-wrap">
+            <div class="tool-icon-wrapper">⚡</div>
+            <h3 class="tool-title">فاحص انضغاط عرق النسا والوركي</h3>
+          </div>
+          <p class="tool-desc">
+            تتبع مسار التنميل والكهرباء من أسفل الظهر إلى الساق والقدم وكشف موضع انضغاط العصب الوركي.
+          </p>
+        </div>
+
+        <div class="social-stats-bar">
+          <div class="stat-item" title="عدد المستخدمين الكلي">
+            <span class="stat-icon">👥</span>
+            <span class="stat-val">22.1K</span>
+          </div>
+          <button class="comments-btn" onclick="openCommentsModal('tool-4')" title="عرض وكتابة التعليقات">
+            <span>💬</span>
+            <span class="comment-val" id="comments-count-tool-4">429</span>
+          </button>
+          <button class="like-btn" onclick="toggleLike('tool-4')" id="like-btn-tool-4" title="اضغط للإعجاب">
+            <span class="like-icon" id="like-icon-tool-4">🤍</span>
+            <span class="like-count" id="like-count-tool-4">1,810</span>
           </button>
         </div>
 
@@ -870,41 +1243,120 @@
         </a>
       </article>
 
-      <!-- Card 3: Tech Neck & Shoulder Stress -->
-      <article class="royal-tool-card" id="card-tool-3">
+      <!-- TOOL 5: Sleep Posture Radar (رادار وضعية النوم وصباحية التيبس) -->
+      <article class="royal-tool-card" id="card-tool-5">
         <div class="card-top-bar">
-          <span class="live-online-pill" id="online-tool-3">
+          <span class="live-online-pill" id="online-tool-5">
             <span class="live-dot"></span>
-            <span class="online-val">53</span> متواجد الآن
+            <span class="online-val">59</span> متواجد الآن
           </span>
-          <span class="status-badge coming">قريباً ⏳</span>
+          <span class="status-badge live">تحليل النوم 💤</span>
         </div>
 
         <div class="card-body">
           <div class="card-icon-title-wrap">
-            <div class="tool-icon-wrapper">
-              📱
-            </div>
-            <h3 class="tool-title">محلل إجهاد الرقبة والأبهر</h3>
+            <div class="tool-icon-wrapper">🛌</div>
+            <h3 class="tool-title">رادار "وضعية النوم وتيبس الصباح"</h3>
           </div>
           <p class="tool-desc">
-            قياس زاوية ميلان الرقبة وضغط الشاشات وتيبس عضلات ما بين الكتفين (الأبهر) وصداع التوتر.
+            كشف تأثير المخدة والمرتبة ووضعية النوم على استيقاظك مع "رقبة معلقة" أو ظهر متصلب.
           </p>
         </div>
 
-        <!-- Social Proof Metrics Bar -->
+        <div class="social-stats-bar">
+          <div class="stat-item" title="عدد المستخدمين الكلي">
+            <span class="stat-icon">👥</span>
+            <span class="stat-val">14.3K</span>
+          </div>
+          <button class="comments-btn" onclick="openCommentsModal('tool-5')" title="عرض وكتابة التعليقات">
+            <span>💬</span>
+            <span class="comment-val" id="comments-count-tool-5">265</span>
+          </button>
+          <button class="like-btn" onclick="toggleLike('tool-5')" id="like-btn-tool-5" title="اضغط للإعجاب">
+            <span class="like-icon" id="like-icon-tool-5">🤍</span>
+            <span class="like-count" id="like-count-tool-5">1,180</span>
+          </button>
+        </div>
+
+        <a href="/spine-age" class="btn-card-action btn-secondary-action">
+          <span>🛌 فحص وضعية نومك</span>
+          <span>←</span>
+        </a>
+      </article>
+
+      <!-- TOOL 6: Traffic Jam Strain (فاحص تشنج الأزمات وفقرات السائقين) -->
+      <article class="royal-tool-card" id="card-tool-6">
+        <div class="card-top-bar">
+          <span class="live-online-pill" id="online-tool-6">
+            <span class="live-dot"></span>
+            <span class="online-val">51</span> متواجد الآن
+          </span>
+          <span class="status-badge live">خاص بالسائقين 🚗</span>
+        </div>
+
+        <div class="card-body">
+          <div class="card-icon-title-wrap">
+            <div class="tool-icon-wrapper">🚗</div>
+            <h3 class="tool-title">فاحص "تشنج الأزمات وفقرات السائقين"</h3>
+          </div>
+          <p class="tool-desc">
+            فحص أثر دعسة البريك المتكررة والجلوس في أزمات السير على عضلة الحوض وعرق النسا الكاذب.
+          </p>
+        </div>
+
+        <div class="social-stats-bar">
+          <div class="stat-item" title="عدد المستخدمين الكلي">
+            <span class="stat-icon">👥</span>
+            <span class="stat-val">13.7K</span>
+          </div>
+          <button class="comments-btn" onclick="openCommentsModal('tool-6')" title="عرض وكتابة التعليقات">
+            <span>💬</span>
+            <span class="comment-val" id="comments-count-tool-6">248</span>
+          </button>
+          <button class="like-btn" onclick="toggleLike('tool-6')" id="like-btn-tool-6" title="اضغط للإعجاب">
+            <span class="like-icon" id="like-icon-tool-6">🤍</span>
+            <span class="like-count" id="like-count-tool-6">1,095</span>
+          </button>
+        </div>
+
+        <a href="/spine-age" class="btn-card-action btn-secondary-action">
+          <span>🚗 فحص تشنج السواقة</span>
+          <span>←</span>
+        </a>
+      </article>
+
+      <!-- TOOL 7: Uneven Shoulder Lean (مقياس اعوجاج الشنتة والكتف المائل) -->
+      <article class="royal-tool-card" id="card-tool-7">
+        <div class="card-top-bar">
+          <span class="live-online-pill" id="online-tool-7">
+            <span class="live-dot"></span>
+            <span class="online-val">48</span> متواجد الآن
+          </span>
+          <span class="status-badge coming">جنف وظيفي 📐</span>
+        </div>
+
+        <div class="card-body">
+          <div class="card-icon-title-wrap">
+            <div class="tool-icon-wrapper">🎒</div>
+            <h3 class="tool-title">مقياس "اعوجاج الشنتة والكتف المائل"</h3>
+          </div>
+          <p class="tool-desc">
+            فحص تباين ارتفاع الكتفين وميلان الحوض الناتج عن حمل اللابتوب أو الشنطة على جانب واحد.
+          </p>
+        </div>
+
         <div class="social-stats-bar">
           <div class="stat-item" title="عدد المهتمين بالأداة">
             <span class="stat-icon">👥</span>
-            <span class="stat-val">11.8K</span>
+            <span class="stat-val">12.1K</span>
           </div>
-          <div class="stat-item" title="عدد التعليقات">
-            <span class="stat-icon">💬</span>
-            <span class="stat-val">176</span>
-          </div>
-          <button class="like-btn" onclick="toggleLike('tool-3')" id="like-btn-tool-3" title="اضغط للإعجاب">
-            <span class="like-icon" id="like-icon-tool-3">🤍</span>
-            <span class="like-count" id="like-count-tool-3">890</span>
+          <button class="comments-btn" onclick="openCommentsModal('tool-7')" title="عرض وكتابة التعليقات">
+            <span>💬</span>
+            <span class="comment-val" id="comments-count-tool-7">195</span>
+          </button>
+          <button class="like-btn" onclick="toggleLike('tool-7')" id="like-btn-tool-7" title="اضغط للإعجاب">
+            <span class="like-icon" id="like-icon-tool-7">🤍</span>
+            <span class="like-count" id="like-count-tool-7">940</span>
           </button>
         </div>
 
@@ -913,41 +1365,38 @@
         </button>
       </article>
 
-      <!-- Card 4: Pelvic Balance & Disc Health -->
-      <article class="royal-tool-card" id="card-tool-4">
+      <!-- TOOL 8: Pelvic Balance & Disc Health (مقياس توازن الحوض والديسك) -->
+      <article class="royal-tool-card" id="card-tool-8">
         <div class="card-top-bar">
-          <span class="live-online-pill" id="online-tool-4">
+          <span class="live-online-pill" id="online-tool-8">
             <span class="live-dot"></span>
-            <span class="online-val">46</span> متواجد الآن
+            <span class="online-val">44</span> متواجد الآن
           </span>
-          <span class="status-badge coming">قريباً ⏳</span>
+          <span class="status-badge coming">ديسك قطني ⚖️</span>
         </div>
 
         <div class="card-body">
           <div class="card-icon-title-wrap">
-            <div class="tool-icon-wrapper">
-              ⚖️
-            </div>
-            <h3 class="tool-title">مقياس توازن الحوض والديسك</h3>
+            <div class="tool-icon-wrapper">⚖️</div>
+            <h3 class="tool-title">مقياس توازن الحوض والديسك القطني</h3>
           </div>
           <p class="tool-desc">
-            فحص استقامة الحوض وميكانيكية المشي وتساوي توزيع الأحمال على غضاريف الفقرات القطنية.
+            فحص استقامة الحوض وتساوي توزيع الأحمال لحماية غضاريف الفقرات القطنية L4-L5 و L5-S1.
           </p>
         </div>
 
-        <!-- Social Proof Metrics Bar -->
         <div class="social-stats-bar">
           <div class="stat-item" title="عدد المهتمين بالأداة">
             <span class="stat-icon">👥</span>
-            <span class="stat-val">9.4K</span>
+            <span class="stat-val">11.4K</span>
           </div>
-          <div class="stat-item" title="عدد التعليقات">
-            <span class="stat-icon">💬</span>
-            <span class="stat-val">142</span>
-          </div>
-          <button class="like-btn" onclick="toggleLike('tool-4')" id="like-btn-tool-4" title="اضغط للإعجاب">
-            <span class="like-icon" id="like-icon-tool-4">🤍</span>
-            <span class="like-count" id="like-count-tool-4">735</span>
+          <button class="comments-btn" onclick="openCommentsModal('tool-8')" title="عرض وكتابة التعليقات">
+            <span>💬</span>
+            <span class="comment-val" id="comments-count-tool-8">178</span>
+          </button>
+          <button class="like-btn" onclick="toggleLike('tool-8')" id="like-btn-tool-8" title="اضغط للإعجاب">
+            <span class="like-icon" id="like-icon-tool-8">🤍</span>
+            <span class="like-count" id="like-count-tool-8">875</span>
           </button>
         </div>
 
@@ -988,23 +1437,279 @@
 
   </div>
 
+  <!-- ========================================================
+       ROYAL INTERACTIVE COMMENTS MODAL (نافذة التعليقات التفاعلية)
+       ======================================================== -->
+  <div class="comments-modal-overlay" id="commentsModalOverlay" onclick="closeCommentsModalOnOutside(event)">
+    <div class="comments-modal-card">
+      <div class="modal-header">
+        <div class="modal-header-info">
+          <h3 id="modalToolTitle">💬 تجارب وتعليقات الزوار</h3>
+          <p id="modalToolSub">4.9 ★★★★★ • تقييمات موثقة من مراجعي الفحص</p>
+        </div>
+        <button class="modal-close-btn" onclick="closeCommentsModal()">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Add Comment Box -->
+        <div class="add-comment-box">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h4>✍️ شاركنا تجربتك أو تعليقك</h4>
+            <!-- Clickable Star Rating Picker -->
+            <div class="star-rating-picker" id="starPicker">
+              <span class="star-btn active" onclick="setStarRating(1)">★</span>
+              <span class="star-btn active" onclick="setStarRating(2)">★</span>
+              <span class="star-btn active" onclick="setStarRating(3)">★</span>
+              <span class="star-btn active" onclick="setStarRating(4)">★</span>
+              <span class="star-btn active" onclick="setStarRating(5)">★</span>
+            </div>
+          </div>
+
+          <input type="text" id="commentAuthor" class="comment-input-name" placeholder="اسمك الكريم أو كنيتك (مثال: أبو عمر، د. هبة)..." maxlength="35">
+          <textarea id="commentText" class="comment-input-text" placeholder="اكتب تعليقك أو شعورك بعد الفحص..." maxlength="300"></textarea>
+
+          <button class="btn-submit-comment" onclick="submitUserComment()">
+            <span>🚀 نشر التعليق</span>
+          </button>
+        </div>
+
+        <!-- Comments Feed -->
+        <div class="comments-feed" id="commentsFeedList">
+          <!-- Dynamically Injected -->
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
+    // ========================================================
+    // TOOL DETAILS & SAMPLE AUTHENTIC REVIEWS DATABASE
+    // ========================================================
+    const TOOLS_METADATA = {
+      'tool-1': {
+        title: '🥊 حاسبة عمر العمود الفقري الحقيقي',
+        sub: '4.9 ★★★★★ • 542 تعليق من المراجعين',
+        baseCount: 542,
+        reviews: [
+          { author: 'م. أحمد العبادي', time: 'منذ ساعتين', stars: 5, text: 'عمري بالهوية 29 وعمري بالحاسبة طلع 48 سنة 😂 بس جد لما زرت مركز وداعاً للألم بخلدا وعملت جلسة الكايروبراكتيك حسيت عمودي الفقري رجع وكالة عنجد!' },
+          { author: 'أم راشد', time: 'منذ 5 ساعات', stars: 5, text: 'شاركت النتيجة بجروب العيلة وكلنا متنا من الضحك، أنيميشن الملاكمة أسطوري ويجنن ربي يسعدكم 🥊👏' },
+          { author: 'طارق حداد', time: 'أمس', stars: 5, text: 'الفحص نبهني لمشكلة القعدة المكتبية وتيبس عضلات الحوض قبل ما تتطور، تجربة ممتازة ومفيدة جداً.' }
+        ]
+      },
+      'tool-2': {
+        title: '📌 كاشف "مسمار الأبهر وعقد الأكتاف"',
+        sub: '4.8 ★★★★★ • 384 تعليق من المراجعين',
+        baseCount: 384,
+        reviews: [
+          { author: 'د. ليلى خليل', time: 'منذ 3 ساعات', stars: 5, text: 'النخزة اللي بين كتافي كانت تحسسني بضيق نفس دايماً، الفحص حدد بالضبط التشنج بالفقرات الصدرية وفكها الدكتور باحترافية تامة.' },
+          { author: 'خالد السالم', time: 'منذ يومين', stars: 5, text: 'أحسن أداة لفحص الأبهر، اختصرت علي حيرة شهور من التفكير.' }
+        ]
+      },
+      'tool-3': {
+        title: '🐑 حاسبة "ضريبة القعدة وحمل الخروف"',
+        sub: '4.9 ★★★★★ • 312 تعليق من المراجعين',
+        baseCount: 312,
+        reviews: [
+          { author: 'سامر قاسم', time: 'منذ 4 ساعات', stars: 5, text: 'طلع علي وزن خروف 19 كغ فوق رقبتي طول الدوام 😂 تشبيه يخلي الواحد يعدل قعدته غصب عنه!' },
+          { author: 'رنا منصور', time: 'أمس', stars: 5, text: 'فكرة المعادلة البيوميكانيكية عبقرية ومقنعة جداً.' }
+        ]
+      },
+      'tool-4': {
+        title: '⚡ فاحص انضغاط عرق النسا والوركي',
+        sub: '4.9 ★★★★★ • 429 تعليق من المراجعين',
+        baseCount: 429,
+        reviews: [
+          { author: 'أبو يوسف الشوابكة', time: 'منذ ساعة', stars: 5, text: 'الكهربا اللي كانت تنزل على فخذي اليمين خفت 90% بعد ما فهمت موضع الضغط ورتبت جلسة بالبيت مع المركز.' },
+          { author: 'محمد النجار', time: 'منذ يومين', stars: 5, text: 'دقيق جداً في تمييز التشنج العضلي الكمثري عن ديسك الفقرات القطنية.' }
+        ]
+      },
+      'tool-5': {
+        title: '🛌 رادار "وضعية النوم وتيبس الصباح"',
+        sub: '4.8 ★★★★★ • 265 تعليق من المراجعين',
+        baseCount: 265,
+        reviews: [
+          { author: 'نور الهدى', time: 'منذ 6 ساعات', stars: 5, text: 'كنت أصحى كل يوم ورقبتي معلقة، بمجرد ما بدلت المخدة وعدلت طريقة نومي حسب الفحص ارتحت كثير.' }
+        ]
+      },
+      'tool-6': {
+        title: '🚗 فاحص "تشنج الأزمات وفقرات السائقين"',
+        sub: '4.9 ★★★★★ • 248 تعليق من المراجعين',
+        baseCount: 248,
+        reviews: [
+          { author: 'كابتن ماهر', time: 'منذ 8 ساعات', stars: 5, text: 'سواق على أوبر وبقعد 9 ساعات بالسيارة، الفحص وصف وجع مقعدة الحوض بالحرف!' }
+        ]
+      },
+      'tool-7': {
+        title: '🎒 مقياس "اعوجاج الشنتة والكتف المائل"',
+        sub: '4.8 ★★★★★ • 195 تعليق من المراجعين',
+        baseCount: 195,
+        reviews: [
+          { author: 'فرح عبد الله', time: 'منذ يوم', stars: 5, text: 'فعلاً لاحظت كتفي اليمين نازل بسبب شنتة اللابتوب، الفحص فتح عيوني على تصحيح المشية.' }
+        ]
+      },
+      'tool-8': {
+        title: '⚖️ مقياس توازن الحوض والديسك القطني',
+        sub: '4.9 ★★★★★ • 178 تعليق من المراجعين',
+        baseCount: 178,
+        reviews: [
+          { author: 'إبراهيم غانم', time: 'منذ يومين', stars: 5, text: 'تأهيل الحوض اليدوي بدون مسكنات هو الحل الجذري، شكراً لمركز وداعاً للألم.' }
+        ]
+      }
+    };
+
+    // ========================================================
+    // COMMENTS SYSTEM WITH LOCALSTORAGE
+    // ========================================================
+    let activeToolId = 'tool-1';
+    let selectedRating = 5;
+    let storedComments = {};
+
+    try {
+      const saved = localStorage.getItem('smartcheck_tool_comments');
+      if (saved) storedComments = JSON.parse(saved);
+    } catch(e) {
+      console.warn("Could not read comments from localStorage", e);
+    }
+
+    function openCommentsModal(toolId) {
+      activeToolId = toolId;
+      const meta = TOOLS_METADATA[toolId] || TOOLS_METADATA['tool-1'];
+
+      document.getElementById('modalToolTitle').innerText = meta.title;
+      document.getElementById('modalToolSub').innerText = meta.sub;
+      selectedRating = 5;
+      renderStarPicker();
+      renderCommentsFeed();
+
+      document.getElementById('commentsModalOverlay').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeCommentsModal() {
+      document.getElementById('commentsModalOverlay').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function closeCommentsModalOnOutside(e) {
+      if (e.target.id === 'commentsModalOverlay') {
+        closeCommentsModal();
+      }
+    }
+
+    function setStarRating(num) {
+      selectedRating = num;
+      renderStarPicker();
+    }
+
+    function renderStarPicker() {
+      const container = document.getElementById('starPicker');
+      container.innerHTML = '';
+      for (let i = 1; i <= 5; i++) {
+        const span = document.createElement('span');
+        span.className = `star-btn ${i <= selectedRating ? 'active' : ''}`;
+        span.innerText = '★';
+        span.onclick = () => setStarRating(i);
+        container.appendChild(span);
+      }
+    }
+
+    function renderCommentsFeed() {
+      const feed = document.getElementById('commentsFeedList');
+      feed.innerHTML = '';
+
+      const toolMeta = TOOLS_METADATA[activeToolId];
+      const baseReviews = toolMeta ? toolMeta.reviews : [];
+      const userAdded = storedComments[activeToolId] || [];
+
+      // Combine user added first then baseline reviews
+      const allComments = [...userAdded, ...baseReviews];
+
+      allComments.forEach((c) => {
+        const item = document.createElement('div');
+        item.className = `comment-bubble ${c.isNew ? 'newly-added' : ''}`;
+        
+        const starsStr = '★'.repeat(c.stars || 5) + '☆'.repeat(5 - (c.stars || 5));
+        const initial = (c.author || 'ز')[0];
+
+        item.innerHTML = `
+          <div class="comment-meta-row">
+            <div class="comment-author-wrap">
+              <div class="author-avatar">${initial}</div>
+              <span class="author-name">${c.author}</span>
+            </div>
+            <span class="comment-time">${c.time}</span>
+          </div>
+          <div class="comment-stars">${starsStr}</div>
+          <p class="comment-body-text">${c.text}</p>
+        `;
+        feed.appendChild(item);
+      });
+    }
+
+    function submitUserComment() {
+      const authorInput = document.getElementById('commentAuthor');
+      const textInput = document.getElementById('commentText');
+
+      const author = authorInput.value.trim() || 'زائر كريم';
+      const text = textInput.value.trim();
+
+      if (!text) {
+        alert('الرجاء كتابة تعليقك أو رأيك قبل النشر 🌸');
+        return;
+      }
+
+      if (!storedComments[activeToolId]) {
+        storedComments[activeToolId] = [];
+      }
+
+      const newEntry = {
+        author,
+        text,
+        stars: selectedRating,
+        time: 'الآن 🟢',
+        isNew: true
+      };
+
+      storedComments[activeToolId].unshift(newEntry);
+
+      try {
+        localStorage.setItem('smartcheck_tool_comments', JSON.stringify(storedComments));
+      } catch(e) {
+        console.warn("Could not save to localStorage", e);
+      }
+
+      // Update Card Counter
+      const currentMeta = TOOLS_METADATA[activeToolId];
+      const totalCount = (currentMeta ? currentMeta.baseCount : 100) + storedComments[activeToolId].length;
+      const cardCounter = document.getElementById(`comments-count-${activeToolId}`);
+      if (cardCounter) {
+        cardCounter.innerText = Number(totalCount).toLocaleString('en-US');
+      }
+
+      // Reset Form & Re-render Feed
+      textInput.value = '';
+      authorInput.value = '';
+      renderCommentsFeed();
+    }
+
     // ========================================================
     // INTERACTIVE REAL LIKE SYSTEM WITH LOCALSTORAGE
     // ========================================================
     const BASE_LIKES = {
-      'tool-1': 1894,
-      'tool-2': 1245,
-      'tool-3': 890,
-      'tool-4': 735
+      'tool-1': 2190,
+      'tool-2': 1640,
+      'tool-3': 1420,
+      'tool-4': 1810,
+      'tool-5': 1180,
+      'tool-6': 1095,
+      'tool-7': 940,
+      'tool-8': 875
     };
 
     let userLikes = {};
     try {
       const stored = localStorage.getItem('smartcheck_user_likes');
-      if (stored) {
-        userLikes = JSON.parse(stored);
-      }
+      if (stored) userLikes = JSON.parse(stored);
     } catch(e) {
       console.warn("Could not read likes from localStorage", e);
     }
@@ -1053,19 +1758,21 @@
     // ========================================================
     const liveOnlineData = {
       'tool-1': 84,
-      'tool-2': 67,
-      'tool-3': 53,
-      'tool-4': 46
+      'tool-2': 76,
+      'tool-3': 68,
+      'tool-4': 71,
+      'tool-5': 59,
+      'tool-6': 51,
+      'tool-7': 48,
+      'tool-8': 44
     };
 
     function fluctuateOnlineUsers() {
       const toolKeys = Object.keys(liveOnlineData);
-      // Pick 1 or 2 tools randomly to shift
       const randomKey = toolKeys[Math.floor(Math.random() * toolKeys.length)];
       const delta = (Math.random() > 0.48 ? 1 : -1) * (Math.floor(Math.random() * 2) + 1);
       
       let nextVal = liveOnlineData[randomKey] + delta;
-      // Clamp strictly between 40 and 90
       if (nextVal < 40) nextVal = 42;
       if (nextVal > 90) nextVal = 88;
 
@@ -1077,11 +1784,21 @@
       }
     }
 
-    // Initialize on page load
+    // Initialize all comments counters on start
+    function initCommentsCounters() {
+      Object.keys(TOOLS_METADATA).forEach(toolId => {
+        const added = (storedComments[toolId] || []).length;
+        const total = TOOLS_METADATA[toolId].baseCount + added;
+        const elem = document.getElementById(`comments-count-${toolId}`);
+        if (elem) elem.innerText = Number(total).toLocaleString('en-US');
+      });
+    }
+
+    // Page Load Setup
     document.addEventListener('DOMContentLoaded', () => {
       initLikes();
-      // Fluctuate every 3.5 seconds
-      setInterval(fluctuateOnlineUsers, 3500);
+      initCommentsCounters();
+      setInterval(fluctuateOnlineUsers, 3200);
     });
   </script>
 

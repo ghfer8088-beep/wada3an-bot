@@ -53,9 +53,17 @@ app.get('/logs', (req, res) => {
   });
 });
 
-// Home status
+// Smart Check Tools Portal Homepage
 app.get('/', (req, res) => {
-  res.send('👑 وداعاً للألم (30minutes30) - خادم الذكاء الاصطناعي لماسنجر فيسبوك يعمل بنشاط 24/7');
+  res.sendFile(require('path').join(__dirname, 'smart_check_hub.html'));
+});
+
+app.get('/tools', (req, res) => {
+  res.sendFile(require('path').join(__dirname, 'smart_check_hub.html'));
+});
+
+app.get('/smart-check', (req, res) => {
+  res.sendFile(require('path').join(__dirname, 'smart_check_hub.html'));
 });
 
 // Serve Spine Age Calculator (Smart Check Tools)

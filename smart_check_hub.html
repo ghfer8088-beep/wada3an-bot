@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Smart Check Tools | أدوات الفحص والتشخيص الذكية - وداعاً للألم</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #080c16;
+      --bg-card: #111a2e;
+      --bg-card-hover: #16223d;
+      --gold: #f59e0b;
+      --gold-light: #fbbf24;
+      --gold-gradient: linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #d97706 100%);
+      --gold-glow: rgba(245, 158, 11, 0.35);
+      --emerald: #10b981;
+      --emerald-gradient: linear-gradient(135deg, #059669 0%, #10b981 100%);
+      --blue: #3b82f6;
+      --purple: #8b5cf6;
+      --text-white: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-body: #cbd5e1;
+      --card-border: rgba(245, 158, 11, 0.25);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Cairo', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 0%, #172554 0%, #0a0f1d 45%, #050811 100%);
+      color: var(--text-white);
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 18px 16px calc(100px + env(safe-area-inset-bottom, 24px)) 16px;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .hub-container {
+      width: 100%;
+      max-width: 720px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    /* Top Brand Navigation Bar */
+    .top-navbar {
+      background: rgba(17, 26, 46, 0.85);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--card-border);
+      border-radius: 22px;
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo-wrap {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid var(--gold);
+      box-shadow: 0 0 16px var(--gold-glow);
+      background: #0f172a;
+      flex-shrink: 0;
+    }
+
+    .brand-logo-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .brand-info h2 {
+      font-size: 15.5px;
+      font-weight: 900;
+      color: #ffffff;
+      line-height: 1.3;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .brand-info p {
+      font-size: 12px;
+      color: var(--gold-light);
+      font-weight: 600;
+    }
+
+    .platform-badge-link {
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 3px;
+      transition: transform 0.2s ease;
+    }
+
+    .platform-badge-link:hover {
+      transform: translateY(-1px);
+    }
+
+    .badge-pill {
+      background: rgba(59, 130, 246, 0.18);
+      border: 1px solid rgba(59, 130, 246, 0.45);
+      color: #93c5fd;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 11.5px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s;
+    }
+
+    .platform-badge-link:hover .badge-pill {
+      background: rgba(59, 130, 246, 0.35);
+      color: #ffffff;
+      box-shadow: 0 0 14px rgba(59, 130, 246, 0.5);
+    }
+
+    .badge-sub {
+      font-size: 10px;
+      color: #93c5fd;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    /* Hero Banner */
+    .hero-banner {
+      background: linear-gradient(180deg, rgba(23, 37, 84, 0.5) 0%, rgba(17, 26, 46, 0.95) 100%);
+      border: 1.5px solid var(--card-border);
+      border-radius: 28px;
+      padding: 28px 22px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 16px 45px rgba(0,0,0,0.6);
+    }
+
+    .hero-banner::before {
+      content: '';
+      position: absolute;
+      top: -80px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 260px;
+      height: 260px;
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.2) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero-badge-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid var(--gold);
+      color: var(--gold-light);
+      padding: 6px 16px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.2);
+    }
+
+    .hero-title {
+      font-size: 26px;
+      font-weight: 900;
+      line-height: 1.45;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #ffffff 0%, #fde68a 60%, #fbbf24 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 15.5px;
+      color: var(--text-body);
+      line-height: 1.75;
+      max-width: 580px;
+      margin: 0 auto 20px;
+      font-weight: 500;
+    }
+
+    .hero-stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .stat-mini-box {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 10px 8px;
+      text-align: center;
+    }
+
+    .stat-mini-box .num {
+      font-size: 18px;
+      font-weight: 900;
+      color: var(--gold-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .stat-mini-box .label {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    /* Section Header */
+    .section-title-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 4px;
+      padding: 0 6px;
+    }
+
+    .section-title {
+      font-size: 19px;
+      font-weight: 900;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title span.dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 10px var(--gold);
+    }
+
+    .tools-count-badge {
+      font-size: 12px;
+      color: var(--gold-light);
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 800;
+    }
+
+    /* Royal Tool Cards Grid */
+    .tools-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    /* Individual Royal Tool Card */
+    .royal-tool-card {
+      background: linear-gradient(145deg, #131d33 0%, #0d1527 100%);
+      border: 1.5px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      padding: 22px 20px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .royal-tool-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+    }
+
+    .royal-tool-card.featured {
+      border: 2px solid var(--gold);
+      box-shadow: 0 14px 40px rgba(245, 158, 11, 0.2), inset 0 0 25px rgba(245, 158, 11, 0.05);
+    }
+
+    .royal-tool-card.featured::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 160px;
+      height: 160px;
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .card-top-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 30px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .status-badge.live {
+      background: rgba(16, 185, 129, 0.18);
+      border: 1px solid rgba(16, 185, 129, 0.45);
+      color: #34d399;
+    }
+
+    .status-badge.featured {
+      background: rgba(245, 158, 11, 0.2);
+      border: 1px solid var(--gold);
+      color: #fbbf24;
+      box-shadow: 0 0 12px rgba(245, 158, 11, 0.3);
+    }
+
+    .status-badge.coming {
+      background: rgba(148, 163, 184, 0.15);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      color: #cbd5e1;
+    }
+
+    .time-estimate {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .card-main-content {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .tool-icon-box {
+      width: 64px;
+      height: 64px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      flex-shrink: 0;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+
+    .royal-tool-card.featured .tool-icon-box {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(217, 119, 6, 0.2) 100%);
+      border-color: var(--gold);
+      box-shadow: 0 8px 25px rgba(245, 158, 11, 0.25);
+    }
+
+    .tool-text-area {
+      flex: 1;
+    }
+
+    .tool-title {
+      font-size: 18.5px;
+      font-weight: 900;
+      color: #ffffff;
+      margin-bottom: 6px;
+      line-height: 1.4;
+    }
+
+    .tool-desc {
+      font-size: 14px;
+      color: var(--text-body);
+      line-height: 1.65;
+      margin-bottom: 12px;
+    }
+
+    .tool-features-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .feature-pill {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #e2e8f0;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 11.5px;
+      font-weight: 700;
+    }
+
+    /* Action Buttons */
+    .btn-card-action {
+      width: 100%;
+      padding: 14px 20px;
+      border-radius: 14px;
+      font-size: 15.5px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      border: none;
+    }
+
+    .btn-gold-action {
+      background: var(--gold-gradient);
+      color: #0f172a;
+      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+    }
+
+    .btn-gold-action:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(245, 158, 11, 0.55);
+    }
+
+    .btn-secondary-action {
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid rgba(59, 130, 246, 0.4);
+      color: #93c5fd;
+    }
+
+    .btn-secondary-action:hover {
+      background: rgba(59, 130, 246, 0.28);
+      color: #ffffff;
+      transform: translateY(-2px);
+    }
+
+    .btn-disabled-action {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #94a3b8;
+      cursor: default;
+    }
+
+    /* Clinic Royal Consultation Banner */
+    .clinic-royal-card {
+      background: radial-gradient(circle at 100% 0%, rgba(245, 158, 11, 0.15) 0%, rgba(15, 23, 42, 0.95) 75%);
+      border: 1.5px solid var(--gold);
+      border-radius: 26px;
+      padding: 22px 20px;
+      text-align: center;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.5);
+    }
+
+    .clinic-royal-card h3 {
+      font-size: 18.5px;
+      font-weight: 900;
+      color: #ffffff;
+      margin-bottom: 6px;
+    }
+
+    .clinic-royal-card p {
+      font-size: 14px;
+      color: var(--text-body);
+      line-height: 1.65;
+      margin-bottom: 16px;
+    }
+
+    .clinic-cta-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-clinic-call {
+      flex: 1;
+      background: var(--gold-gradient);
+      color: #0f172a;
+      text-decoration: none;
+      padding: 13px 14px;
+      border-radius: 12px;
+      font-size: 14.5px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.35);
+      transition: all 0.2s;
+    }
+
+    .btn-clinic-call:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-clinic-wa {
+      flex: 1;
+      background: linear-gradient(135deg, #075e54 0%, #128c7e 100%);
+      color: #ffffff;
+      text-decoration: none;
+      padding: 13px 14px;
+      border-radius: 12px;
+      font-size: 14.5px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 1px solid rgba(52, 211, 153, 0.35);
+      box-shadow: 0 4px 15px rgba(7, 94, 84, 0.4);
+      transition: all 0.2s;
+    }
+
+    .btn-clinic-wa:hover {
+      transform: translateY(-2px);
+    }
+
+    /* Footer */
+    .hub-footer {
+      text-align: center;
+      font-size: 12.5px;
+      color: #94a3b8;
+      line-height: 1.7;
+      margin-top: 10px;
+      padding: 0 10px;
+    }
+
+    .hub-footer a {
+      color: var(--gold);
+      text-decoration: underline;
+      font-weight: 700;
+    }
+
+    /* Mobile clearance spacer */
+    .mobile-footer-clearance {
+      width: 100%;
+      height: calc(50px + env(safe-area-inset-bottom, 24px));
+      min-height: 40px;
+      pointer-events: none;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+      .hero-title {
+        font-size: 22px;
+      }
+      .tool-title {
+        font-size: 17px;
+      }
+      .tool-icon-box {
+        width: 52px;
+        height: 52px;
+        font-size: 26px;
+      }
+      .clinic-cta-row {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hub-container">
+
+    <!-- Top Brand Navbar -->
+    <header class="top-navbar">
+      <div class="brand-group">
+        <div class="brand-logo-wrap">
+          <img src="/logo.jpg" alt="وداعاً للألم">
+        </div>
+        <div class="brand-info">
+          <h2>وداعاً للألم <span style="font-size:10.5px; background:rgba(245,158,11,0.2); color:#fbbf24; border:1px solid #f59e0b; padding:1px 6px; border-radius:10px;">Care</span></h2>
+          <p>تقويم العمود الفقري والتأهيل الحركي</p>
+        </div>
+      </div>
+
+      <a href="https://smartchecktools.com" target="_blank" rel="noopener noreferrer" class="platform-badge-link" title="Smart Check Tools">
+        <span class="badge-pill">
+          Smart Check Tools ⚡
+        </span>
+        <span class="badge-sub">أداة التشخيص والعلاج بالذكاء الاصطناعي</span>
+      </a>
+    </header>
+
+    <!-- Hero Introduction Banner -->
+    <section class="hero-banner">
+      <span class="hero-badge-tag">
+        <span>👑</span>
+        <span>البوابة السريرية الذكية للتقييم الذاتي</span>
+      </span>
+
+      <h1 class="hero-title">منصة أدوات الفحص الذكية</h1>
+      
+      <p class="hero-subtitle">
+        مجموعة أدوات تشخيصية وفحوصات تفاعلية فورية ومبتكرة تكشف لك صحة فقراتك، أعصابك، وتوازن حركتك في 30 ثانية بروح علمية ومرحة.
+      </p>
+
+      <div class="hero-stats-row">
+        <div class="stat-mini-box">
+          <div class="num">4+ ⚡</div>
+          <div class="label">أدوات تخصصية</div>
+        </div>
+        <div class="stat-mini-box">
+          <div class="num">100% 🌿</div>
+          <div class="label">بدون جراحة وأدوية</div>
+        </div>
+        <div class="stat-mini-box">
+          <div class="num">30s ⏱️</div>
+          <div class="label">فحص فوري سريع</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section Heading -->
+    <div class="section-title-wrap">
+      <h2 class="section-title">
+        <span class="dot"></span>
+        الأدوات المتاحة وقيد الإطلاق
+      </h2>
+      <span class="tools-count-badge">اختر الفحص المناسب لك</span>
+    </div>
+
+    <!-- Royal Tool Cards Grid -->
+    <div class="tools-grid">
+
+      <!-- Tool 1: Spine Age (Live & Featured) -->
+      <article class="royal-tool-card featured">
+        <div class="card-top-meta">
+          <span class="status-badge featured">
+            <span>🔥</span>
+            <span>متاح الآن • الأكثر انتشاراً</span>
+          </span>
+          <span class="time-estimate">⏱️ 30 ثانية</span>
+        </div>
+
+        <div class="card-main-content">
+          <div class="tool-icon-box">
+            🥊
+          </div>
+          <div class="tool-text-area">
+            <h3 class="tool-title">حاسبة عمر العمود الفقري الحقيقي (نزال الفقرات)</h3>
+            <p class="tool-desc">
+              اكتشف هل ظهرك لساته وكالة؟ ولا بدّه شد براغي؟ ولا على الشطب تقول واقع من طيارة! اختبار تفاعلي مدعوم بأنيميشن نزال ملاكمة الفقرات الحصري.
+            </p>
+            <div class="tool-features-pills">
+              <span class="feature-pill">5 أسئلة يومية لطيفة</span>
+              <span class="feature-pill">أنيميشن ملاكمة تفاعلي</span>
+              <span class="feature-pill">مشاركة النتيجة بالواتساب</span>
+            </div>
+          </div>
+        </div>
+
+        <a href="/spine-age" class="btn-card-action btn-gold-action">
+          <span>🚀</span>
+          <span>ابدأ فحص عمر عمودك الفقري الآن</span>
+          <span>←</span>
+        </a>
+      </article>
+
+      <!-- Tool 2: Sciatica Nerve Check -->
+      <article class="royal-tool-card">
+        <div class="card-top-meta">
+          <span class="status-badge live">
+            <span>🌿</span>
+            <span>جديد • الفحص العصبي</span>
+          </span>
+          <span class="time-estimate">⏱️ دقيقة واحدة</span>
+        </div>
+
+        <div class="card-main-content">
+          <div class="tool-icon-box">
+            ⚡
+          </div>
+          <div class="tool-text-area">
+            <h3 class="tool-title">فاحص انضغاط عرق النسا والعصب الوركي</h3>
+            <p class="tool-desc">
+              تحديد مسار الكهرباء والتنميل النازل من أسفل الظهر إلى الساق والقدم، وكشف هل الضغط ناتج عن انزلاق غضروفي أم تشنج في العضلة الكمثرية.
+            </p>
+            <div class="tool-features-pills">
+              <span class="feature-pill">مسار العصب الوركي</span>
+              <span class="feature-pill">اختبار التنميل والخدران</span>
+              <span class="feature-pill">نصائح فك الضغط</span>
+            </div>
+          </div>
+        </div>
+
+        <a href="/spine-age" class="btn-card-action btn-secondary-action">
+          <span>🔍</span>
+          <span>إجراء فحص الأعصاب والفقرات القطنية</span>
+          <span>←</span>
+        </a>
+      </article>
+
+      <!-- Tool 3: Tech Neck & Shoulder Stress (Coming Soon) -->
+      <article class="royal-tool-card">
+        <div class="card-top-meta">
+          <span class="status-badge coming">
+            <span>⏳</span>
+            <span>قيد التطوير المخبري</span>
+          </span>
+          <span class="time-estimate">⏱️ 45 ثانية</span>
+        </div>
+
+        <div class="card-main-content">
+          <div class="tool-icon-box">
+            📱
+          </div>
+          <div class="tool-text-area">
+            <h3 class="tool-title">محلل إجهاد الرقبة وتيبس الأبهر (Tech Neck)</h3>
+            <p class="tool-desc">
+              فحص زاوية انحناء الفقرات العنقية وضغط استخدام الشاشات والهواتف، مع قياس شد عضلات لوحي الكتف وصداع مؤخرة الرأس.
+            </p>
+            <div class="tool-features-pills">
+              <span class="feature-pill">استقامة الرقبة</span>
+              <span class="feature-pill">عقد الأبهر العضلية</span>
+              <span class="feature-pill">صداع التوتر المكتبي</span>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-card-action btn-disabled-action" onclick="alert('الأداة قيد التجهيز المخبري وستتاح قريباً بإذن الله!')">
+          <span>🔔</span>
+          <span>سيتاح قريباً لعملاء وداعاً للألم</span>
+        </button>
+      </article>
+
+      <!-- Tool 4: Pelvic Balance & Disc Health (Coming Soon) -->
+      <article class="royal-tool-card">
+        <div class="card-top-meta">
+          <span class="status-badge coming">
+            <span>⏳</span>
+            <span>قيد التطوير المخبري</span>
+          </span>
+          <span class="time-estimate">⏱️ دقيقة</span>
+        </div>
+
+        <div class="card-main-content">
+          <div class="tool-icon-box">
+            ⚖️
+          </div>
+          <div class="tool-text-area">
+            <h3 class="tool-title">مقياس توازن الحوض والديسك القطني</h3>
+            <p class="tool-desc">
+              تقييم ميلان الحوض وميكانيكية المشي غير المتناظرة، لتحديد ما إذا كان الحمل الزائد يتركز على فقرات معينة ويسبب اهتراء الغضاريف مبكراً.
+            </p>
+            <div class="tool-features-pills">
+              <span class="feature-pill">موازنة الحوض اليدوية</span>
+              <span class="feature-pill">ديسك L4-L5 و L5-S1</span>
+              <span class="feature-pill">توزيع الأوزان</span>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-card-action btn-disabled-action" onclick="alert('الأداة قيد التجهيز المخبري وستتاح قريباً بإذن الله!')">
+          <span>🔔</span>
+          <span>سيتاح قريباً لعملاء وداعاً للألم</span>
+        </button>
+      </article>
+
+    </div>
+
+    <!-- Clinic Direct Royal Care Card -->
+    <div class="clinic-royal-card">
+      <h3>👑 علاج وتقويم العمود الفقري بدون جراحة</h3>
+      <p>
+        سواء كانت نتيجتك "بدّه شد براغي" أو تعاني من آلام حقيقية بالظهر والرقبة؛ مركز <b>وداعاً للألم</b> يقدم لك جلسات الكايروبراكتيك والتأهيل الحركي اليدوي الاحترافي بمقرنا في عمّان (خلدا) أو عبر زيارات منزلية مريحة.
+      </p>
+
+      <div class="clinic-cta-row">
+        <a href="https://wa.me/962790360440?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20%D9%85%D8%B1%D9%83%D8%B2%20%D9%88%D8%AF%D8%A7%D8%B9%D8%A7%D9%8B%20%D9%84%D9%84%D8%A3%D9%84%D9%85%20%F0%9F%8C%B8%20%D8%AD%D8%A7%D8%A8%D8%A8%20%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%B1%20%D8%B9%D9%86%20%D8%AC%D9%84%D8%B3%D8%A7%D8%AA%20%D8%A7%D9%84%D9%83%D8%A7%D9%8A%D8%B1%D9%88%D8%A8%D8%B1%D8%A7%D9%83%D8%AA%D9%8A%D9%83%20%D9%88%D8%AD%D8%AC%D8%B2%20%D9%85%D9%88%D8%B9%D8%AF." target="_blank" class="btn-clinic-wa">
+          <span>💬</span>
+          <span>واتساب الاستشارات والحجز</span>
+        </a>
+        <a href="tel:0790360440" class="btn-clinic-call">
+          <span>📞</span>
+          <span>اتصال مباشر: 0790360440</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="hub-footer">
+      بوابة أدوات الفحص الذكية مطورة بالتعاون بين منصة <a href="https://smartchecktools.com" target="_blank" rel="noopener noreferrer"><b>Smart Check Tools</b></a> ومركز <b>وداعاً للألم</b>.<br>
+      <b>أداة التشخيص والعلاج بالذكاء الاصطناعي</b> • جميع الحقوق محفوظة © 2026.
+    </footer>
+
+    <!-- Mobile Clearance Spacer -->
+    <div class="mobile-footer-clearance"></div>
+
+  </div>
+
+</body>
+</html>

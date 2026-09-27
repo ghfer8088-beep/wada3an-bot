@@ -1167,6 +1167,13 @@
     const W = canvas.width;
     const H = canvas.height;
 
+    // Arena Floor Mat Sponsor Decal (وداعاً للألم Logo)
+    const clinicLogoImg = new Image();
+    let logoLoaded = false;
+    clinicLogoImg.onload = () => { logoLoaded = true; };
+    clinicLogoImg.src = '/logo.jpg';
+    if (clinicLogoImg.complete && clinicLogoImg.naturalWidth > 0) { logoLoaded = true; }
+
     let animFrame = 0;
     let cameraShake = 0;
     let particles = [];
@@ -1516,6 +1523,36 @@
       ctx.beginPath();
       ctx.ellipse(W / 2, H - 60, 290, 50, 0, 0, Math.PI * 2);
       ctx.fill();
+
+      // Authentic Arena Floor Sponsor Decal (وداعاً للألم Logo)
+      if (logoLoaded && clinicLogoImg.complete && clinicLogoImg.naturalWidth > 0) {
+        ctx.save();
+        ctx.translate(W / 2, H - 60);
+        // Perspective squash matching the 3D oval mat projection
+        ctx.scale(1, 0.28);
+
+        // Circular decal clipping
+        const logoR = 110;
+        ctx.beginPath();
+        ctx.arc(0, 0, logoR, 0, Math.PI * 2);
+        ctx.clip();
+
+        // Semi-transparent floor mat advertisement
+        ctx.globalAlpha = 0.26;
+        ctx.drawImage(clinicLogoImg, -logoR, -logoR, logoR * 2, logoR * 2);
+        ctx.restore();
+
+        // Subtle glowing floor decal ring border
+        ctx.save();
+        ctx.translate(W / 2, H - 60);
+        ctx.scale(1, 0.28);
+        ctx.strokeStyle = 'rgba(245, 158, 11, 0.35)';
+        ctx.lineWidth = 3.5;
+        ctx.beginPath();
+        ctx.arc(0, 0, 110, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.restore();
+      }
 
       ctx.strokeStyle = 'rgba(245, 158, 11, 0.3)';
       ctx.lineWidth = 2;

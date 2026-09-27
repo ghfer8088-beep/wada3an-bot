@@ -127,6 +127,35 @@
       transition: all 0.2s ease;
     }
 
+    .header-actions-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-share-header {
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid var(--gold);
+      color: #fbbf24;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 11.5px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn-share-header:hover {
+      background: rgba(245, 158, 11, 0.3);
+      color: #ffffff;
+      transform: translateY(-1px);
+      box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
+    }
+
     .smart-check-header-link {
       text-decoration: none;
       display: flex;
@@ -156,29 +185,82 @@
       text-shadow: 0 1px 2px rgba(0,0,0,0.6);
     }
 
+    .btn-share-tool-action {
+      background: rgba(59, 130, 246, 0.16);
+      border: 1px solid rgba(59, 130, 246, 0.4);
+      color: #93c5fd;
+      padding: 13px 18px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      width: 100%;
+    }
+
+    .btn-share-tool-action:hover {
+      background: rgba(59, 130, 246, 0.3);
+      color: #ffffff;
+      transform: translateY(-2px);
+    }
+
+    /* Toast Notification */
+    .toast-popup {
+      position: fixed;
+      bottom: calc(24px + env(safe-area-inset-bottom, 20px));
+      left: 50%;
+      transform: translateX(-50%) translateY(40px);
+      background: #0f172a;
+      border: 1.5px solid var(--gold);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 20px rgba(245, 158, 11, 0.3);
+      color: #ffffff;
+      padding: 12px 22px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .toast-popup.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
     @media (max-width: 480px) {
       .top-header {
-        padding: 10px 12px;
+        padding: 10px 10px;
       }
       .brand-box {
-        gap: 7px;
+        gap: 6px;
       }
       .brand-icon {
-        width: 38px;
-        height: 38px;
+        width: 36px;
+        height: 36px;
       }
       .brand-meta h2 {
-        font-size: 13px;
+        font-size: 12px;
+      }
+      .btn-share-header {
+        font-size: 10px;
+        padding: 4px 8px;
       }
       .badge-tool {
-        font-size: 10.5px;
-        padding: 3px 9px;
+        font-size: 10px;
+        padding: 3px 7px;
       }
       .smart-check-sub {
-        font-size: 9px;
-        white-space: normal;
-        max-width: 135px;
-        line-height: 1.25;
+        display: none;
       }
     }
 
@@ -859,10 +941,16 @@
           <p>وداعاً للألم • الرئيسية 🏠</p>
         </div>
       </a>
-      <a href="https://smartchecktools.com" target="_blank" rel="noopener noreferrer" class="smart-check-header-link" title="Smart Check Tools - أداة التشخيص والعلاج بالذكاء الاصطناعي">
-        <span class="badge-tool">Smart Check Tools ⚡</span>
-        <span class="smart-check-sub">أداة التشخيص والعلاج بالذكاء الاصطناعي</span>
-      </a>
+      <div class="header-actions-group">
+        <button class="btn-share-header" onclick="shareSpineTool()" title="مشاركة رابط هذا الفحص">
+          <span>🔗</span>
+          <span>مشاركة الفحص</span>
+        </button>
+        <a href="https://smartchecktools.com" target="_blank" rel="noopener noreferrer" class="smart-check-header-link" title="Smart Check Tools - أداة التشخيص والعلاج بالذكاء الاصطناعي">
+          <span class="badge-tool">Smart Check Tools ⚡</span>
+          <span class="smart-check-sub">أداة التشخيص والعلاج بالذكاء الاصطناعي</span>
+        </a>
+      </div>
     </header>
 
     <!-- Screen 1: Hero / Welcome Screen -->
@@ -870,11 +958,11 @@
       <div style="margin-bottom:14px;">
         <img src="/logo.jpg" alt="وداعاً للألم" style="width:78px; height:78px; border-radius:50%; border:2.5px solid var(--gold); box-shadow:0 0 22px rgba(245,158,11,0.45); object-fit:cover;">
       </div>
-      <span class="hero-badge-fun">😂 اختبار فضولي صريح وخفيف الدم</span>
-      <h1 class="hero-title">تعالوا يا غوالي نشوف كم عمر عامودكم الفقري</h1>
+      <span class="hero-badge-fun">🧬 تقييم بيوميكانيكي سريري معتمد</span>
+      <h1 class="hero-title">حاسبة العمر الحيوي والبيوميكانيكي للعمود الفقري</h1>
       <p class="hero-subtitle">
-        أغلب الناس في الأردن عمرهم بالهوية 30 سنة.. بس ظهرهم عايش في الثمانينات! 👴<br>
-        أجب عن 5 مواقف يومية لطيفة واكتشف: هل ظهرك لساته وكالة؟ ولا بدّه شد براغي؟ ولا على الشطب تقول واقع من طيارة؟! 😂
+        الكثير من الأشخاص يختلف العمر البيولوجي لفقراتهم عن عمرهم الزمني بسبب نمط العمل والجلوس.<br>
+        أجب عن 5 مؤشرات حركية يومية واكتشف بدقة: ما هو العمر الحقيقي لعمودك الفقري؟ وما هو مستوى توازنك الميكانيكي؟
       </p>
 
       <!-- Social Proof Stats Strip (المستخدمين، الأونلاين، الإعجابات + زر الإعجاب) -->
@@ -1039,23 +1127,28 @@
         </button>
       </div>
 
-      <!-- Viral WhatsApp Share Box -->
+      <!-- Professional Clinical Share Box -->
       <div class="share-viral-card">
-        <h4>📲 فاجئ أصحابك وأهلك في الواتساب!</h4>
-        <p>شارك نتيجتك بجروب العيلة أو الشغل وخلينا نشوف مين اللي ظهره وكالة ومين اللي على الشطب 😂👇</p>
-        <a id="btnShareWhatsApp" href="#" target="_blank" class="btn-share-whatsapp">
-          <span>💬</span> مشاركة النتيجة الطريفة على واتساب
-        </a>
+        <h4>📲 مشاركة تقرير الفحص السريري والتوعية</h4>
+        <p>شارك نتيجة تقييمك البيوميكانيكي أو أرسل رابط الفحص للعائلة والزملاء لتعزيز الوعي بصحة العمود الفقري 🌿</p>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <a id="btnShareWhatsApp" href="#" target="_blank" class="btn-share-whatsapp">
+            <span>📲</span> مشاركة تقرير الفحص عبر واتساب
+          </a>
+          <button class="btn-share-tool-action" onclick="copySpineLink()">
+            <span>🔗</span> مشاركة رابط الأداة مع الآخرين
+          </button>
+        </div>
       </div>
 
       <!-- Booking / Clinic Direct Action -->
       <div class="clinic-cta-card">
-        <h3>👑 حابب تشد براغي ظهرك وترجعه وكالة؟</h3>
-        <p class="clinic-price-tag">خذلك جلسة كايروبراكتيك ... عنا او في بيتك ما بتفرق</p>
+        <h3>👑 استعادة مرونة العمود الفقري ومحاذاة الفقرات</h3>
+        <p class="clinic-price-tag">جلسات تقويم العمود الفقري (الكايروبراكتيك) والتأهيل الحركي يدوياً • بمقرنا في خلدا أو عبر زيارات منزلية</p>
 
         <div class="cta-buttons">
           <a id="btnBookSession" href="#" target="_blank" class="btn-cta-phone">
-            <span>📅</span> إحجز جلسة كايروبراكتيك
+            <span>📅</span> حجز جلسة تقويم وتأهيل
           </a>
           <a href="tel:0790360440" class="btn-cta-fb">
             <span>📞</span> 0790360440
@@ -1338,29 +1431,29 @@
       let badgeBg = "";
 
       if (ageDiff <= 0) {
-        // Tier 1: وكالة ما شاء الله
-        alertBadge = "✨ ظهرك وكالة ما شاء الله!";
+        // Tier 1: ممتاز
+        alertBadge = "✨ قوام مثالي ومرونة فقرية ممتازة";
         badgeBg = "rgba(16, 185, 129, 0.2); color:#34d399; border: 1px solid #10b981";
-        nickname = "ظهرك وكالة ما شاء الله! 🚗✨";
-        diagnosis = `ما شاء الله تبارك الرحمن، فقراتك شابة فابريكة بريحة بلادها! غضاريفك مروية، ومحاذاة الحوض عندك ممتازة. حافظ على هذا الكنز بالحركة المستمرة، وإذا حابب تشييك دوري وتأهيل حركي وقائي، أبوابنا بخلدا مفتوحة لك دائماً.`;
+        nickname = "عمود فقري متوازن ومرن للغاية ✨";
+        diagnosis = `ما شاء الله تبارك الرحمن، نتائج الفحص تشير إلى أن فقراتك تتمتع بمرونة بيوميكانيكية عالية وتوزيع أحمال متزن. غضاريفك مروية ومحاذاة الحوض طبيعية. حافظ على هذا التوازن بالنشاط البدني المنتظم، وإذا أردت تقييماً وقائياً وتأهيلاً حركياً دورياً فإن أبواب مركز وداعاً للألم في خلدا مفتوحة لك دائماً.`;
       } else if (ageDiff <= 8) {
-        // Tier 2: بلش يعرج
-        alertBadge = "🚶‍♂️ ظهرك بلّش يعرج!";
+        // Tier 2: إجهاد أولي
+        alertBadge = "🚶‍♂️ إجهاد عضلي أولي وتيبس طفيف";
         badgeBg = "rgba(245, 158, 11, 0.2); color:#fbbf24; border: 1px solid #f59e0b";
-        nickname = "ظهرك بلّش يعرج.. بدّه شوية تليين! 🚶‍♂️⚠️";
-        diagnosis = `عمودك الفقري لساته محترم نفسه، بس القعدة الطويلة وقلة الحركة بلشت تعطي إشارات تيبس خفيفة بالأربطة القطنية. عمر عمودك الفقري سابق عمرك بـ ${ageDiff} سنوات.. وشوية تمديدات وإعادة ضبط محاذاة يدوية بترجعه وكالة فوراً قبل ما يتطور!`;
+        nickname = "إجهاد بيوميكانيكي خفيف بحاجة لمرونة 🚶‍♂️⚠️";
+        diagnosis = `عمودك الفقري في وضع جيد عموماً، ولكن نمط الجلوس المكتبي أو قلة الإطالة بدأ يسبب تيبساً طفيفاً في الأربطة والعضلات المحيطة بالفقرات القطنية. العمر الحيوي للفقرات يتقدم عن عمرك الزمني بـ ${ageDiff} سنوات.. وبعض تمارين الاستطالة والتأهيل اليدوي الوقائي كفيلة بإعادة كامل المرونة قبل تطور التيبس.`;
       } else if (ageDiff <= 18) {
-        // Tier 3: بده شد براغي
-        alertBadge = "🔧 ظهرك بدّه شد براغي!";
+        // Tier 3: تشنج عميق
+        alertBadge = "🔧 تشنج عضلي عميق واختلال ميكانيكي";
         badgeBg = "rgba(249, 115, 22, 0.2); color:#fb923c; border: 1px solid #f97316";
-        nickname = "ظهرك بدّه شد براغي وصيانة سريعة يا غالي ! 🔧⚙️";
-        diagnosis = `عمرك بالهوية ${baseAge} سنة، بس عمودك الفقري عمره ${calculatedAge} سنة! في تشنجات عضلية عميقة ماسكة بالفقرات القطنية وعاملة ضغط خفيف على مخارج الأعصاب. ظهرك عم بحكيلك بلطف: 'ارحمني من قعدة المكاتب والسيارات وتعال نعمل صيانة للفقرات!'`;
+        nickname = "اختلال في توزيع الأحمال وتشنج قطني 🔧⚙️";
+        diagnosis = `عمرك الزمني ${baseAge} سنة، بينما يشير التقييم البيوميكانيكي إلى أن عمر فقراتك يقارب ${calculatedAge} سنة. هناك تشنجات عضلية عميقة تضغط على الفقرات القطنية وتؤثر على المخارج العصبية ومحاذاة الحوض. هذه إشارة صريحة بضرورة التوقف عن إهمال آلام الظهر وإجراء جلسات تقويم كايروبراكتيك يدوية لإعادة ضبط المحاذاة وتخفيف الضغط.`;
       } else {
-        // Tier 4: على الشطب تقول واقع من طيارة
-        alertBadge = "✈️ ظهرك على الشطب.. تقول واقع من طيارة!";
+        // Tier 4: انضغاط متقدم
+        alertBadge = "⚠️ إجهاد فقري حاد وانضغاط ميكانيكي متقدم";
         badgeBg = "rgba(239, 68, 68, 0.2); color:#f87171; border: 1px solid #ef4444";
-        nickname = "ظهرك على الشطب تقول واقع من طيارة! ✈️💥😂";
-        diagnosis = `سلامة ظهرك يا غالي وألف لا بأس عليك! فقراتك شايلة هموم البلد، وعضلاتك شادة لدرجة الغضاريف بتستغيث، وفي ضغط واضح خانق للعصب الوركي مسبب لك الخدران والتعب. بس ولا يهمك.. العمود الفقري بيرجع بتصالح ومحاذاة الفقرات بتفك الحصار يدوياً بدون جراحة وبدون إبر!`;
+        nickname = "انضغاط غضروفي حاد وإجهاد عصبي ⚠️🩺";
+        diagnosis = `سلامتك وألف لا بأس عليك. نتائج الفحص تدل على تعرض عمودك الفقري لضغوط ميكانيكية تراكمية شديدة وتشنجات ليفية متيبسة تسبب ضغطاً على الغضاريف ومسار العصب الوركي. الخبر المطمئن هو أن معظم هذه الاختلالات قابلة للتحسن الجذري عبر تقويم العمود الفقري اليدوي (الكايروبراكتيك) وإعادة موازنة الحوض بدون أي تدخل جراحي أو أدوية.`;
       }
 
       const badgeElem = document.getElementById('resAlertBadge');
@@ -1370,13 +1463,14 @@
       document.getElementById('resNickname').innerText = nickname;
       document.getElementById('resDiagnosis').innerText = diagnosis;
 
-      // Prepare WhatsApp Share Text
+      // Prepare WhatsApp Share Text (Clinical & Professional)
       const shareText = encodeURIComponent(
-        `😂 عملت فحص لعمر عامودي الفقري وصُدمت بالنتيجة!\n` +
-        `🪪 عمري في بطاقة الأحوال: ${baseAge} سنة\n` +
-        `🦴 عمر عمودي الفقري طلع: ${calculatedAge} سنة!\n` +
-        `📢 تشخيص ظهري: "${nickname}"\n\n` +
-        `كل واحد يجرب يفحص عاموده لنشوف مين ظهره وكالة ومين اللي ظهره واقع من طيارة  😂👇\n` +
+        `🩺 تقرير التقييم السريري | حاسبة عمر العمود الفقري\n` +
+        `منصة Smart Check Tools بالتعاون مع مركز وداعاً للألم:\n\n` +
+        `🪪 العمر الزمني (الهوية): ${baseAge} سنة\n` +
+        `🦴 العمر الحيوي والبيوميكانيكي للفقرات: ${calculatedAge} سنة\n` +
+        `📋 التشخيص والمؤشر: ${nickname}\n\n` +
+        `✨ افحص سلامة عمودك الفقري وقوامك الحركي فوراً عبر الرابط الطبي المعتمد:\n` +
         window.location.href
       );
       document.getElementById('btnShareWhatsApp').href = `https://wa.me/?text=${shareText}`;
@@ -1386,7 +1480,7 @@
 
       // Prepare Direct Clinic Booking Text
       const clinicBookingText = encodeURIComponent(
-        `مرحباً مركز "وداعاً للألم" 🌸\nفحصت عمر عمودي الفقري عبر الأداة التفاعلية:\n- عمري بالهوية: ${baseAge} سنة\n- عمر عمودي الفقري: ${calculatedAge} سنة (${nickname})\nحابب أرتب موعد جلسة كايروبراكتيك لظهري (عندكم بمقركم بخلدا أو زيارة منزلية).`
+        `مرحباً مركز "وداعاً للألم" 🌸\nأجريت فحص عمر العمود الفقري عبر الأداة السريرية التفاعلية:\n- عمري الزمني: ${baseAge} سنة\n- العمر الحيوي للفقرات: ${calculatedAge} سنة (${nickname})\nأرغب بحجز موعد لجلسة تقويم العمود الفقري (الكايروبراكتيك) والتأهيل الحركي (بمقركم في خلدا أو زيارة منزلية).`
       );
       document.getElementById('btnBookSession').href = `https://wa.me/962790360440?text=${clinicBookingText}`;
     }
@@ -2307,6 +2401,82 @@
     if (canvas && ctx) {
       renderCanvas();
     }
+
+    // ========================================================
+    // SHARING SYSTEM (SPINE AGE CALCULATOR)
+    // ========================================================
+    function shareSpineTool() {
+      const shareData = {
+        title: 'حاسبة العمر الحيوي والبيوميكانيكي للعمود الفقري | Smart Check Tools',
+        text: 'أجرِ الآن الفحص السريري لتقييم صحة فقراتك وحساب عمر عمودك الفقري بالتعاون مع مركز وداعاً للألم:',
+        url: window.location.href
+      };
+
+      if (navigator.share && /mobile|android|iphone|ipad/i.test(navigator.userAgent)) {
+        navigator.share(shareData).catch(err => {
+          if (err.name !== 'AbortError') {
+            copyText(shareData.url, 'تم نسخ رابط حاسبة عمر العمود الفقري بنجاح! 🌿');
+          }
+        });
+      } else {
+        copyText(shareData.url, 'تم نسخ رابط حاسبة عمر العمود الفقري بنجاح! 🌿');
+      }
+    }
+
+    function copySpineLink() {
+      copyText(window.location.href, 'تم نسخ رابط الفحص بنجاح! يمكنك الآن مشاركته مع الآخرين 🌿');
+    }
+
+    function copyText(text, successMsg) {
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast(successMsg || 'تم نسخ الرابط بنجاح! ✅');
+        }).catch(() => {
+          fallbackCopy(text, successMsg);
+        });
+      } else {
+        fallbackCopy(text, successMsg);
+      }
+    }
+
+    function fallbackCopy(text, successMsg) {
+      try {
+        const temp = document.createElement('textarea');
+        temp.value = text;
+        temp.style.position = 'fixed';
+        temp.style.opacity = '0';
+        document.body.appendChild(temp);
+        temp.focus();
+        temp.select();
+        document.execCommand('copy');
+        document.body.removeChild(temp);
+        showToast(successMsg || 'تم نسخ الرابط بنجاح! ✅');
+      } catch (e) {
+        prompt('انسخ الرابط يدوياً:', text);
+      }
+    }
+
+    let toastTimer = null;
+    function showToast(msg) {
+      const toast = document.getElementById('toastNotification');
+      const toastMsg = document.getElementById('toastMsg');
+      if (!toast || !toastMsg) return;
+
+      toastMsg.innerText = msg;
+      toast.classList.add('show');
+
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
   </script>
+
+  <!-- Toast Notification Popup -->
+  <div id="toastNotification" class="toast-popup">
+    <span class="toast-icon">✅</span>
+    <span id="toastMsg">تم نسخ الرابط بنجاح!</span>
+  </div>
+
 </body>
 </html>

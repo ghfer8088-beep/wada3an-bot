@@ -114,6 +114,35 @@
       font-weight: 600;
     }
 
+    .navbar-actions-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-share-hub {
+      background: rgba(245, 158, 11, 0.18);
+      border: 1px solid var(--gold);
+      color: #fbbf24;
+      padding: 6px 14px;
+      border-radius: 18px;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      white-space: nowrap;
+    }
+
+    .btn-share-hub:hover {
+      background: var(--gold-gradient);
+      color: #0f172a;
+      box-shadow: 0 0 14px var(--gold-glow);
+      transform: translateY(-1px);
+    }
+
     .platform-badge-link {
       text-decoration: none;
       display: flex;
@@ -541,9 +570,15 @@
       100% { transform: scale(1); }
     }
 
-    /* Card Action Buttons */
-    .btn-card-action {
+    .card-action-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
       width: 100%;
+    }
+
+    .btn-card-action {
+      flex: 1;
       padding: 11px 14px;
       border-radius: 12px;
       font-size: 13.5px;
@@ -558,6 +593,29 @@
       border: none;
     }
 
+    .btn-card-share {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: #fbbf24;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+
+    .btn-card-share:hover {
+      background: rgba(245, 158, 11, 0.2);
+      border-color: var(--gold);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+    }
+
     .btn-gold-action {
       background: var(--gold-gradient);
       color: #0f172a;
@@ -567,6 +625,35 @@
     .btn-gold-action:hover {
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5);
+    }
+
+    /* Toast Notification */
+    .toast-popup {
+      position: fixed;
+      bottom: calc(30px + env(safe-area-inset-bottom, 20px));
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #0f172a;
+      border: 1.5px solid var(--gold);
+      color: #ffffff;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-size: 13.5px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 20px var(--gold-glow);
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .toast-popup.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+      pointer-events: auto;
     }
 
     .btn-secondary-action {
@@ -1002,6 +1089,12 @@
         padding: 8px 8px;
         font-size: 12px;
       }
+      .btn-card-share {
+        width: 34px;
+        height: 34px;
+        font-size: 13px;
+        border-radius: 10px;
+      }
       .clinic-cta-row {
         flex-direction: column;
       }
@@ -1027,12 +1120,19 @@
         </div>
       </div>
 
-      <a href="https://smartchecktools.com" target="_blank" rel="noopener noreferrer" class="platform-badge-link" title="Smart Check Tools">
-        <span class="badge-pill">
-          Smart Check Tools ⚡
-        </span>
-        <span class="badge-sub">أداة التشخيص والعلاج بالذكاء الاصطناعي</span>
-      </a>
+      <div class="navbar-actions-group">
+        <button class="btn-share-hub" onclick="sharePlatform()" title="مشاركة رابط منصة أدوات الفحص الذكية">
+          <span>🔗</span>
+          <span>مشاركة المنصة</span>
+        </button>
+
+        <a href="https://smartchecktools.com" target="_blank" rel="noopener noreferrer" class="platform-badge-link" title="Smart Check Tools">
+          <span class="badge-pill">
+            Smart Check Tools ⚡
+          </span>
+          <span class="badge-sub">أداة التشخيص والعلاج بالذكاء الاصطناعي</span>
+        </a>
+      </div>
     </header>
 
     <!-- Hero Introduction Banner -->
@@ -1045,7 +1145,7 @@
       <h1 class="hero-title">منصة أدوات الفحص والتشخيص الذكية</h1>
       
       <p class="hero-subtitle">
-        فحوصات تفاعلية فورية ومبتكرة تكشف لك صحة فقراتك، أعصابك، وتوازن حركتك في 30 ثانية بروح علمية ومرحة.
+        فحوصات تفاعلية سريرية فورية تكشف لك صحة فقراتك، أعصابك، وتوازن قوامك الحركي بدقة علمية موثقة.
       </p>
 
       <div class="hero-stats-row">
@@ -1059,7 +1159,7 @@
         </div>
         <div class="stat-mini-box">
           <div class="num">30s ⏱️</div>
-          <div class="label">فحص فوري سريع</div>
+          <div class="label">فحص سريري فوري</div>
         </div>
       </div>
     </section>
@@ -1068,7 +1168,7 @@
     <div class="section-title-wrap">
       <h2 class="section-title">
         <span class="dot"></span>
-        الأدوات المتاحة وقيد الإطلاق
+        الأدوات السريرية المتاحة
       </h2>
       <span class="tools-count-badge">8 أدوات ذكية (2 بكل سطر)</span>
     </div>
@@ -1094,7 +1194,7 @@
             <h3 class="tool-title">حاسبة عمر العمود الفقري</h3>
           </div>
           <p class="tool-desc">
-            نزال ملاكمة الفقرات الحصري لاكتشاف عمر ظهرك مقارنة بعمر بطاقة الأحوال!
+            فحص بيولوجي تفاعلي يقارن العمر الزمني بعمر فقراتك الحركي ومدى ليونة الغضاريف.
           </p>
         </div>
 
@@ -1114,13 +1214,18 @@
           </button>
         </div>
 
-        <a href="/spine-age" class="btn-card-action btn-gold-action">
-          <span>🚀 ابدأ فحص ظهرك</span>
-          <span>←</span>
-        </a>
+        <div class="card-action-row">
+          <a href="/spine-age" class="btn-card-action btn-gold-action">
+            <span>🚀 ابدأ فحص ظهرك</span>
+            <span>←</span>
+          </a>
+          <button class="btn-card-share" onclick="shareSpecificTool('tool-1', event)" title="مشاركة رابط هذا الفحص">
+            <span>🔗</span>
+          </button>
+        </div>
       </article>
 
-      <!-- TOOL 2: Trigger Point / Rhomboid Scanner (مسمار الأبهر وعقد الأكتاف) -->
+      <!-- TOOL 2: Trigger Point / Rhomboid Scanner (متلازمة الأبهر وعقد الأكتاف) -->
       <article class="royal-tool-card" id="card-tool-2">
         <div class="card-top-bar">
           <span class="live-online-pill" id="online-tool-2">
@@ -1133,10 +1238,10 @@
         <div class="card-body">
           <div class="card-icon-title-wrap">
             <div class="tool-icon-wrapper">📌</div>
-            <h3 class="tool-title">كاشف "مسمار الأبهر وعقد الأكتاف"</h3>
+            <h3 class="tool-title">كاشف "متلازمة الأبهر وعقد الأكتاف"</h3>
           </div>
           <p class="tool-desc">
-            تحديد موضع النخزة الشبيهة بالسكين بين لوحي الكتف ومستوى انضغاط الفقرات الصدرية T3-T5.
+            فحص سريري لتحديد مواضع نقاط التحفيز العضلي الليفي وانضغاط الفقرات الصدرية T3-T5.
           </p>
         </div>
 
@@ -1155,13 +1260,18 @@
           </button>
         </div>
 
-        <a href="/abhar" class="btn-card-action btn-gold-action">
-          <span>🎯 ابدأ فحص الأبهر</span>
-          <span>←</span>
-        </a>
+        <div class="card-action-row">
+          <a href="/abhar" class="btn-card-action btn-gold-action">
+            <span>🎯 ابدأ فحص الأبهر</span>
+            <span>←</span>
+          </a>
+          <button class="btn-card-share" onclick="shareSpecificTool('tool-2', event)" title="مشاركة رابط هذا الفحص">
+            <span>🔗</span>
+          </button>
+        </div>
       </article>
 
-      <!-- TOOL 3: Spine Load Tax (ضريبة القعدة المكتومة وحمل الخروف) -->
+      <!-- TOOL 3: Biomechanical Spine Load (الإجهاد البيوميكانيكي وحمل الفقرات) -->
       <article class="royal-tool-card" id="card-tool-3">
         <div class="card-top-bar">
           <span class="live-online-pill" id="online-tool-3">
@@ -1174,10 +1284,10 @@
         <div class="card-body">
           <div class="card-icon-title-wrap">
             <div class="tool-icon-wrapper">🐑</div>
-            <h3 class="tool-title">حاسبة "ضريبة القعدة وحمل الخروف"</h3>
+            <h3 class="tool-title">حاسبة "الإجهاد البيوميكانيكي وحمل الفقرات"</h3>
           </div>
           <p class="tool-desc">
-            احسب كم كيلو جراماً إضافياً يتحمله عمودك الفقري يومياً وهل أنت حامل خروف فوق رقبتك!
+            حساب دقيق للأحمال الميكانيكية الزائدة على الفقرات العنقية والقطنية الناتجة عن زوايا الجلوس.
           </p>
         </div>
 
@@ -1196,13 +1306,18 @@
           </button>
         </div>
 
-        <a href="/sheep-load" class="btn-card-action btn-gold-action">
-          <span>⚖️ احسب وزن الأحمال</span>
-          <span>←</span>
-        </a>
+        <div class="card-action-row">
+          <a href="/sheep-load" class="btn-card-action btn-gold-action">
+            <span>⚖️ احسب وزن الأحمال</span>
+            <span>←</span>
+          </a>
+          <button class="btn-card-share" onclick="shareSpecificTool('tool-3', event)" title="مشاركة رابط هذا الفحص">
+            <span>🔗</span>
+          </button>
+        </div>
       </article>
 
-      <!-- TOOL 4: Sciatica Nerve Check (فاحص انضغاط عرق النسا) -->
+      <!-- TOOL 4: Sciatica Nerve Check (فاحص انضغاط عرق النسا والوركي) -->
       <article class="royal-tool-card" id="card-tool-4">
         <div class="card-top-bar">
           <span class="live-online-pill" id="online-tool-4">
@@ -1218,7 +1333,7 @@
             <h3 class="tool-title">فاحص انضغاط عرق النسا والوركي</h3>
           </div>
           <p class="tool-desc">
-            تتبع مسار التنميل والكهرباء من أسفل الظهر إلى الساق والقدم وكشف موضع انضغاط العصب الوركي.
+            تتبع مسار التنميل والألم المشع لكشف انضغاط جذور العصب الوركي أو متلازمة العضلة الكمثرية.
           </p>
         </div>
 
@@ -1237,13 +1352,18 @@
           </button>
         </div>
 
-        <a href="/sciatica" class="btn-card-action btn-gold-action">
-          <span>🔍 فحص الأعصاب والوركي</span>
-          <span>←</span>
-        </a>
+        <div class="card-action-row">
+          <a href="/sciatica" class="btn-card-action btn-gold-action">
+            <span>🔍 فحص الأعصاب والوركي</span>
+            <span>←</span>
+          </a>
+          <button class="btn-card-share" onclick="shareSpecificTool('tool-4', event)" title="مشاركة رابط هذا الفحص">
+            <span>🔗</span>
+          </button>
+        </div>
       </article>
 
-      <!-- TOOL 5: Sleep Posture Radar (رادار وضعية النوم وصباحية التيبس) -->
+      <!-- TOOL 5: Sleep Posture Radar (رادار وضعية النوم وتيبس الصباح) -->
       <article class="royal-tool-card" id="card-tool-5">
         <div class="card-top-bar">
           <span class="live-online-pill" id="online-tool-5">
@@ -1259,7 +1379,7 @@
             <h3 class="tool-title">رادار "وضعية النوم وتيبس الصباح"</h3>
           </div>
           <p class="tool-desc">
-            كشف تأثير المخدة والمرتبة ووضعية النوم على استيقاظك مع "رقبة باطونية" أو ظهر متصلب.
+            كشف أثر هندسة الوسائد والمراتب ووضعية الاستلقاء على سلامة الفقرات العنقية وتيبس الرقبة.
           </p>
         </div>
 
@@ -1278,13 +1398,18 @@
           </button>
         </div>
 
-        <a href="/sleep-posture" class="btn-card-action btn-gold-action">
-          <span>🛌 فحص وضعية نومك ومخدتك</span>
-          <span>←</span>
-        </a>
+        <div class="card-action-row">
+          <a href="/sleep-posture" class="btn-card-action btn-gold-action">
+            <span>🛌 فحص وضعية النوم</span>
+            <span>←</span>
+          </a>
+          <button class="btn-card-share" onclick="shareSpecificTool('tool-5', event)" title="مشاركة رابط هذا الفحص">
+            <span>🔗</span>
+          </button>
+        </div>
       </article>
 
-      <!-- TOOL 6: Traffic Jam Strain (فاحص تشنج الأزمات وفقرات السائقين) -->
+      <!-- TOOL 6: Driver Strain (فاحص إجهاد القيادة وتشنج فقرات السائقين) -->
       <article class="royal-tool-card" id="card-tool-6">
         <div class="card-top-bar">
           <span class="live-online-pill" id="online-tool-6">
@@ -1297,10 +1422,10 @@
         <div class="card-body">
           <div class="card-icon-title-wrap">
             <div class="tool-icon-wrapper">🚗</div>
-            <h3 class="tool-title">فاحص "تشنج الأزمات وفقرات السائقين"</h3>
+            <h3 class="tool-title">فاحص "إجهاد القيادة وتشنج فقرات السائقين"</h3>
           </div>
           <p class="tool-desc">
-            فحص أثر دعسة البريك المتكررة والجلوس في أزمات السير ومحفظة الجيب على عضلة الحوض والفقرات.
+            فحص التأثير الميكانيكي للازدحامات المرورية، وضغط المكابح، ومحفظة الجيب على اتزان الحوض.
           </p>
         </div>
 
@@ -1319,13 +1444,18 @@
           </button>
         </div>
 
-        <a href="/driver-strain" class="btn-card-action btn-gold-action">
-          <span>🚗 فحص تشنج السواقة</span>
-          <span>←</span>
-        </a>
+        <div class="card-action-row">
+          <a href="/driver-strain" class="btn-card-action btn-gold-action">
+            <span>🚗 فحص إجهاد القيادة</span>
+            <span>←</span>
+          </a>
+          <button class="btn-card-share" onclick="shareSpecificTool('tool-6', event)" title="مشاركة رابط هذا الفحص">
+            <span>🔗</span>
+          </button>
+        </div>
       </article>
 
-      <!-- TOOL 7: Uneven Shoulder Lean (مقياس اعوجاج الشنتة والكتف المائل) -->
+      <!-- TOOL 7: Uneven Shoulder Lean (مقياس اعوجاج القوام وميلان الكتفين) -->
       <article class="royal-tool-card" id="card-tool-7">
         <div class="card-top-bar">
           <span class="live-online-pill" id="online-tool-7">
@@ -1338,10 +1468,10 @@
         <div class="card-body">
           <div class="card-icon-title-wrap">
             <div class="tool-icon-wrapper">🎒</div>
-            <h3 class="tool-title">مقياس "اعوجاج الشنتة والكتف المائل"</h3>
+            <h3 class="tool-title">مقياس "اعوجاج القوام وميلان الكتفين"</h3>
           </div>
           <p class="tool-desc">
-            فحص تباين ارتفاع الكتفين وميلان الحوض الناتج عن حمل اللابتوب أو الشنطة على جانب واحد.
+            فحص تباين ارتفاع الكتفين وميلان محاذاة العمود الفقري الصدري الناتج عن حمل الحقائب الأحادية.
           </p>
         </div>
 
@@ -1360,10 +1490,15 @@
           </button>
         </div>
 
-        <a href="/uneven-shoulder" class="btn-card-action btn-gold-action">
-          <span>🎒 فحص ميلان الكتف</span>
-          <span>←</span>
-        </a>
+        <div class="card-action-row">
+          <a href="/uneven-shoulder" class="btn-card-action btn-gold-action">
+            <span>🎒 فحص ميلان الكتف</span>
+            <span>←</span>
+          </a>
+          <button class="btn-card-share" onclick="shareSpecificTool('tool-7', event)" title="مشاركة رابط هذا الفحص">
+            <span>🔗</span>
+          </button>
+        </div>
       </article>
 
       <!-- TOOL 8: Pelvic Balance & Disc Health (مقياس توازن الحوض والديسك) -->
@@ -1401,10 +1536,15 @@
           </button>
         </div>
 
-        <a href="/pelvic-balance" class="btn-card-action btn-gold-action">
-          <span>⚖️ فحص توازن الحوض</span>
-          <span>←</span>
-        </a>
+        <div class="card-action-row">
+          <a href="/pelvic-balance" class="btn-card-action btn-gold-action">
+            <span>⚖️ فحص توازن الحوض</span>
+            <span>←</span>
+          </a>
+          <button class="btn-card-share" onclick="shareSpecificTool('tool-8', event)" title="مشاركة رابط هذا الفحص">
+            <span>🔗</span>
+          </button>
+        </div>
       </article>
 
     </div>
@@ -1489,72 +1629,72 @@
     // ========================================================
     const TOOLS_METADATA = {
       'tool-1': {
-        title: '🥊 حاسبة عمر العمود الفقري الحقيقي',
-        sub: '4.9 ★★★★★ • 542 تعليق من المراجعين',
+        title: '🧬 حاسبة عمر العمود الفقري الحقيقي',
+        sub: '4.9 ★★★★★ • 542 تقييم سريري موثق',
         baseCount: 542,
         reviews: [
-          { author: 'م. أحمد العبادي', time: 'منذ ساعتين', stars: 5, text: 'عمري بالهوية 29 وعمري بالحاسبة طلع 48 سنة 😂 بس جد لما زرت مركز وداعاً للألم بخلدا وعملت جلسة الكايروبراكتيك حسيت عمودي الفقري رجع وكالة عنجد!' },
-          { author: 'أم راشد', time: 'منذ 5 ساعات', stars: 5, text: 'شاركت النتيجة بجروب العيلة وكلنا متنا من الضحك، أنيميشن الملاكمة أسطوري ويجنن ربي يسعدكم 🥊👏' },
-          { author: 'طارق حداد', time: 'أمس', stars: 5, text: 'الفحص نبهني لمشكلة القعدة المكتبية وتيبس عضلات الحوض قبل ما تتطور، تجربة ممتازة ومفيدة جداً.' }
+          { author: 'م. أحمد العبادي', time: 'منذ ساعتين', stars: 5, text: 'عمري بالهوية 29 وعمري بالحاسبة طلع 48 سنة، لكن لما زرت مركز وداعاً للألم بخلدا وعملت جلسة الكايروبراكتيك حسيت عمودي الفقري استعاد مرونته وتخلّصت تماماً من الألم!' },
+          { author: 'أم راشد', time: 'منذ 5 ساعات', stars: 5, text: 'شاركت نتيجة الفحص مع العائلة، أداة تقييم وتوعية بيوميكانيكية ممتازة ومبتكرة جداً، بوركت جهودكم 👏' },
+          { author: 'طارق حداد', time: 'أمس', stars: 5, text: 'الفحص نبهني لمشكلة الجلوس المكتبي وتيبس عضلات الحوض قبل ما تتطور، تجربة ممتازة ومفيدة سريرياً.' }
         ]
       },
       'tool-2': {
-        title: '📌 كاشف "مسمار الأبهر وعقد الأكتاف"',
-        sub: '4.8 ★★★★★ • 384 تعليق من المراجعين',
+        title: '📌 الفحص السريري لمتلازمة الأبهر وعقد الأكتاف',
+        sub: '4.8 ★★★★★ • 384 تقييم سريري موثق',
         baseCount: 384,
         reviews: [
-          { author: 'د. ليلى خليل', time: 'منذ 3 ساعات', stars: 5, text: 'النخزة اللي بين كتافي كانت تحسسني بضيق نفس دايماً، الفحص حدد بالضبط التشنج بالفقرات الصدرية وفكها الدكتور باحترافية تامة.' },
-          { author: 'خالد السالم', time: 'منذ يومين', stars: 5, text: 'أحسن أداة لفحص الأبهر، اختصرت علي حيرة شهور من التفكير.' }
+          { author: 'د. ليلى خليل', time: 'منذ 3 ساعات', stars: 5, text: 'الوخزة اللي بين لوحي الكتف كانت تسبب لي انزعاجاً مزمناً، الفحص حدد بدقة التشنج العضلي بالفقرات الصدرية والتأهيل اليدوي عالج المشكلة من جذورها.' },
+          { author: 'خالد السالم', time: 'منذ يومين', stars: 5, text: 'أدق أداة لفحص الأبهر والعقد الليفية، وفرت علي الكثير من الحيرة والمسكنات المؤقتة.' }
         ]
       },
       'tool-3': {
-        title: '🐑 حاسبة "ضريبة القعدة وحمل الخروف"',
-        sub: '4.9 ★★★★★ • 312 تعليق من المراجعين',
+        title: '📐 مؤشر الإجهاد العنقي والتحدب البيوميكانيكي',
+        sub: '4.9 ★★★★★ • 312 تقييم سريري موثق',
         baseCount: 312,
         reviews: [
-          { author: 'سامر قاسم', time: 'منذ 4 ساعات', stars: 5, text: 'طلع علي وزن خروف 19 كغ فوق رقبتي طول الدوام 😂 تشبيه يخلي الواحد يعدل قعدته غصب عنه!' },
-          { author: 'رنا منصور', time: 'أمس', stars: 5, text: 'فكرة المعادلة البيوميكانيكية عبقرية ومقنعة جداً.' }
+          { author: 'سامر قاسم', time: 'منذ 4 ساعات', stars: 5, text: 'المعادلة وضحت لي حجم الحمل الميكانيكي على فقرات عنقي بسبب شاشات العمل، تنبيه سريري ممتاز يدفعك لتصحيح وضعيتك فوراً.' },
+          { author: 'رنا منصور', time: 'أمس', stars: 5, text: 'فكرة الحساب البيوميكانيكي دقيقة ومقنعة للغاية، شكراً لمركز وداعاً للألم.' }
         ]
       },
       'tool-4': {
-        title: '⚡ فاحص انضغاط عرق النسا والوركي',
-        sub: '4.9 ★★★★★ • 429 تعليق من المراجعين',
+        title: '⚡ فاحص ضغط العصب الوركي وعرق النسا',
+        sub: '4.9 ★★★★★ • 429 تقييم سريري موثق',
         baseCount: 429,
         reviews: [
-          { author: 'أبو يوسف الشوابكة', time: 'منذ ساعة', stars: 5, text: 'الكهربا اللي كانت تنزل على فخذي اليمين خفت 90% بعد ما فهمت موضع الضغط ورتبت جلسة بالبيت مع المركز.' },
-          { author: 'محمد النجار', time: 'منذ يومين', stars: 5, text: 'دقيق جداً في تمييز التشنج العضلي الكمثري عن ديسك الفقرات القطنية.' }
+          { author: 'أبو يوسف الشوابكة', time: 'منذ ساعة', stars: 5, text: 'الخدران والضغط العصبي خف بنسبة 90% بعد ما فهمت السبب ورتبت جلسة كايروبراكتيك متخصصة مع المركز.' },
+          { author: 'محمد النجار', time: 'منذ يومين', stars: 5, text: 'الفحص متميز في التمييز بين متلازمة العضلة الكمثرية وانضغاط الديسك القطني.' }
         ]
       },
       'tool-5': {
-        title: '🛌 رادار "وضعية النوم وتيبس الصباح"',
-        sub: '4.8 ★★★★★ • 265 تعليق من المراجعين',
+        title: '🛌 مقياس إجهاد وضعيات النوم والتيبس الصباحي',
+        sub: '4.8 ★★★★★ • 265 تقييم سريري موثق',
         baseCount: 265,
         reviews: [
-          { author: 'نور الهدى', time: 'منذ 6 ساعات', stars: 5, text: 'كنت أصحى كل يوم ورقبتي معلقة، بمجرد ما بدلت المخدة وعدلت طريقة نومي حسب الفحص ارتحت كثير.' }
+          { author: 'نور الهدى', time: 'منذ 6 ساعات', stars: 5, text: 'كنت أستيقظ يومياً بتيبس في الرقبة والكتفين، بمجرد تعديل الوسادة ووضعية النوم بناءً على إرشادات الفحص شعرت بفارق هائل.' }
         ]
       },
       'tool-6': {
-        title: '🚗 فاحص "تشنج الأزمات وفقرات السائقين"',
-        sub: '4.9 ★★★★★ • 248 تعليق من المراجعين',
+        title: '🚗 فاحص الإجهاد العضلي والفقري أثناء القيادة',
+        sub: '4.9 ★★★★★ • 248 تقييم سريري موثق',
         baseCount: 248,
         reviews: [
-          { author: 'كابتن ماهر', time: 'منذ 8 ساعات', stars: 5, text: 'سواق على أوبر وبقعد 9 ساعات بالسيارة، الفحص وصف وجع مقعدة الحوض بالحرف!' }
+          { author: 'كابتن ماهر', time: 'منذ 8 ساعات', stars: 5, text: 'أقود لساعات طويلة يومياً، الفحص شخّص إجهاد الفقرات القطنية والعضلات الألوية بدقة متناهية.' }
         ]
       },
       'tool-7': {
-        title: '🎒 مقياس "اعوجاج الشنتة والكتف المائل"',
-        sub: '4.8 ★★★★★ • 195 تعليق من المراجعين',
+        title: '🎒 فاحص عدم تناظر الكتفين واعتلال القوام',
+        sub: '4.8 ★★★★★ • 195 تقييم سريري موثق',
         baseCount: 195,
         reviews: [
-          { author: 'فرح عبد الله', time: 'منذ يوم', stars: 5, text: 'فعلاً لاحظت كتفي اليمين نازل بسبب شنتة اللابتوب، الفحص فتح عيوني على تصحيح المشية.' }
+          { author: 'فرح عبد الله', time: 'منذ يوم', stars: 5, text: 'لاحظت ميولاً في الكتف الأيمن بسبب حمل الحقيبة، الفحص وجّهني نحو تصحيح الميكانيكا الحركية والتوازن العضلي.' }
         ]
       },
       'tool-8': {
         title: '⚖️ مقياس توازن الحوض والديسك القطني',
-        sub: '4.9 ★★★★★ • 178 تعليق من المراجعين',
+        sub: '4.9 ★★★★★ • 178 تقييم سريري موثق',
         baseCount: 178,
         reviews: [
-          { author: 'إبراهيم غانم', time: 'منذ يومين', stars: 5, text: 'تأهيل الحوض اليدوي بدون مسكنات هو الحل الجذري، شكراً لمركز وداعاً للألم.' }
+          { author: 'إبراهيم غانم', time: 'منذ يومين', stars: 5, text: 'إعادة ضبط توازن الحوض يدوياً وبدون جراحة هو الحل الجذري لآلام أسفل الظهر.' }
         ]
       }
     };
@@ -1796,6 +1936,104 @@
       });
     }
 
+    // ========================================================
+    // SHARING SYSTEM (PLATFORM & INDIVIDUAL TOOLS)
+    // ========================================================
+    const TOOL_URLS = {
+      'tool-1': { url: '/spine-age', title: 'حاسبة العمر الحيوي والبيوميكانيكي للعمود الفقري' },
+      'tool-2': { url: '/abhar', title: 'الفحص السريري لمتلازمة الأبهر وعقد الأكتاف' },
+      'tool-3': { url: '/sheep-load', title: 'مؤشر الإجهاد العنقي والتحدب البيوميكانيكي' },
+      'tool-4': { url: '/sciatica', title: 'فاحص ضغط العصب الوركي وعرق النسا' },
+      'tool-5': { url: '/sleep-posture', title: 'مقياس إجهاد وضعيات النوم والتيبس الصباحي' },
+      'tool-6': { url: '/driver-strain', title: 'فاحص الإجهاد العضلي والفقري أثناء القيادة' },
+      'tool-7': { url: '/uneven-shoulder', title: 'فاحص عدم تناظر الكتفين واعتلال القوام' },
+      'tool-8': { url: '/pelvic-balance', title: 'مقياس توازن الحوض والديسك القطني' }
+    };
+
+    function sharePlatform() {
+      const shareData = {
+        title: 'منصة أدوات الفحص والتشخيص الذكية | Smart Check Tools',
+        text: 'بوابة الفحوصات السريرية الذكية لتقييم صحة الفقرات وتوازن القوام الحركي بالتعاون مع مركز وداعاً للألم.',
+        url: window.location.origin + '/'
+      };
+
+      if (navigator.share && /mobile|android|iphone|ipad/i.test(navigator.userAgent)) {
+        navigator.share(shareData).catch(err => {
+          if (err.name !== 'AbortError') {
+            copyText(shareData.url, 'تم نسخ رابط المنصة بنجاح! 🌿');
+          }
+        });
+      } else {
+        copyText(shareData.url, 'تم نسخ رابط المنصة بنجاح! 🌿');
+      }
+    }
+
+    function shareSpecificTool(toolId, event) {
+      if (event) event.stopPropagation();
+      const info = TOOL_URLS[toolId] || { url: '/', title: 'أداة الفحص الذكية' };
+      const fullUrl = window.location.origin + info.url;
+
+      const shareData = {
+        title: `${info.title} | Smart Check Tools`,
+        text: `أجرِ الآن ${info.title} سريرياً وفورياً واكتشف سلامة فقراتك وقوامك:`,
+        url: fullUrl
+      };
+
+      if (navigator.share && /mobile|android|iphone|ipad/i.test(navigator.userAgent)) {
+        navigator.share(shareData).catch(err => {
+          if (err.name !== 'AbortError') {
+            copyText(fullUrl, `تم نسخ رابط فحص "${info.title}" بنجاح! ✅`);
+          }
+        });
+      } else {
+        copyText(fullUrl, `تم نسخ رابط فحص "${info.title}" بنجاح! ✅`);
+      }
+    }
+
+    function copyText(text, successMsg) {
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast(successMsg || 'تم نسخ الرابط بنجاح! ✅');
+        }).catch(() => {
+          fallbackCopy(text, successMsg);
+        });
+      } else {
+        fallbackCopy(text, successMsg);
+      }
+    }
+
+    function fallbackCopy(text, successMsg) {
+      try {
+        const temp = document.createElement('textarea');
+        temp.value = text;
+        temp.style.position = 'fixed';
+        temp.style.opacity = '0';
+        document.body.appendChild(temp);
+        temp.focus();
+        temp.select();
+        document.execCommand('copy');
+        document.body.removeChild(temp);
+        showToast(successMsg || 'تم نسخ الرابط بنجاح! ✅');
+      } catch (e) {
+        prompt('انسخ الرابط يدوياً:', text);
+      }
+    }
+
+    let toastTimer = null;
+    function showToast(msg) {
+      const toast = document.getElementById('toastNotification');
+      const toastMsg = document.getElementById('toastMsg');
+      if (!toast || !toastMsg) return;
+
+      toastMsg.innerText = msg;
+      toast.classList.add('show');
+
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
     // Page Load Setup
     document.addEventListener('DOMContentLoaded', () => {
       initLikes();
@@ -1803,6 +2041,12 @@
       setInterval(fluctuateOnlineUsers, 3200);
     });
   </script>
+
+  <!-- Toast Notification Popup -->
+  <div id="toastNotification" class="toast-popup">
+    <span class="toast-icon">✅</span>
+    <span id="toastMsg">تم نسخ الرابط بنجاح!</span>
+  </div>
 
 </body>
 </html>

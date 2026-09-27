@@ -121,6 +121,65 @@
       border-radius: 20px;
       font-size: 12px;
       font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s ease;
+    }
+
+    .smart-check-header-link {
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 3px;
+      transition: transform 0.2s ease;
+    }
+
+    .smart-check-header-link:hover {
+      transform: translateY(-1px);
+    }
+
+    .smart-check-header-link:hover .badge-tool {
+      background: rgba(59, 130, 246, 0.35);
+      border-color: #60a5fa;
+      color: #ffffff;
+      box-shadow: 0 0 14px rgba(59, 130, 246, 0.45);
+    }
+
+    .smart-check-sub {
+      font-size: 11px;
+      font-weight: 700;
+      color: #93c5fd;
+      line-height: 1.3;
+      white-space: nowrap;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+    }
+
+    @media (max-width: 480px) {
+      .top-header {
+        padding: 10px 12px;
+      }
+      .brand-box {
+        gap: 7px;
+      }
+      .brand-icon {
+        width: 38px;
+        height: 38px;
+      }
+      .brand-meta h2 {
+        font-size: 13px;
+      }
+      .badge-tool {
+        font-size: 10.5px;
+        padding: 3px 9px;
+      }
+      .smart-check-sub {
+        font-size: 9px;
+        white-space: normal;
+        max-width: 135px;
+        line-height: 1.25;
+      }
     }
 
     /* Hero intro */
@@ -344,7 +403,7 @@
       font-size: 19px;
       font-weight: 800;
       color: #ffffff;
-      margin-bottom: 6px;
+      margin-bottom: 16px;
       display: flex;
       align-items: center;
       gap: 8px;
@@ -352,10 +411,7 @@
     }
 
     .question-desc {
-      font-size: 14.5px;
-      color: #cbd5e1;
-      margin-bottom: 16px;
-      line-height: 1.6;
+      display: none !important;
     }
 
     .options-grid {
@@ -694,7 +750,10 @@
           <p>وداعاً للألم</p>
         </div>
       </div>
-      <span class="badge-tool">Smart Check Tools ⚡</span>
+      <a href="https://smartchecktools.com" target="_blank" rel="noopener noreferrer" class="smart-check-header-link" title="Smart Check Tools - أداة التشخيص والعلاج بالذكاء الاصطناعي">
+        <span class="badge-tool">Smart Check Tools ⚡</span>
+        <span class="smart-check-sub">أداة التشخيص والعلاج بالذكاء الاصطناعي</span>
+      </a>
     </header>
 
     <!-- Screen 1: Hero / Welcome Screen -->
@@ -776,7 +835,6 @@
       </div>
 
       <h3 id="qTitle" class="question-title">عنوان السؤال</h3>
-      <p id="qDesc" class="question-desc">وصف السؤال</p>
 
       <div id="optionsContainer" class="options-grid">
         <!-- Injected via JS -->
@@ -861,8 +919,8 @@
 
     <!-- Footer Note -->
     <div class="footer-note">
-      أداة تفاعلية سريرية توعوية مطورة خصيصاً لمنصة <b>Smart Check Tools</b> لصالح مركز <b>وداعاً للألم</b>.<br>
-      متخصصون بتقويم العمود الفقري (الكيروبراكتيك) والتأهيل الحركي يدوياً بدون جراحة وبدون أدوية • عمّان (خلدا).
+      أداة تفاعلية سريرية توعوية مطورة خصيصاً لمنصة <a href="https://smartchecktools.com" target="_blank" rel="noopener noreferrer" style="color:var(--gold); font-weight:800; text-decoration:underline;"><b>Smart Check Tools</b></a> لصالح مركز <b>وداعاً للألم</b>.<br>
+      <b>أداة التشخيص والعلاج بالذكاء الاصطناعي</b> • متخصصون بتقويم العمود الفقري (الكيروبراكتيك) والتأهيل الحركي يدوياً بدون جراحة وبدون أدوية • عمّان (خلدا).
     </div>
 
     <!-- Mobile Browser Bottom Clearance Spacer -->
@@ -962,7 +1020,6 @@
       document.getElementById('stepCounter').innerText = `السؤال ${currentStep + 1} من ${QUESTIONS.length}`;
 
       document.getElementById('qTitle').innerText = q.title;
-      document.getElementById('qDesc').innerText = q.desc;
 
       const container = document.getElementById('optionsContainer');
       container.innerHTML = '';

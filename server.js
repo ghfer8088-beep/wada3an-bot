@@ -150,6 +150,14 @@ app.get('/smart-check', (req, res) => {
   res.sendFile(path.join(__dirname, 'smart_check_hub.html'));
 });
 
+// MetaViral Hub 360° — Facebook Content Domination Platform
+app.get('/viral-hub', (req, res) => {
+  res.sendFile(path.join(__dirname, 'viral_hub.html'));
+});
+app.get('/hub', (req, res) => {
+  res.sendFile(path.join(__dirname, 'viral_hub.html'));
+});
+
 // Serve Spine Age Calculator with Custom Meta
 app.get('/spine-age', (req, res) => {
   renderToolWithMeta(req, res, 'spine-age');

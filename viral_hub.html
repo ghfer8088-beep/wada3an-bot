@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MetaViral Hub 360° | إمبراطور محتوى فيسبوك — وداعاً للألم</title>
+<style>
+:root {
+  --navy:  #07091a;
+  --navy2: #0d1428;
+  --navy3: #111d38;
+  --gold:  #f5c842;
+  --gold2: #d4a820;
+  --gold3: rgba(245,200,66,0.10);
+  --green: #00e676;
+  --red:   #ff5252;
+  --blue:  #40c4ff;
+  --purple:#b39ddb;
+  --orange:#ffab40;
+  --text:  #e8eaf6;
+  --dim:   #78909c;
+  --card:  rgba(255,255,255,0.04);
+  --bdr:   rgba(245,200,66,0.18);
+  --r:     12px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;background:var(--navy);color:var(--text);min-height:100vh;direction:rtl;}
+
+/* ── GATE ── */
+#gate{position:fixed;inset:0;background:linear-gradient(135deg,#07091a 0%,#0d1428 60%,#07091a 100%);display:flex;align-items:center;justify-content:center;z-index:9999;}
+.gate-box{text-align:center;background:rgba(255,255,255,0.04);border:1px solid var(--bdr);border-radius:24px;padding:50px 42px;max-width:420px;width:90%;backdrop-filter:blur(20px);}
+.gate-icon{font-size:68px;margin-bottom:14px;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.gate-title{font-size:24px;font-weight:800;color:var(--gold);margin-bottom:5px;}
+.gate-sub{font-size:13px;color:var(--dim);margin-bottom:36px;}
+.gate-inp{width:100%;padding:15px 18px;background:rgba(255,255,255,0.07);border:1px solid var(--bdr);border-radius:var(--r);color:var(--text);font-size:18px;text-align:center;letter-spacing:4px;margin-bottom:16px;outline:none;transition:border-color .3s;}
+.gate-inp:focus{border-color:var(--gold);}
+.gate-btn{width:100%;padding:15px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;font-size:17px;font-weight:800;border:none;border-radius:var(--r);cursor:pointer;transition:all .3s;font-family:inherit;}
+.gate-btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(245,200,66,.4);}
+.gate-err{color:var(--red);font-size:13px;margin-top:14px;min-height:20px;}
+
+/* ── APP ── */
+#app{display:none;}
+
+/* ── HEADER ── */
+.hdr{background:linear-gradient(135deg,var(--navy2),var(--navy3));border-bottom:1px solid var(--bdr);padding:14px 22px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.hdr-brand{display:flex;align-items:center;gap:12px;}
+.hdr-logo{font-size:30px;}
+.hdr-name{font-size:17px;font-weight:800;color:var(--gold);}
+.hdr-sub{font-size:11px;color:var(--dim);}
+.hdr-stats{display:flex;gap:22px;}
+.hstat{text-align:center;}
+.hstat-v{font-size:22px;font-weight:800;color:var(--gold);}
+.hstat-l{font-size:10px;color:var(--dim);}
+
+/* ── NAV ── */
+.nav{display:flex;overflow-x:auto;background:var(--navy2);border-bottom:1px solid var(--bdr);padding:0 16px;gap:0;}
+.nav::-webkit-scrollbar{height:2px;}
+.ntab{padding:14px 18px;border:none;background:none;color:var(--dim);font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;transition:all .3s;display:flex;align-items:center;gap:7px;font-family:inherit;}
+.ntab:hover{color:var(--text);}
+.ntab.on{color:var(--gold);border-bottom-color:var(--gold);}
+
+/* ── CONTENT ── */
+.wrap{padding:22px;max-width:1040px;margin:0 auto;}
+.sec{display:none;}.sec.on{display:block;}
+
+/* ── CARD ── */
+.card{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:22px;margin-bottom:18px;}
+.ctitle{font-size:16px;font-weight:700;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+
+/* ── FORM ── */
+.frow{display:grid;gap:14px;margin-bottom:14px;}
+.f2{grid-template-columns:1fr 1fr;}.f3{grid-template-columns:1fr 1fr 1fr;}
+.fg{display:flex;flex-direction:column;gap:6px;}
+.flb{font-size:12px;color:var(--dim);font-weight:600;}
+.fi,.fsel,.fta{padding:12px 14px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:var(--text);font-size:14px;font-family:inherit;outline:none;transition:border-color .3s;direction:rtl;}
+.fi:focus,.fsel:focus,.fta:focus{border-color:var(--gold);}
+.fta{resize:vertical;min-height:110px;}
+.fsel{cursor:pointer;}.fsel option{background:var(--navy2);}
+
+/* ── BUTTONS ── */
+.btn{padding:12px 22px;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;transition:all .3s;display:inline-flex;align-items:center;gap:8px;font-family:inherit;}
+.bg{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;}
+.bg:hover{transform:translateY(-2px);box-shadow:0 6px 22px rgba(245,200,66,.38);}
+.bgh{background:rgba(255,255,255,0.07);color:var(--text);border:1px solid rgba(255,255,255,0.14);}
+.bgh:hover{border-color:var(--gold);color:var(--gold);}
+.bgr{background:rgba(0,230,118,0.12);color:var(--green);border:1px solid rgba(0,230,118,0.28);}
+.bgr:hover{background:rgba(0,230,118,0.22);}
+.brd{background:rgba(255,82,82,0.12);color:var(--red);border:1px solid rgba(255,82,82,0.28);}
+.bsm{padding:8px 13px;font-size:12px;}
+.bfl{width:100%;justify-content:center;margin-top:6px;}
+
+/* ── TABLE ── */
+.tw{overflow-x:auto;border-radius:var(--r);border:1px solid var(--bdr);}
+.tbl{width:100%;border-collapse:collapse;}
+.tbl th{padding:12px 15px;text-align:right;font-size:11px;color:var(--dim);font-weight:600;background:rgba(255,255,255,0.03);border-bottom:1px solid var(--bdr);}
+.tbl td{padding:12px 15px;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.04);vertical-align:middle;}
+.tbl tr:last-child td{border-bottom:none;}
+.tbl tr:hover td{background:rgba(255,255,255,0.02);}
+
+/* ── BADGES ── */
+.bdg{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;}
+.bdg-gd{background:rgba(245,200,66,0.15);color:var(--gold);}
+.bdg-gr{background:rgba(0,230,118,0.15);color:var(--green);}
+.bdg-bl{background:rgba(64,196,255,0.15);color:var(--blue);}
+.bdg-pu{background:rgba(179,157,219,0.15);color:var(--purple);}
+.bdg-rd{background:rgba(255,82,82,0.15);color:var(--red);}
+.bdg-or{background:rgba(255,171,64,0.15);color:var(--orange);}
+
+/* ── OUTPUT ── */
+.obox{background:rgba(0,0,0,.32);border:1px solid rgba(255,255,255,0.07);border-radius:var(--r);padding:20px;font-size:15px;line-height:1.85;white-space:pre-wrap;word-break:break-word;min-height:80px;direction:rtl;}
+.obox-ph{color:var(--dim);font-style:italic;font-size:13px;text-align:center;padding:28px 0;}
+
+/* ── TOAST ── */
+#toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--gold);color:#000;padding:12px 30px;border-radius:50px;font-size:14px;font-weight:800;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none;}
+#toast.show{opacity:1;}
+
+/* ── SCHEDULE ROW ── */
+.srow{display:flex;align-items:start;gap:12px;padding:16px;background:rgba(0,230,118,0.04);border:1px solid rgba(0,230,118,0.14);border-radius:var(--r);margin-bottom:10px;}
+.stime{font-size:22px;font-weight:800;color:var(--green);min-width:60px;text-align:center;}
+.sbody{flex:1;}
+.sname{font-size:12px;color:var(--dim);margin-bottom:4px;}
+.scmt{font-size:14px;line-height:1.7;padding:10px;background:rgba(0,0,0,.22);border-radius:8px;}
+.timer-bdg{font-size:11px;color:var(--blue);background:rgba(64,196,255,0.1);padding:3px 10px;border-radius:20px;border:1px solid rgba(64,196,255,0.2);}
+
+/* ── ACCOUNT ITEM ── */
+.ait{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:13px 15px;margin-bottom:9px;display:flex;align-items:center;gap:12px;}
+.aav{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;font-weight:800;color:#000;font-size:17px;flex-shrink:0;}
+.ain{flex:1;}
+.aname{font-size:14px;font-weight:600;}
+.adev{font-size:11px;color:var(--dim);margin-top:2px;}
+
+/* ── PRE-FLIGHT SCORE ── */
+.pfc{width:120px;height:120px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;border:4px solid var(--gold);margin:0 auto 18px;font-size:34px;font-weight:800;color:var(--gold);}
+.pfcl{font-size:11px;color:var(--dim);}
+.dw{background:rgba(255,82,82,0.28);color:var(--red);border-radius:3px;padding:0 3px;}
+.ww{background:rgba(255,171,64,0.28);color:var(--orange);border-radius:3px;padding:0 3px;}
+.bw{background:rgba(0,230,118,0.18);color:var(--green);border-radius:3px;padding:0 3px;}
+
+/* ── TIP BOX ── */
+.tipbox{background:rgba(245,200,66,0.06);border:1px solid rgba(245,200,66,0.2);border-radius:var(--r);padding:16px;margin-bottom:16px;}
+.tipbox-t{font-size:13px;font-weight:700;color:var(--gold);margin-bottom:8px;}
+.tipbox p{font-size:13px;color:var(--dim);line-height:1.65;}
+
+/* ── REELS ── */
+.rc{counter-reset:reel-step;}
+.rstep{counter-increment:reel-step;position:relative;padding-right:40px;margin-bottom:16px;}
+.rstep::before{content:counter(reel-step);position:absolute;right:0;top:0;width:28px;height:28px;border-radius:50%;background:var(--gold);color:#000;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;}
+
+/* ── GRIDS ── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+
+/* ── MINI STAT ── */
+.mst{text-align:center;padding:16px;background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);}
+.mst-v{font-size:28px;font-weight:800;color:var(--gold);}
+.mst-l{font-size:11px;color:var(--dim);margin-top:4px;}
+
+/* ── ALGO TABLE ── */
+.algo-badge-wrap{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;}
+
+@media(max-width:640px){
+  .f2,.f3,.g2,.g3{grid-template-columns:1fr;}
+  .hdr-stats{gap:12px;}
+  .hstat-v{font-size:16px;}
+  .wrap{padding:14px;}
+  .srow{flex-direction:column;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════ GATE ══════════════════════════════════ -->
+<div id="gate">
+  <div class="gate-box">
+    <div class="gate-icon">🚀</div>
+    <div class="gate-title">MetaViral Hub 360°</div>
+    <div class="gate-sub">إمبراطور محتوى فيسبوك | مركز وداعاً للألم</div>
+    <input class="gate-inp" id="gpass" type="password" placeholder="كلمة المرور" autocomplete="off">
+    <button class="gate-btn" onclick="doLogin()">🔐 دخول</button>
+    <div class="gate-err" id="gerr"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════ APP ══════════════════════════════════ -->
+<div id="app">
+
+  <!-- HEADER -->
+  <div class="hdr">
+    <div class="hdr-brand">
+      <div class="hdr-logo">🚀</div>
+      <div>
+        <div class="hdr-name">MetaViral Hub 360°</div>
+        <div class="hdr-sub">مركز وداعاً للألم — خلدا، عمّان | 0790360440</div>
+      </div>
+    </div>
+    <div class="hdr-stats">
+      <div class="hstat"><div class="hstat-v" id="sh-acc">0</div><div class="hstat-l">حساب</div></div>
+      <div class="hstat"><div class="hstat-v" id="sh-ses">0</div><div class="hstat-l">جلسة</div></div>
+      <div class="hstat"><div class="hstat-v" id="sh-post">0</div><div class="hstat-l">منشور</div></div>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <div class="nav">
+    <button class="ntab on"  onclick="sw('pod',this)">🐝 خلية التفاعل</button>
+    <button class="ntab"     onclick="sw('viral',this)">⚡ مولّد المنشورات</button>
+    <button class="ntab"     onclick="sw('reels',this)">🎬 استوديو الريلز</button>
+    <button class="ntab"     onclick="sw('pf',this)">🛡️ فحص ما قبل النشر</button>
+    <button class="ntab"     onclick="sw('cal',this)">📅 جدول المحتوى</button>
+    <button class="ntab"     onclick="sw('algo',this)">🧠 دليل الخوارزمية</button>
+  </div>
+
+  <div class="wrap">
+
+    <!-- ═══════════════════ TAB 1: POD ═══════════════════ -->
+    <div class="sec on" id="tab-pod">
+
+      <div class="card">
+        <div class="ctitle">➕ إضافة حساب للخلية</div>
+        <div class="frow f3">
+          <div class="fg"><label class="flb">اسم الحساب (للتعريف)</label>
+            <input class="fi" id="ac-name" placeholder="مثال: حساب محمد"></div>
+          <div class="fg"><label class="flb">الجهاز والشبكة</label>
+            <select class="fsel" id="ac-dev">
+              <option>📱 موبايل — بيانات جوال</option>
+              <option>📱 موبايل — واي-فاي بيت</option>
+              <option>💻 لابتوب — واي-فاي مكتب</option>
+              <option>🖥️ كمبيوتر — شبكة مختلفة</option>
+              <option>📲 تابلت — بيانات جوال</option>
+            </select></div>
+          <div class="fg"><label class="flb">أسلوب التعليق</label>
+            <select class="fsel" id="ac-sty">
+              <option value="مشجع">🌟 مشجع ومحمّس</option>
+              <option value="سائل">❓ سائل ومستفسر</option>
+              <option value="شاهد">👁️ شاهد ومتفق</option>
+              <option value="معلومات">📚 مشارك معلومات</option>
+              <option value="ناصح">💡 ناصح وموجّه</option>
+            </select></div>
+        </div>
+        <button class="btn bg" onclick="addAcc()">➕ إضافة للخلية</button>
+      </div>
+
+      <div class="card">
+        <div class="ctitle">👥 أعضاء الخلية (<span id="acc-cnt">0</span>)</div>
+        <div id="acc-list"><div class="obox-ph">لا يوجد حسابات بعد — أضف من الأعلى.</div></div>
+      </div>
+
+      <div class="card">
+        <div class="ctitle">🎯 مهمة اليوم — جلسة تفاعل</div>
+        <div class="frow f2">
+          <div class="fg"><label class="flb">رابط المنشور المستهدف</label>
+            <input class="fi" id="mis-url" placeholder="https://facebook.com/..."></div>
+          <div class="fg"><label class="flb">وقت نشر المنشور</label>
+            <input class="fi" id="mis-time" type="time" value="19:00"></div>
+        </div>
+        <div class="fg" style="margin-bottom:14px"><label class="flb">موضوع المنشور (مختصر)</label>
+          <input class="fi" id="mis-topic" placeholder="مثال: ألم الرقبة وعلاجه في المركز"></div>
+        <div class="frow f2">
+          <div class="fg"><label class="flb">نوع التفاعل</label>
+            <select class="fsel" id="mis-typ">
+              <option value="تعليق">💬 تعليقات + إعجابات</option>
+              <option value="سؤال">❓ أسئلة واستفسارات</option>
+              <option value="شهادة">⭐ شهادات وتجارب</option>
+              <option value="نقاش">🔥 نقاش إيجابي</option>
+              <option value="شير">🔄 شير + تعليق</option>
+            </select></div>
+          <div class="fg"><label class="flb">الفاصل بين الحسابات</label>
+            <select class="fsel" id="mis-gap">
+              <option value="3">⏱️ 3 دقائق</option>
+              <option value="4">⏱️ 4 دقائق</option>
+              <option value="5" selected>⏱️ 5 دقائق (موصى)</option>
+              <option value="7">⏱️ 7 دقائق</option>
+              <option value="10">⏱️ 10 دقائق</option>
+            </select></div>
+        </div>
+        <button class="btn bg bfl" onclick="genMission()">⚡ توليد جدول الجلسة الآن</button>
+      </div>
+
+      <div id="mission-out" style="display:none">
+        <div class="card">
+          <div class="ctitle">📋 جدول جلسة التفاعل</div>
+          <div class="tipbox">
+            <div class="tipbox-t">⚠️ تعليمات أساسية قبل البدء</div>
+            <p>• افتح كل حساب على جهازه/شبكته المخصصة<br>
+            • الإعجاب أولاً ← ثم التعليق بعد دقيقتين<br>
+            • لا تعلّق أكثر من مرة واحدة من نفس الحساب على نفس المنشور<br>
+            • الرد بين الحسابات على بعضهم = 15 نقطة MSI لكل رد<br>
+            • اترك الفاصل الزمني الطبيعي — لا تتعجل</p>
+          </div>
+          <div id="sched-list"></div>
+          <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn bgh bsm" onclick="copyAllSched()">📋 نسخ كل الجدول</button>
+            <button class="btn bgh bsm" onclick="window.print()">🖨️ طباعة</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════ TAB 2: VIRAL POST ═══════════════════ -->
+    <div class="sec" id="tab-viral">
+      <div class="card">
+        <div class="ctitle">⚡ مولّد منشورات فيروسية</div>
+        <div class="frow f2">
+          <div class="fg"><label class="flb">نوع المنشور</label>
+            <select class="fsel" id="pt-type">
+              <option value="pain-map">🗺️ خريطة الألم</option>
+              <option value="dilemma">⚖️ جدال وحيرة</option>
+              <option value="curiosity">🔍 فضول وإثارة</option>
+              <option value="stats">📊 صدمة إحصائية</option>
+              <option value="myth">❌ تحطيم خرافة</option>
+              <option value="quiz">🎯 تحدي / اختبار</option>
+              <option value="warning">🚨 تحذير طبي</option>
+              <option value="before-after">✨ قبل وبعد</option>
+            </select></div>
+          <div class="fg"><label class="flb">الموضوع / الحالة</label>
+            <input class="fi" id="pt-topic" placeholder="مثال: ألم الرقبة من الشاشات"></div>
+        </div>
+        <div class="frow f2">
+          <div class="fg"><label class="flb">الفئة المستهدفة</label>
+            <select class="fsel" id="pt-aud">
+              <option>👥 جمهور عام</option>
+              <option>💼 موظفون ومكتبيون</option>
+              <option>👩 أمهات وسيدات</option>
+              <option>🏋️ رياضيون</option>
+              <option>👴 كبار السن</option>
+              <option>🚗 سائقون</option>
+            </select></div>
+          <div class="fg"><label class="flb">مستوى العاطفة</label>
+            <select class="fsel" id="pt-emo">
+              <option value="صادم">😱 صادم ومفاجئ</option>
+              <option value="محرج">😅 مضحك ومحرج</option>
+              <option value="تحذيري">⚠️ تحذيري وقلق</option>
+              <option value="أمل">🌟 أمل ومحفز</option>
+              <option value="فضول">🤔 فضول وتساؤل</option>
+            </select></div>
+        </div>
+        <button class="btn bg bfl" onclick="genPost()">✨ توليد المنشور الفيروسي</button>
+      </div>
+      <div class="card" id="post-out-card" style="display:none">
+        <div class="ctitle">📝 المنشور المُولَّد</div>
+        <div class="obox" id="post-out"></div>
+        <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn bg bsm" onclick="copyPost()">📋 نسخ المنشور</button>
+          <button class="btn bgh bsm" onclick="sendToPF()">🛡️ إرسال للفحص</button>
+          <button class="btn bgh bsm" onclick="genPost()">🔄 توليد آخر</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════ TAB 3: REELS ═══════════════════ -->
+    <div class="sec" id="tab-reels">
+      <div class="card">
+        <div class="ctitle">🎬 استوديو الريلز — بدون وجه</div>
+        <div class="tipbox">
+          <div class="tipbox-t">💡 لماذا الريلز بدون وجه تنجح؟</div>
+          <p>٨٠٪ من أكثر ريلز الصحة انتشاراً هي ريلز نصية أو إنفوجرافيك. فيسبوك يُعزز الريلز التي تُعاد مشاهدتها (Loop Rate) أكثر من ١٠٠٪ — وهذا ما تحققه الريلز التوعوية بسهولة.</p>
+        </div>
+        <div class="frow f2">
+          <div class="fg"><label class="flb">نوع الريلز</label>
+            <select class="fsel" id="rl-type">
+              <option value="text-reveal">📝 كشف نصي تدريجي</option>
+              <option value="myth-bust">❌ تحطيم خرافة</option>
+              <option value="countdown">🔢 عدّ تنازلي</option>
+              <option value="before-after">🔄 قبل وبعد</option>
+              <option value="pov">👁️ من منظورك (POV)</option>
+              <option value="day-life">📅 يوم في حياة مريض</option>
+            </select></div>
+          <div class="fg"><label class="flb">الموضوع</label>
+            <input class="fi" id="rl-topic" placeholder="مثال: عرق النسا وعلاجه"></div>
+        </div>
+        <div class="frow f2">
+          <div class="fg"><label class="flb">مدة الريلز</label>
+            <select class="fsel" id="rl-dur">
+              <option value="15">⚡ 15 ثانية — أعلى وصول</option>
+              <option value="30" selected>🎯 30 ثانية — مثالي</option>
+              <option value="60">📖 60 ثانية — تعليمي</option>
+              <option value="90">🎬 90 ثانية — قصة كاملة</option>
+            </select></div>
+          <div class="fg"><label class="flb">نداء الفعل (CTA)</label>
+            <select class="fsel" id="rl-cta">
+              <option value="comment">💬 اطلب تعليق</option>
+              <option value="save">🔖 اطلب حفظ</option>
+              <option value="share">🔄 اطلب مشاركة</option>
+              <option value="dm">📩 اطلب رسالة</option>
+              <option value="book">📅 احجز موعد</option>
+            </select></div>
+        </div>
+        <button class="btn bg bfl" onclick="genReel()">🎬 توليد سكريبت الريلز</button>
+      </div>
+      <div id="reel-out" style="display:none">
+        <div class="card">
+          <div class="ctitle">📜 سكريبت الريلز الكامل</div>
+          <div class="rc" id="reel-secs"></div>
+          <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn bg bsm" onclick="copyReel()">📋 نسخ السكريبت كاملاً</button>
+            <button class="btn bgh bsm" onclick="genReel()">🔄 سكريبت آخر</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="ctitle">🎵 موسيقى ترندينج مقترحة</div>
+          <div id="music-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════ TAB 4: PRE-FLIGHT ═══════════════════ -->
+    <div class="sec" id="tab-pf">
+      <div class="card">
+        <div class="ctitle">🛡️ فاحص ما قبل النشر</div>
+        <div class="fg" style="margin-bottom:14px"><label class="flb">الصق نص منشورك هنا</label>
+          <textarea class="fta" id="pf-txt" style="min-height:160px" placeholder="اكتب أو الصق نص المنشور للفحص..."></textarea></div>
+        <button class="btn bg bfl" onclick="runPF()">🔍 فحص المنشور الآن</button>
+      </div>
+      <div id="pf-res" style="display:none">
+        <div class="g2" style="margin-bottom:14px">
+          <div class="card" style="text-align:center">
+            <div class="ctitle" style="justify-content:center">🎯 نقاط الفيروسية</div>
+            <div class="pfc" id="pfc"><span id="pf-val">0</span><span class="pfcl">/ 100</span></div>
+            <div id="pf-lbl" style="font-size:15px;font-weight:700;"></div>
+          </div>
+          <div class="card"><div class="ctitle">⏰ أفضل أوقات النشر</div><div id="pf-times"></div></div>
+        </div>
+        <div class="card"><div class="ctitle">🔍 تحليل النص</div><div id="pf-ana"></div></div>
+        <div class="card"><div class="ctitle">💡 توصيات التحسين</div><div id="pf-tips"></div></div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════ TAB 5: CALENDAR ═══════════════════ -->
+    <div class="sec" id="tab-cal">
+      <div class="card">
+        <div class="ctitle">📅 جدول المحتوى الأسبوعي الذكي</div>
+        <div class="tipbox">
+          <div class="tipbox-t">🧠 نظام ٣-١-٢-١ الأمثل</div>
+          <p>٣ منشورات تعليمية + ١ تحدي/مسابقة + ٢ قصة/شهادة + ١ عرض/حجز = أقصى وصول أسبوعي لخوارزمية فيسبوك ٢٠٢٥</p>
+        </div>
+        <div class="fg" style="margin-bottom:14px;max-width:240px">
+          <label class="flb">أسبوع البداية</label>
+          <input class="fi" id="cal-date" type="date">
+        </div>
+        <button class="btn bg" onclick="genCal()">📅 توليد الجدول الأسبوعي</button>
+      </div>
+      <div id="cal-out"></div>
+    </div>
+
+    <!-- ═══════════════════ TAB 6: ALGO ═══════════════════ -->
+    <div class="sec" id="tab-algo">
+      <div class="card">
+        <div class="ctitle">🧠 دليل خوارزمية فيسبوك ٢٠٢٥</div>
+        <div class="tipbox">
+          <div class="tipbox-t">⚡ نقاط MSI — Meaningful Social Interactions</div>
+          <p>فيسبوك يُعطي وزناً مختلفاً لكل نوع تفاعل. افهم هذا وستضاعف وصولك بدون إعلانات.</p>
+        </div>
+        <div class="tw" style="margin-bottom:20px">
+          <table class="tbl">
+            <thead><tr><th>نوع التفاعل</th><th>النقاط</th><th>الأثر على الخوارزمية</th></tr></thead>
+            <tbody>
+              <tr><td>مشاركة عبر الماسنجر</td><td><span class="bdg bdg-gd">100 نقطة</span></td><td>أعلى إشارة فيروسية على الإطلاق</td></tr>
+              <tr><td>تعليق متشعب (رد على رد)</td><td><span class="bdg bdg-gd">15 نقطة</span></td><td>ينشّط الخيط بالكامل ويمدد عمر المنشور</td></tr>
+              <tr><td>تعليق مباشر</td><td><span class="bdg bdg-gr">8 نقاط</span></td><td>يمدد عمر المنشور لجمهور أوسع</td></tr>
+              <tr><td>حفظ المنشور</td><td><span class="bdg bdg-bl">7 نقاط</span></td><td>إشارة جودة قوية جداً</td></tr>
+              <tr><td>مشاركة عامة (Share)</td><td><span class="bdg bdg-pu">5 نقاط</span></td><td>يوسع الجمهور لمعارف المعارف</td></tr>
+              <tr><td>إعجاب / ريأكشن</td><td><span class="bdg bdg-or">1 نقطة</span></td><td>أساسي — لا يكفي وحده</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="ctitle">🚫 كلمات تقتل الوصول — تجنبها تماماً!</div>
+        <div class="algo-badge-wrap">
+          <span class="bdg bdg-rd">شير الآن</span><span class="bdg bdg-rd">لايك بالله</span>
+          <span class="bdg bdg-rd">فوللو</span><span class="bdg bdg-rd">اشترك</span>
+          <span class="bdg bdg-rd">اضغط الرابط</span><span class="bdg bdg-rd">كلك هير</span>
+          <span class="bdg bdg-rd">ربح</span><span class="bdg bdg-rd">مجاني تماماً</span>
+          <span class="bdg bdg-rd">خصم خاص</span><span class="bdg bdg-rd">اشتري الآن</span>
+          <span class="bdg bdg-or">أسعار</span><span class="bdg bdg-or">صور جرائح</span>
+          <span class="bdg bdg-or">أدوية</span>
+        </div>
+
+        <div class="ctitle">✅ كلمات تُعزز الوصول — استخدمها!</div>
+        <div class="algo-badge-wrap" style="margin-bottom:20px">
+          <span class="bdg bdg-gr">ما رأيك؟</span><span class="bdg bdg-gr">علّق 👇</span>
+          <span class="bdg bdg-gr">شاركنا</span><span class="bdg bdg-gr">أخبرنا</span>
+          <span class="bdg bdg-gr">وأنت؟</span><span class="bdg bdg-gr">سؤال</span>
+          <span class="bdg bdg-gr">تجربتك</span><span class="bdg bdg-gr">عندك؟</span>
+          <span class="bdg bdg-bl">احفظ</span><span class="bdg bdg-bl">أرسل لمن يحتاج</span>
+        </div>
+
+        <div class="tipbox">
+          <div class="tipbox-t">⏰ نظرية النافذة الذهبية — أول ٣٠ دقيقة</div>
+          <p>فيسبوك يختبر منشورك مع ٢-٥٪ من متابعيك في أول ٣٠ دقيقة. إذا حصل على تفاعل فوري → يدفعه لنطاق أوسع. لهذا جلسة التفاعل تبدأ فوراً بعد النشر، وليس بعد ساعة.</p>
+        </div>
+        <div class="tipbox">
+          <div class="tipbox-t">📈 معادلة الريلز الفيروسي</div>
+          <p>
+            ⏱️ Loop Rate (إعادة المشاهدة) > ١٠٠٪ = فيسبوك يُصنّفه محتوى استثنائياً<br>
+            📊 Retention > ٧٠٪ عند الثانية الثالثة = يصل للـ Explore<br>
+            💬 كل تعليق في أول ساعة = زيادة ١٥٪ في الوصول الإجمالي<br>
+            🔄 كل Share عبر ماسنجر = وصول لمتوسط ١٥٠ شخص جديد
+          </p>
+        </div>
+        <div class="tipbox">
+          <div class="tipbox-t">📅 أفضل أوقات النشر (بتوقيت عمّان)</div>
+          <p>
+            🌅 الصباح الباكر: ٧:٣٠ - ٩:٠٠ ص<br>
+            🌞 منتصف اليوم: ١٢:٠٠ - ١:٣٠ م<br>
+            🔥 المساء (الأفضل): ٧:٠٠ - ٩:٣٠ م<br>
+            🌙 الليل: ١٠:٠٠ - ١١:٣٠ م<br><br>
+            الأيام الأعلى تفاعلاً: الثلاثاء، الخميس، السبت
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /.wrap -->
+</div><!-- /#app -->
+
+<div id="toast">تم النسخ! ✓</div>
+
+<script>
+// ═══════════════════ DATA & STATE ═══════════════════
+const PASS = 'viral2025';
+let accs = JSON.parse(localStorage.getItem('vh_accs') || '[]');
+let ses  = +localStorage.getItem('vh_ses')  || 0;
+let posts= +localStorage.getItem('vh_posts') || 0;
+let _schedText = '';
+let _lastPost  = '';
+let _lastReel  = '';
+
+// ═══════════════════ GATE ═══════════════════
+function doLogin() {
+  const v = document.getElementById('gpass').value;
+  if (v === PASS) {
+    sessionStorage.setItem('vh_auth','1');
+    document.getElementById('gate').style.display = 'none';
+    document.getElementById('app').style.display  = 'block';
+    init();
+  } else {
+    document.getElementById('gerr').textContent = '❌ كلمة المرور غير صحيحة';
+    document.getElementById('gpass').value = '';
+  }
+}
+document.getElementById('gpass').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+if (sessionStorage.getItem('vh_auth')==='1') {
+  document.getElementById('gate').style.display='none';
+  document.getElementById('app').style.display='block';
+  window.addEventListener('DOMContentLoaded', init);
+}
+
+function init() {
+  updStats(); renderAccs();
+  const cd = document.getElementById('cal-date');
+  if(cd) cd.value = new Date().toISOString().split('T')[0];
+}
+
+// ═══════════════════ NAV ═══════════════════
+function sw(id, btn) {
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.ntab').forEach(b=>b.classList.remove('on'));
+  document.getElementById('tab-'+id).classList.add('on');
+  btn.classList.add('on');
+}
+
+// ═══════════════════ STATS ═══════════════════
+function updStats() {
+  document.getElementById('sh-acc').textContent  = accs.length;
+  document.getElementById('sh-ses').textContent  = ses;
+  document.getElementById('sh-post').textContent = posts;
+  document.getElementById('acc-cnt').textContent = accs.length;
+}
+
+// ═══════════════════ TOAST ═══════════════════
+function toast(msg) {
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2400);
+}
+function copy(txt) {
+  try { navigator.clipboard.writeText(txt).then(()=>toast('✅ تم النسخ!')); }
+  catch { const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);toast('✅ تم النسخ!'); }
+}
+
+// ═══════════════════ ACCOUNTS ═══════════════════
+const ACC_COLORS = ['#f5c842','#00e676','#40c4ff','#b39ddb','#ffab40','#ff80ab','#80cbc4','#ef9a9a','#80deea','#c5e1a5','#fff59d','#ce93d8'];
+function addAcc() {
+  const n = document.getElementById('ac-name').value.trim();
+  if (!n) { toast('⚠️ أدخل اسم الحساب'); return; }
+  accs.push({ id: Date.now(), name: n, dev: document.getElementById('ac-dev').value, sty: document.getElementById('ac-sty').value, color: ACC_COLORS[accs.length % ACC_COLORS.length] });
+  localStorage.setItem('vh_accs', JSON.stringify(accs));
+  document.getElementById('ac-name').value = '';
+  renderAccs(); updStats();
+  toast('✅ تمت إضافة ' + n + ' للخلية!');
+}
+function delAcc(id) {
+  accs = accs.filter(a=>a.id!==id);
+  localStorage.setItem('vh_accs', JSON.stringify(accs));
+  renderAccs(); updStats();
+}
+function renderAccs() {
+  const el = document.getElementById('acc-list');
+  if (!accs.length) { el.innerHTML='<div class="obox-ph">لا يوجد حسابات — أضف من الأعلى.</div>'; return; }
+  el.innerHTML = accs.map((a,i)=>`
+    <div class="ait">
+      <div class="aav" style="background:${a.color}">${a.name[0]}</div>
+      <div class="ain">
+        <div class="aname">${a.name}</div>
+        <div class="adev">${a.dev} • أسلوب: ${a.sty}</div>
+      </div>
+      <span class="bdg bdg-bl">حساب ${i+1}</span>
+      <button class="btn brd bsm" onclick="delAcc(${a.id})">✕</button>
+    </div>`).join('');
+}
+
+// ═══════════════════ COMMENT TEMPLATES ═══════════════════
+const CMTS = {
+  'مشجع': [
+    'ما شاء الله على الاحترافية دايماً، مركز وداعاً للألم يستاهل كل التقدير 🙏',
+    'والله كلام صح ومفيد، استفدت كثير منه، شكراً جزيلاً 💪',
+    'مشكورين على المعلومات القيمة هيك المراكز الحقيقية اللي بتفرق 🌟',
+    'الله يبارك بكم دايماً تعطوا أكثر مما نتوقع، ربنا يحفظكم 🤍',
+    'كل ما شفت منشور المركز استفدت شيء جديد، الله يعطيكم العافية ✨',
+    'سبحان الله كم ناس تعاني وما تعرف إن الحل موجود عندكم 💙',
+    'مركز محترم جداً والحمد لله أعرفه وأنصح فيه كل من يسألني 👏',
+  ],
+  'سائل': [
+    'سؤال بصراحة: هل الحالة هذه تحتاج جلسات كثيرة؟',
+    'كنت أتساءل عن هالموضوع، ممكن توضحوا أكثر لو سمحتم؟',
+    'وأنا عندي نفس المشكلة منذ فترة، هل العلاج اليدوي مناسب لحالتي؟',
+    'هل ممكن أحجز موعد بنفس اليوم؟ وكيف الحجز؟',
+    'الله يعطيكم العافية — سؤال: هل الألم يرجع بعد الجلسات؟',
+    'متوسط عدد الجلسات للتحسن كم يكون تقريباً؟',
+    'هل يقبلون حالات متقدمة أم فقط في البداية؟',
+  ],
+  'شاهد': [
+    'والله نفس تجربتي بالضبط! وبعد الجلسات صرت بخير تماماً الحمد لله 🙏',
+    'أنا من المراجعين وأشهد بأمانة إن الطاقم محترف جداً ما شفت أحسن',
+    'صديقتي راجعت المركز وما رجعت تشتكي، سبحان الله',
+    'تجربتي معكم كانت من أفضل تجاربي الطبية بكل صدق',
+    'كنت متردد في البداية بس بعد ما جربت غيّرت رأيي ١٠٠٪',
+    'أخوي عنده نفس المشكلة وبعد ما رح تحسن كثير، يستاهلوا الثقة',
+  ],
+  'معلومات': [
+    'معلومة مهمة يضاف لها: النوم الصحيح يساعد كثير في التعافي 🌙',
+    'وللإضافة: التمارين بعد الجلسات أساسية للحفاظ على النتائج',
+    'من أبحاث حديثة: العلاج اليدوي أثبت فاعلية تفوق المسكنات بـ٣ مرات',
+    'الجلوس ٨ ساعات بالمكتب بشكل خاطئ يضع ضغط ٢٠٠ كيلو على الفقرات!',
+    'الوقاية خير من العلاج وزيارة المختص دورياً تحمي العمود الفقري 🦴',
+    'من المفيد أيضاً تمارين الإطالة اليومية تمنع تكرار الألم',
+  ],
+  'ناصح': [
+    'نصيحتي لكل اللي يعانوا: لا تتأخروا، الألم المبكر يُعالج بسهولة 💙',
+    'من تجربتي: الصبر على الجلسات مع التمارين في البيت = نتائج مضاعفة',
+    'ياريت كل واحد يعاني من آلام الظهر يقرأ هالمنشور',
+    'أنصح كل أم تتألم ترو المركز، ما تستاهلي تعيشي مع الألم 🌹',
+    'نصيحة ذهبية: لا تنتظري حتى يصير الألم مزمن — البداية المبكرة تفرق',
+    'الألم ما هو قدر — عندكم الحل وأنا شاهد عليه',
+  ]
+};
+
+function getComment(acc, topic, i) {
+  const pool = CMTS[acc.sty] || CMTS['مشجع'];
+  let cmt = pool[i % pool.length];
+  if (topic && i > 0 && i % 2 === 1) {
+    const refs = [` (خصوصاً موضوع ${topic})`, `، وخاصة ما يتعلق بـ${topic}`];
+    cmt += refs[i % refs.length];
+  }
+  return cmt;
+}
+
+// ═══════════════════ MISSION ═══════════════════
+function genMission() {
+  if (accs.length < 2) { toast('⚠️ أضف حسابين على الأقل'); return; }
+  const url   = document.getElementById('mis-url').value.trim();
+  const btime = document.getElementById('mis-time').value;
+  const topic = document.getElementById('mis-topic').value.trim();
+  const gap   = +document.getElementById('mis-gap').value;
+  if (!url) { toast('⚠️ أدخل رابط المنشور'); return; }
+
+  const [bh,bm] = btime.split(':').map(Number);
+  let html='', txt='';
+
+  accs.forEach((a,i) => {
+    const mins = bh*60+bm + (i===0?2:i*gap);
+    const sh=Math.floor(mins/60)%24, sm=mins%60;
+    const ts=`${String(sh).padStart(2,'0')}:${String(sm).padStart(2,'0')}`;
+    const cmt=getComment(a,topic,i);
+    const act=i===0?'❤️ إعجاب فقط أولاً':(i%3===0?'❤️ إعجاب + 💬 تعليق':'💬 تعليق + ❤️ إعجاب');
+    txt+=`[${ts}] ${a.name} — ${act}\n${cmt}\n🔗 ${url}\n\n`;
+    html+=`
+      <div class="srow">
+        <div>
+          <div class="stime">${ts}</div>
+          <div style="font-size:10px;color:var(--dim);text-align:center;margin-top:4px">${act}</div>
+        </div>
+        <div class="sbody">
+          <div class="sname"><span style="color:${a.color}">●</span> ${a.name}
+            <span class="bdg bdg-bl" style="margin-right:8px">${a.dev}</span>
+          </div>
+          <div class="scmt">${cmt}</div>
+          <div style="margin-top:6px;font-size:11px;color:var(--dim)">🔗 ${url}</div>
+        </div>
+        <div>
+          <button class="btn bgr bsm" onclick="copy(\`${cmt.replace(/`/g,'\\`')}\`)">📋 نسخ</button>
+        </div>
+      </div>`;
+  });
+
+  _schedText = txt;
+  document.getElementById('sched-list').innerHTML = html;
+  document.getElementById('mission-out').style.display='block';
+  document.getElementById('mission-out').scrollIntoView({behavior:'smooth'});
+  ses++; posts++;
+  localStorage.setItem('vh_ses', ses);
+  localStorage.setItem('vh_posts', posts);
+  updStats();
+}
+function copyAllSched() { copy(_schedText || 'لا يوجد جدول بعد'); }
+
+// ═══════════════════ POST GENERATOR ═══════════════════
+function ePrefix(e){return{صادم:'اكتشاف صادم:',محرج:'اعتراف محرج:',تحذيري:'تحذير مهم:',أمل:'خبر مُبهج:',فضول:'سؤال يحيّرني:'}[e]||'';}
+function curio(t,n){return[`أن الراحة التامة هي الحل الوحيد لـ${t}`,`الحركة الموجّهة والعلاج اليدوي أثبت فاعلية تفوق الأدوية بـ٣ مرات`,`كثيرين يعيشون مع ألم مزمن لسنوات والحل كان بجلسات معدودة`,`٨٠٪ من حالات ${t} المزمنة بدأت بألم بسيط تم تجاهله`][n-1];}
+
+const PT = {
+  'pain-map': (t,a,e)=>`😰 ${ePrefix(e)} ${a!=='👥 جمهور عام'?`(لـ${a})`:''}
+
+كم واحد فيكم يحس بـ${t}؟
+
+◀ ضع ✋ على المكان اللي يألمك:
+1️⃣ رقبة وكتف
+2️⃣ منتصف الظهر
+3️⃣ أسفل الظهر
+4️⃣ ورك وأرداف
+5️⃣ ساق وقدم
+
+👇 اكتب الرقم في التعليقات — وراح تشوف كم واحد زيك!
+
+💡 الألم ليس قدراً — مركز وداعاً للألم يعالج ${t} بدون جراحة.
+
+📞 للاستشارة والحجز: 0790360440
+وداعاً للألم | خلدا - عمّان`,
+
+  'dilemma': (t,a,e)=>`🤔 سؤال محرج — شوفوا آراءكم:
+
+موضوع: ${t}
+
+أيهما تختارون؟
+
+🅰️ أتحمّل الألم وما أروح طبيب — ما عندي وقت
+🅱️ أحجز موعد من أول ما أحس بألم
+
+↕️ صوّتوا بـ 🅰️ أو 🅱️ في التعليقات
+
+⚠️ تنبيه طبي: ٧٣٪ من آلام الظهر التي لم تُعالج في أول ٣ أشهر تحوّلت لألم مزمن لسنوات.
+
+أنتم تقررون 👇
+
+📞 للحجز والاستشارة: 0790360440
+مركز وداعاً للألم | خلدا - عمّان`,
+
+  'curiosity': (t,a,e)=>`🔍 سرّ لا يقوله أغلب الأطباء عن ${t}
+
+أكمل القراءة إذا عندك هذا الألم...
+
+❌ الخطأ الشائع: الناس تظن ${curio(t,1)}
+
+✅ الحقيقة العلمية: ${curio(t,2)}
+
+وهذا سبب ${curio(t,3)}
+
+🔬 والأخطر: ${curio(t,4)}؟
+
+💡 الحل الذي يعمل: جلسة واحدة صحيحة تساوي أشهراً من المسكنات.
+
+👇 احجز استشارتك الأولى
+📞 0790360440 | وداعاً للألم - خلدا`,
+
+  'stats': (t,a,e)=>`📊 إحصاءات صادمة عن ${t}:
+
+▪ ٨٥٪ من الناس سيعانون من ${t} في حياتهم
+▪ ٦٧٪ يتجاهلون الألم حتى يصبح مزمناً
+▪ ٩٠٪ من الحالات قابلة للعلاج بدون جراحة
+▪ متوسط التعافي مع العلاج اليدوي: ٤-٦ جلسات فقط
+
+الرقم الذي صدمني: شخص من كل ٤ أشخاص يقرأ هذا المنشور يعاني الآن في صمت.
+
+💙 إذا كنت واحداً منهم — الحل أقرب مما تتخيل.
+
+📞 استشارة أولية: 0790360440
+وداعاً للألم | خلدا - عمّان`,
+
+  'myth': (t,a,e)=>`❌ توقف! هذه معلومة خاطئة عن ${t} يصدقها الجميع:
+
+"الراحة التامة هي أفضل علاج للألم"
+
+✅ الحقيقة العلمية:
+الراحة الطويلة تُضعف العضلات وتُعقّد الحالة. الحركة الصحيحة والموجّهة هي الحل.
+
+❌ خرافة ثانية: "العلاج اليدوي مؤلم ومخيف"
+✅ الحقيقة: ٩٥٪ من مرضانا يحسون براحة فورية أثناء الجلسة.
+
+❌ خرافة ثالثة: "لا يتحسن إلا بعملية جراحية"
+✅ الحقيقة: ٩٠٪ من حالات ${t} تُعالج بدون جراحة إطلاقاً.
+
+💡 لا تصدق كل ما تسمع — استشر متخصصاً.
+
+📞 0790360440 | وداعاً للألم`,
+
+  'quiz': (t,a,e)=>`🎯 اختبر نفسك في ٣٠ ثانية —
+
+هل تعاني فعلاً من ${t}؟
+
+✅ ضع صح أمام كل ما ينطبق عليك:
+□ الألم يشتد صباحاً بعد النوم
+□ تحس بخدر أو وخز في الأطراف
+□ الجلوس أو الوقوف طويلاً يزيد الألم
+□ الألم يمتد من الظهر للساق
+□ المسكنات تساعد لفترة ثم يرجع الألم
+
+📊 النتائج:
+✅✅ = مرحلة مبكرة — لا تتأخر
+✅✅✅ = تحتاج تقييم عاجل
+✅✅✅✅✅ = راجعنا اليوم!
+
+👇 كم صح عندك؟ اكتب في التعليقات!
+
+📞 0790360440 | وداعاً للألم - خلدا`,
+
+  'warning': (t,a,e)=>`🚨 تحذير طبي: ${t}
+
+هذه العلامات تعني أن الألم تطوّر من "عادي" إلى "يحتاج تدخلاً عاجلاً":
+
+⚠️ الألم يصحيك من النوم
+⚠️ خدر لا يزول بعد الاستيقاظ
+⚠️ ضعف في القدم أو اليد
+⚠️ الألم يزداد سوءاً مع الأيام ولا يتحسن
+⚠️ صعوبة في التوازن أو المشي
+
+❗ إذا كانت ٣ علامات أو أكثر موجودة — لا تتأخر لحظة.
+
+التأخير في علاج ${t} المتقدم قد يؤدي لمضاعفات دائمة.
+
+📞 احجز فوراً: 0790360440
+وداعاً للألم | تقييم سريري عاجل`,
+
+  'before-after': (t,a,e)=>`✨ قصة حقيقية — من وداعاً للألم
+
+المريض: ٣٨ سنة، يعمل مهندسي
+الشكوى: ${t} منذ سنتين
+الحالة عند الوصول: لا يستطيع الجلوس ٢٠ دقيقة متواصلة
+
+بعد ٦ جلسات مع فريقنا المتخصص:
+• عاد للعمل بدون ألم ✅
+• يمارس الرياضة مجدداً ✅
+• توقف عن المسكنات كلياً ✅
+
+📣 بكلماته بعد العلاج:
+"كنت أظن سأعيش مع هذا الألم إلى الأبد. الجلسات الأولى غيّرت حياتي."
+
+💙 قصتك يمكن أن تكون هكذا.
+
+📞 0790360440 | وداعاً للألم - خلدا، عمّان`
+};
+
+function genPost() {
+  const t = document.getElementById('pt-type').value;
+  const tp= document.getElementById('pt-topic').value.trim() || 'ألم الظهر';
+  const a = document.getElementById('pt-aud').value;
+  const e = document.getElementById('pt-emo').value;
+  const fn= PT[t];
+  _lastPost = fn ? fn(tp,a,e) : '❌ نوع غير معروف';
+  document.getElementById('post-out').textContent = _lastPost;
+  document.getElementById('post-out-card').style.display='block';
+  document.getElementById('post-out-card').scrollIntoView({behavior:'smooth'});
+  posts++; localStorage.setItem('vh_posts',posts); updStats();
+}
+function copyPost() { copy(_lastPost); }
+function sendToPF() {
+  document.getElementById('pf-txt').value = _lastPost;
+  document.querySelectorAll('.ntab').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('.ntab')[3].classList.add('on');
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  document.getElementById('tab-pf').classList.add('on');
+  runPF();
+}
+
+// ═══════════════════ REELS ═══════════════════
+const CTA_MAP = {
+  comment:`📢 نداء الفعل:\nنص كبير: "علّق 🙋 إذا تعاني من نفس الشيء"\n"أرسلها لشخص يحتاجها الآن"\n\n✏️ ختم بشعار المركز + 0790360440`,
+  save:   `📢 نداء الفعل:\nنص كبير: "احفظ هذا الريلز الآن 🔖"\n"هذه المعلومة ممكن تغيّر حياتك"\n\n✏️ ختم بشعار المركز`,
+  share:  `📢 نداء الفعل:\nنص: "شاركها مع شخص يعاني الآن 💙"\n"هيك فعلاً بتساعده"\n\n✏️ وداعاً للألم | 0790360440`,
+  dm:     `📢 نداء الفعل:\nنص: "راسلنا وأخبرنا عن حالتك 💬"\n"استشارة أولية مجانية"\n\n✏️ ماسنجر: وداعاً للألم`,
+  book:   `📢 نداء الفعل:\nنص أحمر كبير: "احجز الآن 📅"\n"📞 0790360440"\n\n✏️ خلدا - عمّان | وداعاً للألم`
+};
+
+const REEL_CONTENT = {
+  'text-reveal': (t,d,c)=>({
+    '⚡ الخطاف (Hook)': `⏱️ أول ${d>=30?'5':'3'} ثوان — نص على الشاشة:\n"أكثر شخص في الغرفة الآن يعاني من ${t} في صمت"\n\n🎵 صوت: تنبيه مفاجئ → ثم تهدئة ناعمة\n🎨 خلفية: داكنة — نص أبيض كبير`,
+    '😰 المشكلة': `📝 نصوص تتكشّف تدريجياً:\n"كم مرة صحّيت من النوم وجسمك كله يألم؟"\n"تعب من الأدوية التي لا تُبرئ؟"\n"تريد حلاً حقيقياً؟"\n\n✏️ خط ثقيل — واحدة فواحدة`,
+    '💡 الكشف': `💡 نص كشفي محوري:\n"المشكلة ليست في ظهرك"\n"المشكلة في أنك لم تُعالج السبب الحقيقي"\n\n📸 اختياري: رسم تشريحي أو إنفوجرافيك بسيط`,
+    '✅ الحل': `✅ نص الحل:\n"العلاج اليدوي يعالج السبب — لا العرض"\n"جلسة واحدة صحيحة = تغيير تحسّه فوراً"\n\n🎬 مقطع: يد المعالج في العمل (بدون وجه)`,
+    '📢 نداء الفعل': CTA_MAP[c]
+  }),
+  'myth-bust': (t,d,c)=>({
+    '🚫 خطاف الخرافة': `⏱️ أول ${d>=30?'4':'3'} ثوان:\nنص أحمر كبير: "❌ الكذبة التي آمنت بها عن ${t}"\n\n🎵 صوت: "خطأ" أو صوت تنبيه قوي`,
+    '❓ لماذا هو خطأ': `❓ نص مع رسوم بسيطة:\n"الراحة التامة تُضعف العضلات خلال ٧٢ ساعة"\n"العضلة الضعيفة = ألم أشد"\n\n📊 رسم بياني بسيط: راحة ↔️ ألم أكثر`,
+    '✅ الحقيقة': `نص أخضر على خلفية داكنة:\n"الحقيقة: الحركة الصحيحة + علاج متخصص"\n"= شفاء أسرع بـ٣ مرات من الراحة الكاملة"`,
+    '📊 الدليل': `📊 أرقام تظهر واحدة فواحدة:\n"٨٩٪ من مرضانا تحسّنوا خلال ٤ جلسات"\n"صفر جراحات — صفر أدوية مزمنة"\n\n🌟 شعار المركز`,
+    '📢 نداء الفعل': CTA_MAP[c]
+  }),
+  'countdown': (t,d,c)=>({
+    '🎬 المقدمة': `⏱️ ثانيتان:\nنص: "٥ أشياء تقتل ظهرك كل يوم وأنت لا تعلم"\n\n🎵 موسيقى: إيقاع سريع مُحفّز`,
+    '📌 ٥ و ٤': `5️⃣ "الجلوس أكثر من ٣٠ دقيقة بدون حركة"\n"ضغط ٢٠٠ كيلو على الفقرات!"\n\n4️⃣ "النوم على المعدة"\n"يضع ضغطاً مدمراً على عنق الرحم"`,
+    '📌 ٣ و ٢': `3️⃣ "حمل الحقيبة على كتف واحد"\n"يُعطّل توازن العمود الفقري يومياً"\n\n2️⃣ "النظر للهاتف لأسفل"\n"= حمل رأس وزنه ٢٧ كيلو على رقبتك"`,
+    '📌 ١ (الأخطر)': `1️⃣ نص أحمر كبير:\n"تجاهل الألم وأخذ مسكن"\n"تخدير المشكلة ≠ حل المشكلة"\n\n⚠️ هذا هو سبب تحوّل الألم للمزمن`,
+    '📢 نداء الفعل': CTA_MAP[c]
+  }),
+  'before-after': (t,d,c)=>({
+    '😢 الحالة قبل': `😢 نص مع صورة رمزية (لا وجه):\n"هذا الشخص لم يستطع يجلس ٢٠ دقيقة بسبب ${t}"\n"٨ أشهر وكل يوم مسكن... ما فاد"\n\n🎵 موسيقى حزينة هادئة`,
+    '⚡ نقطة التحول': `⚡ تغيير درامي:\n"قرر أن يجرب الحل الأخير"\n"جلسة واحدة في وداعاً للألم"\n\n🎵 موسيقى: تصاعدية ومحفزة`,
+    '🙌 العملية': `مقطع من الجلسة (بدون وجه أبداً):\n"جلسة ١ → بدأ يحس بفرق"\n"جلسة ٣ → نام بدون ألم"\n"جلسة ٦ → عاد لحياته الطبيعية"\n\n📸 يد المعالج + الأجهزة العلاجية`,
+    '✨ النتيجة': `✨ نص أخضر كبير:\n"اليوم يجلس ساعات بدون أي ألم"\n"بدون أدوية — بدون جراحة"\n\n🌟 نص لامع: "أنت التالي"`,
+    '📢 نداء الفعل': CTA_MAP[c]
+  }),
+  'pov': (t,d,c)=>({
+    '👁️ إعداد المنظور': `نص كبير على الشاشة:\n"POV: عندك ${t} منذ سنة"\n"وكل الناس قالوا 'راح يعدي لحاله'"\n\n🎵 موسيقى هادئة ومحزنة`,
+    '😤 الصراع': `لحظات التعب تظهر بسرعة:\n"ما تقدر تنام على جنبك"\n"تصحى كل ساعتين من الألم"\n"تخاف على مستقبلك"\n\n✏️ نص صغير — يظهر ويختفي بسرعة`,
+    '💡 الاكتشاف': `💡 تحوّل:\n"صديق نصحك بوداعاً للألم"\n"جربته بلا أمل كبير..."\n"في الجلسة الأولى — أحسست بشيء تغيّر"\n\n🎵 موسيقى: تبدأ تتصاعد`,
+    '🌟 التحول': `🌟 نهاية إيجابية:\n"الجلسة الثانية: نمت ٧ ساعات لأول مرة"\n"الجلسة الرابعة: عدت لعملك"\n"الجلسة السادسة: قلت وداعاً للألم 💙"\n\n🎵 موسيقى: منتصرة وسعيدة`,
+    '📢 نداء الفعل': CTA_MAP[c]
+  }),
+  'day-life': (t,d,c)=>({
+    '🌅 الصباح': `🌅 الصباح:\nنص: "٦:٠٠ صباحاً — تصحى والألم مرحباً"\n"${t} لا يأخذ إجازة"\n\n📸 شاشة هاتف بالوقت — نافذة الصباح`,
+    '😤 ذروة الصراع': `😤 النهار:\n"٩:٠٠ — في المكتب والكرسي يعذبك"\n"١٢:٠٠ — الغداء واقفاً لأن الجلوس مستحيل"\n"٣:٠٠ — مسكن ثالث... ما فاد"\n\n✏️ نصوص بالتوالي مع أيقونات وقت`,
+    '⚡ نقطة التحول': `⚡ التحول:\n"٥:٠٠ مساءً — موعد في وداعاً للألم"\n"أول جلسة علاج يدوي"\n"أحسست كأن ثقلاً خرج من ظهري"\n\n🎵 موسيقى تبدأ تتغيّر`,
+    '🌙 المساء': `🌙 المساء:\n"٨:٠٠ — في البيت وتمارين خفيفة"\n"١٠:٠٠ — نمت بدون مسكن للمرة الأولى"\n\n✨ نص كبير: "الغد يبدأ بشكل مختلف..."`,
+    '📢 نداء الفعل': CTA_MAP[c]
+  })
+};
+
+const TIMING = {
+  15:[2,3,4,3,3],
+  30:[4,6,8,8,4],
+  60:[8,12,18,16,6],
+  90:[12,18,25,25,10]
+};
+
+const MUSIC = [
+  {n:'Astronaut In The Ocean',a:'Masked Wolf',m:'صدمة وتنبيه',hot:true},
+  {n:'Beggin',a:'Måneskin',m:'درامي محفز',hot:true},
+  {n:'Until I Found You',a:'Stephen Sanchez',m:'أمل وتحول',hot:true},
+  {n:'Heat Waves',a:'Glass Animals',m:'حنين وعاطفي',hot:false},
+  {n:'Interstellar Theme',a:'Hans Zimmer',m:'تصاعدي وعميق',hot:false},
+  {n:'Remember The Name',a:'Fort Minor',m:'قوي ومحفز',hot:false},
+];
+
+function genReel() {
+  const t  = document.getElementById('rl-type').value;
+  const tp = document.getElementById('rl-topic').value.trim() || 'آلام الظهر';
+  const d  = +document.getElementById('rl-dur').value;
+  const c  = document.getElementById('rl-cta').value;
+  const fn = REEL_CONTENT[t];
+  if (!fn) return;
+  const content = fn(tp,d,c);
+  const times   = TIMING[d] || TIMING[30];
+  let html='<div class="rc">', full=`🎬 سكريبت ريلز: ${tp}\nالمدة: ${d} ثانية\n${'═'.repeat(45)}\n\n`;
+  let i=0;
+  Object.entries(content).forEach(([k,v])=>{
+    const sec=times[i]?`${times[i]} ث`:'';
+    html+=`<div class="rstep card" style="margin-bottom:12px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <span style="font-size:14px;font-weight:700;color:var(--gold)">${k}</span>
+        ${sec?`<span class="timer-bdg">⏱️ ${sec}</span>`:''}
+      </div>
+      <div class="obox" style="font-size:13px;line-height:1.85">${v}</div>
+      <button class="btn bgh bsm" style="margin-top:8px" onclick="copy(\`${v.replace(/`/g,'\\`')}\`)">📋 نسخ</button>
+    </div>`;
+    full+=`[${k}${sec?' — '+sec:''}]\n${v}\n\n`; i++;
+  });
+  html+='</div>';
+  _lastReel=full;
+  document.getElementById('reel-secs').innerHTML=html;
+  // music
+  const picks=[...MUSIC].sort(()=>Math.random()-.5).slice(0,3);
+  document.getElementById('music-list').innerHTML=picks.map(m=>`
+    <div style="display:flex;align-items:center;gap:12px;padding:10px;background:rgba(255,255,255,0.03);border-radius:8px;margin-bottom:8px">
+      <span style="font-size:24px">🎵</span>
+      <div style="flex:1">
+        <div style="font-size:14px;font-weight:600">${m.n}</div>
+        <div style="font-size:11px;color:var(--dim)">${m.a} • مزاج: ${m.m}</div>
+      </div>
+      ${m.hot?'<span class="bdg bdg-rd">🔥 ترندينج</span>':''}
+    </div>`).join('');
+  document.getElementById('reel-out').style.display='block';
+  document.getElementById('reel-out').scrollIntoView({behavior:'smooth'});
+}
+function copyReel() { copy(_lastReel); }
+
+// ═══════════════════ PRE-FLIGHT ═══════════════════
+const DW=['شير الآن','لايك بالله','فوللو','اشترك','اضغط رابط','كلك','ربح','مجاني تماماً','خصم خاص','اشتر الآن','افتح الرابط'];
+const WW=['أسعار','صور جرائح','أدوية مزمنة','حبوب'];
+const BW=['رأيك','تعليق','علّق','شاركنا','أخبرنا','وأنت','ما رأيكم','هل جربت','سؤال'];
+
+function runPF() {
+  const txt=document.getElementById('pf-txt').value.trim();
+  if (!txt) { toast('⚠️ أدخل نص المنشور'); return; }
+  let sc=62, fd=[], fw=[], fb=[];
+  DW.forEach(w=>{if(txt.includes(w)){fd.push(w);sc-=11;}});
+  WW.forEach(w=>{if(txt.includes(w)){fw.push(w);sc-=5;}});
+  BW.forEach(w=>{if(txt.includes(w)){fb.push(w);sc+=7;}});
+  const words=txt.split(/\s+/).length;
+  if(words>=80&&words<=200)sc+=10;else if(words<30)sc-=14;else if(words>300)sc-=6;
+  const emj=(txt.match(/[\u{1F300}-\u{1FFFF}]/gu)||[]).length;
+  if(emj>=3&&emj<=10)sc+=5;else if(emj>15)sc-=5;
+  if(txt.includes('؟')||txt.includes('?'))sc+=6;
+  if(txt.includes('0790360440'))sc+=4;
+  sc=Math.min(100,Math.max(8,sc));
+
+  let col,lbl;
+  if(sc>=80){col='#00e676';lbl='🔥 منشور فيروسي جاهز!';}
+  else if(sc>=60){col='#f5c842';lbl='✅ جيد — يحتاج تحسينات بسيطة';}
+  else if(sc>=40){col='#ffab40';lbl='⚠️ متوسط — راجع التوصيات';}
+  else{col='#ff5252';lbl='❌ سيضر وصولك — أعد الصياغة';}
+
+  const c=document.getElementById('pfc');
+  document.getElementById('pf-val').textContent=sc;
+  c.style.borderColor=col;
+  document.getElementById('pf-val').style.color=col;
+  const l=document.getElementById('pf-lbl');l.textContent=lbl;l.style.color=col;
+
+  // highlighted text
+  let hi=txt;
+  fd.forEach(w=>{hi=hi.replaceAll(w,`<span class="dw">${w}</span>`);});
+  fw.forEach(w=>{hi=hi.replaceAll(w,`<span class="ww">${w}</span>`);});
+  fb.forEach(w=>{hi=hi.replaceAll(w,`<span class="bw">${w}</span>`);});
+
+  document.getElementById('pf-ana').innerHTML=`
+    <div style="line-height:2;font-size:14px;margin-bottom:14px">${hi}</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px">
+      <span style="font-size:12px;color:var(--dim)">كلمات: ${words} | إيموجيز: ${emj}</span>
+      ${fb.length?`<span class="bdg bdg-gr">✅ محفزات تفاعل: ${fb.join(' ، ')}</span>`:''}
+    </div>`;
+
+  const tips=[];
+  if(fd.length)tips.push(`🚫 احذف: <strong>${fd.join(' ، ')}</strong> — تُقلل الوصول مباشرةً`);
+  if(fw.length)tips.push(`⚠️ استخدم بحذر: <strong>${fw.join(' ، ')}</strong>`);
+  if(!txt.includes('؟')&&!txt.includes('?'))tips.push(`💡 أضف سؤالاً في النهاية — يزيد التعليقات ٣x`);
+  if(words<80)tips.push(`📝 المنشور قصير (${words} كلمة) — الأمثل ٨٠-٢٠٠ كلمة`);
+  if(emj<3)tips.push(`😊 أضف ٣-٧ إيموجيز لتوقف القارئ`);
+  if(!txt.includes('0790360440'))tips.push(`📞 أضف رقم الهاتف: 0790360440`);
+  if(!fb.length)tips.push(`💬 أضف دعوة للتعليق: "اكتب رأيك 👇" أو "شاركنا"`);
+  if(sc>=80)tips.push(`🚀 ممتاز! انشر في وقت الذروة واستعد بجلسة التفاعل فوراً`);
+
+  document.getElementById('pf-tips').innerHTML=tips.map(t=>`
+    <div style="padding:10px 12px;background:rgba(255,255,255,0.03);border-radius:8px;margin-bottom:8px;font-size:13px;line-height:1.65">${t}</div>`).join('')||'<div style="color:var(--green);padding:10px">✅ لا توصيات — المنشور رائع!</div>';
+
+  document.getElementById('pf-times').innerHTML=`
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px;background:rgba(0,230,118,0.07);border-radius:8px">
+        <span>🌅 صباح باكر</span><span class="bdg bdg-gr">٧:٣٠ - ٩:٠٠</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px;background:rgba(245,200,66,0.07);border-radius:8px">
+        <span>🌞 منتصف اليوم</span><span class="bdg bdg-gd">١٢:٠٠ - ١:٣٠</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px;background:rgba(0,230,118,0.1);border-radius:8px">
+        <span>🌆 المساء (الأفضل 🔥)</span><span class="bdg bdg-gr">٧:٠٠ - ٩:٣٠</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px;background:rgba(179,157,219,0.07);border-radius:8px">
+        <span>🌙 الليل</span><span class="bdg bdg-pu">١٠:٠٠ - ١١:٣٠</span></div>
+    </div>`;
+
+  document.getElementById('pf-res').style.display='block';
+  document.getElementById('pf-res').scrollIntoView({behavior:'smooth'});
+}
+
+// ═══════════════════ CALENDAR ═══════════════════
+const WPLAN=[
+  {d:'السبت',   ico:'📚',ty:'تعليمي', t:'٨:٠٠ ص', idea:'منشور خريطة الألم — أسباب وحلول',          fmt:'نص + صورة إنفوجرافيك'},
+  {d:'الأحد',   ico:'💬',ty:'تفاعلي', t:'٧:٠٠ م', idea:'تحدي: اختبر نفسك — كم عمر ظهرك الحقيقي؟', fmt:'استطلاع / أسئلة'},
+  {d:'الاثنين', ico:'🎬',ty:'ريلز',   t:'٧:٣٠ م', idea:'ريلز: ٥ أشياء تقتل ظهرك كل يوم',          fmt:'ريلز نصي ٣٠ ثانية'},
+  {d:'الثلاثاء',ico:'✨',ty:'قصة',    t:'٨:٠٠ م', idea:'قصة نجاح مريض — قبل وبعد العلاج',          fmt:'نص + صور رمزية'},
+  {d:'الأربعاء',ico:'📚',ty:'تعليمي', t:'٧:٠٠ م', idea:'كشف خرافة طبية شائعة عن الظهر',           fmt:'نص مُفصّل'},
+  {d:'الخميس',  ico:'🎬',ty:'ريلز',   t:'٧:٣٠ م', idea:'ريلز: يوم في حياة مريض عرق النسا',         fmt:'ريلز ٣٠-٦٠ ثانية'},
+  {d:'الجمعة',  ico:'📅',ty:'حجز',    t:'١١:٠٠ ص',idea:'منشور تحفيز حجز + عرض الأسبوع',           fmt:'نص قصير + CTA واضح'},
+];
+const TC={تعليمي:'bdg-bl',تفاعلي:'bdg-gr',ريلز:'bdg-pu',قصة:'bdg-or',حجز:'bdg-gd'};
+
+function genCal() {
+  const sd=document.getElementById('cal-date').value;
+  const base=sd?new Date(sd):new Date();
+  const rows=WPLAN.map((p,i)=>{
+    const d=new Date(base); d.setDate(d.getDate()+i);
+    const ds=d.toLocaleDateString('ar-JO',{day:'numeric',month:'short'});
+    return `<tr>
+      <td>${p.ico} ${p.d}</td>
+      <td><span style="color:var(--dim)">${ds}</span></td>
+      <td><span class="bdg ${TC[p.ty]}">${p.ty}</span></td>
+      <td><span class="timer-bdg">${p.t}</span></td>
+      <td style="max-width:200px">${p.idea}</td>
+      <td style="font-size:12px;color:var(--dim)">${p.fmt}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('cal-out').innerHTML=`
+    <div class="tw">
+      <table class="tbl">
+        <thead><tr><th>اليوم</th><th>التاريخ</th><th>النوع</th><th>الوقت</th><th>الفكرة</th><th>الصيغة</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+    <div style="margin-top:12px"><button class="btn bgh bsm" onclick="copyCal()">📋 نسخ الجدول</button></div>`;
+}
+function copyCal() {
+  const t=WPLAN.map(p=>`${p.d} | ${p.t} | ${p.ty}\n💡 ${p.idea}\n📱 ${p.fmt}`).join('\n\n');
+  copy(`📅 جدول المحتوى الأسبوعي — وداعاً للألم\n${'═'.repeat(38)}\n\n${t}`);
+}
+</script>
+</body>
+</html>

@@ -158,11 +158,14 @@ app.get('/hub', (req, res) => {
   res.sendFile(path.join(__dirname, 'viral_hub.html'));
 });
 
+// Target Page: وداعاً للألم | https://www.facebook.com/30minutes30
+const TARGET_PAGE_ID = '30minutes30';
+
 // API: Fetch Page Posts via Graph API (for MetaViral Hub)
 app.get('/api/page-posts', (req, res) => {
   const limit = Math.min(parseInt(req.query.limit) || 50, 100);
-  const fields = 'id,message,story,created_time,permalink_url';
-  const url = `https://graph.facebook.com/v17.0/me/posts?fields=${fields}&limit=${limit}&access_token=${PAGE_ACCESS_TOKEN}`;
+  const fields = 'id,message,story,created_time,permalink_url,full_picture';
+  const url = `https://graph.facebook.com/v17.0/${TARGET_PAGE_ID}/posts?fields=${fields}&limit=${limit}&access_token=${PAGE_ACCESS_TOKEN}`;
   https.get(url, (fbRes) => {
     let data = '';
     fbRes.on('data', chunk => data += chunk);
@@ -170,9 +173,24 @@ app.get('/api/page-posts', (req, res) => {
       try {
         const json = JSON.parse(data);
         if (json.error) {
-          res.json({ success: false, error: json.error.message, posts: [] });
+          // Fallback to /me/posts if page ID fails
+          const fallbackUrl = `https://graph.facebook.com/v17.0/me/posts?fields=${fields}&limit=${limit}&access_token=${PAGE_ACCESS_TOKEN}`;
+          https.get(fallbackUrl, (fbRes2) => {
+            let data2 = '';
+            fbRes2.on('data', c => data2 += c);
+            fbRes2.on('end', () => {
+              try {
+                const json2 = JSON.parse(data2);
+                if (json2.error) {
+                  res.json({ success: false, error: json2.error.message, posts: [] });
+                } else {
+                  res.json({ success: true, posts: json2.data || [], total: (json2.data||[]).length, source: 'me' });
+                }
+              } catch(e) { res.json({ success: false, error: 'Parse error', posts: [] }); }
+            });
+          }).on('error', err => res.json({ success: false, error: err.message, posts: [] }));
         } else {
-          res.json({ success: true, posts: json.data || [], total: (json.data || []).length });
+          res.json({ success: true, posts: json.data || [], total: (json.data||[]).length, source: TARGET_PAGE_ID });
         }
       } catch(e) {
         res.json({ success: false, error: 'خطأ في تحليل الاستجابة', posts: [] });
@@ -182,6 +200,18 @@ app.get('/api/page-posts', (req, res) => {
     res.json({ success: false, error: err.message, posts: [] });
   });
 });
+
+// API: Page Info
+app.get('/api/page-info', (req, res) => {
+  res.json({
+    name: 'وداعاً للألم',
+    url: 'https://www.facebook.com/30minutes30',
+    id: TARGET_PAGE_ID,
+    phone: '0790360440',
+    location: 'خلدا، عمّان'
+  });
+});
+
 
 // Serve Spine Age Calculator with Custom Meta
 app.get('/spine-age', (req, res) => {

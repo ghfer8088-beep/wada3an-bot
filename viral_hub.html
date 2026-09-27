@@ -632,18 +632,22 @@ function doLogin() {
     document.getElementById('gpass').value = '';
   }
 }
-document.getElementById('gpass').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
-if (sessionStorage.getItem('vh_auth')==='1') {
-  document.getElementById('gate').style.display='none';
-  document.getElementById('app').style.display='block';
-  window.addEventListener('DOMContentLoaded', init);
-}
 
 function init() {
   updStats(); renderAccs();
   const cd = document.getElementById('cal-date');
   if(cd) cd.value = new Date().toISOString().split('T')[0];
 }
+
+// Auto-login if previously authenticated in this session
+document.addEventListener('DOMContentLoaded', () => {
+  if (sessionStorage.getItem('vh_auth') === '1') {
+    document.getElementById('gate').style.display = 'none';
+    document.getElementById('app').style.display  = 'block';
+    init();
+  }
+  document.getElementById('gpass').focus();
+});
 
 // ═══════════════════ NAV ═══════════════════
 function sw(id, btn) {

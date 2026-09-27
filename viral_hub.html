@@ -317,16 +317,37 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;background:var(--navy);color
         <button class="btn bg bfl" onclick="genMission()">⚡ توليد جدول الجلسة الآن</button>
       </div>
 
+      <!-- Bookmarklet Installer -->
+      <div class="card" style="background:linear-gradient(135deg,rgba(245,200,66,0.06),rgba(0,0,0,0));border-color:rgba(245,200,66,0.3)">
+        <div class="ctitle">🔖 Bookmarklet — اضغط داخل فيسبوك مباشرة</div>
+        <div class="tipbox" style="background:rgba(245,200,66,0.07);border-color:rgba(245,200,66,0.25)">
+          <div class="tipbox-t">⚡ كيف يعمل</div>
+          <p>١. اسحب الزر الذهبي أدناه لشريط الإشارات في متصفحك (Bookmarks Bar)<br>
+          ٢. افتح أي منشور من صفحة وداعاً للألم في أي حساب<br>
+          ٣. اضغط على الـ Bookmark — يظهر popup بالتعليق الجاهز<br>
+          ٤. اضغط <strong>"أدرج في التعليق"</strong> ← يملأ الخانة تلقائياً<br>
+          ٥. اضغط <strong>Enter</strong> فقط — انتهيت من هذا الحساب!</p>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:12px">
+          <a id="bm-link" href="#" onclick="return installBM(event)"
+            style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#f5c842,#d4a820);color:#000;font-weight:800;padding:14px 24px;border-radius:12px;text-decoration:none;font-size:15px;box-shadow:0 6px 20px rgba(245,200,66,.35);cursor:grab">
+            🔖 Hub المساعد — اسحبني للـ Bookmarks Bar
+          </a>
+          <div style="font-size:12px;color:var(--dim)">أو اضغط لنسخ الكود يدوياً</div>
+        </div>
+      </div>
+
       <div id="mission-out" style="display:none">
         <div class="card">
           <div class="ctitle">📋 جدول جلسة التفاعل</div>
           <div class="tipbox">
-            <div class="tipbox-t">🚀 وضع Mission Control — طريقة الاستخدام</div>
-            <p>١. افتح كل حساب في تبويب متصفح مستقل الآن<br>
-            ٢. اضغط <strong>"🚀 تشغيل Mission Control"</strong><br>
-            ٣. الأداة تعدّ للزمن المحدد → تنبّهك → تنسخ التعليق تلقائياً<br>
-            ٤. فقط انتقل للتبويب الصحيح واضغط <strong>Ctrl+V</strong> ثم Enter<br>
-            ٥. ارجع للأداة واضغط <strong>"✓ تم"</strong> وانتظر الحساب التالي</p>
+            <div class="tipbox-t">🔖 طريقة الاستخدام مع Bookmarklet (الأسرع)</div>
+            <p>١. اضغط <strong>"🚀 تشغيل Mission Control"</strong> أدناه<br>
+            ٢. انتقل لتبويب الحساب الأول في فيسبوك<br>
+            ٣. افتح المنشور المستهدف → اضغط <strong>Bookmark 🔖</strong><br>
+            ٤. اضغط <strong>"✓ أدرج في التعليق"</strong> ← يملأ تلقائياً<br>
+            ٥. اضغط <strong>Enter</strong> للنشر ← انتهيت!<br>
+            ٦. في الـ Hub اضغط <strong>"✓ تم"</strong> وانتظر نبيه الحساب التالي</p>
           </div>
           <div id="sched-list"></div>
           <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;">
@@ -335,6 +356,7 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;background:var(--navy);color
           </div>
         </div>
       </div>
+
 
       <!-- Page Posts -->
       <div class="card" style="margin-top:8px">
@@ -1300,10 +1322,10 @@ function launchMC() {
   MC.current=0;
   MC.gap=parseInt(document.getElementById('mis-gap').value)||5;
   MC.postUrl=document.getElementById('mis-url').value;
-  // First account: 90 seconds prep
   MC.totalSecs=90; MC.remainSecs=90;
   MC.active=true;
-  // Status
+  // Sync to server so bookmarklet can read it
+  mcSyncToServer(_mcQueue, MC.postUrl);
   document.getElementById('mc-status').textContent='⏳ استعد — سيُنسخ تعليق الحساب الأول بعد ٩٠ ثانية';
   document.getElementById('mc-status').style.background='rgba(0,230,118,0.08)';
   document.getElementById('mc-status').style.borderColor='rgba(0,230,118,0.25)';
@@ -1316,9 +1338,9 @@ function launchMC() {
 
 function mcDone() {
   clearInterval(MC.ticker);
+  mcAdvanceServer(); // sync bookmarklet
   MC.current++;
   if(MC.current>=MC.queue.length){ mcComplete(); return; }
-  // Next account — gap timer
   const gapSecs=MC.gap*60;
   MC.totalSecs=gapSecs; MC.remainSecs=gapSecs;
   document.getElementById('mc-status').textContent=`⏳ ممتاز! دور الحساب التالي خلال ${MC.gap} دقائق`;
@@ -1328,9 +1350,9 @@ function mcDone() {
   document.getElementById('mc-done-btn').disabled=true;
   mcShowCurrent();
   MC.ticker=setInterval(mcTick,1000);
-}
 
 function mcSkip() {
+
   clearInterval(MC.ticker);
   MC.current++;
   if(MC.current>=MC.queue.length){ mcComplete(); return; }
@@ -1429,17 +1451,66 @@ function startSessionForPost(idx) {
   const p=_pagePosts[idx];
   if(!p) return;
   if(accs.length<2){ toast('⚠️ أضف حسابين على الأقل للخلية أولاً'); return; }
-  // Fill mission fields
   document.getElementById('mis-url').value=p.permalink_url||`https://facebook.com/${p.id}`;
   document.getElementById('mis-topic').value=(p.message||p.story||'').substring(0,60);
-  // Set time to now+2min
   const now=new Date(); now.setMinutes(now.getMinutes()+2);
   document.getElementById('mis-time').value=`${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
-  // Generate mission
   genMission();
-  // Scroll to mission output
   document.getElementById('mission-out').scrollIntoView({behavior:'smooth'});
   toast('✅ جاهز! اضغط 🚀 تشغيل Mission Control');
+}
+
+// ═══════════════════ BOOKMARKLET ═══════════════════
+function getBMCode() {
+  const HUB = 'https://wada3an-bot.onrender.com';
+  return `javascript:(function(){var H='${HUB}';var e=document.getElementById('_vh_bm');if(e){e.remove();return;}function ins(t){var sels=['[data-lexical-editor="true"]','div[contenteditable="true"][role="textbox"]','div[aria-label*="تعليق"]','div[aria-label*="comment"]','textarea'];var b=null;for(var i=0;i<sels.length;i++){b=document.querySelector(sels[i]);if(b)break;}if(!b){b=document.activeElement;if(!b||b.contentEditable!=='true')b=null;}if(b){b.focus();try{document.execCommand('selectAll',false,null);document.execCommand('insertText',false,t);}catch(e){b.textContent=t;b.dispatchEvent(new Event('input',{bubbles:true}));}return true;}return false;}function mk(d){var el=document.createElement('div');el.id='_vh_bm';el.style.cssText='position:fixed;top:16px;left:16px;z-index:2147483647;background:#07091a;border:2px solid #f5c842;border-radius:14px;padding:18px;width:320px;font-family:Arial,sans-serif;color:#e8eaf6;direction:rtl;box-shadow:0 16px 50px rgba(0,0,0,.9);';if(!d.active){el.innerHTML='<div style="text-align:center;padding:10px"><div style="font-size:28px">⏸</div><div style="color:#78909c;font-size:13px;margin:8px 0">لا توجد جلسة Mission Control نشطة<br>شغّل الجلسة من الهاب أولاً</div><br><a href="'+H+'/viral-hub" target="_blank" style="color:#f5c842;font-size:13px">افتح الهاب 🚀</a><br><br><button onclick="document.getElementById(\\'_vh_bm\\').remove()" style="background:rgba(255,82,82,.2);color:#ff5252;border:1px solid rgba(255,82,82,.3);padding:8px 16px;border-radius:8px;cursor:pointer;font-family:inherit">إغلاق</button></div>';document.body.appendChild(el);return;}var cmt=d.comment||'';el.innerHTML='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><div style="color:#f5c842;font-weight:bold;font-size:13px">🚀 '+d.seq+'</div><button onclick="document.getElementById(\\'_vh_bm\\').remove()" style="background:transparent;color:#78909c;border:none;cursor:pointer;font-size:18px;line-height:1">✕</button></div><div style="font-size:12px;color:#40c4ff;margin-bottom:10px;background:rgba(64,196,255,.08);padding:6px 10px;border-radius:6px">👤 '+d.account+' · '+d.action+'</div><div id="_vh_ct" style="background:rgba(255,255,255,.05);padding:12px;border-radius:8px;font-size:14px;line-height:1.75;margin-bottom:12px;max-height:130px;overflow-y:auto">'+cmt+'</div><div style="display:flex;gap:8px"><button id="_vh_i" style="flex:1;background:linear-gradient(135deg,#f5c842,#d4a820);color:#000;border:none;padding:12px;border-radius:8px;font-weight:bold;cursor:pointer;font-family:inherit;font-size:14px">✓ أدرج في التعليق</button><button id="_vh_n" style="background:rgba(0,230,118,.1);color:#00e676;border:1px solid rgba(0,230,118,.25);padding:12px;border-radius:8px;cursor:pointer;font-family:inherit;font-size:12px;white-space:nowrap">التالي ⏭</button></div>';document.body.appendChild(el);document.getElementById('_vh_i').onclick=function(){var t=document.getElementById('_vh_ct').textContent;if(ins(t)){this.style.background='linear-gradient(135deg,#00e676,#00b248)';this.textContent='✅ تم — اضغط Enter';}else{alert('انقر على خانة التعليق أولاً ثم اضغط الـ Bookmark مجدداً');}};document.getElementById('_vh_n').onclick=function(){fetch(H+'/api/mc-advance',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'}).then(function(r){return r.json();}).then(function(j){if(j.complete){document.getElementById('_vh_bm').remove();alert('🎉 اكتملت جلسة التفاعل! المنشور في طريقه للانتشار.');}else{document.getElementById('_vh_bm').remove();}}).catch(function(){alert('خطأ في الاتصال');});};}fetch(H+'/api/mc-status').then(function(r){return r.json();}).then(mk).catch(function(){alert('⚠️ تعذّر الاتصال بالهاب. تأكد من فتح wada3an-bot.onrender.com');});})();`;
+}
+
+function installBM(e) {
+  const code = getBMCode();
+  // Set href so dragging works
+  document.getElementById('bm-link').href = code;
+  // Also copy to clipboard on click
+  try {
+    navigator.clipboard.writeText(code).then(()=>{
+      toast('✅ كود الـ Bookmarklet نُسخ! يمكنك لصقه يدوياً كـ bookmark جديد');
+    });
+  } catch(err) {
+    const ta=document.createElement('textarea');
+    ta.value=code; document.body.appendChild(ta);
+    ta.select(); document.execCommand('copy');
+    document.body.removeChild(ta);
+    toast('✅ كود الـ Bookmarklet نُسخ!');
+  }
+  return true; // allow drag
+}
+
+// ═══════════════════ MC SERVER SYNC ═══════════════════
+const HUB_URL = '';  // same origin
+
+async function mcSyncToServer(queue, postUrl) {
+  try {
+    const serverQueue = queue.map(item => ({
+      name: item.acc?.name || item.name || 'حساب',
+      comment: item.comment,
+      action: item.action || '💬 تعليق'
+    }));
+    await fetch('/api/mc-set', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ queue: serverQueue, postUrl })
+    });
+  } catch(e) { console.warn('MC sync failed', e); }
+}
+
+async function mcAdvanceServer() {
+  try { await fetch('/api/mc-advance', {method:'POST', headers:{'Content-Type':'application/json'}, body:'{}'}); }
+  catch(e) {}
+}
+
+async function mcEndServer() {
+  try { await fetch('/api/mc-end', {method:'POST', headers:{'Content-Type':'application/json'}, body:'{}'}); }
+  catch(e) {}
 }
 
 </script>

@@ -158,6 +158,64 @@ app.get('/hub', (req, res) => {
   res.sendFile(path.join(__dirname, 'viral_hub.html'));
 });
 
+// ══════════════════════════════════════════════════════
+// MISSION CONTROL — Server-side session (single user)
+// ══════════════════════════════════════════════════════
+let mcSession = { active: false, queue: [], current: 0, postUrl: '', updatedAt: null };
+
+// CORS for MC API (called from facebook.com by bookmarklet)
+function mcCors(req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  if (req.method === 'OPTIONS') { res.sendStatus(200); return; }
+  next();
+}
+
+// GET: Bookmarklet fetches current active comment
+app.get('/api/mc-status', mcCors, (req, res) => {
+  if (!mcSession.active || mcSession.current >= mcSession.queue.length) {
+    return res.json({ active: false, message: 'لا توجد جلسة نشطة' });
+  }
+  const item = mcSession.queue[mcSession.current];
+  res.json({
+    active: true,
+    seq: `${mcSession.current + 1} من ${mcSession.queue.length}`,
+    account: item.name,
+    comment: item.comment,
+    action: item.action,
+    postUrl: mcSession.postUrl,
+    current: mcSession.current,
+    total: mcSession.queue.length
+  });
+});
+
+// POST: Hub starts a new MC session
+app.post('/api/mc-set', mcCors, (req, res) => {
+  const { queue, postUrl } = req.body;
+  if (!queue || !Array.isArray(queue)) return res.json({ success: false, error: 'Invalid queue' });
+  mcSession = { active: true, queue, current: 0, postUrl: postUrl || '', updatedAt: new Date().toISOString() };
+  res.json({ success: true, total: queue.length });
+});
+
+// POST: Bookmarklet or Hub advances to next account
+app.post('/api/mc-advance', mcCors, (req, res) => {
+  if (!mcSession.active) return res.json({ success: false, error: 'No active session' });
+  if (mcSession.current < mcSession.queue.length - 1) {
+    mcSession.current++;
+    res.json({ success: true, current: mcSession.current, total: mcSession.queue.length, complete: false });
+  } else {
+    mcSession.active = false;
+    res.json({ success: true, complete: true });
+  }
+});
+
+// POST: End session
+app.post('/api/mc-end', mcCors, (req, res) => {
+  mcSession = { active: false, queue: [], current: 0, postUrl: '', updatedAt: null };
+  res.json({ success: true });
+});
+
 // Target Page: وداعاً للألم | https://www.facebook.com/30minutes30
 const TARGET_PAGE_ID = '30minutes30';
 

@@ -53,25 +53,109 @@ app.get('/logs', (req, res) => {
   });
 });
 
+// Tools Metadata for Server-Side SEO & Social Share Preview (WhatsApp, Facebook, Twitter, iMessage)
+const fs = require('fs');
+const path = require('path');
+
+const TOOLS_CONFIG = {
+  'spine-age': {
+    title: '🧬 حاسبة عمر العمود الفقري الحقيقي | فحص سريري بيوميكانيكي',
+    desc: 'فحص سريري وبيوميكانيكي فوري يكشف العمر الحقيقي لفقراتك وتوازن قوامك الحركي بالتعاون مع مركز وداعاً للألم.',
+    file: 'spine_age_calculator.html'
+  },
+  'abhar': {
+    title: '📌 كاشف متلازمة الأبهر وعقد الأكتاف | فحص سريري تخصصي T3-T5',
+    desc: 'فحص سريري لتحديد مواضع نقاط التحفيز العضلي الليفي (Trigger Points) ومستوى انضغاط الفقرات الصدرية T3-T5.',
+    file: 'tool_runner.html'
+  },
+  'sheep-load': {
+    title: '🐑 مؤشر الإجهاد العنقي والتحدب البيوميكانيكي | فحص سريري',
+    desc: 'حساب بيوميكانيكي دقيق للأحمال الميكانيكية الزائدة الواقعة على فقرات العنق نتيجة زوايا الجلوس واستخدام الأجهزة.',
+    file: 'tool_runner.html'
+  },
+  'sciatica': {
+    title: '⚡ فاحص ضغط العصب الوركي وعرق النسا | تقييم سريري L4-S1',
+    desc: 'تقييم سريري دقيق للتمييز بين متلازمة العضلة الكمثرية العضلية وانضغاط الجذور العصبية للفقرات القطنية L4-S1.',
+    file: 'tool_runner.html'
+  },
+  'sleep-posture': {
+    title: '🛌 مقياس إجهاد وضعيات النوم والتيبس الصباحي | فحص سريري',
+    desc: 'فحص استقامة العمود الفقري والفقرات العنقية أثناء النوم، والكشف عن أسباب التيبس والصداع الصباحي.',
+    file: 'tool_runner.html'
+  },
+  'driver-strain': {
+    title: '🚗 فاحص الإجهاد العضلي والفقري أثناء القيادة | فحص سريري',
+    desc: 'كشف تأثير اهتزازات السيارة والجلوس الطويل خلف المقود على الفقرات القطنية والعضلة الكمثرية.',
+    file: 'tool_runner.html'
+  },
+  'uneven-shoulder': {
+    title: '🎒 فاحص عدم تناظر الكتفين واعتلال القوام | فحص سريري',
+    desc: 'فحص تماثل لوحي الكتف وميلان العمود الفقري ومحاذاة القوام الحركي نتيجة حمل الحقائب وعادات الحركة.',
+    file: 'tool_runner.html'
+  },
+  'pelvic-balance': {
+    title: '⚖️ مقياس توازن الحوض والديسك القطني | فحص سريري L5-S1',
+    desc: 'فحص استقامة الحوض وتساوي توزيع الأحمال لحماية غضاريف الفقرات القطنية L4-L5 و L5-S1.',
+    file: 'tool_runner.html'
+  }
+};
+
+function renderToolWithMeta(req, res, toolKey) {
+  const cfg = TOOLS_CONFIG[toolKey];
+  const fileName = cfg ? cfg.file : (toolKey === 'spine-age' ? 'spine_age_calculator.html' : 'tool_runner.html');
+  const filePath = path.join(__dirname, fileName);
+
+  fs.readFile(filePath, 'utf8', (err, html) => {
+    if (err || !cfg) {
+      return res.sendFile(filePath);
+    }
+
+    const host = req.get('host') || 'wada3an-bot.onrender.com';
+    const protocol = req.protocol || 'https';
+    const fullUrl = `${protocol}://${host}/${toolKey}`;
+    const logoUrl = `${protocol}://${host}/logo.jpg`;
+
+    const metaBlock = `
+  <title>${cfg.title}</title>
+  <meta name="description" content="${cfg.desc}">
+  <!-- Tool-Specific Open Graph / WhatsApp Preview Tags -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="${fullUrl}">
+  <meta property="og:title" content="${cfg.title}">
+  <meta property="og:description" content="${cfg.desc}">
+  <meta property="og:image" content="${logoUrl}">
+  <meta property="og:site_name" content="Smart Check Tools | مركز وداعاً للألم">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="${cfg.title}">
+  <meta name="twitter:description" content="${cfg.desc}">
+  <meta name="twitter:image" content="${logoUrl}">`;
+
+    let customHtml = html.replace(/<title[\s\S]*?<\/title>/i, metaBlock);
+    res.setHeader('Content-Type', 'text/html; charset=UTF-8');
+    res.send(customHtml);
+  });
+}
+
 // Smart Check Tools Portal Homepage
 app.get('/', (req, res) => {
-  res.sendFile(require('path').join(__dirname, 'smart_check_hub.html'));
+  res.sendFile(path.join(__dirname, 'smart_check_hub.html'));
 });
 
 app.get('/tools', (req, res) => {
-  res.sendFile(require('path').join(__dirname, 'smart_check_hub.html'));
+  res.sendFile(path.join(__dirname, 'smart_check_hub.html'));
 });
 
 app.get('/smart-check', (req, res) => {
-  res.sendFile(require('path').join(__dirname, 'smart_check_hub.html'));
+  res.sendFile(path.join(__dirname, 'smart_check_hub.html'));
 });
 
-// Serve Spine Age Calculator (Smart Check Tools)
+// Serve Spine Age Calculator with Custom Meta
 app.get('/spine-age', (req, res) => {
-  res.sendFile(require('path').join(__dirname, 'spine_age_calculator.html'));
+  renderToolWithMeta(req, res, 'spine-age');
 });
 
-// Serve All 7 Specialized Diagnostic Tools
+// Serve All 7 Specialized Diagnostic Tools with Distinct Meta
 const diagnosticTools = [
   'abhar',
   'sheep-load',
@@ -79,14 +163,22 @@ const diagnosticTools = [
   'sleep-posture',
   'driver-strain',
   'uneven-shoulder',
-  'pelvic-balance',
-  'tool'
+  'pelvic-balance'
 ];
 
 diagnosticTools.forEach(toolRoute => {
   app.get(`/${toolRoute}`, (req, res) => {
-    res.sendFile(require('path').join(__dirname, 'tool_runner.html'));
+    renderToolWithMeta(req, res, toolRoute);
   });
+});
+
+app.get('/tool', (req, res) => {
+  const qId = req.query.id;
+  if (qId && TOOLS_CONFIG[qId]) {
+    renderToolWithMeta(req, res, qId);
+  } else {
+    res.sendFile(path.join(__dirname, 'tool_runner.html'));
+  }
 });
 
 // Serve Logo

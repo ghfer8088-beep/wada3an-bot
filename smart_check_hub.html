@@ -1939,54 +1939,101 @@
     // ========================================================
     // SHARING SYSTEM (PLATFORM & INDIVIDUAL TOOLS)
     // ========================================================
-    const TOOL_URLS = {
-      'tool-1': { url: '/spine-age', title: 'حاسبة العمر الحيوي والبيوميكانيكي للعمود الفقري' },
-      'tool-2': { url: '/abhar', title: 'الفحص السريري لمتلازمة الأبهر وعقد الأكتاف' },
-      'tool-3': { url: '/sheep-load', title: 'مؤشر الإجهاد العنقي والتحدب البيوميكانيكي' },
-      'tool-4': { url: '/sciatica', title: 'فاحص ضغط العصب الوركي وعرق النسا' },
-      'tool-5': { url: '/sleep-posture', title: 'مقياس إجهاد وضعيات النوم والتيبس الصباحي' },
-      'tool-6': { url: '/driver-strain', title: 'فاحص الإجهاد العضلي والفقري أثناء القيادة' },
-      'tool-7': { url: '/uneven-shoulder', title: 'فاحص عدم تناظر الكتفين واعتلال القوام' },
-      'tool-8': { url: '/pelvic-balance', title: 'مقياس توازن الحوض والديسك القطني' }
+    const TOOL_SHARE_INFO = {
+      'tool-1': {
+        name: 'حاسبة عمر العمود الفقري الحقيقي',
+        icon: '🧬',
+        url: '/spine-age',
+        desc: 'فحص سريري وبيوميكانيكي فوري يكشف العمر الحقيقي لفقراتك وتوازن قوامك الحركي.'
+      },
+      'tool-2': {
+        name: 'كاشف متلازمة الأبهر وعقد الأكتاف',
+        icon: '📌',
+        url: '/abhar',
+        desc: 'فحص سريري لتحديد مواضع نقاط التحفيز العضلي الليفي وانضغاط الفقرات الصدرية T3-T5.'
+      },
+      'tool-3': {
+        name: 'مؤشر الإجهاد العنقي والتحدب البيوميكانيكي',
+        icon: '🐑',
+        url: '/sheep-load',
+        desc: 'حساب بيوميكانيكي دقيق للأحمال الميكانيكية الزائدة الواقعة على فقرات العنق نتيجة زوايا الجلوس.'
+      },
+      'tool-4': {
+        name: 'فاحص ضغط العصب الوركي وعرق النسا',
+        icon: '⚡',
+        url: '/sciatica',
+        desc: 'تقييم سريري دقيق للتمييز بين متلازمة العضلة الكمثرية وانضغاط الجذور العصبية القطنية L4-S1.'
+      },
+      'tool-5': {
+        name: 'مقياس إجهاد وضعيات النوم والتيبس الصباحي',
+        icon: '🛌',
+        url: '/sleep-posture',
+        desc: 'فحص استقامة العمود الفقري والفقرات العنقية أثناء النوم، والكشف عن أسباب التيبس الصباحي.'
+      },
+      'tool-6': {
+        name: 'فاحص الإجهاد العضلي والفقري أثناء القيادة',
+        icon: '🚗',
+        url: '/driver-strain',
+        desc: 'كشف تأثير الجلوس الطويل واهتزازات السيارة خلف المقود على الفقرات القطنية والعضلة الكمثرية.'
+      },
+      'tool-7': {
+        name: 'فاحص عدم تناظر الكتفين واعتلال القوام',
+        icon: '🎒',
+        url: '/uneven-shoulder',
+        desc: 'فحص تماثل لوحي الكتف وميلان العمود الفقري ومحاذاة القوام الحركي نتيجة حمل الحقائب.'
+      },
+      'tool-8': {
+        name: 'مقياس توازن الحوض والديسك القطني',
+        icon: '⚖️',
+        url: '/pelvic-balance',
+        desc: 'فحص استقامة الحوض وتساوي توزيع الأحمال لحماية غضاريف الفقرات القطنية L4-L5 و L5-S1.'
+      }
     };
 
     function sharePlatform() {
-      const shareData = {
-        title: 'منصة أدوات الفحص والتشخيص الذكية | Smart Check Tools',
-        text: 'بوابة الفحوصات السريرية الذكية لتقييم صحة الفقرات وتوازن القوام الحركي بالتعاون مع مركز وداعاً للألم.',
-        url: window.location.origin + '/'
-      };
+      const fullUrl = window.location.origin + '/';
+      const shareText = '👑 منصة أدوات الفحص والتشخيص الذكية | Smart Check Tools\n' +
+        'بوابة الفحوصات السريرية الذكية لتقييم صحة الفقرات وتوازن القوام الحركي بالتعاون مع مركز وداعاً للألم.\n\n' +
+        '🔗 تصفح كافة الأدوات التخصصية:\n' + fullUrl;
 
       if (navigator.share && /mobile|android|iphone|ipad/i.test(navigator.userAgent)) {
-        navigator.share(shareData).catch(err => {
+        navigator.share({
+          title: 'منصة أدوات الفحص والتشخيص الذكية | Smart Check Tools',
+          text: shareText,
+          url: fullUrl
+        }).catch(err => {
           if (err.name !== 'AbortError') {
-            copyText(shareData.url, 'تم نسخ رابط المنصة بنجاح! 🌿');
+            copyText(shareText, 'تم نسخ بطاقة مشاركة المنصة بنجاح! 🌿');
           }
         });
       } else {
-        copyText(shareData.url, 'تم نسخ رابط المنصة بنجاح! 🌿');
+        copyText(shareText, 'تم نسخ بطاقة مشاركة المنصة بنجاح! 🌿');
       }
     }
 
     function shareSpecificTool(toolId, event) {
       if (event) event.stopPropagation();
-      const info = TOOL_URLS[toolId] || { url: '/', title: 'أداة الفحص الذكية' };
-      const fullUrl = window.location.origin + info.url;
+      const tool = TOOL_SHARE_INFO[toolId] || TOOL_SHARE_INFO['tool-1'];
+      const fullUrl = window.location.origin + tool.url;
 
-      const shareData = {
-        title: `${info.title} | Smart Check Tools`,
-        text: `أجرِ الآن ${info.title} سريرياً وفورياً واكتشف سلامة فقراتك وقوامك:`,
-        url: fullUrl
-      };
+      const cardMessage = `${tool.icon} فحص "${tool.name}"\n` +
+        `🩺 فحص سريري مباشر من منصة Smart Check Tools بالتعاون مع مركز وداعاً للألم\n` +
+        `📋 ${tool.desc}\n\n` +
+        `🔗 رابط إجراء هذا الفحص مباشرة:\n` +
+        `${fullUrl}`;
 
       if (navigator.share && /mobile|android|iphone|ipad/i.test(navigator.userAgent)) {
-        navigator.share(shareData).catch(err => {
+        navigator.share({
+          title: `${tool.icon} ${tool.name}`,
+          text: cardMessage,
+          url: fullUrl
+        }).catch(err => {
           if (err.name !== 'AbortError') {
-            copyText(fullUrl, `تم نسخ رابط فحص "${info.title}" بنجاح! ✅`);
+            copyText(cardMessage, `تم نسخ بطاقة فحص "${tool.name}" بنجاح! 📋`);
           }
         });
       } else {
-        copyText(fullUrl, `تم نسخ رابط فحص "${info.title}" بنجاح! ✅`);
+        copyText(cardMessage, `تم نسخ بطاقة فحص "${tool.name}" بنجاح! 📋`);
       }
     }
 

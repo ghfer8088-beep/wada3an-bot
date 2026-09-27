@@ -1465,13 +1465,13 @@
 
       // Prepare WhatsApp Share Text (Clinical & Professional)
       const shareText = encodeURIComponent(
-        `🩺 تقرير التقييم السريري | حاسبة عمر العمود الفقري\n` +
-        `منصة Smart Check Tools بالتعاون مع مركز وداعاً للألم:\n\n` +
+        `🧬 حاسبة عمر العمود الفقري الحقيقي\n` +
+        `🩺 تقرير التقييم السريري والبيوميكانيكي | منصة Smart Check Tools بالتعاون مع مركز وداعاً للألم:\n\n` +
         `🪪 العمر الزمني (الهوية): ${baseAge} سنة\n` +
-        `🦴 العمر الحيوي والبيوميكانيكي للفقرات: ${calculatedAge} سنة\n` +
-        `📋 التشخيص والمؤشر: ${nickname}\n\n` +
+        `🦴 العمر الحيوي للفقرات: ${calculatedAge} سنة\n` +
+        `📋 المؤشر والتشخيص: ${nickname}\n\n` +
         `✨ افحص سلامة عمودك الفقري وقوامك الحركي فوراً عبر الرابط الطبي المعتمد:\n` +
-        window.location.href
+        (window.location.origin + '/spine-age')
       );
       document.getElementById('btnShareWhatsApp').href = `https://wa.me/?text=${shareText}`;
 
@@ -2406,25 +2406,38 @@
     // SHARING SYSTEM (SPINE AGE CALCULATOR)
     // ========================================================
     function shareSpineTool() {
-      const shareData = {
-        title: 'حاسبة العمر الحيوي والبيوميكانيكي للعمود الفقري | Smart Check Tools',
-        text: 'أجرِ الآن الفحص السريري لتقييم صحة فقراتك وحساب عمر عمودك الفقري بالتعاون مع مركز وداعاً للألم:',
-        url: window.location.href
-      };
+      const shareUrl = window.location.origin + '/spine-age';
+      const richCard = `🧬 فحص "حاسبة عمر العمود الفقري الحقيقي"\n` +
+        `🩺 تقرير وتقييم سريري بيوميكانيكي من منصة Smart Check Tools | وداعاً للألم\n` +
+        `📋 افحص بدقة العمر البيولوجي لفقراتك وتوازن قوامك الحركي ومحاذاة الحوض فوراً.\n\n` +
+        `🔗 رابط إجراء الفحص المباشر:\n` +
+        `${shareUrl}`;
 
       if (navigator.share && /mobile|android|iphone|ipad/i.test(navigator.userAgent)) {
-        navigator.share(shareData).catch(err => {
+        navigator.share({
+          title: '🧬 حاسبة عمر العمود الفقري الحقيقي',
+          text: richCard,
+          url: shareUrl
+        }).catch(err => {
           if (err.name !== 'AbortError') {
-            copyText(shareData.url, 'تم نسخ رابط حاسبة عمر العمود الفقري بنجاح! 🌿');
+            copySpineLink(richCard);
           }
         });
       } else {
-        copyText(shareData.url, 'تم نسخ رابط حاسبة عمر العمود الفقري بنجاح! 🌿');
+        copySpineLink(richCard);
       }
     }
 
-    function copySpineLink() {
-      copyText(window.location.href, 'تم نسخ رابط الفحص بنجاح! يمكنك الآن مشاركته مع الآخرين 🌿');
+    function copySpineLink(customText) {
+      const shareUrl = window.location.origin + '/spine-age';
+      const content = customText || (
+        `🧬 فحص "حاسبة عمر العمود الفقري الحقيقي"\n` +
+        `🩺 تقرير وتقييم سريري بيوميكانيكي من منصة Smart Check Tools | وداعاً للألم\n` +
+        `📋 افحص بدقة العمر البيولوجي لفقراتك وتوازن قوامك الحركي ومحاذاة الحوض فوراً.\n\n` +
+        `🔗 رابط إجراء الفحص المباشر:\n` +
+        `${shareUrl}`
+      );
+      copyText(content, 'تم نسخ بطاقة مشاركة "حاسبة عمر العمود الفقري" بنجاح! 📋');
     }
 
     function copyText(text, successMsg) {

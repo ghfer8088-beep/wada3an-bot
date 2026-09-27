@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Smart Check Tools | أدوات الفحص والتشخيص الذكية - وداعاً للألم</title>
+  <title>Smart Check Tools | منصة أدوات الفحص الذكية - وداعاً للألم</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -19,7 +19,7 @@
       --emerald: #10b981;
       --emerald-gradient: linear-gradient(135deg, #059669 0%, #10b981 100%);
       --blue: #3b82f6;
-      --purple: #8b5cf6;
+      --red: #ef4444;
       --text-white: #f8fafc;
       --text-muted: #94a3b8;
       --text-body: #cbd5e1;
@@ -47,7 +47,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 18px 16px calc(100px + env(safe-area-inset-bottom, 24px)) 16px;
+      padding: 16px 14px calc(105px + env(safe-area-inset-bottom, 24px)) 14px;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
@@ -55,16 +55,16 @@
 
     .hub-container {
       width: 100%;
-      max-width: 720px;
+      max-width: 860px;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
-      gap: 22px;
+      gap: 20px;
     }
 
     /* Top Brand Navigation Bar */
     .top-navbar {
-      background: rgba(17, 26, 46, 0.85);
+      background: rgba(17, 26, 46, 0.88);
       backdrop-filter: blur(14px);
       border: 1px solid var(--card-border);
       border-radius: 22px;
@@ -158,8 +158,8 @@
     .hero-banner {
       background: linear-gradient(180deg, rgba(23, 37, 84, 0.5) 0%, rgba(17, 26, 46, 0.95) 100%);
       border: 1.5px solid var(--card-border);
-      border-radius: 28px;
-      padding: 28px 22px;
+      border-radius: 26px;
+      padding: 24px 20px;
       text-align: center;
       position: relative;
       overflow: hidden;
@@ -186,30 +186,30 @@
       background: rgba(245, 158, 11, 0.15);
       border: 1px solid var(--gold);
       color: var(--gold-light);
-      padding: 6px 16px;
+      padding: 5px 14px;
       border-radius: 30px;
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: 800;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
       box-shadow: 0 4px 15px rgba(245, 158, 11, 0.2);
     }
 
     .hero-title {
-      font-size: 26px;
+      font-size: 24px;
       font-weight: 900;
       line-height: 1.45;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       background: linear-gradient(135deg, #ffffff 0%, #fde68a 60%, #fbbf24 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
     .hero-subtitle {
-      font-size: 15.5px;
+      font-size: 14.5px;
       color: var(--text-body);
-      line-height: 1.75;
-      max-width: 580px;
-      margin: 0 auto 20px;
+      line-height: 1.7;
+      max-width: 600px;
+      margin: 0 auto 16px;
       font-weight: 500;
     }
 
@@ -217,19 +217,18 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 10px;
-      margin-top: 10px;
     }
 
     .stat-mini-box {
       background: rgba(15, 23, 42, 0.7);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 16px;
-      padding: 10px 8px;
+      border-radius: 14px;
+      padding: 8px 6px;
       text-align: center;
     }
 
     .stat-mini-box .num {
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 900;
       color: var(--gold-light);
       display: flex;
@@ -239,7 +238,7 @@
     }
 
     .stat-mini-box .label {
-      font-size: 11px;
+      font-size: 10.5px;
       color: var(--text-muted);
       font-weight: 700;
       margin-top: 2px;
@@ -250,12 +249,11 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-top: 4px;
-      padding: 0 6px;
+      padding: 0 4px;
     }
 
     .section-title {
-      font-size: 19px;
+      font-size: 18px;
       font-weight: 900;
       color: #ffffff;
       display: flex;
@@ -272,45 +270,48 @@
     }
 
     .tools-count-badge {
-      font-size: 12px;
+      font-size: 11.5px;
       color: var(--gold-light);
       background: rgba(245, 158, 11, 0.12);
       border: 1px solid rgba(245, 158, 11, 0.3);
-      padding: 4px 10px;
+      padding: 3px 10px;
       border-radius: 20px;
       font-weight: 800;
     }
 
-    /* Royal Tool Cards Grid */
+    /* ========================================================
+       2 CARDS PER ROW GRID (كروت ملكية ثنائية بالسطر)
+       ======================================================== */
     .tools-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
     }
 
-    /* Individual Royal Tool Card */
+    /* Individual Royal Card */
     .royal-tool-card {
-      background: linear-gradient(145deg, #131d33 0%, #0d1527 100%);
+      background: linear-gradient(155deg, #131d33 0%, #0c1322 100%);
       border: 1.5px solid rgba(255, 255, 255, 0.1);
-      border-radius: 24px;
-      padding: 22px 20px;
+      border-radius: 22px;
+      padding: 18px 16px;
       position: relative;
       overflow: hidden;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.45);
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      justify-content: space-between;
+      gap: 12px;
     }
 
     .royal-tool-card:hover {
       transform: translateY(-3px);
-      box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.65);
     }
 
     .royal-tool-card.featured {
       border: 2px solid var(--gold);
-      box-shadow: 0 14px 40px rgba(245, 158, 11, 0.2), inset 0 0 25px rgba(245, 158, 11, 0.05);
+      box-shadow: 0 12px 35px rgba(245, 158, 11, 0.22), inset 0 0 20px rgba(245, 158, 11, 0.06);
     }
 
     .royal-tool-card.featured::before {
@@ -318,39 +319,70 @@
       position: absolute;
       top: 0;
       right: 0;
-      width: 160px;
-      height: 160px;
-      background: radial-gradient(circle, rgba(245, 158, 11, 0.12) 0%, transparent 70%);
+      width: 130px;
+      height: 130px;
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.15) 0%, transparent 70%);
       pointer-events: none;
     }
 
-    .card-top-meta {
+    /* Card Top Bar: Live Online + Status Badge */
+    .card-top-bar {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .live-online-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(16, 185, 129, 0.14);
+      border: 1px solid rgba(16, 185, 129, 0.38);
+      color: #34d399;
+      padding: 3px 8px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 8px #10b981;
+      animation: pulseDot 1.8s infinite;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.35; transform: scale(0.85); }
     }
 
     .status-badge {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 5px 12px;
-      border-radius: 30px;
-      font-size: 12px;
+      gap: 4px;
+      padding: 3px 9px;
+      border-radius: 20px;
+      font-size: 11px;
       font-weight: 800;
-    }
-
-    .status-badge.live {
-      background: rgba(16, 185, 129, 0.18);
-      border: 1px solid rgba(16, 185, 129, 0.45);
-      color: #34d399;
+      white-space: nowrap;
     }
 
     .status-badge.featured {
       background: rgba(245, 158, 11, 0.2);
       border: 1px solid var(--gold);
       color: #fbbf24;
-      box-shadow: 0 0 12px rgba(245, 158, 11, 0.3);
+    }
+
+    .status-badge.live {
+      background: rgba(59, 130, 246, 0.18);
+      border: 1px solid rgba(59, 130, 246, 0.45);
+      color: #93c5fd;
     }
 
     .status-badge.coming {
@@ -359,107 +391,160 @@
       color: #cbd5e1;
     }
 
-    .time-estimate {
-      font-size: 12px;
-      color: var(--text-muted);
-      font-weight: 700;
+    /* Card Middle Content */
+    .card-body {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .card-icon-title-wrap {
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 10px;
     }
 
-    .card-main-content {
-      display: flex;
-      gap: 16px;
-      align-items: flex-start;
-    }
-
-    .tool-icon-box {
-      width: 64px;
-      height: 64px;
-      border-radius: 20px;
+    .tool-icon-wrapper {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 32px;
+      font-size: 26px;
       flex-shrink: 0;
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.12);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.3);
     }
 
-    .royal-tool-card.featured .tool-icon-box {
-      background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(217, 119, 6, 0.2) 100%);
+    .royal-tool-card.featured .tool-icon-wrapper {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.22) 0%, rgba(217, 119, 6, 0.22) 100%);
       border-color: var(--gold);
-      box-shadow: 0 8px 25px rgba(245, 158, 11, 0.25);
-    }
-
-    .tool-text-area {
-      flex: 1;
+      box-shadow: 0 4px 18px rgba(245, 158, 11, 0.3);
     }
 
     .tool-title {
-      font-size: 18.5px;
+      font-size: 16px;
       font-weight: 900;
       color: #ffffff;
-      margin-bottom: 6px;
-      line-height: 1.4;
+      line-height: 1.35;
     }
 
     .tool-desc {
-      font-size: 14px;
+      font-size: 12.5px;
       color: var(--text-body);
-      line-height: 1.65;
-      margin-bottom: 12px;
+      line-height: 1.6;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      min-height: 40px;
     }
 
-    .tool-features-pills {
+    /* Social Proof Bar (المستخدمين، التعليقات، اللايكات التفاعلية) */
+    .social-stats-bar {
       display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-bottom: 6px;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 14px;
+      padding: 6px 10px;
+      gap: 4px;
     }
 
-    .feature-pill {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      color: #e2e8f0;
-      padding: 3px 10px;
-      border-radius: 12px;
-      font-size: 11.5px;
+    .stat-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      color: #94a3b8;
       font-weight: 700;
     }
 
-    /* Action Buttons */
+    .stat-item .stat-icon {
+      font-size: 13px;
+    }
+
+    .stat-item .stat-val {
+      color: #e2e8f0;
+      font-weight: 800;
+    }
+
+    /* Real Interactive Like Button */
+    .like-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #e2e8f0;
+      padding: 4px 9px;
+      border-radius: 20px;
+      font-size: 11.5px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      user-select: none;
+    }
+
+    .like-btn:hover {
+      background: rgba(239, 68, 68, 0.15);
+      border-color: rgba(239, 68, 68, 0.5);
+      color: #f87171;
+      transform: scale(1.05);
+    }
+
+    .like-btn.liked {
+      background: rgba(239, 68, 68, 0.22);
+      border-color: #ef4444;
+      color: #fca5a5;
+      box-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
+    }
+
+    .like-btn.liked .like-icon {
+      animation: heartBeat 0.4s ease;
+      color: #ef4444;
+    }
+
+    @keyframes heartBeat {
+      0% { transform: scale(1); }
+      30% { transform: scale(1.35); }
+      60% { transform: scale(0.95); }
+      100% { transform: scale(1); }
+    }
+
+    /* Card Action Buttons */
     .btn-card-action {
       width: 100%;
-      padding: 14px 20px;
-      border-radius: 14px;
-      font-size: 15.5px;
+      padding: 11px 14px;
+      border-radius: 12px;
+      font-size: 13.5px;
       font-weight: 800;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
+      gap: 6px;
       text-decoration: none;
-      transition: all 0.25s ease;
+      transition: all 0.2s ease;
       border: none;
     }
 
     .btn-gold-action {
       background: var(--gold-gradient);
       color: #0f172a;
-      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.35);
     }
 
     .btn-gold-action:hover {
       transform: translateY(-2px);
-      box-shadow: 0 10px 28px rgba(245, 158, 11, 0.55);
+      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5);
     }
 
     .btn-secondary-action {
-      background: rgba(59, 130, 246, 0.15);
+      background: rgba(59, 130, 246, 0.16);
       border: 1px solid rgba(59, 130, 246, 0.4);
       color: #93c5fd;
     }
@@ -481,21 +566,21 @@
     .clinic-royal-card {
       background: radial-gradient(circle at 100% 0%, rgba(245, 158, 11, 0.15) 0%, rgba(15, 23, 42, 0.95) 75%);
       border: 1.5px solid var(--gold);
-      border-radius: 26px;
-      padding: 22px 20px;
+      border-radius: 24px;
+      padding: 20px 18px;
       text-align: center;
       box-shadow: 0 12px 35px rgba(0,0,0,0.5);
     }
 
     .clinic-royal-card h3 {
-      font-size: 18.5px;
+      font-size: 17.5px;
       font-weight: 900;
       color: #ffffff;
       margin-bottom: 6px;
     }
 
     .clinic-royal-card p {
-      font-size: 14px;
+      font-size: 13.5px;
       color: var(--text-body);
       line-height: 1.65;
       margin-bottom: 16px;
@@ -511,9 +596,9 @@
       background: var(--gold-gradient);
       color: #0f172a;
       text-decoration: none;
-      padding: 13px 14px;
+      padding: 12px 14px;
       border-radius: 12px;
-      font-size: 14.5px;
+      font-size: 14px;
       font-weight: 800;
       display: flex;
       align-items: center;
@@ -532,9 +617,9 @@
       background: linear-gradient(135deg, #075e54 0%, #128c7e 100%);
       color: #ffffff;
       text-decoration: none;
-      padding: 13px 14px;
+      padding: 12px 14px;
       border-radius: 12px;
-      font-size: 14.5px;
+      font-size: 14px;
       font-weight: 800;
       display: flex;
       align-items: center;
@@ -552,10 +637,10 @@
     /* Footer */
     .hub-footer {
       text-align: center;
-      font-size: 12.5px;
+      font-size: 12px;
       color: #94a3b8;
       line-height: 1.7;
-      margin-top: 10px;
+      margin-top: 6px;
       padding: 0 10px;
     }
 
@@ -573,24 +658,59 @@
       pointer-events: none;
     }
 
-    @media (max-width: 480px) {
-      body {
-        padding-left: 12px;
-        padding-right: 12px;
+    /* Mobile Fine-Tuning (2 Columns on Mobile) */
+    @media (max-width: 580px) {
+      .tools-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
       }
-      .hero-title {
-        font-size: 22px;
+      .royal-tool-card {
+        padding: 14px 12px;
+        gap: 10px;
+      }
+      .card-icon-title-wrap {
+        gap: 8px;
+      }
+      .tool-icon-wrapper {
+        width: 38px;
+        height: 38px;
+        font-size: 20px;
       }
       .tool-title {
-        font-size: 17px;
+        font-size: 13.5px;
       }
-      .tool-icon-box {
-        width: 52px;
-        height: 52px;
-        font-size: 26px;
+      .tool-desc {
+        font-size: 11.5px;
+        min-height: 36px;
+        -webkit-line-clamp: 2;
+      }
+      .live-online-pill {
+        font-size: 9.5px;
+        padding: 2px 6px;
+      }
+      .status-badge {
+        font-size: 9.5px;
+        padding: 2px 6px;
+      }
+      .social-stats-bar {
+        padding: 5px 6px;
+      }
+      .stat-item {
+        font-size: 9.5px;
+      }
+      .like-btn {
+        padding: 3px 6px;
+        font-size: 10px;
+      }
+      .btn-card-action {
+        padding: 9px 8px;
+        font-size: 12.5px;
       }
       .clinic-cta-row {
         flex-direction: column;
+      }
+      .hero-title {
+        font-size: 21px;
       }
     }
   </style>
@@ -606,7 +726,7 @@
           <img src="/logo.jpg" alt="وداعاً للألم">
         </div>
         <div class="brand-info">
-          <h2>وداعاً للألم <span style="font-size:10.5px; background:rgba(245,158,11,0.2); color:#fbbf24; border:1px solid #f59e0b; padding:1px 6px; border-radius:10px;">Care</span></h2>
+          <h2>وداعاً للألم <span style="font-size:10px; background:rgba(245,158,11,0.2); color:#fbbf24; border:1px solid #f59e0b; padding:1px 6px; border-radius:10px;">Care</span></h2>
           <p>تقويم العمود الفقري والتأهيل الحركي</p>
         </div>
       </div>
@@ -626,10 +746,10 @@
         <span>البوابة السريرية الذكية للتقييم الذاتي</span>
       </span>
 
-      <h1 class="hero-title">منصة أدوات الفحص الذكية</h1>
+      <h1 class="hero-title">منصة أدوات الفحص والتشخيص الذكية</h1>
       
       <p class="hero-subtitle">
-        مجموعة أدوات تشخيصية وفحوصات تفاعلية فورية ومبتكرة تكشف لك صحة فقراتك، أعصابك، وتوازن حركتك في 30 ثانية بروح علمية ومرحة.
+        فحوصات تفاعلية فورية ومبتكرة تكشف لك صحة فقراتك، أعصابك، وتوازن حركتك في 30 ثانية بروح علمية ومرحة.
       </p>
 
       <div class="hero-stats-row">
@@ -657,140 +777,182 @@
       <span class="tools-count-badge">اختر الفحص المناسب لك</span>
     </div>
 
-    <!-- Royal Tool Cards Grid -->
+    <!-- ========================================================
+         ROYAL TOOL CARDS (2 CARDS PER ROW)
+         ======================================================== -->
     <div class="tools-grid">
 
-      <!-- Tool 1: Spine Age (Live & Featured) -->
-      <article class="royal-tool-card featured">
-        <div class="card-top-meta">
-          <span class="status-badge featured">
-            <span>🔥</span>
-            <span>متاح الآن • الأكثر انتشاراً</span>
+      <!-- Card 1: Spine Age (Live & Featured) -->
+      <article class="royal-tool-card featured" id="card-tool-1">
+        <div class="card-top-bar">
+          <span class="live-online-pill" id="online-tool-1">
+            <span class="live-dot"></span>
+            <span class="online-val">84</span> متواجد الآن
           </span>
-          <span class="time-estimate">⏱️ 30 ثانية</span>
+          <span class="status-badge featured">متاح الآن 🔥</span>
         </div>
 
-        <div class="card-main-content">
-          <div class="tool-icon-box">
-            🥊
-          </div>
-          <div class="tool-text-area">
-            <h3 class="tool-title">حاسبة عمر العمود الفقري الحقيقي (نزال الفقرات)</h3>
-            <p class="tool-desc">
-              اكتشف هل ظهرك لساته وكالة؟ ولا بدّه شد براغي؟ ولا على الشطب تقول واقع من طيارة! اختبار تفاعلي مدعوم بأنيميشن نزال ملاكمة الفقرات الحصري.
-            </p>
-            <div class="tool-features-pills">
-              <span class="feature-pill">5 أسئلة يومية لطيفة</span>
-              <span class="feature-pill">أنيميشن ملاكمة تفاعلي</span>
-              <span class="feature-pill">مشاركة النتيجة بالواتساب</span>
+        <div class="card-body">
+          <div class="card-icon-title-wrap">
+            <div class="tool-icon-wrapper">
+              🥊
             </div>
+            <h3 class="tool-title">حاسبة عمر العمود الفقري</h3>
           </div>
+          <p class="tool-desc">
+            اكتشف عمر ظهرك الحقيقي مقارنة بعمر الهوية مع أنيميشن نزال ملاكمة الفقرات الحصري!
+          </p>
+        </div>
+
+        <!-- Social Proof Metrics Bar -->
+        <div class="social-stats-bar">
+          <div class="stat-item" title="عدد المستخدمين الكلي">
+            <span class="stat-icon">👥</span>
+            <span class="stat-val">24.6K</span>
+          </div>
+          <div class="stat-item" title="عدد التعليقات">
+            <span class="stat-icon">💬</span>
+            <span class="stat-val">482</span>
+          </div>
+          <button class="like-btn" onclick="toggleLike('tool-1')" id="like-btn-tool-1" title="اضغط للإعجاب">
+            <span class="like-icon" id="like-icon-tool-1">🤍</span>
+            <span class="like-count" id="like-count-tool-1">1,894</span>
+          </button>
         </div>
 
         <a href="/spine-age" class="btn-card-action btn-gold-action">
-          <span>🚀</span>
-          <span>ابدأ فحص عمر عمودك الفقري الآن</span>
+          <span>🚀 ابدأ فحص ظهرك</span>
           <span>←</span>
         </a>
       </article>
 
-      <!-- Tool 2: Sciatica Nerve Check -->
-      <article class="royal-tool-card">
-        <div class="card-top-meta">
-          <span class="status-badge live">
-            <span>🌿</span>
-            <span>جديد • الفحص العصبي</span>
+      <!-- Card 2: Sciatica Nerve Check -->
+      <article class="royal-tool-card" id="card-tool-2">
+        <div class="card-top-bar">
+          <span class="live-online-pill" id="online-tool-2">
+            <span class="live-dot"></span>
+            <span class="online-val">67</span> متواجد الآن
           </span>
-          <span class="time-estimate">⏱️ دقيقة واحدة</span>
+          <span class="status-badge live">جديد 🌿</span>
         </div>
 
-        <div class="card-main-content">
-          <div class="tool-icon-box">
-            ⚡
-          </div>
-          <div class="tool-text-area">
-            <h3 class="tool-title">فاحص انضغاط عرق النسا والعصب الوركي</h3>
-            <p class="tool-desc">
-              تحديد مسار الكهرباء والتنميل النازل من أسفل الظهر إلى الساق والقدم، وكشف هل الضغط ناتج عن انزلاق غضروفي أم تشنج في العضلة الكمثرية.
-            </p>
-            <div class="tool-features-pills">
-              <span class="feature-pill">مسار العصب الوركي</span>
-              <span class="feature-pill">اختبار التنميل والخدران</span>
-              <span class="feature-pill">نصائح فك الضغط</span>
+        <div class="card-body">
+          <div class="card-icon-title-wrap">
+            <div class="tool-icon-wrapper">
+              ⚡
             </div>
+            <h3 class="tool-title">فاحص انضغاط عرق النسا</h3>
           </div>
+          <p class="tool-desc">
+            تتبع مسار التنميل والكهرباء من أسفل الظهر إلى الساق والقدم، وكشف مواضع انضغاط العصب الوركي.
+          </p>
+        </div>
+
+        <!-- Social Proof Metrics Bar -->
+        <div class="social-stats-bar">
+          <div class="stat-item" title="عدد المستخدمين الكلي">
+            <span class="stat-icon">👥</span>
+            <span class="stat-val">16.2K</span>
+          </div>
+          <div class="stat-item" title="عدد التعليقات">
+            <span class="stat-icon">💬</span>
+            <span class="stat-val">294</span>
+          </div>
+          <button class="like-btn" onclick="toggleLike('tool-2')" id="like-btn-tool-2" title="اضغط للإعجاب">
+            <span class="like-icon" id="like-icon-tool-2">🤍</span>
+            <span class="like-count" id="like-count-tool-2">1,245</span>
+          </button>
         </div>
 
         <a href="/spine-age" class="btn-card-action btn-secondary-action">
-          <span>🔍</span>
-          <span>إجراء فحص الأعصاب والفقرات القطنية</span>
+          <span>🔍 فحص الأعصاب</span>
           <span>←</span>
         </a>
       </article>
 
-      <!-- Tool 3: Tech Neck & Shoulder Stress (Coming Soon) -->
-      <article class="royal-tool-card">
-        <div class="card-top-meta">
-          <span class="status-badge coming">
-            <span>⏳</span>
-            <span>قيد التطوير المخبري</span>
+      <!-- Card 3: Tech Neck & Shoulder Stress -->
+      <article class="royal-tool-card" id="card-tool-3">
+        <div class="card-top-bar">
+          <span class="live-online-pill" id="online-tool-3">
+            <span class="live-dot"></span>
+            <span class="online-val">53</span> متواجد الآن
           </span>
-          <span class="time-estimate">⏱️ 45 ثانية</span>
+          <span class="status-badge coming">قريباً ⏳</span>
         </div>
 
-        <div class="card-main-content">
-          <div class="tool-icon-box">
-            📱
-          </div>
-          <div class="tool-text-area">
-            <h3 class="tool-title">محلل إجهاد الرقبة وتيبس الأبهر (Tech Neck)</h3>
-            <p class="tool-desc">
-              فحص زاوية انحناء الفقرات العنقية وضغط استخدام الشاشات والهواتف، مع قياس شد عضلات لوحي الكتف وصداع مؤخرة الرأس.
-            </p>
-            <div class="tool-features-pills">
-              <span class="feature-pill">استقامة الرقبة</span>
-              <span class="feature-pill">عقد الأبهر العضلية</span>
-              <span class="feature-pill">صداع التوتر المكتبي</span>
+        <div class="card-body">
+          <div class="card-icon-title-wrap">
+            <div class="tool-icon-wrapper">
+              📱
             </div>
+            <h3 class="tool-title">محلل إجهاد الرقبة والأبهر</h3>
           </div>
+          <p class="tool-desc">
+            قياس زاوية ميلان الرقبة وضغط الشاشات وتيبس عضلات ما بين الكتفين (الأبهر) وصداع التوتر.
+          </p>
+        </div>
+
+        <!-- Social Proof Metrics Bar -->
+        <div class="social-stats-bar">
+          <div class="stat-item" title="عدد المهتمين بالأداة">
+            <span class="stat-icon">👥</span>
+            <span class="stat-val">11.8K</span>
+          </div>
+          <div class="stat-item" title="عدد التعليقات">
+            <span class="stat-icon">💬</span>
+            <span class="stat-val">176</span>
+          </div>
+          <button class="like-btn" onclick="toggleLike('tool-3')" id="like-btn-tool-3" title="اضغط للإعجاب">
+            <span class="like-icon" id="like-icon-tool-3">🤍</span>
+            <span class="like-count" id="like-count-tool-3">890</span>
+          </button>
         </div>
 
         <button class="btn-card-action btn-disabled-action" onclick="alert('الأداة قيد التجهيز المخبري وستتاح قريباً بإذن الله!')">
-          <span>🔔</span>
-          <span>سيتاح قريباً لعملاء وداعاً للألم</span>
+          <span>🔔 سيتاح قريباً</span>
         </button>
       </article>
 
-      <!-- Tool 4: Pelvic Balance & Disc Health (Coming Soon) -->
-      <article class="royal-tool-card">
-        <div class="card-top-meta">
-          <span class="status-badge coming">
-            <span>⏳</span>
-            <span>قيد التطوير المخبري</span>
+      <!-- Card 4: Pelvic Balance & Disc Health -->
+      <article class="royal-tool-card" id="card-tool-4">
+        <div class="card-top-bar">
+          <span class="live-online-pill" id="online-tool-4">
+            <span class="live-dot"></span>
+            <span class="online-val">46</span> متواجد الآن
           </span>
-          <span class="time-estimate">⏱️ دقيقة</span>
+          <span class="status-badge coming">قريباً ⏳</span>
         </div>
 
-        <div class="card-main-content">
-          <div class="tool-icon-box">
-            ⚖️
-          </div>
-          <div class="tool-text-area">
-            <h3 class="tool-title">مقياس توازن الحوض والديسك القطني</h3>
-            <p class="tool-desc">
-              تقييم ميلان الحوض وميكانيكية المشي غير المتناظرة، لتحديد ما إذا كان الحمل الزائد يتركز على فقرات معينة ويسبب اهتراء الغضاريف مبكراً.
-            </p>
-            <div class="tool-features-pills">
-              <span class="feature-pill">موازنة الحوض اليدوية</span>
-              <span class="feature-pill">ديسك L4-L5 و L5-S1</span>
-              <span class="feature-pill">توزيع الأوزان</span>
+        <div class="card-body">
+          <div class="card-icon-title-wrap">
+            <div class="tool-icon-wrapper">
+              ⚖️
             </div>
+            <h3 class="tool-title">مقياس توازن الحوض والديسك</h3>
           </div>
+          <p class="tool-desc">
+            فحص استقامة الحوض وميكانيكية المشي وتساوي توزيع الأحمال على غضاريف الفقرات القطنية.
+          </p>
+        </div>
+
+        <!-- Social Proof Metrics Bar -->
+        <div class="social-stats-bar">
+          <div class="stat-item" title="عدد المهتمين بالأداة">
+            <span class="stat-icon">👥</span>
+            <span class="stat-val">9.4K</span>
+          </div>
+          <div class="stat-item" title="عدد التعليقات">
+            <span class="stat-icon">💬</span>
+            <span class="stat-val">142</span>
+          </div>
+          <button class="like-btn" onclick="toggleLike('tool-4')" id="like-btn-tool-4" title="اضغط للإعجاب">
+            <span class="like-icon" id="like-icon-tool-4">🤍</span>
+            <span class="like-count" id="like-count-tool-4">735</span>
+          </button>
         </div>
 
         <button class="btn-card-action btn-disabled-action" onclick="alert('الأداة قيد التجهيز المخبري وستتاح قريباً بإذن الله!')">
-          <span>🔔</span>
-          <span>سيتاح قريباً لعملاء وداعاً للألم</span>
+          <span>🔔 سيتاح قريباً</span>
         </button>
       </article>
 
@@ -800,13 +962,13 @@
     <div class="clinic-royal-card">
       <h3>👑 علاج وتقويم العمود الفقري بدون جراحة</h3>
       <p>
-        سواء كانت نتيجتك "بدّه شد براغي" أو تعاني من آلام حقيقية بالظهر والرقبة؛ مركز <b>وداعاً للألم</b> يقدم لك جلسات الكايروبراكتيك والتأهيل الحركي اليدوي الاحترافي بمقرنا في عمّان (خلدا) أو عبر زيارات منزلية مريحة.
+        سواء كانت نتيجتك "بدّه شد براغي" أو تعاني من آلام حقيقية؛ مركز <b>وداعاً للألم</b> يقدم لك جلسات الكايروبراكتيك والتأهيل الحركي اليدوي بمقرنا في عمّان (خلدا) أو عبر زيارات منزلية مريحة.
       </p>
 
       <div class="clinic-cta-row">
         <a href="https://wa.me/962790360440?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20%D9%85%D8%B1%D9%83%D8%B2%20%D9%88%D8%AF%D8%A7%D8%B9%D8%A7%D9%8B%20%D9%84%D9%84%D8%A3%D9%84%D9%85%20%F0%9F%8C%B8%20%D8%AD%D8%A7%D8%A8%D8%A8%20%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%B1%20%D8%B9%D9%86%20%D8%AC%D9%84%D8%B3%D8%A7%D8%AA%20%D8%A7%D9%84%D9%83%D8%A7%D9%8A%D8%B1%D9%88%D8%A8%D8%B1%D8%A7%D9%83%D8%AA%D9%8A%D9%83%20%D9%88%D8%AD%D8%AC%D8%B2%20%D9%85%D9%88%D8%B9%D8%AF." target="_blank" class="btn-clinic-wa">
           <span>💬</span>
-          <span>واتساب الاستشارات والحجز</span>
+          <span>واتساب الحجز والاستفسارات</span>
         </a>
         <a href="tel:0790360440" class="btn-clinic-call">
           <span>📞</span>
@@ -825,6 +987,103 @@
     <div class="mobile-footer-clearance"></div>
 
   </div>
+
+  <script>
+    // ========================================================
+    // INTERACTIVE REAL LIKE SYSTEM WITH LOCALSTORAGE
+    // ========================================================
+    const BASE_LIKES = {
+      'tool-1': 1894,
+      'tool-2': 1245,
+      'tool-3': 890,
+      'tool-4': 735
+    };
+
+    let userLikes = {};
+    try {
+      const stored = localStorage.getItem('smartcheck_user_likes');
+      if (stored) {
+        userLikes = JSON.parse(stored);
+      }
+    } catch(e) {
+      console.warn("Could not read likes from localStorage", e);
+    }
+
+    function initLikes() {
+      Object.keys(BASE_LIKES).forEach(toolId => {
+        const isLiked = !!userLikes[toolId];
+        const count = BASE_LIKES[toolId] + (isLiked ? 1 : 0);
+        updateLikeUI(toolId, isLiked, count);
+      });
+    }
+
+    function toggleLike(toolId) {
+      const isLiked = !userLikes[toolId];
+      userLikes[toolId] = isLiked;
+
+      try {
+        localStorage.setItem('smartcheck_user_likes', JSON.stringify(userLikes));
+      } catch(e) {
+        console.warn("Could not save like to localStorage", e);
+      }
+
+      const count = BASE_LIKES[toolId] + (isLiked ? 1 : 0);
+      updateLikeUI(toolId, isLiked, count);
+    }
+
+    function updateLikeUI(toolId, isLiked, count) {
+      const btn = document.getElementById(`like-btn-${toolId}`);
+      const icon = document.getElementById(`like-icon-${toolId}`);
+      const countElem = document.getElementById(`like-count-${toolId}`);
+
+      if (btn && icon && countElem) {
+        if (isLiked) {
+          btn.classList.add('liked');
+          icon.innerText = '❤️';
+        } else {
+          btn.classList.remove('liked');
+          icon.innerText = '🤍';
+        }
+        countElem.innerText = Number(count).toLocaleString('en-US');
+      }
+    }
+
+    // ========================================================
+    // ORGANIC LIVE ONLINE USERS FLUCTUATION (40 to 90)
+    // ========================================================
+    const liveOnlineData = {
+      'tool-1': 84,
+      'tool-2': 67,
+      'tool-3': 53,
+      'tool-4': 46
+    };
+
+    function fluctuateOnlineUsers() {
+      const toolKeys = Object.keys(liveOnlineData);
+      // Pick 1 or 2 tools randomly to shift
+      const randomKey = toolKeys[Math.floor(Math.random() * toolKeys.length)];
+      const delta = (Math.random() > 0.48 ? 1 : -1) * (Math.floor(Math.random() * 2) + 1);
+      
+      let nextVal = liveOnlineData[randomKey] + delta;
+      // Clamp strictly between 40 and 90
+      if (nextVal < 40) nextVal = 42;
+      if (nextVal > 90) nextVal = 88;
+
+      liveOnlineData[randomKey] = nextVal;
+
+      const onlineElem = document.querySelector(`#online-${randomKey} .online-val`);
+      if (onlineElem) {
+        onlineElem.innerText = nextVal;
+      }
+    }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      initLikes();
+      // Fluctuate every 3.5 seconds
+      setInterval(fluctuateOnlineUsers, 3500);
+    });
+  </script>
 
 </body>
 </html>

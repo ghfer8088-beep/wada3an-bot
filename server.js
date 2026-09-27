@@ -158,6 +158,31 @@ app.get('/hub', (req, res) => {
   res.sendFile(path.join(__dirname, 'viral_hub.html'));
 });
 
+// API: Fetch Page Posts via Graph API (for MetaViral Hub)
+app.get('/api/page-posts', (req, res) => {
+  const limit = Math.min(parseInt(req.query.limit) || 50, 100);
+  const fields = 'id,message,story,created_time,permalink_url';
+  const url = `https://graph.facebook.com/v17.0/me/posts?fields=${fields}&limit=${limit}&access_token=${PAGE_ACCESS_TOKEN}`;
+  https.get(url, (fbRes) => {
+    let data = '';
+    fbRes.on('data', chunk => data += chunk);
+    fbRes.on('end', () => {
+      try {
+        const json = JSON.parse(data);
+        if (json.error) {
+          res.json({ success: false, error: json.error.message, posts: [] });
+        } else {
+          res.json({ success: true, posts: json.data || [], total: (json.data || []).length });
+        }
+      } catch(e) {
+        res.json({ success: false, error: 'خطأ في تحليل الاستجابة', posts: [] });
+      }
+    });
+  }).on('error', err => {
+    res.json({ success: false, error: err.message, posts: [] });
+  });
+});
+
 // Serve Spine Age Calculator with Custom Meta
 app.get('/spine-age', (req, res) => {
   renderToolWithMeta(req, res, 'spine-age');

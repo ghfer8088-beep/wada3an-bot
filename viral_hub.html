@@ -166,6 +166,46 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;background:var(--navy);color
   .wrap{padding:14px;}
   .srow{flex-direction:column;}
 }
+
+/* ── MISSION CONTROL ── */
+#mc{position:fixed;inset:0;background:linear-gradient(160deg,#05071a 0%,#0a0f28 60%,#050716 100%);z-index:9998;display:none;flex-direction:column;align-items:center;justify-content:center;padding:20px;}
+.mc-top{position:absolute;top:0;left:0;right:0;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--bdr);}
+.mc-brand{font-size:14px;font-weight:700;color:var(--gold);}
+.mc-progress{display:flex;gap:8px;align-items:center;}
+.mc-dot{width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,0.15);transition:all .4s;}
+.mc-dot.done{background:var(--green);}
+.mc-dot.active{background:var(--gold);box-shadow:0 0 12px var(--gold);transform:scale(1.4);}
+.mc-body{text-align:center;max-width:700px;width:100%;}
+.mc-seq{font-size:13px;color:var(--dim);margin-bottom:8px;letter-spacing:1px;}
+.mc-acc-name{font-size:28px;font-weight:800;margin-bottom:4px;}
+.mc-acc-dev{font-size:14px;color:var(--dim);margin-bottom:28px;}
+.mc-timer-wrap{position:relative;margin:0 auto 28px;width:160px;height:160px;}
+.mc-timer-svg{position:absolute;inset:0;transform:rotate(-90deg);}
+.mc-timer-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.mc-timer-val{font-size:42px;font-weight:900;color:var(--gold);line-height:1;}
+.mc-timer-lbl{font-size:11px;color:var(--dim);margin-top:4px;}
+.mc-status-box{background:rgba(0,230,118,0.08);border:1px solid rgba(0,230,118,0.25);border-radius:var(--r);padding:14px 20px;margin-bottom:20px;font-size:15px;color:var(--green);font-weight:700;}
+.mc-comment-box{background:rgba(255,255,255,0.05);border:1px solid var(--bdr);border-radius:var(--r);padding:20px;font-size:18px;line-height:1.8;direction:rtl;text-align:right;margin-bottom:20px;position:relative;}
+.mc-comment-lbl{font-size:11px;color:var(--dim);margin-bottom:8px;text-align:right;}
+.mc-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.mc-btn-done{padding:16px 40px;background:linear-gradient(135deg,var(--green),#00b248);color:#000;font-size:18px;font-weight:800;border:none;border-radius:var(--r);cursor:pointer;transition:all .3s;font-family:inherit;}
+.mc-btn-done:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,230,118,.4);}
+.mc-btn-done:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none;}
+.mc-btn-skip{padding:16px 24px;background:rgba(255,255,255,0.07);color:var(--dim);font-size:15px;font-weight:600;border:1px solid rgba(255,255,255,.14);border-radius:var(--r);cursor:pointer;font-family:inherit;}
+.mc-btn-exit{padding:12px 18px;background:rgba(255,82,82,0.12);color:var(--red);font-size:13px;font-weight:600;border:1px solid rgba(255,82,82,.25);border-radius:var(--r);cursor:pointer;font-family:inherit;}
+.mc-complete{text-align:center;padding:40px 20px;}
+.mc-complete-icon{font-size:80px;margin-bottom:20px;}
+.mc-complete-title{font-size:28px;font-weight:800;color:var(--green);margin-bottom:10px;}
+.mc-complete-sub{font-size:16px;color:var(--dim);}
+@keyframes flash{0%{background:rgba(245,200,66,.25)}100%{background:transparent}}
+.mc-flash{animation:flash .6s ease-out;}
+
+/* ── PAGE POSTS ── */
+.pp-item{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:border-color .3s;}
+.pp-item:hover{border-color:var(--gold);}
+.pp-date{font-size:11px;color:var(--dim);min-width:70px;text-align:center;}
+.pp-msg{flex:1;font-size:13px;line-height:1.5;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}
+.pp-btn{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;font-size:12px;font-weight:700;padding:7px 14px;border:none;border-radius:8px;cursor:pointer;white-space:nowrap;font-family:inherit;}
 </style>
 </head>
 <body>
@@ -281,21 +321,41 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;background:var(--navy);color
         <div class="card">
           <div class="ctitle">📋 جدول جلسة التفاعل</div>
           <div class="tipbox">
-            <div class="tipbox-t">⚠️ تعليمات أساسية قبل البدء</div>
-            <p>• افتح كل حساب على جهازه/شبكته المخصصة<br>
-            • الإعجاب أولاً ← ثم التعليق بعد دقيقتين<br>
-            • لا تعلّق أكثر من مرة واحدة من نفس الحساب على نفس المنشور<br>
-            • الرد بين الحسابات على بعضهم = 15 نقطة MSI لكل رد<br>
-            • اترك الفاصل الزمني الطبيعي — لا تتعجل</p>
+            <div class="tipbox-t">🚀 وضع Mission Control — طريقة الاستخدام</div>
+            <p>١. افتح كل حساب في تبويب متصفح مستقل الآن<br>
+            ٢. اضغط <strong>"🚀 تشغيل Mission Control"</strong><br>
+            ٣. الأداة تعدّ للزمن المحدد → تنبّهك → تنسخ التعليق تلقائياً<br>
+            ٤. فقط انتقل للتبويب الصحيح واضغط <strong>Ctrl+V</strong> ثم Enter<br>
+            ٥. ارجع للأداة واضغط <strong>"✓ تم"</strong> وانتظر الحساب التالي</p>
           </div>
           <div id="sched-list"></div>
           <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;">
-            <button class="btn bgh bsm" onclick="copyAllSched()">📋 نسخ كل الجدول</button>
-            <button class="btn bgh bsm" onclick="window.print()">🖨️ طباعة</button>
+            <button class="btn bg" onclick="launchMC()" style="font-size:16px;padding:14px 30px;">🚀 تشغيل Mission Control</button>
+            <button class="btn bgh bsm" onclick="copyAllSched()">📋 نسخ الجدول</button>
           </div>
         </div>
       </div>
+
+      <!-- Page Posts -->
+      <div class="card" style="margin-top:8px">
+        <div class="ctitle">📱 منشورات صفحة وداعاً للألم</div>
+        <div class="tipbox">
+          <div class="tipbox-t">💡 تفاعل مع المنشورات القديمة</div>
+          <p>اجلب منشورات صفحتك تلقائياً واضغط "جلسة" لأي منشور لتشغيل Mission Control عليه فوراً — بما فيها المنشورات القديمة.</p>
+        </div>
+        <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
+          <button class="btn bg bsm" onclick="fetchPosts()">🔄 جلب منشورات الصفحة</button>
+          <select class="fsel" id="pp-limit" style="max-width:180px">
+            <option value="25">آخر ٢٥ منشور</option>
+            <option value="50" selected>آخر ٥٠ منشور</option>
+            <option value="100">آخر ١٠٠ منشور</option>
+          </select>
+        </div>
+        <div id="posts-list"><div class="obox-ph">اضغط "جلب منشورات الصفحة" لعرض المنشورات</div></div>
+      </div>
+
     </div>
+
 
     <!-- ═══════════════════ TAB 2: VIRAL POST ═══════════════════ -->
     <div class="sec" id="tab-viral">
@@ -514,7 +574,40 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;background:var(--navy);color
   </div><!-- /.wrap -->
 </div><!-- /#app -->
 
+<!-- ══════════════ MISSION CONTROL OVERLAY ══════════════ -->
+<div id="mc">
+  <div class="mc-top">
+    <div class="mc-brand">🚀 Mission Control — وداعاً للألم</div>
+    <div class="mc-progress" id="mc-dots"></div>
+    <button class="mc-btn-exit" onclick="mcExit()">✕ إنهاء الجلسة</button>
+  </div>
+  <div class="mc-body" id="mc-body">
+    <div class="mc-seq" id="mc-seq">حساب 1 من 10</div>
+    <div class="mc-acc-name" id="mc-acc-name">حساب محمد</div>
+    <div class="mc-acc-dev" id="mc-acc-dev">📱 موبايل — بيانات جوال</div>
+    <div class="mc-timer-wrap">
+      <svg class="mc-timer-svg" viewBox="0 0 160 160">
+        <circle cx="80" cy="80" r="70" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="8"/>
+        <circle id="mc-ring" cx="80" cy="80" r="70" fill="none" stroke="#f5c842" stroke-width="8"
+          stroke-dasharray="439.82" stroke-dashoffset="0" stroke-linecap="round" style="transition:stroke-dashoffset .9s linear,stroke .5s"/>
+      </svg>
+      <div class="mc-timer-inner">
+        <div class="mc-timer-val" id="mc-timer-val">00:00</div>
+        <div class="mc-timer-lbl" id="mc-timer-lbl">انتظر</div>
+      </div>
+    </div>
+    <div class="mc-status-box" id="mc-status">⏳ جارٍ الإعداد...</div>
+    <div class="mc-comment-lbl">نص التعليق — سيُنسخ تلقائياً عند الصفر:</div>
+    <div class="mc-comment-box" id="mc-comment">—</div>
+    <div class="mc-btns">
+      <button class="mc-btn-done" id="mc-done-btn" onclick="mcDone()" disabled>✓ تم النشر — التالي</button>
+      <button class="mc-btn-skip" onclick="mcSkip()">⏭ تخطي هذا الحساب</button>
+    </div>
+  </div>
+</div>
+
 <div id="toast">تم النسخ! ✓</div>
+
 
 <script>
 // ═══════════════════ DATA & STATE ═══════════════════
@@ -1108,6 +1201,239 @@ function copyCal() {
   const t=WPLAN.map(p=>`${p.d} | ${p.t} | ${p.ty}\n💡 ${p.idea}\n📱 ${p.fmt}`).join('\n\n');
   copy(`📅 جدول المحتوى الأسبوعي — وداعاً للألم\n${'═'.repeat(38)}\n\n${t}`);
 }
-</script>
+
+// ═══════════════════ MISSION CONTROL ═══════════════════
+let MC = {
+  queue: [],      // [{acc, comment, action, timeStr}]
+  current: 0,
+  totalSecs: 0,
+  remainSecs: 0,
+  ticker: null,
+  gap: 5,
+  active: false,
+  postUrl: ''
+};
+
+function beep(times=1, freq=880, dur=200) {
+  try {
+    const ctx = new (window.AudioContext||window.webkitAudioContext)();
+    for(let i=0;i<times;i++){
+      setTimeout(()=>{
+        const o=ctx.createOscillator(), g=ctx.createGain();
+        o.connect(g); g.connect(ctx.destination);
+        o.frequency.value=freq; g.gain.value=0.25;
+        o.start(); setTimeout(()=>o.stop(),dur);
+      }, i*350);
+    }
+  } catch(e){}
+}
+
+function mcRenderDots() {
+  const el=document.getElementById('mc-dots');
+  el.innerHTML=MC.queue.map((_,i)=>{
+    let cls='mc-dot';
+    if(i<MC.current)cls+=' done';
+    else if(i===MC.current)cls+=' active';
+    return `<div class="${cls}" title="${MC.queue[i]?.acc?.name||''}"></div>`;
+  }).join('');
+}
+
+function mcUpdateTimer() {
+  const s=MC.remainSecs;
+  const m=Math.floor(s/60), sec=s%60;
+  document.getElementById('mc-timer-val').textContent=`${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+  // SVG ring
+  const ring=document.getElementById('mc-ring');
+  const total=MC.totalSecs||1;
+  const offset=439.82*(1-(s/total));
+  ring.style.strokeDashoffset=offset;
+  // color warning
+  if(s<=10) ring.style.stroke='#ff5252';
+  else if(s<=30) ring.style.stroke='#ffab40';
+  else ring.style.stroke='#f5c842';
+}
+
+function mcShowCurrent() {
+  if(MC.current>=MC.queue.length){ mcComplete(); return; }
+  const item=MC.queue[MC.current];
+  const acc=item.acc;
+  document.getElementById('mc-seq').textContent=`حساب ${MC.current+1} من ${MC.queue.length}`;
+  document.getElementById('mc-acc-name').innerHTML=`<span style="color:${acc.color}">${acc.name}</span>`;
+  document.getElementById('mc-acc-dev').textContent=`${acc.dev} • ${item.action}`;
+  document.getElementById('mc-comment').textContent=item.comment;
+  document.getElementById('mc-timer-lbl').textContent=MC.remainSecs>0?'انتظر — يُنسخ تلقائياً':'اضغط تم بعد النشر';
+  document.getElementById('mc-done-btn').disabled=MC.remainSecs>0;
+  mcRenderDots();
+  mcUpdateTimer();
+}
+
+function mcTick() {
+  if(MC.remainSecs>0){
+    MC.remainSecs--;
+    mcUpdateTimer();
+    if(MC.remainSecs===0){
+      // TIME! Auto-copy + alert
+      copy(MC.queue[MC.current]?.comment||'');
+      beep(3,880,180);
+      document.getElementById('mc').classList.add('mc-flash');
+      setTimeout(()=>document.getElementById('mc').classList.remove('mc-flash'),700);
+      document.getElementById('mc-status').textContent='📋 تم النسخ! انتقل الآن للحساب وألصق + أرسل';
+      document.getElementById('mc-status').style.background='rgba(245,200,66,0.12)';
+      document.getElementById('mc-status').style.borderColor='rgba(245,200,66,0.4)';
+      document.getElementById('mc-status').style.color='var(--gold)';
+      document.getElementById('mc-done-btn').disabled=false;
+      document.getElementById('mc-timer-lbl').textContent='انتقل وألصق الآن!';
+    }
+  }
+}
+
+function launchMC() {
+  if(!_mcQueue||!_mcQueue.length){ toast('⚠️ ولّد الجدول أولاً'); return; }
+  MC.queue=_mcQueue;
+  MC.current=0;
+  MC.gap=parseInt(document.getElementById('mis-gap').value)||5;
+  MC.postUrl=document.getElementById('mis-url').value;
+  // First account: 90 seconds prep
+  MC.totalSecs=90; MC.remainSecs=90;
+  MC.active=true;
+  // Status
+  document.getElementById('mc-status').textContent='⏳ استعد — سيُنسخ تعليق الحساب الأول بعد ٩٠ ثانية';
+  document.getElementById('mc-status').style.background='rgba(0,230,118,0.08)';
+  document.getElementById('mc-status').style.borderColor='rgba(0,230,118,0.25)';
+  document.getElementById('mc-status').style.color='var(--green)';
+  document.getElementById('mc').style.display='flex';
+  mcShowCurrent();
+  beep(1,660,300);
+  MC.ticker=setInterval(mcTick,1000);
+}
+
+function mcDone() {
+  clearInterval(MC.ticker);
+  MC.current++;
+  if(MC.current>=MC.queue.length){ mcComplete(); return; }
+  // Next account — gap timer
+  const gapSecs=MC.gap*60;
+  MC.totalSecs=gapSecs; MC.remainSecs=gapSecs;
+  document.getElementById('mc-status').textContent=`⏳ ممتاز! دور الحساب التالي خلال ${MC.gap} دقائق`;
+  document.getElementById('mc-status').style.background='rgba(0,230,118,0.08)';
+  document.getElementById('mc-status').style.borderColor='rgba(0,230,118,0.25)';
+  document.getElementById('mc-status').style.color='var(--green)';
+  document.getElementById('mc-done-btn').disabled=true;
+  mcShowCurrent();
+  MC.ticker=setInterval(mcTick,1000);
+}
+
+function mcSkip() {
+  clearInterval(MC.ticker);
+  MC.current++;
+  if(MC.current>=MC.queue.length){ mcComplete(); return; }
+  MC.totalSecs=MC.gap*60; MC.remainSecs=MC.gap*60;
+  document.getElementById('mc-done-btn').disabled=true;
+  mcShowCurrent();
+  MC.ticker=setInterval(mcTick,1000);
+}
+
+function mcExit() {
+  clearInterval(MC.ticker);
+  MC.active=false;
+  document.getElementById('mc').style.display='none';
+}
+
+function mcComplete() {
+  clearInterval(MC.ticker);
+  MC.active=false;
+  beep(3,1047,300);
+  document.getElementById('mc-body').innerHTML=`
+    <div class="mc-complete">
+      <div class="mc-complete-icon">🎉</div>
+      <div class="mc-complete-title">اكتملت جلسة التفاعل!</div>
+      <div class="mc-complete-sub" style="margin-bottom:24px">
+        تم التفاعل من ${MC.queue.length} حساب على المنشور<br>
+        النافذة الذهبية نشطة — المنشور في طريقه للانتشار 🚀
+      </div>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <button class="mc-btn-done" onclick="mcExit()" style="font-size:16px">✓ إغلاق</button>
+      </div>
+    </div>`;
+  ses++; localStorage.setItem('vh_ses',ses); updStats();
+}
+
+// Store queue for MC
+let _mcQueue=[];
+
+// Patch genMission to also build _mcQueue
+const _origGenMission=genMission;
+genMission=function(){
+  _origGenMission();
+  // rebuild queue from current state
+  const url=document.getElementById('mis-url').value.trim();
+  const topic=document.getElementById('mis-topic').value.trim();
+  const gap=+document.getElementById('mis-gap').value;
+  const [bh,bm]=document.getElementById('mis-time').value.split(':').map(Number);
+  _mcQueue=[];
+  accs.forEach((a,i)=>{
+    const mins=bh*60+bm+(i===0?2:i*gap);
+    const sh=Math.floor(mins/60)%24,sm=mins%60;
+    const ts=`${String(sh).padStart(2,'0')}:${String(sm).padStart(2,'0')}`;
+    const cmt=getComment(a,topic,i);
+    const act=i===0?'❤️ إعجاب فقط أولاً':(i%3===0?'❤️ إعجاب + 💬 تعليق':'💬 تعليق + ❤️ إعجاب');
+    _mcQueue.push({acc:a,comment:cmt,action:act,timeStr:ts,url});
+  });
+};
+
+// ═══════════════════ PAGE POSTS FETCHER ═══════════════════
+let _pagePosts=[];
+
+async function fetchPosts() {
+  const limit=document.getElementById('pp-limit').value;
+  const el=document.getElementById('posts-list');
+  el.innerHTML='<div class="obox-ph">⏳ جارٍ جلب المنشورات...</div>';
+  try {
+    const res=await fetch(`/api/page-posts?limit=${limit}`);
+    const data=await res.json();
+    if(!data.success||!data.posts.length){
+      el.innerHTML=`<div class="obox-ph">⚠️ ${data.error||'لا توجد منشورات أو خطأ في الاتصال'}</div>`;
+      return;
+    }
+    _pagePosts=data.posts;
+    renderPosts(data.posts);
+  } catch(e) {
+    el.innerHTML=`<div class="obox-ph">❌ خطأ في الاتصال بالسيرفر: ${e.message}</div>`;
+  }
+}
+
+function renderPosts(posts) {
+  const el=document.getElementById('posts-list');
+  if(!posts.length){ el.innerHTML='<div class="obox-ph">لا توجد منشورات</div>'; return; }
+  el.innerHTML=posts.map((p,i)=>{
+    const d=new Date(p.created_time);
+    const ds=d.toLocaleDateString('ar-JO',{day:'numeric',month:'short',year:'2-digit'});
+    const msg=(p.message||p.story||'(منشور بدون نص)').substring(0,100);
+    return `
+      <div class="pp-item">
+        <div class="pp-date">${ds}</div>
+        <div class="pp-msg">${msg}...</div>
+        <button class="pp-btn" onclick="startSessionForPost(${i})">🚀 جلسة</button>
+      </div>`;
+  }).join('');
+}
+
+function startSessionForPost(idx) {
+  const p=_pagePosts[idx];
+  if(!p) return;
+  if(accs.length<2){ toast('⚠️ أضف حسابين على الأقل للخلية أولاً'); return; }
+  // Fill mission fields
+  document.getElementById('mis-url').value=p.permalink_url||`https://facebook.com/${p.id}`;
+  document.getElementById('mis-topic').value=(p.message||p.story||'').substring(0,60);
+  // Set time to now+2min
+  const now=new Date(); now.setMinutes(now.getMinutes()+2);
+  document.getElementById('mis-time').value=`${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+  // Generate mission
+  genMission();
+  // Scroll to mission output
+  document.getElementById('mission-out').scrollIntoView({behavior:'smooth'});
+  toast('✅ جاهز! اضغط 🚀 تشغيل Mission Control');
+}
+
 </body>
 </html>

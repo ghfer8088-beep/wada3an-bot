@@ -225,6 +225,113 @@
       font-weight: 500;
     }
 
+    /* Social Proof Strip (المستخدمين، الأونلاين، الإعجابات + زر الإعجاب) */
+    .tool-social-strip {
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      border-radius: 18px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      gap: 8px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4), inset 0 0 15px rgba(245, 158, 11, 0.05);
+      margin: 0 auto 18px;
+      max-width: 440px;
+      flex-wrap: wrap;
+    }
+
+    .stat-cell {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12.5px;
+      font-weight: 800;
+      color: #e2e8f0;
+    }
+
+    .stat-cell .icon {
+      font-size: 14px;
+    }
+
+    .stat-cell .val {
+      color: #ffffff;
+      font-weight: 900;
+      font-size: 13.5px;
+    }
+
+    .stat-cell .lbl {
+      font-size: 11px;
+      color: #94a3b8;
+      font-weight: 600;
+    }
+
+    .stat-cell.online {
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      padding: 4px 10px;
+      border-radius: 20px;
+      color: #34d399;
+    }
+
+    .stat-cell.online .val {
+      color: #34d399;
+    }
+
+    .stat-cell.online .lbl {
+      color: #a7f3d0;
+    }
+
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 8px #10b981;
+      animation: pulseDot 1.6s infinite;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.35; transform: scale(0.85); }
+    }
+
+    .stat-cell.like-action-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      padding: 5px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+      color: #e2e8f0;
+    }
+
+    .stat-cell.like-action-btn:hover {
+      background: rgba(239, 68, 68, 0.15);
+      border-color: rgba(239, 68, 68, 0.45);
+      transform: translateY(-2px);
+    }
+
+    .stat-cell.like-action-btn.liked {
+      background: rgba(239, 68, 68, 0.22);
+      border-color: #ef4444;
+      color: #fca5a5;
+      box-shadow: 0 0 14px rgba(239, 68, 68, 0.35);
+    }
+
+    .stat-cell.like-action-btn.liked .val {
+      color: #fca5a5;
+    }
+
+    .stat-cell.like-action-btn .heart-icon {
+      font-size: 15px;
+      transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .stat-cell.like-action-btn:active .heart-icon {
+      transform: scale(1.4);
+    }
+
     .hero-badge-fun {
       display: inline-flex;
       align-items: center;
@@ -770,6 +877,27 @@
         أجب عن 5 مواقف يومية لطيفة واكتشف: هل ظهرك لساته وكالة؟ ولا بدّه شد براغي؟ ولا على الشطب تقول واقع من طيارة؟! 😂
       </p>
 
+      <!-- Social Proof Stats Strip (المستخدمين، الأونلاين، الإعجابات + زر الإعجاب) -->
+      <div class="tool-social-strip">
+        <div class="stat-cell" title="إجمالي من أجروا فحص عمر العمود الفقري">
+          <span class="icon">👥</span>
+          <span class="val">28.4K</span>
+          <span class="lbl">مستخدم</span>
+        </div>
+
+        <div class="stat-cell online" title="المتواجدين أونلاين الآن">
+          <span class="live-dot"></span>
+          <span class="val" id="statOnlineCountSpine">84</span>
+          <span class="lbl">أونلاين</span>
+        </div>
+
+        <button class="stat-cell like-action-btn" id="statLikeBtnSpine" onclick="toggleSpineLike()" title="اضغط للإعجاب بهذه الأداة">
+          <span class="heart-icon" id="statLikeIconSpine">🤍</span>
+          <span class="val" id="statLikesCountSpine">2,190</span>
+          <span class="lbl">إعجاب</span>
+        </button>
+      </div>
+
       <!-- Animated Spine Boxing Arena (نزال الفقرات) -->
       <div class="spine-boxing-arena" onclick="triggerKnockoutCombo()">
         
@@ -890,6 +1018,27 @@
         </p>
       </div>
 
+      <!-- Social Proof Stats Strip (Results) -->
+      <div class="tool-social-strip">
+        <div class="stat-cell" title="إجمالي من أجروا فحص عمر العمود الفقري">
+          <span class="icon">👥</span>
+          <span class="val">28.4K</span>
+          <span class="lbl">مستخدم</span>
+        </div>
+
+        <div class="stat-cell online" title="المتواجدين أونلاين الآن">
+          <span class="live-dot"></span>
+          <span class="val" id="statOnlineCountSpineRes">84</span>
+          <span class="lbl">أونلاين</span>
+        </div>
+
+        <button class="stat-cell like-action-btn" id="statLikeBtnSpineRes" onclick="toggleSpineLike()" title="اضغط للإعجاب بهذه الأداة">
+          <span class="heart-icon" id="statLikeIconSpineRes">🤍</span>
+          <span class="val" id="statLikesCountSpineRes">2,190</span>
+          <span class="lbl">إعجاب</span>
+        </button>
+      </div>
+
       <!-- Viral WhatsApp Share Box -->
       <div class="share-viral-card">
         <h4>📲 فاجئ أصحابك وأهلك في الواتساب!</h4>
@@ -931,6 +1080,91 @@
   </div>
 
   <script>
+    // ========================================================
+    // SOCIAL PROOF & LIKE ENGINE (TOOL 1 - SPINE AGE)
+    // ========================================================
+    const BASE_LIKES_SPINE = 2190;
+    let spineLikesData = {};
+    try {
+      const stored = localStorage.getItem('smartcheck_user_likes');
+      if (stored) spineLikesData = JSON.parse(stored);
+    } catch(e) {
+      console.warn("Could not read likes from localStorage", e);
+    }
+
+    let currentOnlineSpine = 84;
+
+    function initSpineSocialStats() {
+      // 1. Online count
+      updateSpineOnlineUI(currentOnlineSpine);
+
+      // 2. Likes count & state
+      updateSpineLikeUI();
+
+      // 3. Online fluctuation
+      setInterval(() => {
+        const delta = (Math.random() > 0.48 ? 1 : -1) * (Math.floor(Math.random() * 2) + 1);
+        let nextVal = currentOnlineSpine + delta;
+        if (nextVal < 40) nextVal = 46;
+        if (nextVal > 90) nextVal = 88;
+        currentOnlineSpine = nextVal;
+        updateSpineOnlineUI(currentOnlineSpine);
+      }, 3300);
+    }
+
+    function updateSpineOnlineUI(val) {
+      const o1 = document.getElementById('statOnlineCountSpine');
+      const o2 = document.getElementById('statOnlineCountSpineRes');
+      if (o1) o1.innerText = val;
+      if (o2) o2.innerText = val;
+    }
+
+    function updateSpineLikeUI() {
+      const isLiked = !!spineLikesData['tool-1'];
+      const count = BASE_LIKES_SPINE + (isLiked ? 1 : 0);
+      const formatted = Number(count).toLocaleString('en-US');
+
+      const btn1 = document.getElementById('statLikeBtnSpine');
+      const icon1 = document.getElementById('statLikeIconSpine');
+      const count1 = document.getElementById('statLikesCountSpine');
+
+      const btn2 = document.getElementById('statLikeBtnSpineRes');
+      const icon2 = document.getElementById('statLikeIconSpineRes');
+      const count2 = document.getElementById('statLikesCountSpineRes');
+
+      [btn1, btn2].forEach(b => {
+        if (b) {
+          if (isLiked) b.classList.add('liked');
+          else b.classList.remove('liked');
+        }
+      });
+
+      [icon1, icon2].forEach(i => {
+        if (i) i.innerText = isLiked ? '❤️' : '🤍';
+      });
+
+      [count1, count2].forEach(c => {
+        if (c) c.innerText = formatted;
+      });
+    }
+
+    function toggleSpineLike() {
+      const isLiked = !spineLikesData['tool-1'];
+      spineLikesData['tool-1'] = isLiked;
+
+      try {
+        localStorage.setItem('smartcheck_user_likes', JSON.stringify(spineLikesData));
+      } catch(e) {}
+
+      if (window.navigator && window.navigator.vibrate) {
+        window.navigator.vibrate(35);
+      }
+
+      updateSpineLikeUI();
+    }
+
+    document.addEventListener('DOMContentLoaded', initSpineSocialStats);
+
     // Default Questions
     const DEFAULT_QUESTIONS = [
       {
@@ -1146,6 +1380,9 @@
         window.location.href
       );
       document.getElementById('btnShareWhatsApp').href = `https://wa.me/?text=${shareText}`;
+
+      // Sync likes on result screen
+      updateSpineLikeUI();
 
       // Prepare Direct Clinic Booking Text
       const clinicBookingText = encodeURIComponent(

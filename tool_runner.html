@@ -189,6 +189,112 @@
       line-height: 1.65;
     }
 
+    /* Social Proof Strip (المستخدمين، الأونلاين، الإعجابات + زر الإعجاب) */
+    .tool-social-strip {
+      background: rgba(15, 23, 42, 0.78);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      border-radius: 18px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      gap: 8px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4), inset 0 0 15px rgba(245, 158, 11, 0.05);
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .stat-cell {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12.5px;
+      font-weight: 800;
+      color: #e2e8f0;
+    }
+
+    .stat-cell .icon {
+      font-size: 14px;
+    }
+
+    .stat-cell .val {
+      color: #ffffff;
+      font-weight: 900;
+      font-size: 13.5px;
+    }
+
+    .stat-cell .lbl {
+      font-size: 11px;
+      color: #94a3b8;
+      font-weight: 600;
+    }
+
+    .stat-cell.online {
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      padding: 4px 10px;
+      border-radius: 20px;
+      color: #34d399;
+    }
+
+    .stat-cell.online .val {
+      color: #34d399;
+    }
+
+    .stat-cell.online .lbl {
+      color: #a7f3d0;
+    }
+
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 8px #10b981;
+      animation: pulseDot 1.6s infinite;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.35; transform: scale(0.85); }
+    }
+
+    .stat-cell.like-action-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      padding: 5px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+      color: #e2e8f0;
+    }
+
+    .stat-cell.like-action-btn:hover {
+      background: rgba(239, 68, 68, 0.15);
+      border-color: rgba(239, 68, 68, 0.45);
+      transform: translateY(-2px);
+    }
+
+    .stat-cell.like-action-btn.liked {
+      background: rgba(239, 68, 68, 0.22);
+      border-color: #ef4444;
+      color: #fca5a5;
+      box-shadow: 0 0 14px rgba(239, 68, 68, 0.35);
+    }
+
+    .stat-cell.like-action-btn.liked .val {
+      color: #fca5a5;
+    }
+
+    .stat-cell.like-action-btn .heart-icon {
+      font-size: 15px;
+      transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .stat-cell.like-action-btn:active .heart-icon {
+      transform: scale(1.4);
+    }
+
     /* Progress Bar */
     .progress-wrap {
       display: flex;
@@ -674,6 +780,27 @@
         <p class="tool-header-desc" id="toolDesc">
           فحص سريري يحدد موضع النخزة الشبيهة بالسكين بين لوحي الكتف ومستوى انضغاط الفقرات الصدرية T3-T5.
         </p>
+
+        <!-- Social Proof Stats Strip (المستخدمين، الأونلاين، الإعجابات + زر الإعجاب) -->
+        <div class="tool-social-strip">
+          <div class="stat-cell" title="إجمالي من أجروا هذا الفحص">
+            <span class="icon">👥</span>
+            <span class="val" id="statUsersCount">19.8K</span>
+            <span class="lbl">مستخدم</span>
+          </div>
+
+          <div class="stat-cell online" title="المتواجدين أونلاين الآن">
+            <span class="live-dot"></span>
+            <span class="val" id="statOnlineCount">76</span>
+            <span class="lbl">أونلاين</span>
+          </div>
+
+          <button class="stat-cell like-action-btn" id="statLikeBtn" onclick="toggleToolLike()" title="اضغط للإعجاب بهذه الأداة">
+            <span class="heart-icon" id="statLikeIcon">🤍</span>
+            <span class="val" id="statLikesCount">1,640</span>
+            <span class="lbl" id="statLikeLbl">إعجاب</span>
+          </button>
+        </div>
       </div>
 
       <!-- Progress Bar -->
@@ -742,6 +869,27 @@
         </p>
       </div>
 
+      <!-- Results Social Proof Strip -->
+      <div class="tool-social-strip">
+        <div class="stat-cell" title="إجمالي من أجروا هذا الفحص">
+          <span class="icon">👥</span>
+          <span class="val" id="statUsersCountRes">19.8K</span>
+          <span class="lbl">مستخدم</span>
+        </div>
+
+        <div class="stat-cell online" title="المتواجدين أونلاين الآن">
+          <span class="live-dot"></span>
+          <span class="val" id="statOnlineCountRes">76</span>
+          <span class="lbl">أونلاين</span>
+        </div>
+
+        <button class="stat-cell like-action-btn" id="statLikeBtnRes" onclick="toggleToolLike()" title="اضغط للإعجاب بهذه الأداة">
+          <span class="heart-icon" id="statLikeIconRes">🤍</span>
+          <span class="val" id="statLikesCountRes">1,640</span>
+          <span class="lbl">إعجاب</span>
+        </button>
+      </div>
+
       <!-- Action Buttons -->
       <div class="cta-buttons-wrap">
         <a href="#" id="btnShareWhatsApp" target="_blank" class="btn-share-wa">
@@ -780,6 +928,10 @@
     const TOOLS_DATA = {
       'abhar': {
         id: 'abhar',
+        hubId: 'tool-2',
+        users: '19.8K',
+        baseLikes: 1640,
+        baseOnline: 76,
         tag: 'فحص تخصصي للفقرات الصدرية T3-T5 📌',
         icon: '📌',
         title: 'كاشف "مسمار الأبهر وعقد الأكتاف"',
@@ -844,6 +996,10 @@
 
       'sheep-load': {
         id: 'sheep-load',
+        hubId: 'tool-3',
+        users: '16.5K',
+        baseLikes: 1420,
+        baseOnline: 68,
         tag: 'بيوميكانيك أحمال الفقرات 🐑',
         icon: '🐑',
         title: 'حاسبة "ضريبة القعدة وحمل الخروف"',
@@ -908,6 +1064,10 @@
 
       'sciatica': {
         id: 'sciatica',
+        hubId: 'tool-4',
+        users: '22.1K',
+        baseLikes: 1810,
+        baseOnline: 71,
         tag: 'فحص سريري لمسار العصب الوركي ⚡',
         icon: '⚡',
         title: 'فاحص انضغاط عرق النسا والوركي',
@@ -972,6 +1132,10 @@
 
       'sleep-posture': {
         id: 'sleep-posture',
+        hubId: 'tool-5',
+        users: '14.3K',
+        baseLikes: 1180,
+        baseOnline: 59,
         tag: 'هندسة النوم وتوازن الفقرات العنقية 🛌',
         icon: '🛌',
         title: 'رادار "وضعية النوم وتيبس الصباح"',
@@ -1036,6 +1200,10 @@
 
       'driver-strain': {
         id: 'driver-strain',
+        hubId: 'tool-6',
+        users: '13.7K',
+        baseLikes: 1095,
+        baseOnline: 51,
         tag: 'فحص إجهاد السير وميلان الحوض 🚗',
         icon: '🚗',
         title: 'فاحص "تشنج الأزمات وفقرات السائقين"',
@@ -1100,6 +1268,10 @@
 
       'uneven-shoulder': {
         id: 'uneven-shoulder',
+        hubId: 'tool-7',
+        users: '12.1K',
+        baseLikes: 940,
+        baseOnline: 48,
         tag: 'كاشف الجنف الوظيفي والميلان 🎒',
         icon: '🎒',
         title: 'مقياس "اعوجاج الشنتة والكتف المائل"',
@@ -1164,6 +1336,10 @@
 
       'pelvic-balance': {
         id: 'pelvic-balance',
+        hubId: 'tool-8',
+        users: '11.4K',
+        baseLikes: 875,
+        baseOnline: 44,
         tag: 'فحص استقامة قاعدة العمود الفقري ⚖️',
         icon: '⚖️',
         title: 'مقياس توازن الحوض والديسك القطني',
@@ -1234,6 +1410,106 @@
     let currentQuestionIdx = 0;
     let selectedAnswers = [];
 
+    // ========================================================
+    // SOCIAL PROOF & LIKE ENGINE (SYNCED WITH SMART CHECK HUB)
+    // ========================================================
+    let userLikes = {};
+    try {
+      const stored = localStorage.getItem('smartcheck_user_likes');
+      if (stored) userLikes = JSON.parse(stored);
+    } catch(e) {
+      console.warn("Could not read likes from localStorage", e);
+    }
+
+    let currentOnlineVal = 70;
+
+    function initSocialStats() {
+      const tool = TOOLS_DATA[currentToolId] || TOOLS_DATA['abhar'];
+      const hubId = tool.hubId || 'tool-2';
+
+      // 1. Users count
+      const usersStr = tool.users || '19.8K';
+      const u1 = document.getElementById('statUsersCount');
+      const u2 = document.getElementById('statUsersCountRes');
+      if (u1) u1.innerText = usersStr;
+      if (u2) u2.innerText = usersStr;
+
+      // 2. Online count
+      currentOnlineVal = tool.baseOnline || 70;
+      updateOnlineUI(currentOnlineVal);
+
+      // 3. Likes count & state
+      updateToolLikeUI();
+    }
+
+    function updateOnlineUI(val) {
+      const o1 = document.getElementById('statOnlineCount');
+      const o2 = document.getElementById('statOnlineCountRes');
+      if (o1) o1.innerText = val;
+      if (o2) o2.innerText = val;
+    }
+
+    function updateToolLikeUI() {
+      const tool = TOOLS_DATA[currentToolId] || TOOLS_DATA['abhar'];
+      const hubId = tool.hubId || 'tool-2';
+      const isLiked = !!userLikes[hubId];
+      const count = (tool.baseLikes || 1500) + (isLiked ? 1 : 0);
+      const countFormatted = Number(count).toLocaleString('en-US');
+
+      const btn1 = document.getElementById('statLikeBtn');
+      const icon1 = document.getElementById('statLikeIcon');
+      const count1 = document.getElementById('statLikesCount');
+
+      const btn2 = document.getElementById('statLikeBtnRes');
+      const icon2 = document.getElementById('statLikeIconRes');
+      const count2 = document.getElementById('statLikesCountRes');
+
+      [btn1, btn2].forEach(b => {
+        if (b) {
+          if (isLiked) b.classList.add('liked');
+          else b.classList.remove('liked');
+        }
+      });
+
+      [icon1, icon2].forEach(i => {
+        if (i) i.innerText = isLiked ? '❤️' : '🤍';
+      });
+
+      [count1, count2].forEach(c => {
+        if (c) c.innerText = countFormatted;
+      });
+    }
+
+    function toggleToolLike() {
+      const tool = TOOLS_DATA[currentToolId] || TOOLS_DATA['abhar'];
+      const hubId = tool.hubId || 'tool-2';
+      const isLiked = !userLikes[hubId];
+      userLikes[hubId] = isLiked;
+
+      try {
+        localStorage.setItem('smartcheck_user_likes', JSON.stringify(userLikes));
+      } catch(e) {
+        console.warn("Could not save like to localStorage", e);
+      }
+
+      if (window.navigator && window.navigator.vibrate) {
+        window.navigator.vibrate(35);
+      }
+
+      updateToolLikeUI();
+    }
+
+    function startOnlineFluctuation() {
+      setInterval(() => {
+        const delta = (Math.random() > 0.48 ? 1 : -1) * (Math.floor(Math.random() * 2) + 1);
+        let nextVal = currentOnlineVal + delta;
+        if (nextVal < 40) nextVal = 44;
+        if (nextVal > 90) nextVal = 87;
+        currentOnlineVal = nextVal;
+        updateOnlineUI(currentOnlineVal);
+      }, 3300);
+    }
+
     // Detect tool from URL path or query parameter
     function detectTool() {
       const path = window.location.pathname.replace(/^\//, '').trim();
@@ -1259,6 +1535,9 @@
       document.getElementById('toolIcon').innerText = tool.icon;
       document.getElementById('toolTitle').innerText = tool.title;
       document.getElementById('toolDesc').innerText = tool.desc;
+
+      initSocialStats();
+      startOnlineFluctuation();
 
       currentQuestionIdx = 0;
       selectedAnswers = new Array(tool.questions.length).fill(null);
@@ -1395,6 +1674,9 @@
       const clinicMsg = `مرحباً مركز وداعاً للألم 🌸 عملت فحص ${tool.title} على منصة Smart Check Tools وطلعت النتيجة: "${res.title}" وحابب أستفسر عن جلسات الكايروبراكتيك والتأهيل اليدوي في خلدا أو الزيارة المنزلية.`;
       const waBookUrl = `https://wa.me/962790360440?text=${encodeURIComponent(clinicMsg)}`;
       document.getElementById('btnBookClinic').href = waBookUrl;
+
+      // Refresh social stats on results screen
+      initSocialStats();
 
       // Transition to results
       document.getElementById('scanningScreen').style.display = 'none';

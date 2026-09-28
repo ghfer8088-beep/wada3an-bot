@@ -228,11 +228,13 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;background:var(--navy);color
   <div class="nav">
     <button class="ntab on"  onclick="sw('pod',this)">🐝 خلية التفاعل</button>
     <button class="ntab"     onclick="sw('viral',this)">⚡ مولّد المنشورات</button>
+    <button class="ntab"     onclick="sw('design',this)">🎨 مصمم الإنفوجرافيك</button>
     <button class="ntab"     onclick="sw('reels',this)">🎬 استوديو الريلز</button>
     <button class="ntab"     onclick="sw('pf',this)">🛡️ فحص ما قبل النشر</button>
     <button class="ntab"     onclick="sw('cal',this)">📅 جدول المحتوى</button>
     <button class="ntab"     onclick="sw('algo',this)">🧠 دليل الخوارزمية</button>
   </div>
+
 
   <div class="wrap">
 
@@ -415,11 +417,93 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;background:var(--navy);color
           <button class="btn bg bsm" onclick="copyPost()">📋 نسخ المنشور</button>
           <button class="btn bgh bsm" onclick="sendToPF()">🛡️ إرسال للفحص</button>
           <button class="btn bgh bsm" onclick="genPost()">🔄 توليد آخر</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════ TAB: INFOGRAPHIC DESIGNER ═══════════════════ -->
+    <div class="sec" id="tab-design">
+      <div class="card">
+        <div class="ctitle">🎨 مصمم بوستات الإنفوجرافيك — فيروسي وجاهز للنشر</div>
+        <div class="tipbox">
+          <div class="tipbox-t">💡 سر المنشورات البصرية الأكثر تفاعلاً في فيسبوك</div>
+          <p>الإنفوجرافيك المقارن (خرافة ❌ مقابل حقيقة علمية ✅) يحصل على <strong>٤ أضعاف المشاركات (Shares)</strong> مقارنة بالمنشورات العادية، لأن الناس تحب توعية أصدقائها وتصحيح المفاهيم الشائعة.</p>
+        </div>
+        
+        <div class="fg" style="margin-bottom:14px">
+          <label class="flb">اختر قالباً جاهزاً أو عدّل كما تشاء</label>
+          <select class="fsel" id="ds-tpl" onchange="loadDesignTpl()">
+            <option value="myths">❌ قالب الخرافات والحقائق (نفس نموذج الصورة: توقف! معلومات خاطئة)</option>
+            <option value="sciatica">⚡ قالب عرق النسا والديسك: ٣ مفاهيم شائعة</option>
+            <option value="surgery">🏥 قالب: هل العملية الجراحية هي الحل الوحيد؟</option>
+            <option value="custom">✏️ قالب مخصص بالكامل</option>
+          </select>
+        </div>
+
+        <div class="frow f2">
+          <div class="fg"><label class="flb">شارة التحذير / العنوان الصادم</label>
+            <input class="fi" id="ds-badge" value="توقف ! ❌"></div>
+          <div class="fg"><label class="flb">العنوان الرئيسي</label>
+            <input class="fi" id="ds-title" value="هذه معلومات خاطئة عن ألم الظهر يصدقها الجميع:"></div>
+        </div>
+
+        <div class="fg" style="margin-bottom:14px"><label class="flb">الخرافة الكبرى (باللون الأحمر البارز)</label>
+          <input class="fi" id="ds-sub" value="&quot;الراحة التامة هي أفضل علاج للألم&quot;"></div>
+
+        <div style="background:rgba(255,255,255,0.03);border:1px solid var(--bdr);border-radius:12px;padding:14px;margin-bottom:14px">
+          <div style="font-weight:700;color:var(--gold);margin-bottom:10px">المقارنة الأولى:</div>
+          <div class="frow f2">
+            <div class="fg"><label class="flb">❌ الخرافة</label><input class="fi" id="ds-m1" value="الراحة التامة هي أفضل علاج للألم"></div>
+            <div class="fg"><label class="flb">✅ الحقيقة العلمية</label><input class="fi" id="ds-f1" value="الراحة الطويلة تُضعف العضلات وتُعقد الحالة. الحركة الموجهة هي الحل."></div>
+          </div>
+        </div>
+
+        <div style="background:rgba(255,255,255,0.03);border:1px solid var(--bdr);border-radius:12px;padding:14px;margin-bottom:14px">
+          <div style="font-weight:700;color:var(--gold);margin-bottom:10px">المقارنة الثانية:</div>
+          <div class="frow f2">
+            <div class="fg"><label class="flb">❌ الخرافة</label><input class="fi" id="ds-m2" value="العلاج اليدوي والكايروبراكتيك مؤلم ومخيف"></div>
+            <div class="fg"><label class="flb">✅ الحقيقة العلمية</label><input class="fi" id="ds-f2" value="٩٥٪ من مرضانا يشعرون براحة فورية وانفراج الضغط أثناء الجلسة."></div>
+          </div>
+        </div>
+
+        <div style="background:rgba(255,255,255,0.03);border:1px solid var(--bdr);border-radius:12px;padding:14px;margin-bottom:14px">
+          <div style="font-weight:700;color:var(--gold);margin-bottom:10px">المقارنة الثالثة:</div>
+          <div class="frow f2">
+            <div class="fg"><label class="flb">❌ الخرافة</label><input class="fi" id="ds-m3" value="لا يتحسن ألم الديسك إلا بعملية جراحية"></div>
+            <div class="fg"><label class="flb">✅ الحقيقة العلمية</label><input class="fi" id="ds-f3" value="٩٠٪ من حالات ألم الظهر والفقرات تُعالج بدون جراحة إطلاقاً."></div>
+          </div>
+        </div>
+
+        <div class="frow f2" style="margin-bottom:14px">
+          <div class="fg"><label class="flb">شعار الختام / النصيحة</label>
+            <input class="fi" id="ds-footer-cta" value="لا تصدق كل ما تسمع — استشر متخصصاً"></div>
+          <div class="fg"><label class="flb">معلومات المركز والهاتف</label>
+            <input class="fi" id="ds-footer-info" value="مركز وداعاً للألم | 0790360440"></div>
+        </div>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn bg" onclick="drawPoster()">🔄 تحديث المعاينة</button>
+          <button class="btn bg bsm" onclick="downloadPoster()" style="background:linear-gradient(135deg,#00e676,#00b248);color:#000;font-size:15px;padding:12px 24px">
+            📥 تحميل البوستر كصورة (PNG) بدقة عالية
+          </button>
+        </div>
+      </div>
+
+      <!-- Preview Canvas Card -->
+      <div class="card" style="text-align:center">
+        <div class="ctitle" style="justify-content:center">🖼️ المعاينة المباشرة للبوستر (جاهز للنشر على فيسبوك)</div>
+        <div style="max-width:540px;margin:15px auto;background:#fff;border-radius:16px;box-shadow:0 15px 40px rgba(0,0,0,0.6);overflow:hidden;padding:10px">
+          <canvas id="posterCanvas" width="1080" height="1520" style="width:100%;height:auto;display:block;border-radius:12px"></canvas>
+        </div>
+        <div style="margin-top:14px">
+          <button class="btn bg" onclick="downloadPoster()" style="background:linear-gradient(135deg,#00e676,#00b248);color:#000;font-size:16px;padding:14px 30px">
+            📥 اضغط هنا لتحميل الصورة على جهازك
+          </button>
         </div>
       </div>
     </div>
 
     <!-- ═══════════════════ TAB 3: REELS ═══════════════════ -->
+
     <div class="sec" id="tab-reels">
       <div class="card">
         <div class="ctitle">🎬 استوديو الريلز — بدون وجه</div>
@@ -493,7 +577,16 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;background:var(--navy);color
           <div class="card"><div class="ctitle">⏰ أفضل أوقات النشر</div><div id="pf-times"></div></div>
         </div>
         <div class="card"><div class="ctitle">🔍 تحليل النص</div><div id="pf-ana"></div></div>
-        <div class="card"><div class="ctitle">💡 توصيات التحسين</div><div id="pf-tips"></div></div>
+        <div class="card">
+          <div class="ctitle">💡 توصيات التحسين</div>
+          <div id="pf-tips"></div>
+          <div style="margin-top:16px;text-align:center">
+            <button class="btn bg" onclick="autoOptimizePost()" style="font-size:16px;padding:14px 28px;box-shadow:0 8px 24px rgba(245,200,66,0.35)">
+              ✨ تطبيق كافة التحسينات تلقائياً وإعادة الفحص
+            </button>
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -641,7 +734,9 @@ function init() {
   if(cd) cd.value = new Date().toISOString().split('T')[0];
   const bmLink = document.getElementById('bm-link');
   if(bmLink) bmLink.href = getBMCode();
+  setTimeout(drawPoster, 300);
 }
+
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -707,51 +802,47 @@ function renderAccs() {
     </div>`).join('');
 }
 
-// ═══════════════════ COMMENT TEMPLATES ═══════════════════
+// ═══════════════════ COMMENT TEMPLATES (AUTHENTIC JORDANIAN) ═══════════════════
 const CMTS = {
   'مشجع': [
-    'ما شاء الله على الاحترافية دايماً، مركز وداعاً للألم يستاهل كل التقدير 🙏',
-    'والله كلام صح ومفيد، استفدت كثير منه، شكراً جزيلاً 💪',
-    'مشكورين على المعلومات القيمة هيك المراكز الحقيقية اللي بتفرق 🌟',
-    'الله يبارك بكم دايماً تعطوا أكثر مما نتوقع، ربنا يحفظكم 🤍',
-    'كل ما شفت منشور المركز استفدت شيء جديد، الله يعطيكم العافية ✨',
-    'سبحان الله كم ناس تعاني وما تعرف إن الحل موجود عندكم 💙',
-    'مركز محترم جداً والحمد لله أعرفه وأنصح فيه كل من يسألني 👏',
+    'يسعد مساكم دكتور، يعطيكم ألف عافية على هالمعلومات اللي بتوزن ذهب والله 👏🌸',
+    'ما شاء الله شغلكم بيحكوا عنه كل أهل خلدا، سمعتكم بتسبقكم دايماً دكتور جمال 🙏✨',
+    'والله يا دكتور فتحت عيوننا على شغلات كنا بنعملها غلط وبتدمر ضهرنا، يسلمو إيديك 💙',
+    'أحلى مركز بالبلد وأرقى تعامل.. الله يباركلكم بعلمكم وصحتكم يا رب 🤲',
+    'منشوراتكم دايماً مفيدة ومباشرة، الله يقويكم ويجزيكم كل خير 🌟',
+    'كل التقدير والاحترام لمركز وداعاً للألم، فعلاً وداعاً للألم اسم على مسمى 💯'
   ],
   'سائل': [
-    'سؤال بصراحة: هل الحالة هذه تحتاج جلسات كثيرة؟',
-    'كنت أتساءل عن هالموضوع، ممكن توضحوا أكثر لو سمحتم؟',
-    'وأنا عندي نفس المشكلة منذ فترة، هل العلاج اليدوي مناسب لحالتي؟',
-    'هل ممكن أحجز موعد بنفس اليوم؟ وكيف الحجز؟',
-    'الله يعطيكم العافية — سؤال: هل الألم يرجع بعد الجلسات؟',
-    'متوسط عدد الجلسات للتحسن كم يكون تقريباً؟',
-    'هل يقبلون حالات متقدمة أم فقط في البداية؟',
+    'مرحبا دكتور، موقعكم بخلدا وين بالضبط جنب شو؟ وبيلزم أحجز موعد ولا بصير أجي فجأة؟ 🤔',
+    'يعطيك العافية، قديش بتكلف كشفية والجلسة لو سمحتوا؟ وهل في عروض للباكجات؟ 💰',
+    'دكتور عندي وجع بأسفل الظهر وبنزل على رجلي الشمال زي الخدران، هاد عرق نسا؟ وبيلزم رنين؟',
+    'لو سمحتوا هل بتعالجوا آلام الأبهر والكتف؟ لأنه تعبني من كتر قعدة المكتب 💻',
+    'أنا ساكن بإربد، كم جلسة تقريباً بحتاج مشان أرتّب مشواري لعمّان؟',
+    'هل الجلسة فيها وجع ولا طقطقة خفيفة ومريحة؟ بصراحة شوي خايف/ة 😅',
+    'ممكن رقم الواتساب المباشر مشان أبعتلكم تقرير الرنين المغناطيسي تشوفوه؟ 📲'
   ],
   'شاهد': [
-    'والله نفس تجربتي بالضبط! وبعد الجلسات صرت بخير تماماً الحمد لله 🙏',
-    'أنا من المراجعين وأشهد بأمانة إن الطاقم محترف جداً ما شفت أحسن',
-    'صديقتي راجعت المركز وما رجعت تشتكي، سبحان الله',
-    'تجربتي معكم كانت من أفضل تجاربي الطبية بكل صدق',
-    'كنت متردد في البداية بس بعد ما جربت غيّرت رأيي ١٠٠٪',
-    'أخوي عنده نفس المشكلة وبعد ما رح تحسن كثير، يستاهلوا الثقة',
+    'والله يا جماعة رحت عندهم بعد ما لفيت دكاترة البلد وكلهم قالوا عملية، ومن ثالث جلسة بفضل الله المشي اختلف معي تماماً 🙏',
+    'أنا جربت عندهم لعلاج الرقبة والصداع، والله العظيم ارتحت راحة ما شفتها من سنين، دكتور متمكن ومحترم جداً 🌟',
+    'الوالدة كانت ما تقدر توقف تطبخ ربع ساعة، بعد جلسات الكايروبراكتيك بمركز وداعاً للألم تحسنت ٨٠٪ ما شاء الله 🤍',
+    'عن تجربة شخصية.. لا تترددوا بالروحة، التشخيص عندهم دقيق جداً وما بياخدك ع جلسات زيادة ع الفاضي 👏',
+    'أنا كنت متخوف من طقطقة الفقرات بس والله طلعت مريحة وبتفك الضغط فك، يسلمو دكتور 🌸',
+    'شهدت قدام عيني كيف تعاملهم مع كبار السن رحمة وأخلاق عالية قبل ما يكون علاج 👍'
   ],
   'معلومات': [
-    'معلومة مهمة يضاف لها: النوم الصحيح يساعد كثير في التعافي 🌙',
-    'وللإضافة: التمارين بعد الجلسات أساسية للحفاظ على النتائج',
-    'من أبحاث حديثة: العلاج اليدوي أثبت فاعلية تفوق المسكنات بـ٣ مرات',
-    'الجلوس ٨ ساعات بالمكتب بشكل خاطئ يضع ضغط ٢٠٠ كيلو على الفقرات!',
-    'الوقاية خير من العلاج وزيارة المختص دورياً تحمي العمود الفقري 🦴',
-    'من المفيد أيضاً تمارين الإطالة اليومية تمنع تكرار الألم',
+    'مزبوط دكتور، وأنا قرأت كمان إنه شرب المي والمشي نص ساعة يومياً بساعد كتير بتغذية الغضاريف 💧',
+    'يا ريت تنزلولنا بوست عن أحسن وضعية مخدة للرقبة أثناء النوم لأنه نص وجعنا منها 😴',
+    'فعلاً الراحة التامة أكبر غلط، الحركة المدروسة هي اللي بترجع الدورة الدموية للفقرات 🚶‍♂️',
+    'الناس بتفكر أي وجع ضهر ديسك، وهو أغلب الأوقات شد عضلي أو ميلان بالحوض.. ممتاز إنكم بتوضحوا هالأمور 🧠'
   ],
   'ناصح': [
-    'نصيحتي لكل اللي يعانوا: لا تتأخروا، الألم المبكر يُعالج بسهولة 💙',
-    'من تجربتي: الصبر على الجلسات مع التمارين في البيت = نتائج مضاعفة',
-    'ياريت كل واحد يعاني من آلام الظهر يقرأ هالمنشور',
-    'أنصح كل أم تتألم ترو المركز، ما تستاهلي تعيشي مع الألم 🌹',
-    'نصيحة ذهبية: لا تنتظري حتى يصير الألم مزمن — البداية المبكرة تفرق',
-    'الألم ما هو قدر — عندكم الحل وأنا شاهد عليه',
+    'نصيحة لوجه الله لكل حدا موجوع: لا تسكت على حالك وتاكل مسكنات، روح افحص واعرف السبب الصح 💙',
+    'والله جلسة علاج طبيعي وكايروبراكتيك بتغنيك عن سنين أدوية وعمليات، استثمروا بصحتكم يا جماعة 🙌',
+    'اللي بسوق ساعات طويلة متلي لازم يراجع المركز، القعدة بتذبح العمود الفقري بدون ما نحس 🚕',
+    'ألف سلامة ع الجميع.. وما تشوفوا شر، وداعاً للألم من أفضل مراكز التأهيل بعمّان بدون مجاملة 🌿'
   ]
 };
+
 
 function getComment(acc, topic, i) {
   const pool = CMTS[acc.sty] || CMTS['مشجع'];
@@ -973,13 +1064,279 @@ function copyPost() { copy(_lastPost); }
 function sendToPF() {
   document.getElementById('pf-txt').value = _lastPost;
   document.querySelectorAll('.ntab').forEach(b=>b.classList.remove('on'));
-  document.querySelectorAll('.ntab')[3].classList.add('on');
+  document.querySelectorAll('.ntab')[4].classList.add('on');
   document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
   document.getElementById('tab-pf').classList.add('on');
   runPF();
 }
 
+// ═══════════════════ INFOGRAPHIC POSTER DESIGNER ═══════════════════
+const DESIGN_TEMPLATES = {
+  'myths': {
+    badge: 'توقف ! ❌',
+    title: 'هذه معلومات خاطئة عن ألم الظهر يصدقها الجميع:',
+    sub: '"الراحة التامة هي أفضل علاج للألم"',
+    m1: 'الراحة التامة هي أفضل علاج للألم',
+    f1: 'الراحة الطويلة تُضعف العضلات وتُعقد الحالة. الحركة الموجهة هي الحل.',
+    m2: 'العلاج اليدوي والكايروبراكتيك مؤلم ومخيف',
+    f2: '٩٥٪ من مرضانا يشعرون براحة فورية وتخفيف الضغط أثناء الجلسة.',
+    m3: 'لا يتحسن ألم الديسك إلا بعملية جراحية',
+    f3: '٩٠٪ من حالات ألم الظهر والفقرات تُعالج بدون جراحة إطلاقاً.'
+  },
+  'sciatica': {
+    badge: 'انتبه ! ⚠️',
+    title: '٣ علامات تدل على ضغط العصب الوركي (عرق النسا):',
+    sub: '"الوجع النازل على الرجل ليس مجرد شد عضلي"',
+    m1: 'أخذ المسكنات والإبر يكفي لشفاء عرق النسا',
+    f1: 'المسكن يخفي الإحساس فقط، بينما ضغط الفقرة على العصب يبقى مستمراً.',
+    m2: 'النوم على أرضية صلبة يعيد الغضروف لمكانه',
+    f2: 'الأرض الصلبة تزيد الضغط على مفاصل الحوض والفقرات القطنية.',
+    m3: 'الديسك وعرق النسا يعني التوقف عن الحركة والرياضة للأبد',
+    f3: 'خطة تقويم العمود الفقري وتمارين الإطالة تعيدك لحياتك الطبيعية.'
+  },
+  'surgery': {
+    badge: 'حقائق علمية 💡',
+    title: 'هل العملية الجراحية هي الحل الأول والوحيد للديسك؟',
+    sub: '"قبل أن تتخذ قرار العملية.. اقرأ هذه الأرقام"',
+    m1: 'أي انزلاق غضروفي بالرنين يحتاج عملية جراحية',
+    f1: 'الأبحاث العالمية تؤكد أن أقل من ١٠٪ فقط من الحالات تستدعي الجراحة.',
+    m2: 'العلاج التحفظي واليدوي يأخذ وقتاً طويلاً دون فائدة',
+    f2: 'التحسن الملحوظ يبدأ من أول ٣ جلسات تقويم وتأهيل بفضل الله.',
+    m3: 'العملية الجراحية تضمن عدم عودة الألم نهائياً',
+    f3: 'بدون تعديل ميكانيكا العمود الفقري وتقوية العضلات قد يعود الألم.'
+  },
+  'custom': {
+    badge: 'معلومة هامة ⚡',
+    title: 'اكتب العنوان الرئيسي لجمهورك هنا:',
+    sub: '"الفكرة البارزة التي تريد تصحيحها"',
+    m1: 'المفهوم الخاطئ الأول',
+    f1: 'الحقيقة والتوضيح الطبي السليم الأول',
+    m2: 'المفهوم الخاطئ الثاني',
+    f2: 'الحقيقة والتوضيح الطبي السليم الثاني',
+    m3: 'المفهوم الخاطئ الثالث',
+    f3: 'الحقيقة والتوضيح الطبي السليم الثالث'
+  }
+};
+
+function loadDesignTpl() {
+  const tpl = DESIGN_TEMPLATES[document.getElementById('ds-tpl').value];
+  if (!tpl) return;
+  document.getElementById('ds-badge').value = tpl.badge;
+  document.getElementById('ds-title').value = tpl.title;
+  document.getElementById('ds-sub').value   = tpl.sub;
+  document.getElementById('ds-m1').value    = tpl.m1;
+  document.getElementById('ds-f1').value    = tpl.f1;
+  document.getElementById('ds-m2').value    = tpl.m2;
+  document.getElementById('ds-f2').value    = tpl.f2;
+  document.getElementById('ds-m3').value    = tpl.m3;
+  document.getElementById('ds-f3').value    = tpl.f3;
+  drawPoster();
+}
+
+function drawPoster() {
+  const cvs = document.getElementById('posterCanvas');
+  if (!cvs) return;
+  const ctx = cvs.getContext('2d');
+  const W = 1080, H = 1520;
+  ctx.save();
+
+  // Background gradient: light blue/cyan medical gradient
+  const bgGrad = ctx.createLinearGradient(0, 0, 0, H);
+  bgGrad.addColorStop(0, '#f2f8fc');
+  bgGrad.addColorStop(0.3, '#e5f3fb');
+  bgGrad.addColorStop(1, '#dff0fa');
+  ctx.fillStyle = bgGrad;
+  ctx.fillRect(0, 0, W, H);
+
+  // Background subtle medical grid lines
+  ctx.strokeStyle = 'rgba(64, 160, 220, 0.08)';
+  ctx.lineWidth = 1;
+  for (let x = 40; x < W; x += 60) {
+    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+  }
+  for (let y = 40; y < H; y += 60) {
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+  }
+
+  // 1. TOP BADGE: Red alert pill
+  const badgeText = document.getElementById('ds-badge').value || 'توقف ! ❌';
+  ctx.save();
+  ctx.fillStyle = '#d32f2f';
+  const badgeW = 340, badgeH = 74, badgeX = (W - badgeW) / 2, badgeY = 50;
+  ctx.beginPath();
+  ctx.roundRect(badgeX, badgeY, badgeW, badgeH, 37);
+  ctx.fill();
+  ctx.shadowColor = 'rgba(211,47,47,0.4)';
+  ctx.shadowBlur = 18;
+  ctx.shadowOffsetY = 6;
+  ctx.fill();
+  ctx.restore();
+
+  ctx.fillStyle = '#ffffff';
+  ctx.font = 'bold 36px Segoe UI, Tahoma, Arial';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(badgeText, W / 2, badgeY + badgeH / 2);
+
+  // 2. MAIN TITLE
+  const mainTitle = document.getElementById('ds-title').value || 'هذه معلومات خاطئة عن ألم الظهر يصدقها الجميع:';
+  ctx.fillStyle = '#0f2942';
+  ctx.font = 'bold 38px Segoe UI, Tahoma, Arial';
+  ctx.textAlign = 'center';
+  ctx.fillText(mainTitle, W / 2, 175);
+
+  // 3. SUBTITLE HIGHLIGHT (Red box)
+  const subText = document.getElementById('ds-sub').value || '"الراحة التامة هي أفضل علاج للألم"';
+  const subBoxW = 860, subBoxH = 70, subBoxX = (W - subBoxW) / 2, subBoxY = 215;
+  ctx.save();
+  ctx.fillStyle = 'rgba(255, 235, 238, 0.9)';
+  ctx.strokeStyle = '#ef9a9a';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.roundRect(subBoxX, subBoxY, subBoxW, subBoxH, 20);
+  ctx.fill(); ctx.stroke();
+  ctx.restore();
+
+  ctx.fillStyle = '#b71c1c';
+  ctx.font = 'bold 32px Segoe UI, Tahoma, Arial';
+  ctx.textAlign = 'center';
+  ctx.fillText(subText, W / 2, subBoxY + subBoxH / 2);
+
+  // 4. THREE COMPARISON CARDS
+  const cards = [
+    { m: document.getElementById('ds-m1').value, f: document.getElementById('ds-f1').value },
+    { m: document.getElementById('ds-m2').value, f: document.getElementById('ds-f2').value },
+    { m: document.getElementById('ds-m3').value, f: document.getElementById('ds-f3').value }
+  ];
+
+  let cardY = 320;
+  const cardH = 290, cardW = 960, cardX = (W - cardW) / 2;
+
+  cards.forEach((c, idx) => {
+    // Outer white card container
+    ctx.save();
+    ctx.fillStyle = '#ffffff';
+    ctx.shadowColor = 'rgba(15, 41, 66, 0.08)';
+    ctx.shadowBlur = 18;
+    ctx.shadowOffsetY = 8;
+    ctx.beginPath();
+    ctx.roundRect(cardX, cardY, cardW, cardH, 24);
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(200, 225, 242, 0.8)';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    ctx.restore();
+
+    // Myth section inside card (Top half)
+    const mPillX = cardX + cardW - 200, mPillY = cardY + 25;
+    ctx.fillStyle = '#d32f2f';
+    ctx.beginPath(); ctx.roundRect(mPillX, mPillY, 175, 40, 20); ctx.fill();
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 20px Segoe UI, Tahoma';
+    ctx.textAlign = 'center';
+    ctx.fillText('خرافة شائعة ❌', mPillX + 87, mPillY + 20);
+
+    ctx.fillStyle = '#b71c1c';
+    ctx.font = 'bold 25px Segoe UI, Tahoma';
+    ctx.textAlign = 'right';
+    ctx.fillText(`"${c.m}"`, cardX + cardW - 35, cardY + 100);
+
+    // Separator line
+    ctx.strokeStyle = 'rgba(220, 230, 240, 0.9)';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(cardX + 30, cardY + 138);
+    ctx.lineTo(cardX + cardW - 30, cardY + 138);
+    ctx.stroke();
+
+    // Fact section inside card (Bottom half)
+    const fPillX = cardX + cardW - 200, fPillY = cardY + 155;
+    ctx.fillStyle = '#2e7d32';
+    ctx.beginPath(); ctx.roundRect(fPillX, fPillY, 175, 40, 20); ctx.fill();
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 20px Segoe UI, Tahoma';
+    ctx.textAlign = 'center';
+    ctx.fillText('الحقيقة العلمية ✅', fPillX + 87, fPillY + 20);
+
+    ctx.fillStyle = '#1b5e20';
+    ctx.font = '600 24px Segoe UI, Tahoma';
+    ctx.textAlign = 'right';
+    
+    // wrap text if needed
+    const maxTextW = cardW - 70;
+    const words = c.f.split(' ');
+    let line1 = '', line2 = '';
+    for (let w of words) {
+      if (ctx.measureText(line1 + w).width < maxTextW && !line2) {
+        line1 += w + ' ';
+      } else {
+        line2 += w + ' ';
+      }
+    }
+    if (line2) {
+      ctx.fillText(line1.trim(), cardX + cardW - 35, cardY + 225);
+      ctx.fillText(line2.trim(), cardX + cardW - 35, cardY + 258);
+    } else {
+      ctx.fillText(line1.trim(), cardX + cardW - 35, cardY + 235);
+    }
+
+    cardY += cardH + 25;
+  });
+
+  // 5. FOOTER BANNER
+  const footerCta = document.getElementById('ds-footer-cta').value || 'لا تصدق كل ما تسمع — استشر متخصصاً';
+  const footerInfo = document.getElementById('ds-footer-info').value || 'مركز وداعاً للألم | 0790360440';
+  const footY = 1290, footH = 175, footW = 960, footX = (W - footW) / 2;
+
+  ctx.save();
+  const fGrad = ctx.createLinearGradient(footX, footY, footX + footW, footY + footH);
+  fGrad.addColorStop(0, '#0d2238');
+  fGrad.addColorStop(1, '#081726');
+  ctx.fillStyle = fGrad;
+  ctx.shadowColor = 'rgba(0,0,0,0.25)';
+  ctx.shadowBlur = 20;
+  ctx.shadowOffsetY = 8;
+  ctx.beginPath();
+  ctx.roundRect(footX, footY, footW, footH, 28);
+  ctx.fill();
+  ctx.restore();
+
+  // CTA text with lightbulb
+  ctx.fillStyle = '#f5c842';
+  ctx.font = 'bold 32px Segoe UI, Tahoma';
+  ctx.textAlign = 'center';
+  ctx.fillText('💡 ' + footerCta, W / 2, footY + 55);
+
+  // Phone & Clinic Info pill
+  const pBoxW = 620, pBoxH = 60, pBoxX = (W - pBoxW) / 2, pBoxY = footY + 95;
+  ctx.fillStyle = '#00e676';
+  ctx.beginPath();
+  ctx.roundRect(pBoxX, pBoxY, pBoxW, pBoxH, 30);
+  ctx.fill();
+
+  ctx.fillStyle = '#071626';
+  ctx.font = 'bold 28px Segoe UI, Tahoma';
+  ctx.textAlign = 'center';
+  ctx.fillText('📞 ' + footerInfo + ' • خلدا، عمّان', W / 2, pBoxY + 30);
+
+  ctx.restore();
+}
+
+function downloadPoster() {
+  drawPoster();
+  const cvs = document.getElementById('posterCanvas');
+  if (!cvs) return;
+  const link = document.createElement('a');
+  link.download = 'wada3an_infographic.png';
+  link.href = cvs.toDataURL('image/png');
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  toast('📥 تم تحميل بوستر الإنفوجرافيك بدقة عالية!');
+}
+
 // ═══════════════════ REELS ═══════════════════
+
 const CTA_MAP = {
   comment:`📢 نداء الفعل:\nنص كبير: "علّق 🙋 إذا تعاني من نفس الشيء"\n"أرسلها لشخص يحتاجها الآن"\n\n✏️ ختم بشعار المركز + 0790360440`,
   save:   `📢 نداء الفعل:\nنص كبير: "احفظ هذا الريلز الآن 🔖"\n"هذه المعلومة ممكن تغيّر حياتك"\n\n✏️ ختم بشعار المركز`,
@@ -1165,7 +1522,39 @@ function runPF() {
   document.getElementById('pf-res').scrollIntoView({behavior:'smooth'});
 }
 
+function autoOptimizePost() {
+  let txt = document.getElementById('pf-txt').value.trim();
+  if (!txt) { toast('⚠️ أدخل نص المنشور أولاً'); return; }
+
+  // 1. Remove dangerous engagement-bait words that kill Facebook reach
+  DW.forEach(w => {
+    txt = txt.replaceAll(w, '');
+  });
+  WW.forEach(w => {
+    if (w === 'أسعار') txt = txt.replaceAll('أسعار', 'تفاصيل التكلفة');
+  });
+
+  // Clean double spaces
+  txt = txt.replace(/[ \t]{2,}/g, ' ').replace(/\n{3,}/g, '\n\n');
+
+  // 2. Add engaging question if missing
+  if (!txt.includes('؟') && !txt.includes('?')) {
+    txt += '\n\nوأنت.. كم مرة حسيت بهيك وجع أو شو أكتر وضعية بتزعجك؟ شاركنا رأيك بالتعليقات 👇💬';
+  }
+
+  // 3. Add clinic contact info if missing
+  if (!txt.includes('0790360440')) {
+    txt += '\n\n📞 للاستفسار أو حجز موعد مع مركز وداعاً للألم (خلدا، عمّان): 0790360440';
+  }
+
+  // 4. Update textarea & re-run pre-flight check
+  document.getElementById('pf-txt').value = txt;
+  runPF();
+  toast('✨ تم تطبيق كافة التحسينات ورفع نقاط المنشور!');
+}
+
 // ═══════════════════ CALENDAR ═══════════════════
+
 const WPLAN=[
   {d:'السبت',   ico:'📚',ty:'تعليمي', t:'٨:٠٠ ص', idea:'منشور خريطة الألم — أسباب وحلول',          fmt:'نص + صورة إنفوجرافيك'},
   {d:'الأحد',   ico:'💬',ty:'تفاعلي', t:'٧:٠٠ م', idea:'تحدي: اختبر نفسك — كم عمر ظهرك الحقيقي؟', fmt:'استطلاع / أسئلة'},

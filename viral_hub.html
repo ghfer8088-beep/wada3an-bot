@@ -302,23 +302,26 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;background:var(--navy);color
 
       <!-- Bookmarklet Installer -->
       <div class="card" style="background:linear-gradient(135deg,rgba(245,200,66,0.06),rgba(0,0,0,0));border-color:rgba(245,200,66,0.3)">
-        <div class="ctitle">🔖 Bookmarklet — اضغط داخل فيسبوك مباشرة</div>
+        <div class="ctitle">🔖 Hub المساعد — أداة الإدراج داخل فيسبوك بضغطة زر</div>
         <div class="tipbox" style="background:rgba(245,200,66,0.07);border-color:rgba(245,200,66,0.25)">
-          <div class="tipbox-t">⚡ كيف يعمل</div>
-          <p>١. اسحب الزر الذهبي أدناه لشريط الإشارات في متصفحك (Bookmarks Bar)<br>
-          ٢. افتح أي منشور من صفحة وداعاً للألم في أي حساب<br>
-          ٣. اضغط على الـ Bookmark — يظهر popup بالتعليق الجاهز<br>
-          ٤. اضغط <strong>"أدرج في التعليق"</strong> ← يملأ الخانة تلقائياً<br>
-          ٥. اضغط <strong>Enter</strong> فقط — انتهيت من هذا الحساب!</p>
+          <div class="tipbox-t">⚡ كيف تجعلها تعمل داخل فيسبوك</div>
+          <p>متصفح Chrome يمنع تشغيل الروابط العادية داخل فيسبوك كإجراء أمان، لذا يلزم خطوة واحدة بسيطة (١٥ ثانية):<br>
+          ١. اضغط زر <strong>"📋 نسخ كود الـ Bookmarklet"</strong> أدناه.<br>
+          ٢. في شريط الإشارات فوق عندك: كليك يمين على <strong>Hub المساعد</strong> ← اضغط <strong>تعديل (Edit)</strong>.<br>
+          ٣. في خانة <strong>عنوان URL</strong>: احذف الرابط الموجود والصق الكود الجديد (Ctrl + V) ثم اضغط <strong>حفظ (Save)</strong>.<br>
+          ٤. افتح أي منشور في فيسبوك واضغط عليها ← سيظهر لك مربع التفاعل والإدراج الفوري!</p>
         </div>
-        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:12px">
-          <a id="bm-link" href="#" onclick="return installBM(event)"
-            style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#f5c842,#d4a820);color:#000;font-weight:800;padding:14px 24px;border-radius:12px;text-decoration:none;font-size:15px;box-shadow:0 6px 20px rgba(245,200,66,.35);cursor:grab">
-            🔖 Hub المساعد — اسحبني للـ Bookmarks Bar
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:14px">
+          <button class="btn bg" onclick="installBM(event)" style="font-size:15px;padding:12px 22px;">
+            📋 نسخ كود الـ Bookmarklet
+          </button>
+          <a id="bm-link" href="javascript:void(0)"
+            style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.08);color:var(--gold);border:1px dashed var(--gold);font-weight:700;padding:12px 18px;border-radius:10px;text-decoration:none;font-size:13px;cursor:grab">
+            🔖 أو اسحب هذا الزر لشريط الإشارات
           </a>
-          <div style="font-size:12px;color:var(--dim)">أو اضغط لنسخ الكود يدوياً</div>
         </div>
       </div>
+
 
       <div id="mission-out" style="display:none">
         <div class="card">
@@ -636,7 +639,10 @@ function init() {
   updStats(); renderAccs();
   const cd = document.getElementById('cal-date');
   if(cd) cd.value = new Date().toISOString().split('T')[0];
+  const bmLink = document.getElementById('bm-link');
+  if(bmLink) bmLink.href = getBMCode();
 }
+
 
 document.addEventListener('DOMContentLoaded', () => {
   init();
@@ -1379,7 +1385,10 @@ genMission=function(){
     const act=i===0?'❤️ إعجاب فقط أولاً':(i%3===0?'❤️ إعجاب + 💬 تعليق':'💬 تعليق + ❤️ إعجاب');
     _mcQueue.push({acc:a,comment:cmt,action:act,timeStr:ts,url});
   });
+  const bmLink = document.getElementById('bm-link');
+  if(bmLink) bmLink.href = getBMCode(_mcQueue);
 };
+
 
 // ═══════════════════ PAGE POSTS FETCHER ═══════════════════
 let _pagePosts=[];
@@ -1431,29 +1440,124 @@ function startSessionForPost(idx) {
   toast('✅ جاهز! اضغط 🚀 تشغيل Mission Control');
 }
 
-// ═══════════════════ BOOKMARKLET ═══════════════════
-function getBMCode() {
-  const HUB = 'https://wada3an-bot.onrender.com';
-  return `javascript:(function(){var H='${HUB}';var e=document.getElementById('_vh_bm');if(e){e.remove();return;}function ins(t){var sels=['[data-lexical-editor="true"]','div[contenteditable="true"][role="textbox"]','div[aria-label*="تعليق"]','div[aria-label*="comment"]','textarea'];var b=null;for(var i=0;i<sels.length;i++){b=document.querySelector(sels[i]);if(b)break;}if(!b){b=document.activeElement;if(!b||b.contentEditable!=='true')b=null;}if(b){b.focus();try{document.execCommand('selectAll',false,null);document.execCommand('insertText',false,t);}catch(e){b.textContent=t;b.dispatchEvent(new Event('input',{bubbles:true}));}return true;}return false;}function mk(d){var el=document.createElement('div');el.id='_vh_bm';el.style.cssText='position:fixed;top:16px;left:16px;z-index:2147483647;background:#07091a;border:2px solid #f5c842;border-radius:14px;padding:18px;width:320px;font-family:Arial,sans-serif;color:#e8eaf6;direction:rtl;box-shadow:0 16px 50px rgba(0,0,0,.9);';if(!d.active){el.innerHTML='<div style="text-align:center;padding:10px"><div style="font-size:28px">⏸</div><div style="color:#78909c;font-size:13px;margin:8px 0">لا توجد جلسة Mission Control نشطة<br>شغّل الجلسة من الهاب أولاً</div><br><a href="'+H+'/viral-hub" target="_blank" style="color:#f5c842;font-size:13px">افتح الهاب 🚀</a><br><br><button onclick="document.getElementById(\\'_vh_bm\\').remove()" style="background:rgba(255,82,82,.2);color:#ff5252;border:1px solid rgba(255,82,82,.3);padding:8px 16px;border-radius:8px;cursor:pointer;font-family:inherit">إغلاق</button></div>';document.body.appendChild(el);return;}var cmt=d.comment||'';el.innerHTML='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><div style="color:#f5c842;font-weight:bold;font-size:13px">🚀 '+d.seq+'</div><button onclick="document.getElementById(\\'_vh_bm\\').remove()" style="background:transparent;color:#78909c;border:none;cursor:pointer;font-size:18px;line-height:1">✕</button></div><div style="font-size:12px;color:#40c4ff;margin-bottom:10px;background:rgba(64,196,255,.08);padding:6px 10px;border-radius:6px">👤 '+d.account+' · '+d.action+'</div><div id="_vh_ct" style="background:rgba(255,255,255,.05);padding:12px;border-radius:8px;font-size:14px;line-height:1.75;margin-bottom:12px;max-height:130px;overflow-y:auto">'+cmt+'</div><div style="display:flex;gap:8px"><button id="_vh_i" style="flex:1;background:linear-gradient(135deg,#f5c842,#d4a820);color:#000;border:none;padding:12px;border-radius:8px;font-weight:bold;cursor:pointer;font-family:inherit;font-size:14px">✓ أدرج في التعليق</button><button id="_vh_n" style="background:rgba(0,230,118,.1);color:#00e676;border:1px solid rgba(0,230,118,.25);padding:12px;border-radius:8px;cursor:pointer;font-family:inherit;font-size:12px;white-space:nowrap">التالي ⏭</button></div>';document.body.appendChild(el);document.getElementById('_vh_i').onclick=function(){var t=document.getElementById('_vh_ct').textContent;if(ins(t)){this.style.background='linear-gradient(135deg,#00e676,#00b248)';this.textContent='✅ تم — اضغط Enter';}else{alert('انقر على خانة التعليق أولاً ثم اضغط الـ Bookmark مجدداً');}};document.getElementById('_vh_n').onclick=function(){fetch(H+'/api/mc-advance',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'}).then(function(r){return r.json();}).then(function(j){if(j.complete){document.getElementById('_vh_bm').remove();alert('🎉 اكتملت جلسة التفاعل! المنشور في طريقه للانتشار.');}else{document.getElementById('_vh_bm').remove();}}).catch(function(){alert('خطأ في الاتصال');});};}fetch(H+'/api/mc-status').then(function(r){return r.json();}).then(mk).catch(function(){alert('⚠️ تعذّر الاتصال بالهاب. تأكد من فتح wada3an-bot.onrender.com');});})();`;
+// ═══════════════════ BOOKMARKLET (SELF-CONTAINED) ═══════════════════
+function getBMCode(queue) {
+  var rawList = (queue && queue.length) ? queue : (_mcQueue && _mcQueue.length ? _mcQueue : (accs.length ? accs.map(function(a,i){
+    return { name: a.name, comment: getComment(a, document.getElementById('mis-topic')?.value || 'علاج آلام الظهر والرقبة', i), action: '💬 تعليق + ❤️ إعجاب' };
+  }) : [
+    { name: 'حساب 1', comment: 'عن تجربة شخصية بمركز وداعاً للألم في خلدا النتائج ممتازة من أول جلسة شكراً دكتور', action: '💬 تعليق' },
+    { name: 'حساب 2', comment: 'كم سعر كشفية وجلسة الكايروبراكتيك لو سمحتوا؟', action: '💬 سؤال' },
+    { name: 'حساب 3', comment: 'أنصح الجميع بمراجعة المركز تعامل راقي وتشخيص دقيق جداً بدون جراحة', action: '💬 شهادة' },
+    { name: 'حساب 4', comment: 'هل متوفر فرع في إربد أو الزرقاء أم فقط خلدا عمّان؟', action: '💬 سؤال' },
+    { name: 'حساب 5', comment: 'العلاج اليدوي أراحني من آلام الديسك بعد معاناة طويلة بارك الله فيكم', action: '💬 نصيحة' }
+  ]));
+
+  var items = rawList.map(function(it){
+    return {
+      n: it.name || it.acc?.name || 'حساب',
+      c: (it.comment || '').replace(/[\r\n]+/g, ' ').trim(),
+      a: it.action || '💬 تعليق'
+    };
+  });
+
+  return "javascript:(function(){"
+    + "var Q=" + JSON.stringify(items) + ";"
+    + "var e=document.getElementById('_vh_bm');if(e){e.remove();return;}"
+    + "var idx=parseInt(sessionStorage.getItem('_vh_idx')||'0');if(idx>=Q.length)idx=0;"
+    + "function ins(t){"
+    + "var sels=['div[contenteditable=\"true\"][role=\"textbox\"]','[data-lexical-editor=\"true\"]','div[aria-label*=\"تعليق\"]','div[aria-label*=\"Comment\"]','div[aria-label*=\"comment\"]','form textarea'];"
+    + "var el=null;"
+    + "for(var i=0;i<sels.length;i++){var f=document.querySelectorAll(sels[i]);if(f.length){el=f[f.length-1];break;}}"
+    + "if(!el){el=document.activeElement;}"
+    + "if(!el||(el.contentEditable!=='true'&&el.tagName!=='TEXTAREA')){"
+    + "alert('⚠️ الرجاء النقر أولاً بالماوس داخل خانة التعليق (اكتب تعليقاً...) ثم اضغط زر الإدراج مجدداً');return false;"
+    + "}"
+    + "el.focus();"
+    + "try{"
+    + "document.execCommand('selectAll',false,null);"
+    + "var ok=document.execCommand('insertText',false,t);"
+    + "if(!ok)throw new Error();"
+    + "}catch(err){"
+    + "if(el.tagName==='TEXTAREA'){el.value=t;}else{el.textContent=t;}"
+    + "el.dispatchEvent(new InputEvent('input',{bubbles:true,cancelable:true,data:t}));"
+    + "}"
+    + "return true;"
+    + "}"
+    + "function render(){"
+    + "var item=Q[idx];"
+    + "var pop=document.getElementById('_vh_bm');"
+    + "if(!pop){"
+    + "pop=document.createElement('div');pop.id='_vh_bm';"
+    + "pop.style.cssText='position:fixed;top:20px;left:20px;z-index:999999999;background:#07091a;border:2px solid #f5c842;border-radius:16px;padding:18px;width:340px;box-shadow:0 14px 45px rgba(0,0,0,0.9);font-family:Segoe UI,Tahoma,sans-serif;color:#e8eaf6;direction:rtl;text-align:right;';"
+    + "document.body.appendChild(pop);"
+    + "}"
+    + "var opts='';"
+    + "for(var j=0;j<Q.length;j++){opts+='<option value=\"'+j+'\"'+(j===idx?' selected':'')+'>'+(j+1)+'. '+Q[j].n+'</option>';}"
+    + "pop.innerHTML='<div style=\"display:flex;justify-content:space-between;align-items:center;margin-bottom:10px\">'"
+    + "+'<div style=\"font-weight:bold;color:#f5c842;font-size:14px\">🚀 Hub المساعد — وداعاً للألم</div>'"
+    + "+'<button id=\"_vh_close\" style=\"background:transparent;border:none;color:#aaa;font-size:18px;cursor:pointer;line-height:1\">✕</button>'"
+    + "+'</div>'"
+    + "+'<div style=\"display:flex;gap:8px;align-items:center;margin-bottom:10px\">'"
+    + "+'<select id=\"_vh_sel\" style=\"flex:1;background:#111d38;color:#f5c842;border:1px solid rgba(245,200,66,0.3);padding:6px 8px;border-radius:8px;font-size:12px;font-family:inherit\">'+opts+'</select>'"
+    + "+'<span style=\"font-size:11px;color:#40c4ff;background:rgba(64,196,255,0.12);padding:4px 8px;border-radius:6px;white-space:nowrap\">'+item.a+'</span>'"
+    + "+'</div>'"
+    + "+'<div id=\"_vh_txt\" style=\"background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:12px;font-size:13px;line-height:1.6;margin-bottom:12px;max-height:120px;overflow-y:auto;color:#fff\">'+item.c+'</div>'"
+    + "+'<div style=\"display:flex;gap:8px\">'"
+    + "+'<button id=\"_vh_btn_ins\" style=\"flex:1;background:linear-gradient(135deg,#f5c842,#d4a820);color:#000;border:none;padding:11px;border-radius:8px;font-weight:bold;cursor:pointer;font-size:13px;font-family:inherit\">✓ أدرج في التعليق</button>'"
+    + "+'<button id=\"_vh_btn_next\" style=\"background:#111d38;color:#00e676;border:1px solid rgba(0,230,118,0.3);padding:11px 14px;border-radius:8px;font-weight:bold;cursor:pointer;font-size:13px;font-family:inherit;white-space:nowrap\">التالي ⏭</button>' "
+    + "+'</div>';"
+    + "document.getElementById('_vh_close').onclick=function(){pop.remove();};"
+    + "document.getElementById('_vh_sel').onchange=function(){idx=parseInt(this.value);sessionStorage.setItem('_vh_idx',idx);render();};"
+    + "document.getElementById('_vh_btn_ins').onclick=function(){"
+    + "if(ins(item.c)){"
+    + "this.style.background='linear-gradient(135deg,#00e676,#00b248)';"
+    + "this.textContent='✅ تم الإدراج — اضغط Enter';"
+    + "}"
+    + "};"
+    + "document.getElementById('_vh_btn_next').onclick=function(){"
+    + "idx=(idx+1)%Q.length;sessionStorage.setItem('_vh_idx',idx);render();"
+    + "};"
+    + "}"
+    + "render();"
+    + "})();";
 }
 
 function installBM(e) {
-  const code = getBMCode();
-  // Set href so dragging works
-  document.getElementById('bm-link').href = code;
-  // Also copy to clipboard on click
-  try {
-    navigator.clipboard.writeText(code).then(()=>{
-      toast('✅ كود الـ Bookmarklet نُسخ! يمكنك لصقه يدوياً كـ bookmark جديد');
+  if (e) e.preventDefault();
+  var code = getBMCode(_mcQueue);
+  var link = document.getElementById('bm-link');
+  if (link) link.href = code;
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(code).then(function() {
+      openBMModal();
+    }).catch(function() {
+      fallbackCopyBM(code);
     });
-  } catch(err) {
-    const ta=document.createElement('textarea');
-    ta.value=code; document.body.appendChild(ta);
-    ta.select(); document.execCommand('copy');
-    document.body.removeChild(ta);
-    toast('✅ كود الـ Bookmarklet نُسخ!');
+  } else {
+    fallbackCopyBM(code);
   }
-  return true; // allow drag
+}
+
+function fallbackCopyBM(code) {
+  var ta = document.createElement('textarea');
+  ta.value = code;
+  document.body.appendChild(ta);
+  ta.select();
+  document.execCommand('copy');
+  document.body.removeChild(ta);
+  openBMModal();
+}
+
+function openBMModal() {
+  toast('📋 تم نسخ كود الـ Bookmarklet!');
+  var m = document.getElementById('bm-modal');
+  if (m) m.style.display = 'flex';
+}
+
+function closeBMModal() {
+  var m = document.getElementById('bm-modal');
+  if (m) m.style.display = 'none';
 }
 
 // ═══════════════════ MC SERVER SYNC ═══════════════════
@@ -1485,6 +1589,27 @@ async function mcEndServer() {
 }
 
 </script>
+
+<!-- ══════════════ BOOKMARKLET HELP MODAL ══════════════ -->
+<div id="bm-modal" style="position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:99999;display:none;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(10px)">
+  <div style="background:#0d1428;border:2px solid var(--gold);border-radius:20px;max-width:480px;width:100%;padding:28px 24px;text-align:right;box-shadow:0 20px 60px rgba(0,0,0,0.9)">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <div style="font-size:18px;font-weight:800;color:var(--gold)">📋 تم نسخ كود الـ Bookmarklet!</div>
+      <button onclick="closeBMModal()" style="background:transparent;border:none;color:var(--dim);font-size:22px;cursor:pointer">✕</button>
+    </div>
+    <div style="font-size:14px;line-height:1.8;color:var(--text);margin-bottom:20px">
+      الآن لتشغيله داخل فيسبوك بضغطة زر (خطوتين سهلتين):<br><br>
+      <strong>١.</strong> في شريط الإشارات في متصفحك بالأعلى: انقر بالزر الأيمن (<strong>كليك يمين</strong>) على علامة <strong>Hub المساعد</strong> الموجودة لديك.<br>
+      <strong>٢.</strong> اختر <strong>تعديل (Edit)</strong>.<br>
+      <strong>٣.</strong> في خانة <strong>عنوان URL</strong>: احذف الرابط القديم، والصق الكود الذي تم نسخه للتو (<strong>Ctrl + V</strong>).<br>
+      <strong>٤.</strong> اضغط <strong>حفظ (Save)</strong>.<br><br>
+      <span style="color:var(--green)">✅ مبروك! افتح أي منشور فيسبوك واضغط عليها وسيفتح لك صندوق الإدراج الفوري مباشرة.</span>
+    </div>
+    <button class="btn bg bfl" onclick="closeBMModal()" style="padding:12px;font-size:15px">فهمت، شكراً 👍</button>
+  </div>
+</div>
+
 </body>
 </html>
+
 

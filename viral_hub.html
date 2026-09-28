@@ -279,8 +279,19 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;background:var(--navy);color
           <div class="fg"><label class="flb">وقت نشر المنشور</label>
             <input class="fi" id="mis-time" type="time" value="19:00"></div>
         </div>
-        <div class="fg" style="margin-bottom:14px"><label class="flb">موضوع المنشور (مختصر)</label>
-          <input class="fi" id="mis-topic" placeholder="مثال: ألم الرقبة وعلاجه في المركز"></div>
+        <div class="fg" style="margin-bottom:14px">
+          <label class="flb">🎯 نوع وموضوع المنشور (لتوليد تعليقات تطابق محتوى البوست تماماً)</label>
+          <select class="fsel" id="mis-cat" onchange="onMisCatChange()" style="font-size:14px;padding:12px;margin-bottom:8px">
+            <option value="tools">🧪 منشور أدوات الفحص الذكية (احسب عمر عمودك الفقري / فحص أونلاين)</option>
+            <option value="sciatica">⚡ منشور عرق النسا والديسك القطني (آلام أسفل الظهر والرجل)</option>
+            <option value="neck">💻 منشور آلام الرقبة والشاشات والأبهر (للمكتبيين والسائقين)</option>
+            <option value="elderly">👵 منشور كبار السن وخشونة المفاصل والركب وصعوبة المشي</option>
+            <option value="chiro">👐 منشور جلسات الكايروبراكتيك وطقطقة الفقرات بدون جراحة</option>
+            <option value="general">📍 منشور عام / عروض ومواعيد المركز في خلدا، عمّان</option>
+            <option value="custom">✏️ موضوع مخصص آخر</option>
+          </select>
+          <input class="fi" id="mis-topic" placeholder="تفاصيل إضافية للموضوع (اختياري)" value="أدوات الفحص الذكية وعمر العمود الفقري">
+        </div>
         <div class="frow f2">
           <div class="fg"><label class="flb">نوع التفاعل</label>
             <select class="fsel" id="mis-typ">
@@ -299,7 +310,7 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;background:var(--navy);color
               <option value="10">⏱️ 10 دقائق</option>
             </select></div>
         </div>
-        <button class="btn bg bfl" onclick="genMission()">⚡ توليد جدول الجلسة الآن</button>
+        <button class="btn bg bfl" onclick="genMission()">⚡ توليد جدول الجلسة والتعليقات الآن</button>
       </div>
 
       <!-- Bookmarklet Installer -->
@@ -345,28 +356,25 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;background:var(--navy);color
         </div>
       </div>
 
-
-      <!-- Page Posts -->
+      <!-- Quick Page Links -->
       <div class="card" style="margin-top:8px">
-        <div class="ctitle">📱 منشورات صفحة وداعاً للألم
-          <a href="https://www.facebook.com/30minutes30" target="_blank" class="bdg bdg-bl" style="font-size:11px;text-decoration:none;margin-right:8px">🔗 fb.com/30minutes30</a>
-        </div>
+        <div class="ctitle">📱 وصول مباشر لصفحة وداعاً للألم على فيسبوك</div>
         <div class="tipbox">
-          <div class="tipbox-t">💡 تفاعل مع أي منشور من الصفحة — قديم أو جديد</div>
-          <p>اجلب منشورات صفحة <strong>وداعاً للألم (30minutes30)</strong> تلقائياً — بما فيها منشورات السنة الماضية — واضغط <strong>"🚀 جلسة"</strong> لأي منشور لتشغيل Mission Control عليه فوراً.</p>
+          <div class="tipbox-t">💡 تفاعل مباشرة مع منشورات الصفحة</div>
+          <p>افتح الصفحة مباشرة على فيسبوك لاختيار أي منشور تريد التفاعل معه باستخدام الـ Bookmarklet:</p>
         </div>
-        <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
-          <button class="btn bg bsm" onclick="fetchPosts()">🔄 جلب منشورات الصفحة</button>
-          <select class="fsel" id="pp-limit" style="max-width:180px">
-            <option value="25">آخر ٢٥ منشور</option>
-            <option value="50" selected>آخر ٥٠ منشور</option>
-            <option value="100">آخر ١٠٠ منشور</option>
-          </select>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <a href="https://www.facebook.com/30minutes30" target="_blank" class="btn bg" style="text-decoration:none;display:inline-flex;align-items:center;gap:8px;font-size:15px;padding:12px 22px">
+            🌐 فتح صفحة وداعاً للألم (fb.com/30minutes30)
+          </a>
+          <a href="https://www.facebook.com/30minutes30/reels" target="_blank" class="btn bgh" style="text-decoration:none;display:inline-flex;align-items:center;gap:8px;font-size:15px;padding:12px 22px">
+            🎬 ريلز الصفحة
+          </a>
         </div>
-        <div id="posts-list"><div class="obox-ph">اضغط "جلب منشورات الصفحة" لعرض المنشورات</div></div>
       </div>
 
     </div>
+
 
 
 
@@ -729,6 +737,17 @@ function doLogin() {
 }
 
 function init() {
+  if (!accs || accs.length === 0) {
+    accs = [
+      { id: 1, name: 'حساب 1 (هدى)', dev: '📱 موبايل — بيانات جوال', sty: 'سائل', color: '#f5c842' },
+      { id: 2, name: 'حساب 2 (محمد)', dev: '💻 لابتوب — واي-فاي', sty: 'مشجع', color: '#00e676' },
+      { id: 3, name: 'حساب 3 (أحمد)', dev: '🖥️ كمبيوتر مكتب', sty: 'شاهد', color: '#40c4ff' },
+      { id: 4, name: 'حساب 4 (سارة)', dev: '📱 موبايل ثانٍ', sty: 'معلومات', color: '#b39ddb' },
+      { id: 5, name: 'حساب 5 (عمر)', dev: '📲 تابلت', sty: 'ناصح', color: '#ffab40' },
+      { id: 6, name: 'حساب 6 (رنا)', dev: '📱 موبايل', sty: 'سائل', color: '#ff80ab' }
+    ];
+    localStorage.setItem('vh_accs', JSON.stringify(accs));
+  }
   updStats(); renderAccs();
   const cd = document.getElementById('cal-date');
   if(cd) cd.value = new Date().toISOString().split('T')[0];
@@ -736,6 +755,7 @@ function init() {
   if(bmLink) bmLink.href = getBMCode();
   setTimeout(drawPoster, 300);
 }
+
 
 
 
@@ -802,76 +822,103 @@ function renderAccs() {
     </div>`).join('');
 }
 
-// ═══════════════════ COMMENT TEMPLATES (AUTHENTIC JORDANIAN) ═══════════════════
-const CMTS = {
-  'مشجع': [
-    'يسعد مساكم دكتور، يعطيكم ألف عافية على هالمعلومات اللي بتوزن ذهب والله 👏🌸',
-    'ما شاء الله شغلكم بيحكوا عنه كل أهل خلدا، سمعتكم بتسبقكم دايماً دكتور جمال 🙏✨',
-    'والله يا دكتور فتحت عيوننا على شغلات كنا بنعملها غلط وبتدمر ضهرنا، يسلمو إيديك 💙',
-    'أحلى مركز بالبلد وأرقى تعامل.. الله يباركلكم بعلمكم وصحتكم يا رب 🤲',
-    'منشوراتكم دايماً مفيدة ومباشرة، الله يقويكم ويجزيكم كل خير 🌟',
-    'كل التقدير والاحترام لمركز وداعاً للألم، فعلاً وداعاً للألم اسم على مسمى 💯'
+// ═══════════════════ CONTEXT-AWARE JORDANIAN COMMENTS ═══════════════════
+const CONTEXT_COMMENTS = {
+  'tools': [
+    'جربت فحص عمر العمود الفقري هلا والله انصدمت! طلع عمري ٤٥ وأنا عمري ٢٩.. فحص دقيق وممتع صراحة 😅',
+    'وين الرابط يا ريت تبعتولي إياه ع الخاص أو تحطوه بالتعليقات لو سمحتوا؟ بدي أجرّبه 📲',
+    'الفحص مجاني ولا بدو تسجيل؟ شفته كتير مرتب ومفيد للأمانة 💙',
+    'شاركت الرابط مع الموظفين بالدوام الكل عم بحسب عمر ضهره هههه.. فكرة إبداعية دكتور 👏',
+    'والله فكرة ممتازة جداً دكتور.. بتوعي الناس عن وضعية قعدتهم قبل ما يوصلوا لمرحلة الديسك والعمليات 🧠',
+    'فحصت وطلع عندي إجهاد بالسياقة، نصائح الفحص ممتازة، يسلمو إيديك دكتور جمال 🌟',
+    'يا ريت تعملولنا فحص كمان لآلام الرقبة والصداع بنفس الطريقة، شغل عالي ما شاء الله ✨',
+    'النتيجة طلعت دقيقة ١٠٠٪ بالنسبة للأوجاع اللي بحس فيها يومياً، كيف بقدر أحجز موعد فحص سريري عندكم بالعيادة؟'
   ],
-  'سائل': [
-    'مرحبا دكتور، موقعكم بخلدا وين بالضبط جنب شو؟ وبيلزم أحجز موعد ولا بصير أجي فجأة؟ 🤔',
-    'يعطيك العافية، قديش بتكلف كشفية والجلسة لو سمحتوا؟ وهل في عروض للباكجات؟ 💰',
-    'دكتور عندي وجع بأسفل الظهر وبنزل على رجلي الشمال زي الخدران، هاد عرق نسا؟ وبيلزم رنين؟',
-    'لو سمحتوا هل بتعالجوا آلام الأبهر والكتف؟ لأنه تعبني من كتر قعدة المكتب 💻',
-    'أنا ساكن بإربد، كم جلسة تقريباً بحتاج مشان أرتّب مشواري لعمّان؟',
-    'هل الجلسة فيها وجع ولا طقطقة خفيفة ومريحة؟ بصراحة شوي خايف/ة 😅',
-    'ممكن رقم الواتساب المباشر مشان أبعتلكم تقرير الرنين المغناطيسي تشوفوه؟ 📲'
+  'sciatica': [
+    'دكتور عندي وجع بأسفل الظهر وبنزل على فخذي اليمين زي الكهربا والخدران.. هاد عرق نسا؟ وبيلزم رنين؟ 🤔',
+    'والله يا جماعة كنت بموت من وجع رجلي ومش قادر أمد خطوة، بعد جلسات الكايروبراكتيك عند الدكتور جمال بفضل الله مشيت طبيعي 🙏',
+    'هل الجلسات بتعالج الديسك الضاغط ع العصب بدون ما أحتاج عملية؟ خوّفوني من الجراحة والله',
+    'عن تجربة شخصية.. لا تسكتوا ع وجع الرجل لما ينزل من الظهر، التشخيص عند مركز وداعاً للألم بحددلك المشكلة بالزبط 👏',
+    'قديش بتكلف جلسة الكايروبراكتيك لعرق النسا لو سمحتوا؟ وموقعكم بخلدا جنب شو؟ 💰',
+    'أنا بسوق ساعات طويلة وضهري مسمّع برجلي الشمال، هاد العلاج بيفيد بحالتي؟ 🚕',
+    'تسلم إيدك دكتور، الوالد كان يعاني من نفس الحالة وهلا بفضل الله وبفضلكم بأحسن حال 🌸'
   ],
-  'شاهد': [
-    'والله يا جماعة رحت عندهم بعد ما لفيت دكاترة البلد وكلهم قالوا عملية، ومن ثالث جلسة بفضل الله المشي اختلف معي تماماً 🙏',
-    'أنا جربت عندهم لعلاج الرقبة والصداع، والله العظيم ارتحت راحة ما شفتها من سنين، دكتور متمكن ومحترم جداً 🌟',
-    'الوالدة كانت ما تقدر توقف تطبخ ربع ساعة، بعد جلسات الكايروبراكتيك بمركز وداعاً للألم تحسنت ٨٠٪ ما شاء الله 🤍',
-    'عن تجربة شخصية.. لا تترددوا بالروحة، التشخيص عندهم دقيق جداً وما بياخدك ع جلسات زيادة ع الفاضي 👏',
-    'أنا كنت متخوف من طقطقة الفقرات بس والله طلعت مريحة وبتفك الضغط فك، يسلمو دكتور 🌸',
-    'شهدت قدام عيني كيف تعاملهم مع كبار السن رحمة وأخلاق عالية قبل ما يكون علاج 👍'
-  ],
-  'معلومات': [
-    'مزبوط دكتور، وأنا قرأت كمان إنه شرب المي والمشي نص ساعة يومياً بساعد كتير بتغذية الغضاريف 💧',
+  'neck': [
+    'أنا موظف مكتبي وبقعد ٨ ساعات ع الكمبيوتر، كتفي اليمين ورقبتي نار وصداع مستمر.. شو الحل؟ 💻',
+    'طقطقة الرقبة بالعيادة بتوجع ولا مريحة؟ حابب اجرب بس بصراحة شوي خايف 😅',
+    'والله يا دكتور فتحت عيوني ع قعدة الشاشات، صرت أحط الشاشة بمستوى عيني وخف الوجع ٥٠٪، يسلمو إيديك ✨',
+    'هل بتعالجوا نغزة الأبهر اللي بين الأكتاف؟ ذابحتني ومش عارف آخد نفسي منها 📌',
     'يا ريت تنزلولنا بوست عن أحسن وضعية مخدة للرقبة أثناء النوم لأنه نص وجعنا منها 😴',
-    'فعلاً الراحة التامة أكبر غلط، الحركة المدروسة هي اللي بترجع الدورة الدموية للفقرات 🚶‍♂️',
-    'الناس بتفكر أي وجع ضهر ديسك، وهو أغلب الأوقات شد عضلي أو ميلان بالحوض.. ممتاز إنكم بتوضحوا هالأمور 🧠'
+    'مرحبا دكتور، بيلزم أحجز موعد كشفية مسبق لعلاج الرقبة ولا بقدر أجي اليوم؟'
   ],
-  'ناصح': [
-    'نصيحة لوجه الله لكل حدا موجوع: لا تسكت على حالك وتاكل مسكنات، روح افحص واعرف السبب الصح 💙',
-    'والله جلسة علاج طبيعي وكايروبراكتيك بتغنيك عن سنين أدوية وعمليات، استثمروا بصحتكم يا جماعة 🙌',
-    'اللي بسوق ساعات طويلة متلي لازم يراجع المركز، القعدة بتذبح العمود الفقري بدون ما نحس 🚕',
-    'ألف سلامة ع الجميع.. وما تشوفوا شر، وداعاً للألم من أفضل مراكز التأهيل بعمّان بدون مجاملة 🌿'
+  'elderly': [
+    'الوالدة عندها احتكاك بالركب وصعوبة بالطلوع والنزول، هل العلاج اليدوي والفيزيائي بيفيد بعمر ٦٥؟ 👵',
+    'ما شاء الله تعاملكم مع كبار السن رحمة وأخلاق عالية قبل ما يكون علاج، الله يباركلكم بعلمكم وصحتكم 🤲',
+    'جدتي كانت ما تقدر تمشي للمسجد، بعد كم جلسة تأهيل بمركز وداعاً للألم تحسنت كتير بفضل الله 🤍',
+    'هل بتوفروا خدمة علاج وتأهيل منزلي لكبار السن اللي بصعب نقلهم للعيادة؟ 🏠',
+    'كل الاحترام للدكتور جمال، الأمانة الطبية والاهتمام بالمريض أهم من أي شي 💯'
+  ],
+  'chiro': [
+    'دكتور شو الفرق بين الكايروبراكتيك والعلاج الطبيعي العادي؟ وهل طقطقة الفقرات آمنة؟ 🤔',
+    'كنت متخوف كتييير من طقطقة الفقرات بس والله طلعت متل السحر وبتفك الضغط فك، راحة فورية 🌸',
+    'دكاترة كتير حكولي عملية للديسك، وجيت عندكم والحمد لله طبت بدون أي جراحة.. تسلم إيديك دكتور جمال 💯',
+    'أحلى شعور بالعالم لما ترجع الفقرات لمكانها وتتنفس براحة.. شكراً لمركز وداعاً للألم 🙏',
+    'هل الكايروبراكتيك بساعد بحالات ميلان الحوض وانحناء العمود الفقري؟'
+  ],
+  'general': [
+    'مرحبا دكتور، موقعكم بخلدا وين بالضبط جنب شو؟ وبيلزم أحجز موعد ولا بصير أجي فجأة؟ 🤔',
+    'يعطيك العافية، شو أوقات الدوام عندكم؟ وهل فاتحين يوم الجمعة أو السبت؟ 🕒',
+    'ممكن رقم الواتساب المباشر مشان أبعتلكم تقرير الرنين المغناطيسي تشوفوه؟ 📲',
+    'يسعد مساكم، هل في عندكم باكيجات للجلسات أو عروض ع الكشفية؟ 💰',
+    'سمعت عنكم كتير من معارفنا بخلدا والكل بمدح فيكم، إن شاء الله بمركم قريباً 🌟'
   ]
 };
 
-
-function getComment(acc, topic, i) {
-  const pool = CMTS[acc.sty] || CMTS['مشجع'];
-  let cmt = pool[i % pool.length];
-  if (topic && i > 0 && i % 2 === 1) {
-    const refs = [` (خصوصاً موضوع ${topic})`, `، وخاصة ما يتعلق بـ${topic}`];
-    cmt += refs[i % refs.length];
+function onMisCatChange() {
+  const cat = document.getElementById('mis-cat')?.value || 'tools';
+  const topicInp = document.getElementById('mis-topic');
+  const defaults = {
+    'tools': 'أدوات الفحص الذكية وعمر العمود الفقري',
+    'sciatica': 'عرق النسا وآلام أسفل الظهر والديسك',
+    'neck': 'آلام الرقبة والشاشات والأبهر للمكتبيين',
+    'elderly': 'كبار السن وخشونة المفاصل والركب',
+    'chiro': 'جلسات الكايروبراكتيك وطقطقة الفقرات بدون جراحة',
+    'general': 'عروض ومواعيد مركز وداعاً للألم في خلدا',
+    'custom': ''
+  };
+  if (topicInp && defaults[cat] !== undefined) {
+    topicInp.value = defaults[cat];
   }
-  return cmt;
+}
+
+function getComment(acc, topic, i, cat) {
+  const c = cat || document.getElementById('mis-cat')?.value || 'tools';
+  const pool = CONTEXT_COMMENTS[c] || CONTEXT_COMMENTS['tools'];
+  return pool[i % pool.length];
 }
 
 // ═══════════════════ MISSION ═══════════════════
 function genMission() {
-  if (accs.length < 2) { toast('⚠️ أضف حسابين على الأقل'); return; }
-  const url   = document.getElementById('mis-url').value.trim();
-  const btime = document.getElementById('mis-time').value;
-  const topic = document.getElementById('mis-topic').value.trim();
-  const gap   = +document.getElementById('mis-gap').value;
-  if (!url) { toast('⚠️ أدخل رابط المنشور'); return; }
+  if (!accs || accs.length === 0) {
+    init();
+  }
+  const url   = (document.getElementById('mis-url')?.value || '').trim() || 'https://facebook.com/30minutes30';
+  const btime = document.getElementById('mis-time')?.value || '19:00';
+  const cat   = document.getElementById('mis-cat')?.value || 'tools';
+  const topic = (document.getElementById('mis-topic')?.value || '').trim() || 'صحة العمود الفقري';
+  const gap   = +(document.getElementById('mis-gap')?.value || 5);
 
   const [bh,bm] = btime.split(':').map(Number);
   let html='', txt='';
+  _mcQueue = [];
 
   accs.forEach((a,i) => {
     const mins = bh*60+bm + (i===0?2:i*gap);
     const sh=Math.floor(mins/60)%24, sm=mins%60;
     const ts=`${String(sh).padStart(2,'0')}:${String(sm).padStart(2,'0')}`;
-    const cmt=getComment(a,topic,i);
-    const act=i===0?'❤️ إعجاب فقط أولاً':(i%3===0?'❤️ إعجاب + 💬 تعليق':'💬 تعليق + ❤️ إعجاب');
+    const cmt=getComment(a, topic, i, cat);
+    const act=i===0?'❤️ إعجاب أولاً ثم تعليق':(i%3===0?'❤️ إعجاب + 💬 تعليق':'💬 تعليق + ❤️ إعجاب');
+    _mcQueue.push({acc:a, comment:cmt, action:act, timeStr:ts, url});
     txt+=`[${ts}] ${a.name} — ${act}\n${cmt}\n🔗 ${url}\n\n`;
     html+=`
       <div class="srow">
@@ -900,8 +947,14 @@ function genMission() {
   localStorage.setItem('vh_ses', ses);
   localStorage.setItem('vh_posts', posts);
   updStats();
+
+  // refresh bookmarklet
+  const bmLink = document.getElementById('bm-link');
+  if(bmLink) bmLink.href = getBMCode(_mcQueue);
+  toast('✅ تم توليد جدول الجلسة والتعليقات بنجاح!');
 }
 function copyAllSched() { copy(_schedText || 'لا يوجد جدول بعد'); }
+
 
 // ═══════════════════ POST GENERATOR ═══════════════════
 function ePrefix(e){return{صادم:'اكتشاف صادم:',محرج:'اعتراف محرج:',تحذيري:'تحذير مهم:',أمل:'خبر مُبهج:',فضول:'سؤال يحيّرني:'}[e]||'';}
@@ -1133,6 +1186,13 @@ function loadDesignTpl() {
   drawPoster();
 }
 
+let _logoImg = new Image();
+_logoImg.crossOrigin = 'anonymous';
+_logoImg.onload = function() {
+  drawPoster();
+};
+_logoImg.src = 'logo.jpg';
+
 function drawPoster() {
   const cvs = document.getElementById('posterCanvas');
   if (!cvs) return;
@@ -1158,13 +1218,46 @@ function drawPoster() {
     ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
   }
 
-  // 1. TOP BADGE: Red alert pill
+  // HEADER: Top Branding & Circular Logo (Top-Left)
+  const logoX = 55, logoY = 35, logoSize = 90;
+  if (_logoImg.complete && _logoImg.naturalWidth > 0) {
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(logoX + logoSize / 2, logoY + logoSize / 2, logoSize / 2, 0, Math.PI * 2);
+    ctx.closePath();
+    ctx.clip();
+    ctx.drawImage(_logoImg, logoX, logoY, logoSize, logoSize);
+    ctx.restore();
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(logoX + logoSize / 2, logoY + logoSize / 2, logoSize / 2, 0, Math.PI * 2);
+    ctx.strokeStyle = '#d4af37';
+    ctx.lineWidth = 4;
+    ctx.shadowColor = 'rgba(212, 175, 55, 0.4)';
+    ctx.shadowBlur = 10;
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  // Top-Right: Clinic Title
+  ctx.save();
+  ctx.fillStyle = '#0f2942';
+  ctx.font = 'bold 24px Segoe UI, Tahoma, Arial';
+  ctx.textAlign = 'right';
+  ctx.fillText('مركز وداعاً للألم', W - 55, 68);
+  ctx.fillStyle = '#1976d2';
+  ctx.font = 'bold 16px Segoe UI, Tahoma, Arial';
+  ctx.fillText('للعلاج الطبيعي والكايبروبراكتيك', W - 55, 98);
+  ctx.restore();
+
+  // 1. TOP BADGE: Red alert pill (Centered)
   const badgeText = document.getElementById('ds-badge').value || 'توقف ! ❌';
   ctx.save();
   ctx.fillStyle = '#d32f2f';
-  const badgeW = 340, badgeH = 74, badgeX = (W - badgeW) / 2, badgeY = 50;
+  const badgeW = 320, badgeH = 65, badgeX = (W - badgeW) / 2, badgeY = 45;
   ctx.beginPath();
-  ctx.roundRect(badgeX, badgeY, badgeW, badgeH, 37);
+  ctx.roundRect(badgeX, badgeY, badgeW, badgeH, 33);
   ctx.fill();
   ctx.shadowColor = 'rgba(211,47,47,0.4)';
   ctx.shadowBlur = 18;
@@ -1173,7 +1266,7 @@ function drawPoster() {
   ctx.restore();
 
   ctx.fillStyle = '#ffffff';
-  ctx.font = 'bold 36px Segoe UI, Tahoma, Arial';
+  ctx.font = 'bold 32px Segoe UI, Tahoma, Arial';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.fillText(badgeText, W / 2, badgeY + badgeH / 2);
@@ -1181,24 +1274,24 @@ function drawPoster() {
   // 2. MAIN TITLE
   const mainTitle = document.getElementById('ds-title').value || 'هذه معلومات خاطئة عن ألم الظهر يصدقها الجميع:';
   ctx.fillStyle = '#0f2942';
-  ctx.font = 'bold 38px Segoe UI, Tahoma, Arial';
+  ctx.font = 'bold 36px Segoe UI, Tahoma, Arial';
   ctx.textAlign = 'center';
-  ctx.fillText(mainTitle, W / 2, 175);
+  ctx.fillText(mainTitle, W / 2, 155);
 
   // 3. SUBTITLE HIGHLIGHT (Red box)
   const subText = document.getElementById('ds-sub').value || '"الراحة التامة هي أفضل علاج للألم"';
-  const subBoxW = 860, subBoxH = 70, subBoxX = (W - subBoxW) / 2, subBoxY = 215;
+  const subBoxW = 860, subBoxH = 65, subBoxX = (W - subBoxW) / 2, subBoxY = 195;
   ctx.save();
   ctx.fillStyle = 'rgba(255, 235, 238, 0.9)';
   ctx.strokeStyle = '#ef9a9a';
   ctx.lineWidth = 2;
   ctx.beginPath();
-  ctx.roundRect(subBoxX, subBoxY, subBoxW, subBoxH, 20);
+  ctx.roundRect(subBoxX, subBoxY, subBoxW, subBoxH, 18);
   ctx.fill(); ctx.stroke();
   ctx.restore();
 
   ctx.fillStyle = '#b71c1c';
-  ctx.font = 'bold 32px Segoe UI, Tahoma, Arial';
+  ctx.font = 'bold 30px Segoe UI, Tahoma, Arial';
   ctx.textAlign = 'center';
   ctx.fillText(subText, W / 2, subBoxY + subBoxH / 2);
 
@@ -1209,7 +1302,7 @@ function drawPoster() {
     { m: document.getElementById('ds-m3').value, f: document.getElementById('ds-f3').value }
   ];
 
-  let cardY = 320;
+  let cardY = 285;
   const cardH = 290, cardW = 960, cardX = (W - cardW) / 2;
 
   cards.forEach((c, idx) => {
@@ -1283,41 +1376,82 @@ function drawPoster() {
     cardY += cardH + 25;
   });
 
-  // 5. FOOTER BANNER
-  const footerCta = document.getElementById('ds-footer-cta').value || 'لا تصدق كل ما تسمع — استشر متخصصاً';
+  // 5. FOOTER BANNER WITH LOGO & FULL CLINIC CREDENTIALS
+  const footerCta = document.getElementById('ds-footer-cta').value || 'لا تصدق كل ما تسمع — استشر متخصصاً قبل تفاقم الحالة';
   const footerInfo = document.getElementById('ds-footer-info').value || 'مركز وداعاً للألم | 0790360440';
-  const footY = 1290, footH = 175, footW = 960, footX = (W - footW) / 2;
+  const footY = 1245, footH = 230, footW = 960, footX = (W - footW) / 2;
 
   ctx.save();
   const fGrad = ctx.createLinearGradient(footX, footY, footX + footW, footY + footH);
   fGrad.addColorStop(0, '#0d2238');
-  fGrad.addColorStop(1, '#081726');
+  fGrad.addColorStop(1, '#05111d');
   ctx.fillStyle = fGrad;
-  ctx.shadowColor = 'rgba(0,0,0,0.25)';
-  ctx.shadowBlur = 20;
-  ctx.shadowOffsetY = 8;
+  ctx.shadowColor = 'rgba(0,0,0,0.3)';
+  ctx.shadowBlur = 24;
+  ctx.shadowOffsetY = 10;
   ctx.beginPath();
   ctx.roundRect(footX, footY, footW, footH, 28);
   ctx.fill();
+
+  // Gold border
+  ctx.strokeStyle = '#d4af37';
+  ctx.lineWidth = 2.5;
+  ctx.stroke();
   ctx.restore();
+
+  // Footer Circular Logo (Left side of footer)
+  const footLogoSize = 130;
+  const footLogoX = footX + 45;
+  const footLogoY = footY + (footH - footLogoSize) / 2;
+
+  if (_logoImg.complete && _logoImg.naturalWidth > 0) {
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(footLogoX + footLogoSize / 2, footLogoY + footLogoSize / 2, footLogoSize / 2, 0, Math.PI * 2);
+    ctx.closePath();
+    ctx.clip();
+    ctx.drawImage(_logoImg, footLogoX, footLogoY, footLogoSize, footLogoSize);
+    ctx.restore();
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(footLogoX + footLogoSize / 2, footLogoY + footLogoSize / 2, footLogoSize / 2, 0, Math.PI * 2);
+    ctx.strokeStyle = '#f5c842';
+    ctx.lineWidth = 4;
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  // Footer Info content (Center and Right aligned)
+  const textCenterX = footX + 170 + (footW - 170) / 2;
 
   // CTA text with lightbulb
   ctx.fillStyle = '#f5c842';
-  ctx.font = 'bold 32px Segoe UI, Tahoma';
+  ctx.font = 'bold 28px Segoe UI, Tahoma';
   ctx.textAlign = 'center';
-  ctx.fillText('💡 ' + footerCta, W / 2, footY + 55);
+  ctx.fillText('💡 ' + footerCta, textCenterX, footY + 50);
 
   // Phone & Clinic Info pill
-  const pBoxW = 620, pBoxH = 60, pBoxX = (W - pBoxW) / 2, pBoxY = footY + 95;
+  const pBoxW = 600, pBoxH = 56, pBoxX = textCenterX - pBoxW / 2, pBoxY = footY + 80;
   ctx.fillStyle = '#00e676';
   ctx.beginPath();
-  ctx.roundRect(pBoxX, pBoxY, pBoxW, pBoxH, 30);
+  ctx.roundRect(pBoxX, pBoxY, pBoxW, pBoxH, 28);
   ctx.fill();
 
   ctx.fillStyle = '#071626';
-  ctx.font = 'bold 28px Segoe UI, Tahoma';
+  ctx.font = 'bold 26px Segoe UI, Tahoma';
   ctx.textAlign = 'center';
-  ctx.fillText('📞 ' + footerInfo + ' • خلدا، عمّان', W / 2, pBoxY + 30);
+  ctx.fillText('📞 ' + footerInfo + ' • خلدا، عمّان', textCenterX, pBoxY + 28);
+
+  // Address and specialty sub-bar
+  ctx.fillStyle = '#90caf9';
+  ctx.font = 'bold 20px Segoe UI, Tahoma';
+  ctx.textAlign = 'center';
+  ctx.fillText('📍 عمّان - خلدا - بالقرب من إشارة البنك العربي | كشفية وتشخيص متكامل', textCenterX, footY + 175);
+
+  ctx.fillStyle = '#cfd8dc';
+  ctx.font = '600 17px Segoe UI, Tahoma';
+  ctx.fillText('إشراف متخصص بالعلاج الطبيعي، الكايروبراكتيك، وتأهيل العمود الفقري والمفاصل', textCenterX, footY + 205);
 
   ctx.restore();
 }
@@ -1756,27 +1890,6 @@ function mcComplete() {
 // Store queue for MC
 let _mcQueue=[];
 
-// Patch genMission to also build _mcQueue
-const _origGenMission=genMission;
-genMission=function(){
-  _origGenMission();
-  // rebuild queue from current state
-  const url=document.getElementById('mis-url').value.trim();
-  const topic=document.getElementById('mis-topic').value.trim();
-  const gap=+document.getElementById('mis-gap').value;
-  const [bh,bm]=document.getElementById('mis-time').value.split(':').map(Number);
-  _mcQueue=[];
-  accs.forEach((a,i)=>{
-    const mins=bh*60+bm+(i===0?2:i*gap);
-    const sh=Math.floor(mins/60)%24,sm=mins%60;
-    const ts=`${String(sh).padStart(2,'0')}:${String(sm).padStart(2,'0')}`;
-    const cmt=getComment(a,topic,i);
-    const act=i===0?'❤️ إعجاب فقط أولاً':(i%3===0?'❤️ إعجاب + 💬 تعليق':'💬 تعليق + ❤️ إعجاب');
-    _mcQueue.push({acc:a,comment:cmt,action:act,timeStr:ts,url});
-  });
-  const bmLink = document.getElementById('bm-link');
-  if(bmLink) bmLink.href = getBMCode(_mcQueue);
-};
 
 
 // ═══════════════════ PAGE POSTS FETCHER ═══════════════════
@@ -1831,28 +1944,24 @@ function startSessionForPost(idx) {
 
 // ═══════════════════ BOOKMARKLET (SELF-CONTAINED) ═══════════════════
 function getBMCode(queue) {
-  var rawList = (queue && queue.length) ? queue : (_mcQueue && _mcQueue.length ? _mcQueue : (accs.length ? accs.map(function(a,i){
-    return { name: a.name, comment: getComment(a, document.getElementById('mis-topic')?.value || 'علاج آلام الظهر والرقبة', i), action: '💬 تعليق + ❤️ إعجاب' };
-  }) : [
-    { name: 'حساب 1', comment: 'عن تجربة شخصية بمركز وداعاً للألم في خلدا النتائج ممتازة من أول جلسة شكراً دكتور', action: '💬 تعليق' },
-    { name: 'حساب 2', comment: 'كم سعر كشفية وجلسة الكايروبراكتيك لو سمحتوا؟', action: '💬 سؤال' },
-    { name: 'حساب 3', comment: 'أنصح الجميع بمراجعة المركز تعامل راقي وتشخيص دقيق جداً بدون جراحة', action: '💬 شهادة' },
-    { name: 'حساب 4', comment: 'هل متوفر فرع في إربد أو الزرقاء أم فقط خلدا عمّان؟', action: '💬 سؤال' },
-    { name: 'حساب 5', comment: 'العلاج اليدوي أراحني من آلام الديسك بعد معاناة طويلة بارك الله فيكم', action: '💬 نصيحة' }
-  ]));
-
-  var items = rawList.map(function(it){
-    return {
-      n: it.name || it.acc?.name || 'حساب',
-      c: (it.comment || '').replace(/[\r\n]+/g, ' ').trim(),
-      a: it.action || '💬 تعليق'
-    };
-  });
+  var cats = {
+    'tools':    { name: '🛠️ أدوات الفحص الذكية', list: CONTEXT_COMMENTS['tools'] },
+    'sciatica': { name: '⚡ عرق النسا والديسك', list: CONTEXT_COMMENTS['sciatica'] },
+    'neck':     { name: '💻 الرقبة والأبهر للمكتبيين', list: CONTEXT_COMMENTS['neck'] },
+    'elderly':  { name: '👵 كبار السن والمفاصل', list: CONTEXT_COMMENTS['elderly'] },
+    'chiro':    { name: '🦴 الكايروبراكتيك وطقطقة الفقرات', list: CONTEXT_COMMENTS['chiro'] },
+    'general':  { name: '🏥 مواعيد واستفسارات المركز', list: CONTEXT_COMMENTS['general'] }
+  };
+  var accNames = (accs && accs.length) ? accs.map(function(a){ return a.name; }) : ['هدى','محمد','أحمد','سارة','عمر','رنا'];
+  var curCat = document.getElementById('mis-cat')?.value || 'tools';
 
   return "javascript:(function(){"
-    + "var Q=" + JSON.stringify(items) + ";"
+    + "var C=" + JSON.stringify(cats) + ";"
+    + "var A=" + JSON.stringify(accNames) + ";"
     + "var e=document.getElementById('_vh_bm');if(e){e.remove();return;}"
-    + "var idx=parseInt(sessionStorage.getItem('_vh_idx')||'0');if(idx>=Q.length)idx=0;"
+    + "var cat=sessionStorage.getItem('_vh_cat')||" + JSON.stringify(curCat) + ";"
+    + "if(!C[cat])cat='tools';"
+    + "var idx=parseInt(sessionStorage.getItem('_vh_idx')||'0');"
     + "function ins(t){"
     + "var sels=['div[contenteditable=\"true\"][role=\"textbox\"]','[data-lexical-editor=\"true\"]','div[aria-label*=\"تعليق\"]','div[aria-label*=\"Comment\"]','div[aria-label*=\"comment\"]','form textarea'];"
     + "var el=null;"
@@ -1873,38 +1982,47 @@ function getBMCode(queue) {
     + "return true;"
     + "}"
     + "function render(){"
-    + "var item=Q[idx];"
+    + "var pool=(C[cat]&&C[cat].list)||C['tools'].list;"
+    + "if(idx>=A.length)idx=0;"
+    + "var cmt=pool[idx%pool.length];"
     + "var pop=document.getElementById('_vh_bm');"
     + "if(!pop){"
     + "pop=document.createElement('div');pop.id='_vh_bm';"
-    + "pop.style.cssText='position:fixed;top:20px;left:20px;z-index:999999999;background:#07091a;border:2px solid #f5c842;border-radius:16px;padding:18px;width:340px;box-shadow:0 14px 45px rgba(0,0,0,0.9);font-family:Segoe UI,Tahoma,sans-serif;color:#e8eaf6;direction:rtl;text-align:right;';"
+    + "pop.style.cssText='position:fixed;top:20px;left:20px;z-index:999999999;background:#07091a;border:2px solid #f5c842;border-radius:16px;padding:16px;width:350px;box-shadow:0 14px 45px rgba(0,0,0,0.9);font-family:Segoe UI,Tahoma,sans-serif;color:#e8eaf6;direction:rtl;text-align:right;';"
     + "document.body.appendChild(pop);"
     + "}"
-    + "var opts='';"
-    + "for(var j=0;j<Q.length;j++){opts+='<option value=\"'+j+'\"'+(j===idx?' selected':'')+'>'+(j+1)+'. '+Q[j].n+'</option>';}"
-    + "pop.innerHTML='<div style=\"display:flex;justify-content:space-between;align-items:center;margin-bottom:10px\">'"
+    + "var cOpts='';"
+    + "for(var k in C){cOpts+='<option value=\"'+k+'\"'+(k===cat?' selected':'')+'>'+C[k].name+'</option>';}"
+    + "var aOpts='';"
+    + "for(var j=0;j<A.length;j++){aOpts+='<option value=\"'+j+'\"'+(j===idx?' selected':'')+'>حساب '+(j+1)+': '+A[j]+'</option>';}"
+    + "pop.innerHTML='<div style=\"display:flex;justify-content:space-between;align-items:center;margin-bottom:8px\">'"
     + "+'<div style=\"font-weight:bold;color:#f5c842;font-size:14px\">🚀 Hub المساعد — وداعاً للألم</div>'"
     + "+'<button id=\"_vh_close\" style=\"background:transparent;border:none;color:#aaa;font-size:18px;cursor:pointer;line-height:1\">✕</button>'"
     + "+'</div>'"
-    + "+'<div style=\"display:flex;gap:8px;align-items:center;margin-bottom:10px\">'"
-    + "+'<select id=\"_vh_sel\" style=\"flex:1;background:#111d38;color:#f5c842;border:1px solid rgba(245,200,66,0.3);padding:6px 8px;border-radius:8px;font-size:12px;font-family:inherit\">'+opts+'</select>'"
-    + "+'<span style=\"font-size:11px;color:#40c4ff;background:rgba(64,196,255,0.12);padding:4px 8px;border-radius:6px;white-space:nowrap\">'+item.a+'</span>'"
+    + "+'<div style=\"margin-bottom:8px\">'"
+    + "+'<div style=\"font-size:11px;color:#90caf9;margin-bottom:3px\">موضوع المنشور:</div>'"
+    + "+'<select id=\"_vh_cat_sel\" style=\"width:100%;background:#111d38;color:#f5c842;border:1px solid rgba(245,200,66,0.4);padding:6px 8px;border-radius:8px;font-size:12px;font-family:inherit;font-weight:600\">'+cOpts+'</select>'"
     + "+'</div>'"
-    + "+'<div id=\"_vh_txt\" style=\"background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:12px;font-size:13px;line-height:1.6;margin-bottom:12px;max-height:120px;overflow-y:auto;color:#fff\">'+item.c+'</div>'"
+    + "+'<div style=\"display:flex;gap:8px;align-items:center;margin-bottom:8px\">'"
+    + "+'<select id=\"_vh_sel\" style=\"flex:1;background:#111d38;color:#00e676;border:1px solid rgba(0,230,118,0.3);padding:6px 8px;border-radius:8px;font-size:12px;font-family:inherit\">'+aOpts+'</select>'"
+    + "+'<span style=\"font-size:11px;color:#40c4ff;background:rgba(64,196,255,0.12);padding:4px 8px;border-radius:6px;white-space:nowrap\">💬 تعليق</span>'"
+    + "+'</div>'"
+    + "+'<div id=\"_vh_txt\" style=\"background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:12px;font-size:13px;line-height:1.6;margin-bottom:12px;max-height:130px;overflow-y:auto;color:#fff\">'+cmt+'</div>'"
     + "+'<div style=\"display:flex;gap:8px\">'"
     + "+'<button id=\"_vh_btn_ins\" style=\"flex:1;background:linear-gradient(135deg,#f5c842,#d4a820);color:#000;border:none;padding:11px;border-radius:8px;font-weight:bold;cursor:pointer;font-size:13px;font-family:inherit\">✓ أدرج في التعليق</button>'"
     + "+'<button id=\"_vh_btn_next\" style=\"background:#111d38;color:#00e676;border:1px solid rgba(0,230,118,0.3);padding:11px 14px;border-radius:8px;font-weight:bold;cursor:pointer;font-size:13px;font-family:inherit;white-space:nowrap\">التالي ⏭</button>' "
     + "+'</div>';"
     + "document.getElementById('_vh_close').onclick=function(){pop.remove();};"
+    + "document.getElementById('_vh_cat_sel').onchange=function(){cat=this.value;sessionStorage.setItem('_vh_cat',cat);render();};"
     + "document.getElementById('_vh_sel').onchange=function(){idx=parseInt(this.value);sessionStorage.setItem('_vh_idx',idx);render();};"
     + "document.getElementById('_vh_btn_ins').onclick=function(){"
-    + "if(ins(item.c)){"
+    + "if(ins(cmt)){"
     + "this.style.background='linear-gradient(135deg,#00e676,#00b248)';"
     + "this.textContent='✅ تم الإدراج — اضغط Enter';"
     + "}"
     + "};"
     + "document.getElementById('_vh_btn_next').onclick=function(){"
-    + "idx=(idx+1)%Q.length;sessionStorage.setItem('_vh_idx',idx);render();"
+    + "idx=(idx+1)%A.length;sessionStorage.setItem('_vh_idx',idx);render();"
     + "};"
     + "}"
     + "render();"

@@ -1892,83 +1892,90 @@ let _mcQueue=[];
 
 
 
-// ═══════════════════ PAGE POSTS FETCHER ═══════════════════
-let _pagePosts=[];
-
-async function fetchPosts() {
-  const limit=document.getElementById('pp-limit').value;
-  const el=document.getElementById('posts-list');
-  el.innerHTML='<div class="obox-ph">⏳ جارٍ جلب المنشورات...</div>';
-  try {
-    const res=await fetch(`/api/page-posts?limit=${limit}`);
-    const data=await res.json();
-    if(!data.success||!data.posts.length){
-      el.innerHTML=`<div class="obox-ph">⚠️ ${data.error||'لا توجد منشورات أو خطأ في الاتصال'}</div>`;
-      return;
-    }
-    _pagePosts=data.posts;
-    renderPosts(data.posts);
-  } catch(e) {
-    el.innerHTML=`<div class="obox-ph">❌ خطأ في الاتصال بالسيرفر: ${e.message}</div>`;
-  }
-}
-
-function renderPosts(posts) {
-  const el=document.getElementById('posts-list');
-  if(!posts.length){ el.innerHTML='<div class="obox-ph">لا توجد منشورات</div>'; return; }
-  el.innerHTML=posts.map((p,i)=>{
-    const d=new Date(p.created_time);
-    const ds=d.toLocaleDateString('ar-JO',{day:'numeric',month:'short',year:'2-digit'});
-    const msg=(p.message||p.story||'(منشور بدون نص)').substring(0,100);
-    return `
-      <div class="pp-item">
-        <div class="pp-date">${ds}</div>
-        <div class="pp-msg">${msg}...</div>
-        <button class="pp-btn" onclick="startSessionForPost(${i})">🚀 جلسة</button>
-      </div>`;
-  }).join('');
-}
-
-function startSessionForPost(idx) {
-  const p=_pagePosts[idx];
-  if(!p) return;
-  if(accs.length<2){ toast('⚠️ أضف حسابين على الأقل للخلية أولاً'); return; }
-  document.getElementById('mis-url').value=p.permalink_url||`https://facebook.com/${p.id}`;
-  document.getElementById('mis-topic').value=(p.message||p.story||'').substring(0,60);
-  const now=new Date(); now.setMinutes(now.getMinutes()+2);
-  document.getElementById('mis-time').value=`${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
-  genMission();
-  document.getElementById('mission-out').scrollIntoView({behavior:'smooth'});
-  toast('✅ جاهز! اضغط 🚀 تشغيل Mission Control');
-}
-
-// ═══════════════════ BOOKMARKLET (SELF-CONTAINED) ═══════════════════
+// ═══════════════════ SMART BOOKMARKLET (SELF-CONTAINED) ═══════════════════
 function getBMCode(queue) {
-  var cats = {
-    'tools':    { name: '🛠️ أدوات الفحص الذكية', list: CONTEXT_COMMENTS['tools'] },
-    'sciatica': { name: '⚡ عرق النسا والديسك', list: CONTEXT_COMMENTS['sciatica'] },
-    'neck':     { name: '💻 الرقبة والأبهر للمكتبيين', list: CONTEXT_COMMENTS['neck'] },
-    'elderly':  { name: '👵 كبار السن والمفاصل', list: CONTEXT_COMMENTS['elderly'] },
-    'chiro':    { name: '🦴 الكايروبراكتيك وطقطقة الفقرات', list: CONTEXT_COMMENTS['chiro'] },
-    'general':  { name: '🏥 مواعيد واستفسارات المركز', list: CONTEXT_COMMENTS['general'] }
+  var pools = {
+    'tools': [
+      'جربت فحص عمر العمود الفقري هلا والله انصدمت! طلع عمري ٤٥ وأنا عمري ٢٩.. فحص دقيق وممتع صراحة 😅',
+      'وين الرابط يا ريت تبعتولي إياه ع الخاص أو بالتعليقات لو سمحتوا؟ بدي أجرّبه 📲',
+      'فحصت فحص الظهر ع الرابط وعطاني عمر فقراتي ٤٥ سنة! دكتور هل الفحص دقيق وبنقدر نعتمد نتيجته؟ 🤔',
+      'أنا عملت فحص عرق النسا والنتيجة طلعت عالية، وبصراحة الأعراض متطابقة تماماً.. شو الخطوة الصح بعد الفحص دكتور؟ 🩺',
+      'شاركت الرابط مع الموظفين بالدوام الكل عم بحسب عمر ضهره هههه.. فكرة إبداعية دكتور جمال 👏',
+      'والله فكرة الأداة والفحص الأونلاين بتجنن! بتوعي الناس قبل ما تتفاقم الحالة.. يسلمو دكتور 💙',
+      'عملت الفحص للوالد وطلع عنده إجهاد فقرات عالي، كيف نقدر نرتب موعد عندكم بالعيادة بخلدا؟ 👵',
+      'الفحص مجاني ولا بدو تسجيل؟ شفته كتير مرتب ومفيد للأمانة ✨'
+    ],
+    'sciatica': [
+      'والله هالوجع ما بحس فيه إلا اللي جربه، ألم بنزل من الورك لكعب الإجر متل الكهربا بالزبط ⚡ الله يشافي الجميع',
+      'دكتور شو الفرق بين عرق النسا الحقيقي والشد العضلي بالكمثرية؟ لأن التشخيص عندي مش واضح 🤔',
+      'عن تجربة شخصية.. الكايروبراكتيك والتمارين عند دكتور جمال فكوا عني الضغط بدون أدوية ولا إبر الحمد لله 🙌',
+      'هل المشي الكتير بنفع لعرق النسا ولا بزيد الضغط ع العصب؟ كل دكتور بحكي شكل 🚶‍♂️',
+      'كنت ما أقدر أنام من وجع رجلي الشمال، جلسات التأهيل والعلاج اليدوي بالمركز فرقت معي 180 درجة 🌿',
+      'عندي تنميل مستمر بأصابع الرجل مع ألم أسفل الظهر، هل هاد ديسك ضاغط ولا عصب ملتهب؟ 🩺'
+    ],
+    'neck': [
+      'والله الشاشات دمرت رقابنا.. بخلص دوام المكتب وبحس لوح الكتف شادد ومولع نار 💻🔥',
+      'نقطة الأبهر بين لوحي الكتف شو حلها الجذري؟ كل ما أعمل مساج برجع الوجع بعد يومين 😔',
+      'طقطقة الرقبة اللي بنعملها بإيدنا لحالنا هل إلها أضرار ع المدى البعيد؟ يا ريت تفيدنا دكتور ⚠️',
+      'كتير بصير عندي دوخة خفيفة وصداع مع شد بالرقبة، وطلع السبب من الفقرات العنقية مش من الضغط! سبحان الله 🧠',
+      'بعد جلسة العلاج اليدوي وفك تشنجات الرقبة حسيت كأنو جبل انزاح عن كتافي.. شغلكم مية بالمية 👌',
+      'مرحبا دكتور، بيلزم أحجز موعد كشفية مسبق لعلاج الرقبة ولا بقدر أجي اليوم؟ 🕒'
+    ],
+    'elderly': [
+      'الوالدة عندها احتكاك بالركب وصعوبة بالطلوع والنزول، هل العلاج اليدوي والفيزيائي بيفيد بعمر ٦٥؟ 👵',
+      'ما شاء الله تعاملكم مع كبار السن رحمة وأخلاق عالية قبل ما يكون علاج، الله يباركلكم بعلمكم وصحتكم 🤲',
+      'جدتي كانت ما تقدر تمشي للمسجد، بعد كم جلسة تأهيل بمركز وداعاً للألم تحسنت كتير بفضل الله 🤍',
+      'هل بتوفروا خدمة علاج وتأهيل منزلي لكبار السن اللي بصعب نقلهم للعيادة؟ 🏠',
+      'كل الاحترام للدكتور جمال، الأمانة الطبية والاهتمام بالمريض أهم من أي شي 💯',
+      'الله يجزيكم الخير، الوالد بعد الجلسات صار يقدر يقعد ويصلي براحة بدون وجع الظهر 🙏'
+    ],
+    'chiro': [
+      'دكتور شو الفرق بين الكايروبراكتيك والعلاج الطبيعي العادي؟ وهل طقطقة الفقرات آمنة؟ 🤔',
+      'كنت متخوف كتييير من طقطقة الفقرات بس والله طلعت متل السحر وبتفك الضغط فك، راحة فورية 🌸',
+      'دكاترة كتير حكولي عملية للديسك، وجيت عندكم والحمد لله طبت بدون أي جراحة.. تسلم إيديك دكتور جمال 💯',
+      'أحلى شعور بالعالم لما ترجع الفقرات لمكانها وتتنفس براحة.. شكراً لمركز وداعاً للألم 🙏',
+      'هل الكايروبراكتيك بساعد بحالات ميلان الحوض وانحناء العمود الفقري؟ ⚖️',
+      'أمانة وأسلوب راقي جداً.. نصيحة لكل حدا عنده فقرات مضغوطة يجرب الكايروبراكتيك عندهم 👌'
+    ],
+    'general': [
+      'مرحبا دكتور، موقعكم بخلدا وين بالضبط جنب شو؟ وبيلزم أحجز موعد ولا بصير أجي فجأة؟ 🤔',
+      'يعطيك العافية، شو أوقات الدوام عندكم؟ وهل فاتحين يوم الجمعة أو السبت؟ 🕒',
+      'ممكن رقم الواتساب المباشر مشان أبعتلكم تقرير الرنين المغناطيسي تشوفوه؟ 📲',
+      'يسعد مساكم، هل في عندكم باكيجات للجلسات أو عروض ع الكشفية؟ 💰',
+      'سمعت عنكم كتير من معارفنا بخلدا والكل بمدح فيكم، إن شاء الله بمركم قريباً 🌟',
+      'مركز متكامل وأجهزة حديثة ومعاملة ممتازة، ألف شكر لدكتور جمال وكادر المركز 🌿'
+    ]
   };
-  var accNames = (accs && accs.length) ? accs.map(function(a){ return a.name; }) : ['هدى','محمد','أحمد','سارة','عمر','رنا'];
+
+  var catNames = {
+    'tools': '🧪 أدوات الفحص الذكية وعمر الظهر',
+    'sciatica': '⚡ عرق النسا والديسك القطني',
+    'neck': '💻 الرقبة والأبهر والمكتبيين',
+    'elderly': '👵 كبار السن وخشونة المفاصل',
+    'chiro': '👐 الكايروبراكتيك وطقطقة الفقرات',
+    'general': '📍 مواعيد واستفسارات العيادة بخلدا'
+  };
+
+  var accList = (accs && accs.length) ? accs.map(function(a){ return a.name; }) : ['هدى','محمد','أحمد','سارة','عمر','رنا'];
   var curCat = document.getElementById('mis-cat')?.value || 'tools';
 
   return "javascript:(function(){"
-    + "var C=" + JSON.stringify(cats) + ";"
-    + "var A=" + JSON.stringify(accNames) + ";"
+    + "var P=" + JSON.stringify(pools) + ";"
+    + "var CN=" + JSON.stringify(catNames) + ";"
+    + "var AL=" + JSON.stringify(accList) + ";"
     + "var e=document.getElementById('_vh_bm');if(e){e.remove();return;}"
     + "var cat=sessionStorage.getItem('_vh_cat')||" + JSON.stringify(curCat) + ";"
-    + "if(!C[cat])cat='tools';"
-    + "var idx=parseInt(sessionStorage.getItem('_vh_idx')||'0');"
+    + "if(!P[cat])cat='tools';"
+    + "var aIdx=parseInt(sessionStorage.getItem('_vh_aidx')||'0');if(aIdx>=AL.length)aIdx=0;"
+    + "var cIdx=parseInt(sessionStorage.getItem('_vh_cidx')||'0');"
+    + "function getCmt(){var arr=P[cat]||P['tools'];return arr[cIdx%arr.length];}"
     + "function ins(t){"
     + "var sels=['div[contenteditable=\"true\"][role=\"textbox\"]','[data-lexical-editor=\"true\"]','div[aria-label*=\"تعليق\"]','div[aria-label*=\"Comment\"]','div[aria-label*=\"comment\"]','form textarea'];"
     + "var el=null;"
     + "for(var i=0;i<sels.length;i++){var f=document.querySelectorAll(sels[i]);if(f.length){el=f[f.length-1];break;}}"
     + "if(!el){el=document.activeElement;}"
     + "if(!el||(el.contentEditable!=='true'&&el.tagName!=='TEXTAREA')){"
-    + "alert('⚠️ الرجاء النقر أولاً بالماوس داخل خانة التعليق (اكتب تعليقاً...) ثم اضغط زر الإدراج مجدداً');return false;"
+    + "alert('⚠️ انقر بالماوس أولاً داخل خانة التعليق في فيسبوك ثم اضغط زر الإدراج مجدداً');return false;"
     + "}"
     + "el.focus();"
     + "try{"
@@ -1982,47 +1989,53 @@ function getBMCode(queue) {
     + "return true;"
     + "}"
     + "function render(){"
-    + "var pool=(C[cat]&&C[cat].list)||C['tools'].list;"
-    + "if(idx>=A.length)idx=0;"
-    + "var cmt=pool[idx%pool.length];"
     + "var pop=document.getElementById('_vh_bm');"
     + "if(!pop){"
     + "pop=document.createElement('div');pop.id='_vh_bm';"
-    + "pop.style.cssText='position:fixed;top:20px;left:20px;z-index:999999999;background:#07091a;border:2px solid #f5c842;border-radius:16px;padding:16px;width:350px;box-shadow:0 14px 45px rgba(0,0,0,0.9);font-family:Segoe UI,Tahoma,sans-serif;color:#e8eaf6;direction:rtl;text-align:right;';"
+    + "pop.style.cssText='position:fixed;top:20px;left:20px;z-index:999999999;background:#070a1a;border:2px solid #f5c842;border-radius:18px;padding:16px 18px;width:370px;box-shadow:0 18px 50px rgba(0,0,0,0.95);font-family:Segoe UI,Tahoma,sans-serif;color:#e8eaf6;direction:rtl;text-align:right;backdrop-filter:blur(10px);';"
     + "document.body.appendChild(pop);"
     + "}"
     + "var cOpts='';"
-    + "for(var k in C){cOpts+='<option value=\"'+k+'\"'+(k===cat?' selected':'')+'>'+C[k].name+'</option>';}"
+    + "for(var k in CN){cOpts+='<option value=\"'+k+'\"'+(k===cat?' selected':'')+'>'+CN[k]+'</option>';}"
     + "var aOpts='';"
-    + "for(var j=0;j<A.length;j++){aOpts+='<option value=\"'+j+'\"'+(j===idx?' selected':'')+'>حساب '+(j+1)+': '+A[j]+'</option>';}"
-    + "pop.innerHTML='<div style=\"display:flex;justify-content:space-between;align-items:center;margin-bottom:8px\">'"
-    + "+'<div style=\"font-weight:bold;color:#f5c842;font-size:14px\">🚀 Hub المساعد — وداعاً للألم</div>'"
+    + "for(var j=0;j<AL.length;j++){aOpts+='<option value=\"'+j+'\"'+(j===aIdx?' selected':'')+'>حساب '+(j+1)+': '+AL[j]+'</option>';}"
+    + "pop.innerHTML="
+    + "'<div style=\"display:flex;justify-content:space-between;align-items:center;margin-bottom:10px\">'"
+    + "+'<div style=\"font-weight:800;color:#f5c842;font-size:14px;display:flex;align-items:center;gap:6px\">🚀 Hub المساعد الذكي</div>'"
     + "+'<button id=\"_vh_close\" style=\"background:transparent;border:none;color:#aaa;font-size:18px;cursor:pointer;line-height:1\">✕</button>'"
     + "+'</div>'"
     + "+'<div style=\"margin-bottom:8px\">'"
-    + "+'<div style=\"font-size:11px;color:#90caf9;margin-bottom:3px\">موضوع المنشور:</div>'"
-    + "+'<select id=\"_vh_cat_sel\" style=\"width:100%;background:#111d38;color:#f5c842;border:1px solid rgba(245,200,66,0.4);padding:6px 8px;border-radius:8px;font-size:12px;font-family:inherit;font-weight:600\">'+cOpts+'</select>'"
+    + "+'<div style=\"font-size:11px;color:#90caf9;margin-bottom:3px;font-weight:600\">🎯 موضوع المنشور:</div>'"
+    + "+'<select id=\"_vh_cat_sel\" style=\"width:100%;background:#111d38;color:#f5c842;border:1px solid rgba(245,200,66,0.4);padding:7px 10px;border-radius:8px;font-size:12px;font-family:inherit;font-weight:700\">'+cOpts+'</select>'"
     + "+'</div>'"
     + "+'<div style=\"display:flex;gap:8px;align-items:center;margin-bottom:8px\">'"
-    + "+'<select id=\"_vh_sel\" style=\"flex:1;background:#111d38;color:#00e676;border:1px solid rgba(0,230,118,0.3);padding:6px 8px;border-radius:8px;font-size:12px;font-family:inherit\">'+aOpts+'</select>'"
-    + "+'<span style=\"font-size:11px;color:#40c4ff;background:rgba(64,196,255,0.12);padding:4px 8px;border-radius:6px;white-space:nowrap\">💬 تعليق</span>'"
+    + "+'<div style=\"flex:1\">'"
+    + "+'<div style=\"font-size:11px;color:#90caf9;margin-bottom:3px;font-weight:600\">👤 الحساب الحالي:</div>'"
+    + "+'<select id=\"_vh_acc_sel\" style=\"width:100%;background:#111d38;color:#00e676;border:1px solid rgba(0,230,118,0.3);padding:6px 8px;border-radius:8px;font-size:12px;font-family:inherit;font-weight:700\">'+aOpts+'</select>'"
     + "+'</div>'"
-    + "+'<div id=\"_vh_txt\" style=\"background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:12px;font-size:13px;line-height:1.6;margin-bottom:12px;max-height:130px;overflow-y:auto;color:#fff\">'+cmt+'</div>'"
+    + "+'<button id=\"_vh_btn_regen\" title=\"توليد تعليق آخر من نفس الموضوع\" style=\"margin-top:16px;background:rgba(245,200,66,0.15);color:#f5c842;border:1px solid #f5c842;padding:6px 12px;border-radius:8px;font-weight:bold;cursor:pointer;font-size:12px;font-family:inherit;white-space:nowrap\">🔄 تعليق آخر</button>'"
+    + "+'</div>'"
+    + "+'<div style=\"margin-bottom:10px\">'"
+    + "+'<div style=\"font-size:11px;color:#bbb;margin-bottom:3px\">💬 نص التعليق (يمكنك التعديل عليه مباشرة):</div>'"
+    + "+'<textarea id=\"_vh_txt\" rows=\"3\" style=\"width:100%;box-sizing:border-box;background:#0d1428;color:#fff;border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:10px;font-size:13px;line-height:1.6;font-family:inherit;resize:vertical\">'+getCmt()+'</textarea>'"
+    + "+'</div>'"
     + "+'<div style=\"display:flex;gap:8px\">'"
     + "+'<button id=\"_vh_btn_ins\" style=\"flex:1;background:linear-gradient(135deg,#f5c842,#d4a820);color:#000;border:none;padding:11px;border-radius:8px;font-weight:bold;cursor:pointer;font-size:13px;font-family:inherit\">✓ أدرج في التعليق</button>'"
-    + "+'<button id=\"_vh_btn_next\" style=\"background:#111d38;color:#00e676;border:1px solid rgba(0,230,118,0.3);padding:11px 14px;border-radius:8px;font-weight:bold;cursor:pointer;font-size:13px;font-family:inherit;white-space:nowrap\">التالي ⏭</button>' "
+    + "+'<button id=\"_vh_btn_next\" style=\"background:#111d38;color:#00e676;border:1px solid rgba(0,230,118,0.4);padding:11px 14px;border-radius:8px;font-weight:bold;cursor:pointer;font-size:13px;font-family:inherit;white-space:nowrap\">التالي ⏭</button>' "
     + "+'</div>';"
     + "document.getElementById('_vh_close').onclick=function(){pop.remove();};"
-    + "document.getElementById('_vh_cat_sel').onchange=function(){cat=this.value;sessionStorage.setItem('_vh_cat',cat);render();};"
-    + "document.getElementById('_vh_sel').onchange=function(){idx=parseInt(this.value);sessionStorage.setItem('_vh_idx',idx);render();};"
+    + "document.getElementById('_vh_cat_sel').onchange=function(){cat=this.value;cIdx=0;sessionStorage.setItem('_vh_cat',cat);sessionStorage.setItem('_vh_cidx',cIdx);render();};"
+    + "document.getElementById('_vh_acc_sel').onchange=function(){aIdx=parseInt(this.value);sessionStorage.setItem('_vh_aidx',aIdx);render();};"
+    + "document.getElementById('_vh_btn_regen').onclick=function(){cIdx++;sessionStorage.setItem('_vh_cidx',cIdx);document.getElementById('_vh_txt').value=getCmt();};"
     + "document.getElementById('_vh_btn_ins').onclick=function(){"
-    + "if(ins(cmt)){"
+    + "var t=document.getElementById('_vh_txt').value.trim();"
+    + "if(ins(t)){"
     + "this.style.background='linear-gradient(135deg,#00e676,#00b248)';"
     + "this.textContent='✅ تم الإدراج — اضغط Enter';"
     + "}"
     + "};"
     + "document.getElementById('_vh_btn_next').onclick=function(){"
-    + "idx=(idx+1)%A.length;sessionStorage.setItem('_vh_idx',idx);render();"
+    + "aIdx=(aIdx+1)%AL.length;cIdx++;sessionStorage.setItem('_vh_aidx',aIdx);sessionStorage.setItem('_vh_cidx',cIdx);render();"
     + "};"
     + "}"
     + "render();"

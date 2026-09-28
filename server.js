@@ -5,6 +5,7 @@ const https = require('https');
 const app = express();
 app.use(bodyParser.json());
 app.use(express.static(__dirname));
+app.get('/favicon.ico', (req, res) => res.status(204).end());
 
 
 // Configuration

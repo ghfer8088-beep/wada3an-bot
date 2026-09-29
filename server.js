@@ -7,6 +7,10 @@ app.use(bodyParser.json());
 app.use(express.static(__dirname));
 app.get('/favicon.ico', (req, res) => res.status(204).end());
 
+// Mount Growth & Content Intelligence Platform REST APIs
+const growthRoutes = require('./src/routes/growthRoutes');
+app.use('/api/growth', growthRoutes);
+
 
 // Configuration
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN || 'EAAW983LxTGwBSnQsU1OY6nIEzbCqbExeDPkH3OlAuv9UZCMAh0FqMwNbmoMopTXY8ViWdOZBffTUuOUldj9ZAxCF1t6JeoCCK4KQPZAS1jSTnGdEo7N6B5Fl3x5o0RcGXcjSZBEOMCj21DtCvEeq6LhZATR8eODlagjme7WRNmtT8EAK9QBsS8m5hNfkpNirIqoocmQwAhtocbBuiM0uXNKNkAqJlBjiym9iIgF8lXuZAfdPVUEk7sYxwZDZD';

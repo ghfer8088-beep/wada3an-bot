@@ -869,10 +869,11 @@ body{font-family:'Cairo','Segoe UI',Tahoma,Arial,sans-serif;background:var(--nav
             </select>
           </div>
           <div class="fg">
-            <label class="flb">🎨 النمط اللوني وتصميم البوستر (Theme)</label>
+            <label class="flb">🎨 نمط التصميم وهوية البوستر (Design Style)</label>
             <select class="fsel" id="ds-theme" onchange="drawPoster()">
-              <option value="clinical_light">🏥 أزرق عيادات ناصع (خلفية مضيئة + كروت بيضاء ناصعة + راحة بصرية)</option>
-              <option value="navy_gold" selected>👑 فخامة ملكية كحلي وذهبي (Royal Navy & Gold — هيبة طبية وفخامة)</option>
+              <option value="studio_master" selected>🌟 تصميم الاستوديو الاحترافي المرفق (المريض + العمود الفقري المضيء + صور الحالات الواقعية + الأيقونات والأختام)</option>
+              <option value="clinical_light">🏥 أزرق عيادات ناصع (Modern Vector Studio — خلفية مضيئة + كروت بيضاء)</option>
+              <option value="navy_gold">👑 فخامة ملكية كحلي وذهبي (Royal Navy & Gold — هيبة طبية وفخامة)</option>
               <option value="emerald_care">🌿 زمردي صحي راقي (Emerald Health Care — مريح وموثوق)</option>
               <option value="modern_dark">⚡ دارك مود فيروسي (Modern Dark Studio — تباين عالٍ للفيسبوك)</option>
             </select>
@@ -1911,11 +1912,19 @@ const DESIGN_THEMES = {
 };
 
 let _logoImg = new Image();
+let _isCustomLogo = false;
 _logoImg.crossOrigin = 'anonymous';
 _logoImg.onload = function() {
   drawPoster();
 };
 _logoImg.src = 'logo.jpg';
+
+let _bgImg = new Image();
+_bgImg.crossOrigin = 'anonymous';
+_bgImg.onload = function() {
+  drawPoster();
+};
+_bgImg.src = 'infographic_bg.jpg';
 
 function handleLogoUpload(input) {
   if (input.files && input.files[0]) {
@@ -1925,6 +1934,7 @@ function handleLogoUpload(input) {
       const img = new Image();
       img.onload = function() {
         _logoImg = img;
+        _isCustomLogo = true;
         drawPoster();
         toast('✅ تم تطبيق الشعار المخصص في التصميم بنجاح!');
       };
@@ -1938,6 +1948,7 @@ function resetLogo() {
   const img = new Image();
   img.onload = function() {
     _logoImg = img;
+    _isCustomLogo = false;
     drawPoster();
     toast('🔄 تم استعادة شعار المركز الافتراضي');
   };
@@ -2041,17 +2052,194 @@ function drawClinicSealFallback(ctx, x, y, size, accentColor) {
   ctx.restore();
 }
 
+function drawStudioMaster(ctx, cvs, data) {
+  const W = 1080;
+  const H = 1622;
+  cvs.width = W;
+  cvs.height = H;
+  const scale = W / 682; // ~1.5835777
+
+  // 1. BASE BACKGROUND IMAGE (The real photo composition)
+  if (_bgImg.complete && _bgImg.naturalWidth > 0) {
+    ctx.drawImage(_bgImg, 0, 0, W, H);
+  } else {
+    const bgGrad = ctx.createLinearGradient(0, 0, 0, H);
+    bgGrad.addColorStop(0, '#f0f7fc');
+    bgGrad.addColorStop(0.5, '#e5f3fb');
+    bgGrad.addColorStop(1, '#dff0fa');
+    ctx.fillStyle = bgGrad;
+    ctx.fillRect(0, 0, W, H);
+  }
+
+  // 2. TOP ALERT BADGE (In the red brush stroke area)
+  const bX = 345 * scale, bY = 24 * scale, bW = 285 * scale, bH = 82 * scale;
+  ctx.save();
+  ctx.fillStyle = data.badgeColor || '#d32f2f';
+  ctx.beginPath();
+  ctx.roundRect(bX, bY, bW, bH, 18 * scale);
+  ctx.shadowColor = 'rgba(211, 47, 47, 0.4)';
+  ctx.shadowBlur = 12 * scale;
+  ctx.shadowOffsetY = 4 * scale;
+  ctx.fill();
+
+  ctx.fillStyle = '#ffffff';
+  ctx.font = `900 ${32 * scale}px "Cairo", sans-serif`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(data.badgeText, bX + bW / 2, bY + bH / 2);
+  ctx.restore();
+
+  // 3. MAIN HEADLINE
+  const tX = 300 * scale, tY = 125 * scale, tW = 372 * scale, tH = 76 * scale;
+  ctx.save();
+  const tGrad = ctx.createLinearGradient(tX, tY, tX + tW, tY + tH);
+  tGrad.addColorStop(0, '#edf5fc');
+  tGrad.addColorStop(0.5, '#f6fafe');
+  tGrad.addColorStop(1, '#edf5fc');
+  ctx.fillStyle = tGrad;
+  ctx.fillRect(tX, tY, tW, tH);
+
+  ctx.fillStyle = '#0f2942';
+  ctx.font = `800 ${21 * scale}px "Cairo", sans-serif`;
+  wrapText(ctx, data.mainTitle, tX + tW / 2, tY + 28 * scale, tW - 8 * scale, 28 * scale, 'center');
+  ctx.restore();
+
+  // 4. HOOK / QUOTE CLOUD (Red pill container)
+  const qX = 248 * scale, qY = 205 * scale, qW = 424 * scale, qH = 58 * scale;
+  ctx.save();
+  ctx.fillStyle = '#ffedf0';
+  ctx.strokeStyle = '#fca5a5';
+  ctx.lineWidth = 1.8 * scale;
+  ctx.beginPath();
+  ctx.roundRect(qX, qY, qW, qH, 16 * scale);
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.fillStyle = '#b71c1c';
+  ctx.font = `bold ${21 * scale}px "Cairo", sans-serif`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(data.subText, qX + qW / 2, qY + qH / 2);
+  ctx.restore();
+
+  // 5. THREE COMPARISON CARDS (Myth and Fact text patches)
+  const cX = 236 * scale, cW = 312 * scale, cH = 150 * scale;
+  const cardYCoords = [298 * scale, 466 * scale, 636 * scale];
+  const mythBadgeTitles = [data.badgeMyth, 'خرافة ثانية ❌', 'خرافة ثالثة ❌'];
+
+  data.cards.forEach((c, idx) => {
+    const curY = cardYCoords[idx];
+    ctx.save();
+    // Clean white patch over original card text
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(cX, curY, cW, cH);
+
+    // Myth Pill
+    const mPillW = 125 * scale, mPillH = 26 * scale;
+    const mPillX = cX + cW - mPillW - 2 * scale, mPillY = curY + 4 * scale;
+    ctx.fillStyle = '#dc2626';
+    ctx.beginPath();
+    ctx.roundRect(mPillX, mPillY, mPillW, mPillH, 13 * scale);
+    ctx.fill();
+
+    ctx.fillStyle = '#ffffff';
+    ctx.font = `bold ${13 * scale}px "Cairo", sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(mythBadgeTitles[idx], mPillX + mPillW / 2, mPillY + mPillH / 2);
+
+    // Myth Text
+    ctx.fillStyle = '#b71c1c';
+    ctx.font = `bold ${16 * scale}px "Cairo", sans-serif`;
+    wrapText(ctx, `"${c.m}"`, cX + cW - 4 * scale, curY + 48 * scale, cW - 8 * scale, 20 * scale, 'right');
+
+    // Fact Pill
+    const fPillW = 135 * scale, fPillH = 26 * scale;
+    const fPillX = cX + cW - fPillW - 2 * scale, fPillY = curY + 76 * scale;
+    ctx.fillStyle = '#16a34a';
+    ctx.beginPath();
+    ctx.roundRect(fPillX, fPillY, fPillW, fPillH, 13 * scale);
+    ctx.fill();
+
+    ctx.fillStyle = '#ffffff';
+    ctx.font = `bold ${13 * scale}px "Cairo", sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(data.badgeFact, fPillW / 2 + fPillX, fPillH / 2 + fPillY);
+
+    // Fact Text
+    ctx.fillStyle = '#15803d';
+    ctx.font = `600 ${14.5 * scale}px "Cairo", sans-serif`;
+    wrapText(ctx, c.f, cX + cW - 4 * scale, curY + 118 * scale, cW - 8 * scale, 19 * scale, 'right');
+
+    ctx.restore();
+  });
+
+  // 6. FOOTER: CTA BRUSH STROKE TEXT
+  const btcX = 195 * scale, btcY = 806 * scale, btcW = 345 * scale, btcH = 76 * scale;
+  ctx.save();
+  ctx.fillStyle = '#0f3a69';
+  ctx.fillRect(btcX, btcY, btcW, btcH);
+
+  ctx.fillStyle = '#ffffff';
+  ctx.font = `bold ${18 * scale}px "Cairo", sans-serif`;
+  ctx.textAlign = 'center';
+  ctx.fillText(data.footerCta, btcX + btcW / 2, btcY + 34 * scale);
+
+  ctx.fillStyle = '#f5c842';
+  ctx.font = `900 ${22 * scale}px "Cairo", sans-serif`;
+  ctx.fillText('استشر متخصصاً.', btcX + btcW / 2, btcY + 64 * scale);
+  ctx.restore();
+
+  // 7. FOOTER: GREEN PHONE BUTTON
+  const pX = 94 * scale, pY = 896 * scale, pW = 270 * scale, pH = 58 * scale;
+  ctx.save();
+  ctx.fillStyle = '#00796b';
+  ctx.beginPath();
+  ctx.roundRect(pX, pY, pW, pH, 29 * scale);
+  ctx.shadowColor = 'rgba(0, 121, 107, 0.4)';
+  ctx.shadowBlur = 10 * scale;
+  ctx.shadowOffsetY = 3 * scale;
+  ctx.fill();
+
+  ctx.fillStyle = '#ffffff';
+  ctx.font = `bold ${22 * scale}px "Cairo", sans-serif`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('📞 ' + data.footerPhone, pX + pW / 2, pY + pH / 2);
+  ctx.restore();
+
+  // 8. FOOTER: CLINIC LOGO & BRANDING
+  const clX = 374 * scale, clY = 896 * scale, clW = 158 * scale, clH = 58 * scale;
+  ctx.save();
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(clX, clY, clW, clH);
+
+  if (_isCustomLogo && _logoImg.complete && _logoImg.naturalWidth > 0) {
+    const lSize = clH - 6 * scale;
+    ctx.drawImage(_logoImg, clX + 4 * scale, clY + 3 * scale, lSize, lSize);
+    ctx.fillStyle = '#0f2942';
+    ctx.font = `bold ${16 * scale}px "Cairo", sans-serif`;
+    ctx.textAlign = 'right';
+    ctx.fillText(data.hdrTitle, clX + clW, clY + 34 * scale);
+  } else {
+    ctx.fillStyle = '#0f2942';
+    ctx.font = `900 ${23 * scale}px "Cairo", sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(data.hdrTitle, clX + clW / 2, clY + clH / 2);
+  }
+  ctx.restore();
+}
+
 function drawPoster() {
   const cvs = document.getElementById('posterCanvas');
   if (!cvs) return;
   const ctx = cvs.getContext('2d');
-  const W = 1080, H = 1560;
-  cvs.width = W;
-  cvs.height = H;
 
   // Retrieve user choices
-  const themeKey = (document.getElementById('ds-theme') && document.getElementById('ds-theme').value) || 'navy_gold';
-  const theme = DESIGN_THEMES[themeKey] || DESIGN_THEMES['navy_gold'];
+  const themeKey = (document.getElementById('ds-theme') && document.getElementById('ds-theme').value) || 'studio_master';
+  const theme = DESIGN_THEMES[themeKey] || DESIGN_THEMES['clinical_light'];
 
   const hdrTitle = (document.getElementById('ds-hdr-title') && document.getElementById('ds-hdr-title').value) || 'مركز وداعاً للألم';
   const hdrSub = (document.getElementById('ds-hdr-sub') && document.getElementById('ds-hdr-sub').value) || 'للعلاج الطبيعي والكايبروبراكتيك وتأهيل العمود الفقري';
@@ -2084,6 +2272,20 @@ function drawPoster() {
   const footerCred = (document.getElementById('ds-footer-cred') && document.getElementById('ds-footer-cred').value) || 'فريق طبي معتمد • كشفية وتشخيص سريري متكامل • أحدث أجهزة العلاج الطبيعي والكايروبراكتيك';
   const footerBadge = (document.getElementById('ds-footer-badge') && document.getElementById('ds-footer-badge').value) || '⭐ رعاية طبية متكاملة 100% بدون جراحة';
 
+  const posterData = {
+    hdrTitle, hdrSub, badgeText, badgeColor, mainTitle, subText,
+    badgeMyth, badgeFact, cards, footerCta, footerPhone, footerAddr,
+    footerCred, footerBadge
+  };
+
+  if (themeKey === 'studio_master') {
+    drawStudioMaster(ctx, cvs, posterData);
+    return;
+  }
+
+  const W = 1080, H = 1560;
+  cvs.width = W;
+  cvs.height = H;
   ctx.save();
 
   // 1. BACKGROUND GRADIENT

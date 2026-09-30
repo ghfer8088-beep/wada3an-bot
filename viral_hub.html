@@ -840,6 +840,7 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;background:var(--navy);color
           <button class="btn bg bsm" onclick="copyPost()">📋 نسخ المنشور</button>
           <button class="btn bgh bsm" onclick="sendToPF()">🛡️ إرسال للفحص</button>
           <button class="btn bgh bsm" onclick="genPost()">🔄 توليد آخر</button>
+        </div>
       </div>
     </div>
 
@@ -1145,6 +1146,7 @@ let posts= +localStorage.getItem('vh_posts') || 0;
 let _schedText = '';
 let _lastPost  = '';
 let _lastReel  = '';
+let _mcQueue   = [];
 
 // ═══════════════════ INITIALIZATION (GATE DISABLED) ═══════════════════
 function doLogin() {
@@ -1184,8 +1186,28 @@ document.addEventListener('DOMContentLoaded', () => {
 function sw(id, btn) {
   document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
   document.querySelectorAll('.ntab').forEach(b=>b.classList.remove('on'));
-  document.getElementById('tab-'+id).classList.add('on');
-  btn.classList.add('on');
+  const target = document.getElementById('tab-'+id);
+  if (target) target.classList.add('on');
+  if (btn) btn.classList.add('on');
+
+  if (id === 'design') {
+    setTimeout(drawPoster, 60);
+  } else if (id === 'reels') {
+    const rs = document.getElementById('reel-secs');
+    if (!rs || !rs.innerHTML.trim()) {
+      setTimeout(genReel, 60);
+    }
+  } else if (id === 'pf') {
+    const pfInput = document.getElementById('pf-txt');
+    if (pfInput && !pfInput.value.trim()) {
+      pfInput.value = 'وجع أسفل الظهر وعرق النسا مش لازم تسكت عليه!\n\nهل تعلم أن ٩٠٪ من حالات انضغاط الفقرات بتتعالج بدون جراحة إطلاقاً عبر جلسات الكايروبراكتيك والعلاج اليدوي المتخصص؟\n\n💡 شاركنا بالتعليقات: كم ساعة بتقعد يومياً على الكرسي أو بالسيارة؟ 👇💬\n\n📞 للاستفسار وحجز موعد في مركز وداعاً للألم (خلدا، عمّان): 0790360440';
+    }
+    setTimeout(runPF, 60);
+  } else if (id === 'cal') {
+    setTimeout(genCal, 60);
+  } else if (id === 'growth') {
+    loadGrowthData();
+  }
 }
 
 // ═══════════════════ STATS ═══════════════════
@@ -1609,6 +1631,26 @@ _logoImg.onload = function() {
 };
 _logoImg.src = 'logo.jpg';
 
+// Polyfill roundRect for broader browser compatibility
+if (typeof CanvasRenderingContext2D !== 'undefined' && !CanvasRenderingContext2D.prototype.roundRect) {
+  CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
+    if (typeof r === 'undefined') r = 0;
+    if (typeof r === 'number') r = {tl: r, tr: r, br: r, bl: r};
+    this.beginPath();
+    this.moveTo(x + (r.tl||0), y);
+    this.lineTo(x + w - (r.tr||0), y);
+    this.quadraticCurveTo(x + w, y, x + w, y + (r.tr||0));
+    this.lineTo(x + w, y + h - (r.br||0));
+    this.quadraticCurveTo(x + w, y + h, x + w - (r.br||0), y + h);
+    this.lineTo(x + (r.bl||0), y + h);
+    this.quadraticCurveTo(x, y + h, x, y + h - (r.bl||0));
+    this.lineTo(x, y + (r.tl||0));
+    this.quadraticCurveTo(x, y, x + (r.tl||0), y);
+    this.closePath();
+    return this;
+  };
+}
+
 function drawPoster() {
   const cvs = document.getElementById('posterCanvas');
   if (!cvs) return;
@@ -1975,7 +2017,7 @@ function genReel() {
         ${sec?`<span class="timer-bdg">⏱️ ${sec}</span>`:''}
       </div>
       <div class="obox" style="font-size:13px;line-height:1.85">${v}</div>
-      <button class="btn bgh bsm" style="margin-top:8px" onclick="copy(\`${v.replace(/`/g,'\\`')}\`)">📋 نسخ</button>
+      <button class="btn bgh bsm" style="margin-top:8px" onclick="copyReelStep(this)">📋 نسخ هذه الفقرة</button>
     </div>`;
     full+=`[${k}${sec?' — '+sec:''}]\n${v}\n\n`; i++;
   });
@@ -1997,6 +2039,10 @@ function genReel() {
   document.getElementById('reel-out').scrollIntoView({behavior:'smooth'});
 }
 function copyReel() { copy(_lastReel); }
+function copyReelStep(btn) {
+  const box = btn.parentElement.querySelector('.obox');
+  if (box) copy(box.innerText || box.textContent);
+}
 
 // ═══════════════════ PRE-FLIGHT ═══════════════════
 const DW=['شير الآن','لايك بالله','فوللو','اشترك','اضغط رابط','كلك','ربح','مجاني تماماً','خصم خاص','اشتر الآن','افتح الرابط'];
@@ -2303,8 +2349,7 @@ function mcComplete() {
   ses++; localStorage.setItem('vh_ses',ses); updStats();
 }
 
-// Store queue for MC
-let _mcQueue=[];
+// Store queue for MC (declared at top)
 
 
 

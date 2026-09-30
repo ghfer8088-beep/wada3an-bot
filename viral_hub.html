@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MetaViral Hub 360° | إمبراطور محتوى فيسبوك — وداعاً للألم</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root {
   --navy:  #07091a;
@@ -24,7 +27,7 @@
   --r:     12px;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;background:var(--navy);color:var(--text);min-height:100vh;direction:rtl;}
+body{font-family:'Cairo','Segoe UI',Tahoma,Arial,sans-serif;background:var(--navy);color:var(--text);min-height:100vh;direction:rtl;}
 
 /* ── GATE (DISABLED) ── */
 #gate{display:none !important;}
@@ -847,80 +850,202 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;background:var(--navy);color
     <!-- ═══════════════════ TAB: INFOGRAPHIC DESIGNER ═══════════════════ -->
     <div class="sec" id="tab-design">
       <div class="card">
-        <div class="ctitle">🎨 مصمم بوستات الإنفوجرافيك — فيروسي وجاهز للنشر</div>
+        <div class="ctitle">🎨 مصمم بوستات الإنفوجرافيك الاحترافي — تعديل شامل من الهيدر حتى الفوتر</div>
         <div class="tipbox">
-          <div class="tipbox-t">💡 سر المنشورات البصرية الأكثر تفاعلاً في فيسبوك</div>
-          <p>الإنفوجرافيك المقارن (خرافة ❌ مقابل حقيقة علمية ✅) يحصل على <strong>٤ أضعاف المشاركات (Shares)</strong> مقارنة بالمنشورات العادية، لأن الناس تحب توعية أصدقائها وتصحيح المفاهيم الشائعة.</p>
+          <div class="tipbox-t">💡 سر المنشورات البصرية الأكثر تفاعلاً وانتشاراً على فيسبوك</div>
+          <p>الإنفوجرافيك المقارن (خرافة ❌ مقابل حقيقة علمية ✅) يحصل على <strong>٤ أضعاف المشاركات (Shares)</strong>. يمكنك الآن تخصيص كل كلمة، شارة، لون، شعار، وهاتف في التصميم ليتناسب تماماً مع هوية مركزك وتنزيله كصورة فائقة الدقة.</p>
         </div>
         
-        <div class="fg" style="margin-bottom:14px">
-          <label class="flb">اختر قالباً جاهزاً أو عدّل كما تشاء</label>
-          <select class="fsel" id="ds-tpl" onchange="loadDesignTpl()">
-            <option value="myths">❌ قالب الخرافات والحقائق (نفس نموذج الصورة: توقف! معلومات خاطئة)</option>
-            <option value="sciatica">⚡ قالب عرق النسا والديسك: ٣ مفاهيم شائعة</option>
-            <option value="surgery">🏥 قالب: هل العملية الجراحية هي الحل الوحيد؟</option>
-            <option value="custom">✏️ قالب مخصص بالكامل</option>
-          </select>
-        </div>
-
-        <div class="frow f2">
-          <div class="fg"><label class="flb">شارة التحذير / العنوان الصادم</label>
-            <input class="fi" id="ds-badge" value="توقف ! ❌"></div>
-          <div class="fg"><label class="flb">العنوان الرئيسي</label>
-            <input class="fi" id="ds-title" value="هذه معلومات خاطئة عن ألم الظهر يصدقها الجميع:"></div>
-        </div>
-
-        <div class="fg" style="margin-bottom:14px"><label class="flb">الخرافة الكبرى (باللون الأحمر البارز)</label>
-          <input class="fi" id="ds-sub" value="&quot;الراحة التامة هي أفضل علاج للألم&quot;"></div>
-
-        <div style="background:rgba(255,255,255,0.03);border:1px solid var(--bdr);border-radius:12px;padding:14px;margin-bottom:14px">
-          <div style="font-weight:700;color:var(--gold);margin-bottom:10px">المقارنة الأولى:</div>
-          <div class="frow f2">
-            <div class="fg"><label class="flb">❌ الخرافة</label><input class="fi" id="ds-m1" value="الراحة التامة هي أفضل علاج للألم"></div>
-            <div class="fg"><label class="flb">✅ الحقيقة العلمية</label><input class="fi" id="ds-f1" value="الراحة الطويلة تُضعف العضلات وتُعقد الحالة. الحركة الموجهة هي الحل."></div>
-          </div>
-        </div>
-
-        <div style="background:rgba(255,255,255,0.03);border:1px solid var(--bdr);border-radius:12px;padding:14px;margin-bottom:14px">
-          <div style="font-weight:700;color:var(--gold);margin-bottom:10px">المقارنة الثانية:</div>
-          <div class="frow f2">
-            <div class="fg"><label class="flb">❌ الخرافة</label><input class="fi" id="ds-m2" value="العلاج اليدوي والكايروبراكتيك مؤلم ومخيف"></div>
-            <div class="fg"><label class="flb">✅ الحقيقة العلمية</label><input class="fi" id="ds-f2" value="٩٥٪ من مرضانا يشعرون براحة فورية وانفراج الضغط أثناء الجلسة."></div>
-          </div>
-        </div>
-
-        <div style="background:rgba(255,255,255,0.03);border:1px solid var(--bdr);border-radius:12px;padding:14px;margin-bottom:14px">
-          <div style="font-weight:700;color:var(--gold);margin-bottom:10px">المقارنة الثالثة:</div>
-          <div class="frow f2">
-            <div class="fg"><label class="flb">❌ الخرافة</label><input class="fi" id="ds-m3" value="لا يتحسن ألم الديسك إلا بعملية جراحية"></div>
-            <div class="fg"><label class="flb">✅ الحقيقة العلمية</label><input class="fi" id="ds-f3" value="٩٠٪ من حالات ألم الظهر والفقرات تُعالج بدون جراحة إطلاقاً."></div>
-          </div>
-        </div>
-
+        <!-- Controls: Presets and Theme -->
         <div class="frow f2" style="margin-bottom:14px">
-          <div class="fg"><label class="flb">شعار الختام / النصيحة</label>
-            <input class="fi" id="ds-footer-cta" value="لا تصدق كل ما تسمع — استشر متخصصاً"></div>
-          <div class="fg"><label class="flb">معلومات المركز والهاتف</label>
-            <input class="fi" id="ds-footer-info" value="مركز وداعاً للألم | 0790360440"></div>
+          <div class="fg">
+            <label class="flb">📋 القالب الجاهز (اختر أو عدّل بحرية)</label>
+            <select class="fsel" id="ds-tpl" onchange="loadDesignTpl()">
+              <option value="myths">❌ خرافات وحقائق ألم الظهر (النموذج الفيروسي الأكثر تفاعلاً)</option>
+              <option value="sciatica">⚡ عرق النسا والديسك: ٣ مفاهيم شائعة وخاطئة</option>
+              <option value="surgery">🏥 هل العملية الجراحية هي الحل الوحيد للديسك؟</option>
+              <option value="neck_headache">🧠 آلام الرقبة والصداع التوتري المرتبط بالفقرات</option>
+              <option value="custom">✏️ قالب مخصص بالكامل (تعبئة حرة من الصفر)</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label class="flb">🎨 النمط اللوني وتصميم البوستر (Theme)</label>
+            <select class="fsel" id="ds-theme" onchange="drawPoster()">
+              <option value="clinical_light">🏥 أزرق عيادات ناصع (خلفية مضيئة + كروت بيضاء ناصعة + راحة بصرية)</option>
+              <option value="navy_gold" selected>👑 فخامة ملكية كحلي وذهبي (Royal Navy & Gold — هيبة طبية وفخامة)</option>
+              <option value="emerald_care">🌿 زمردي صحي راقي (Emerald Health Care — مريح وموثوق)</option>
+              <option value="modern_dark">⚡ دارك مود فيروسي (Modern Dark Studio — تباين عالٍ للفيسبوك)</option>
+            </select>
+          </div>
         </div>
 
-        <div style="display:flex;gap:10px;flex-wrap:wrap">
-          <button class="btn bg" onclick="drawPoster()">🔄 تحديث المعاينة</button>
-          <button class="btn bg bsm" onclick="downloadPoster()" style="background:linear-gradient(135deg,#00e676,#00b248);color:#000;font-size:15px;padding:12px 24px">
-            📥 تحميل البوستر كصورة (PNG) بدقة عالية
+        <!-- SECTION 1: HEADER & LOGO -->
+        <div style="background:rgba(255,255,255,0.03);border:1px solid var(--bdr);border-radius:12px;padding:16px;margin-bottom:16px">
+          <div style="font-weight:700;color:var(--gold);margin-bottom:12px;display:flex;align-items:center;gap:8px">
+            <span>🏥</span> <span>بيانات الهيدر، الشعار، وشارة التحذير:</span>
+          </div>
+          <div class="frow f2">
+            <div class="fg">
+              <label class="flb">اسم المركز / العيادة</label>
+              <input class="fi" id="ds-hdr-title" value="مركز وداعاً للألم" oninput="drawPoster()">
+            </div>
+            <div class="fg">
+              <label class="flb">التخصص / الوصف تحت الاسم</label>
+              <input class="fi" id="ds-hdr-sub" value="للعلاج الطبيعي والكايبروبراكتيك وتأهيل العمود الفقري" oninput="drawPoster()">
+            </div>
+          </div>
+          <div class="frow f2" style="margin-top:10px">
+            <div class="fg">
+              <label class="flb">نص شارة التحذير العلوية (Pill Badge)</label>
+              <input class="fi" id="ds-badge" value="توقف ! ❌" oninput="drawPoster()">
+            </div>
+            <div class="fg">
+              <label class="flb">لون شارة التحذير</label>
+              <select class="fsel" id="ds-badge-color" onchange="drawPoster()">
+                <option value="#d32f2f" selected>🔴 أحمر خطر وتنبيه (#d32f2f)</option>
+                <option value="#e65100">🟠 برتقالي تحذيري (#e65100)</option>
+                <option value="#1565c0">🔵 أزرق ملكي (#1565c0)</option>
+                <option value="#2e7d32">🟢 أخضر إيجابي (#2e7d32)</option>
+                <option value="#6a1b9a">🟣 بنفسجي سريري (#6a1b9a)</option>
+              </select>
+            </div>
+          </div>
+          <div class="frow f2" style="margin-top:10px;align-items:center">
+            <div class="fg">
+              <label class="flb">🖼️ رفع لوجو مخصص للعيادة (اختياري من جهازك)</label>
+              <input type="file" class="fi" id="ds-logo-file" accept="image/*" onchange="handleLogoUpload(this)" style="padding:8px">
+            </div>
+            <div class="fg" style="display:flex;align-items:flex-end">
+              <button class="btn bgh bsm" onclick="resetLogo()" style="height:44px;width:100%">
+                🔄 استعادة شعار المركز الافتراضي
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 2: HEADLINE & HOOK -->
+        <div style="background:rgba(255,255,255,0.03);border:1px solid var(--bdr);border-radius:12px;padding:16px;margin-bottom:16px">
+          <div style="font-weight:700;color:var(--gold);margin-bottom:12px;display:flex;align-items:center;gap:8px">
+            <span>📢</span> <span>العناوين الرئيسية وصندوق الهوك البارز:</span>
+          </div>
+          <div class="fg" style="margin-bottom:12px">
+            <label class="flb">العنوان الرئيسي للمنشور (Main Headline)</label>
+            <input class="fi" id="ds-title" value="هذه معلومات خاطئة عن ألم الظهر يصدقها الجميع:" oninput="drawPoster()">
+          </div>
+          <div class="fg">
+            <label class="flb">الخرافة الكبرى / بوكس الهوك الصادم البارز</label>
+            <input class="fi" id="ds-sub" value="&quot;الراحة التامة هي أفضل علاج للألم&quot;" oninput="drawPoster()">
+          </div>
+        </div>
+
+        <!-- SECTION 3: COMPARISON CARDS -->
+        <div style="background:rgba(255,255,255,0.03);border:1px solid var(--bdr);border-radius:12px;padding:16px;margin-bottom:16px">
+          <div style="font-weight:700;color:var(--gold);margin-bottom:12px;display:flex;align-items:center;gap:8px">
+            <span>⚖️</span> <span>بطاقات المقارنة الثلاث (تخصيص الخرافات والحقائق):</span>
+          </div>
+          
+          <div class="frow f2" style="margin-bottom:14px">
+            <div class="fg">
+              <label class="flb">🏷️ عنوان شارة الخرافة (الجانب السلبي)</label>
+              <input class="fi" id="ds-badge-myth" value="خرافة شائعة ❌" oninput="drawPoster()">
+            </div>
+            <div class="fg">
+              <label class="flb">🏷️ عنوان شارة الحقيقة (الجانب الإيجابي)</label>
+              <input class="fi" id="ds-badge-fact" value="الحقيقة العلمية المعتمدة ✅" oninput="drawPoster()">
+            </div>
+          </div>
+
+          <!-- Card 1 -->
+          <div style="background:rgba(0,0,0,0.18);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:12px;margin-bottom:12px">
+            <div style="font-weight:700;color:#ff8a80;margin-bottom:8px">المقارنة الأولى:</div>
+            <div class="frow f2">
+              <div class="fg"><label class="flb">❌ الخرافة الأولى</label>
+                <input class="fi" id="ds-m1" value="الراحة التامة والنوم بالسرير هما أفضل علاج لألم الظهر" oninput="drawPoster()"></div>
+              <div class="fg"><label class="flb">✅ الحقيقة العلمية الأولى</label>
+                <input class="fi" id="ds-f1" value="الراحة الطويلة تُضعف العضلات وتُعقد الحالة. الحركة الموجهة هي الحل." oninput="drawPoster()"></div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div style="background:rgba(0,0,0,0.18);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:12px;margin-bottom:12px">
+            <div style="font-weight:700;color:#ff8a80;margin-bottom:8px">المقارنة الثانية:</div>
+            <div class="frow f2">
+              <div class="fg"><label class="flb">❌ الخرافة الثانية</label>
+                <input class="fi" id="ds-m2" value="العلاج اليدوي والكايروبراكتيك مؤلم ومخيف للفقرات" oninput="drawPoster()"></div>
+              <div class="fg"><label class="flb">✅ الحقيقة العلمية الثانية</label>
+                <input class="fi" id="ds-f2" value="٩٥٪ من مرضانا يشعرون براحة فورية وانفراج الضغط أثناء الجلسة بدون ألم." oninput="drawPoster()"></div>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div style="background:rgba(0,0,0,0.18);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:12px">
+            <div style="font-weight:700;color:#ff8a80;margin-bottom:8px">المقارنة الثالثة:</div>
+            <div class="frow f2">
+              <div class="fg"><label class="flb">❌ الخرافة الثالثة</label>
+                <input class="fi" id="ds-m3" value="لا يتحسن ألم الديسك إلا بعملية جراحية" oninput="drawPoster()"></div>
+              <div class="fg"><label class="flb">✅ الحقيقة العلمية الثالثة</label>
+                <input class="fi" id="ds-f3" value="أكثر من ٩٠٪ من حالات ألم الظهر والديسك تُعالج بدون جراحة إطلاقاً." oninput="drawPoster()"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 4: FOOTER, PHONE, ADDRESS, CREDENTIALS -->
+        <div style="background:rgba(255,255,255,0.03);border:1px solid var(--bdr);border-radius:12px;padding:16px;margin-bottom:16px">
+          <div style="font-weight:700;color:var(--gold);margin-bottom:12px;display:flex;align-items:center;gap:8px">
+            <span>📍</span> <span>بيانات الفوتر، التواصل، والاعتمادات الطبية:</span>
+          </div>
+          <div class="frow f2" style="margin-bottom:12px">
+            <div class="fg">
+              <label class="flb">النصيحة الذهبية / نداء الفعل (CTA Hook)</label>
+              <input class="fi" id="ds-footer-cta" value="💡 لا تصدق كل ما تسمع — استشر متخصصاً قبل تفاقم حالتك" oninput="drawPoster()">
+            </div>
+            <div class="fg">
+              <label class="flb">رقم الهاتف / الواتساب للحجز الفوري</label>
+              <input class="fi" id="ds-footer-phone" value="0790360440" oninput="drawPoster()">
+            </div>
+          </div>
+          <div class="frow f2" style="margin-bottom:12px">
+            <div class="fg">
+              <label class="flb">العنوان والمعالم الدقيقة</label>
+              <input class="fi" id="ds-footer-addr" value="📍 عمّان - خلدا - بالقرب من إشارة البنك العربي" oninput="drawPoster()">
+            </div>
+            <div class="fg">
+              <label class="flb">شارة الجودة / الأمان في الفوتر</label>
+              <input class="fi" id="ds-footer-badge" value="⭐ رعاية طبية متكاملة 100% بدون جراحة" oninput="drawPoster()">
+            </div>
+          </div>
+          <div class="fg">
+            <label class="flb">الاعتمادات والتخصصات الطبية بالفوتر</label>
+            <input class="fi" id="ds-footer-cred" value="فريق طبي معتمد • كشفية وتشخيص سريري متكامل • أحدث أجهزة العلاج الطبيعي والكايروبراكتيك" oninput="drawPoster()">
+          </div>
+        </div>
+
+        <!-- Toolbar Buttons -->
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:16px">
+          <button class="btn bg" onclick="drawPoster()" style="font-size:15px;padding:12px 20px">
+            🔄 تحديث المعاينة الفورية
+          </button>
+          <button class="btn bg" onclick="downloadPoster()" style="background:linear-gradient(135deg,#00e676,#00b248);color:#000;font-size:15px;padding:12px 24px;font-weight:800">
+            📥 تحميل البوستر كصورة (PNG بدقة عالية 1080×1560)
+          </button>
+          <button class="btn bgh" onclick="copyPosterCaption()" style="font-size:15px;padding:12px 20px">
+            📋 نسخ كابشن المنشور مع الهاشتاجات
           </button>
         </div>
       </div>
 
       <!-- Preview Canvas Card -->
       <div class="card" style="text-align:center">
-        <div class="ctitle" style="justify-content:center">🖼️ المعاينة المباشرة للبوستر (جاهز للنشر على فيسبوك)</div>
-        <div style="max-width:540px;margin:15px auto;background:#fff;border-radius:16px;box-shadow:0 15px 40px rgba(0,0,0,0.6);overflow:hidden;padding:10px">
-          <canvas id="posterCanvas" width="1080" height="1520" style="width:100%;height:auto;display:block;border-radius:12px"></canvas>
+        <div class="ctitle" style="justify-content:center">🖼️ المعاينة المباشرة للبوستر (دقة 1080×1560 — جاهز للنشر على فيسبوك)</div>
+        <div style="max-width:560px;margin:15px auto;background:#fff;border-radius:18px;box-shadow:0 18px 50px rgba(0,0,0,0.65);overflow:hidden;padding:10px">
+          <canvas id="posterCanvas" width="1080" height="1560" style="width:100%;height:auto;display:block;border-radius:14px"></canvas>
         </div>
-        <div style="margin-top:14px">
-          <button class="btn bg" onclick="downloadPoster()" style="background:linear-gradient(135deg,#00e676,#00b248);color:#000;font-size:16px;padding:14px 30px">
+        <div style="margin-top:16px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+          <button class="btn bg" onclick="downloadPoster()" style="background:linear-gradient(135deg,#00e676,#00b248);color:#000;font-size:16px;padding:14px 32px;font-weight:800">
             📥 اضغط هنا لتحميل الصورة على جهازك
+          </button>
+          <button class="btn bgh" onclick="copyPosterCaption()" style="font-size:15px;padding:14px 24px">
+            📋 نسخ نص وكابشن البوست
           </button>
         </div>
       </div>
@@ -1564,65 +1689,226 @@ function sendToPF() {
 // ═══════════════════ INFOGRAPHIC POSTER DESIGNER ═══════════════════
 const DESIGN_TEMPLATES = {
   'myths': {
+    hdrTitle: 'مركز وداعاً للألم',
+    hdrSub: 'للعلاج الطبيعي والكايبروبراكتيك وتأهيل العمود الفقري',
     badge: 'توقف ! ❌',
+    badgeColor: '#d32f2f',
     title: 'هذه معلومات خاطئة عن ألم الظهر يصدقها الجميع:',
     sub: '"الراحة التامة هي أفضل علاج للألم"',
-    m1: 'الراحة التامة هي أفضل علاج للألم',
+    badgeMyth: 'خرافة شائعة ❌',
+    badgeFact: 'الحقيقة العلمية المعتمدة ✅',
+    m1: 'الراحة التامة والنوم بالسرير هما أفضل علاج لألم الظهر',
     f1: 'الراحة الطويلة تُضعف العضلات وتُعقد الحالة. الحركة الموجهة هي الحل.',
-    m2: 'العلاج اليدوي والكايروبراكتيك مؤلم ومخيف',
-    f2: '٩٥٪ من مرضانا يشعرون براحة فورية وتخفيف الضغط أثناء الجلسة.',
+    m2: 'العلاج اليدوي والكايروبراكتيك مؤلم ومخيف للفقرات',
+    f2: '٩٥٪ من مرضانا يشعرون براحة فورية وانفراج الضغط أثناء الجلسة بدون ألم.',
     m3: 'لا يتحسن ألم الديسك إلا بعملية جراحية',
-    f3: '٩٠٪ من حالات ألم الظهر والفقرات تُعالج بدون جراحة إطلاقاً.'
+    f3: 'أكثر من ٩٠٪ من حالات ألم الظهر والديسك تُعالج بدون جراحة إطلاقاً.',
+    footerCta: '💡 لا تصدق كل ما تسمع — استشر متخصصاً قبل تفاقم حالتك',
+    footerPhone: '0790360440',
+    footerAddr: '📍 عمّان - خلدا - بالقرب من إشارة البنك العربي',
+    footerCred: 'فريق طبي معتمد • كشفية وتشخيص سريري متكامل • أحدث أجهزة العلاج الطبيعي والكايروبراكتيك',
+    footerBadge: '⭐ رعاية طبية متكاملة 100% بدون جراحة'
   },
   'sciatica': {
+    hdrTitle: 'مركز وداعاً للألم',
+    hdrSub: 'متخصصون في علاج عرق النسا وانضغاط الأعصاب بدون جراحة',
     badge: 'انتبه ! ⚠️',
-    title: '٣ علامات تدل على ضغط العصب الوركي (عرق النسا):',
-    sub: '"الوجع النازل على الرجل ليس مجرد شد عضلي"',
-    m1: 'أخذ المسكنات والإبر يكفي لشفاء عرق النسا',
-    f1: 'المسكن يخفي الإحساس فقط، بينما ضغط الفقرة على العصب يبقى مستمراً.',
-    m2: 'النوم على أرضية صلبة يعيد الغضروف لمكانه',
-    f2: 'الأرض الصلبة تزيد الضغط على مفاصل الحوض والفقرات القطنية.',
-    m3: 'الديسك وعرق النسا يعني التوقف عن الحركة والرياضة للأبد',
-    f3: 'خطة تقويم العمود الفقري وتمارين الإطالة تعيدك لحياتك الطبيعية.'
+    badgeColor: '#e65100',
+    title: '٣ مفاهيم خاطئة وخطيرة عن عرق النسا (انضغاط العصب الوركي):',
+    sub: '"الوجع النازل على الرجل ليس مجرد شد عضلي عابر"',
+    badgeMyth: 'مفهوم خاطئ شائع ❌',
+    badgeFact: 'التصحيح الطبي المثبت ✅',
+    m1: 'أخذ المسكنات والإبر يكفي تماماً لشفاء عرق النسا نهائياً',
+    f1: 'المسكنات تخفي الألم مؤقتاً فقط، بينما ضغط الفقرة على العصب يبقى مستمراً ويتلفه.',
+    m2: 'النوم على أرضية إسمنتية صلبة يُعيد الغضروف المنزلق لمكانه',
+    f2: 'الأرض الصلبة تزيد الضغط الحاد على مفاصل الحوض والفقرات القطنية وتضاعف الالتهاب.',
+    m3: 'الإصابة بعرق النسا تعني التوقف الدائم عن الحركة وممارسة الحياة',
+    f3: 'جلسات تحرير العصب وتمارين الاستطالة الطبية تعيدك لنشاطك الكامل في وقت قياسي.',
+    footerCta: '💡 إهمال عرق النسا قد يسبب خدراناً وضعفاً في القدم — افحص مبكراً',
+    footerPhone: '0790360440',
+    footerAddr: '📍 عمّان - خلدا - بالقرب من إشارة البنك العربي',
+    footerCred: 'فريق طبي معتمد • أحدث بروتوكولات تحرير العصب الوركي وتخفيف الضغط',
+    footerBadge: '⭐ نتائج ملحوظة من أولى الجلسات'
   },
   'surgery': {
+    hdrTitle: 'مركز وداعاً للألم',
+    hdrSub: 'علاج الديسك والفقرات بأحدث الوسائل غير الجراحية',
     badge: 'حقائق علمية 💡',
-    title: 'هل العملية الجراحية هي الحل الأول والوحيد للديسك؟',
-    sub: '"قبل أن تتخذ قرار العملية.. اقرأ هذه الأرقام"',
-    m1: 'أي انزلاق غضروفي بالرنين يحتاج عملية جراحية',
-    f1: 'الأبحاث العالمية تؤكد أن أقل من ١٠٪ فقط من الحالات تستدعي الجراحة.',
-    m2: 'العلاج التحفظي واليدوي يأخذ وقتاً طويلاً دون فائدة',
-    f2: 'التحسن الملحوظ يبدأ من أول ٣ جلسات تقويم وتأهيل بفضل الله.',
-    m3: 'العملية الجراحية تضمن عدم عودة الألم نهائياً',
-    f3: 'بدون تعديل ميكانيكا العمود الفقري وتقوية العضلات قد يعود الألم.'
+    badgeColor: '#1565c0',
+    title: 'هل العملية الجراحية هي الحل الأول والوحيد للديسك والانزلاق الغضروفي؟',
+    sub: '"قبل أن تتخذ قرار العملية الجراحية.. اقرأ هذه الحقائق الطبية"',
+    badgeMyth: 'معلومة شائعة خاطئة ❌',
+    badgeFact: 'الحقيقة وفق الدراسات العالمية ✅',
+    m1: 'ظهور انزلاق غضروفي بالرنين المغناطيسي يعني حتمية إجراء عملية جراحية',
+    f1: 'الأبحاث الطبية العالمية تؤكد أن أقل من ١٠٪ فقط من الحالات تستدعي الجراحة فعلياً.',
+    m2: 'العلاج اليدوي والكايروبراكتيك يأخذ أشهراً طويلة دون أي نتيجة ملموسة',
+    f2: 'التحسن الملحوظ وتراجع الألم يبدأ بفضل الله من أول ٣ إلى ٥ جلسات علاج مكثف.',
+    m3: 'العملية الجراحية تضمن عدم عودة ألم الديسك والظهر مدى الحياة',
+    f3: 'بدون إعادة توازن ميكانيكا العمود الفقري وتقوية عضلات الجذع قد يتكرر الألم مجدداً.',
+    footerCta: '💡 ٩ من كل ١٠ حالات ديسك تتعافى تماماً بدون مشرط جراحي',
+    footerPhone: '0790360440',
+    footerAddr: '📍 عمّان - خلدا - بالقرب من إشارة البنك العربي',
+    footerCred: 'استشارات وكشف سريري متكامل • تأهيل العمود الفقري بدون تدخل جراحي',
+    footerBadge: '⭐ استشر فريقنا قبل قرار العملية'
+  },
+  'neck_headache': {
+    hdrTitle: 'مركز وداعاً للألم',
+    hdrSub: 'علاج آلام الرقبة والصداع التوتري ومشاكل الفقرات العنقية',
+    badge: 'احذر ⚡',
+    badgeColor: '#6a1b9a',
+    title: 'الصداع المزمن وألم الأكتاف: هل سببه الحقيقي فقرات الرقبة؟',
+    sub: '"ليس كل صداع حله حبة بنادول.. ابحث عن السبب في رقبتك"',
+    badgeMyth: 'سوء فهم شائع ❌',
+    badgeFact: 'التشخيص الطبي الصحيح ✅',
+    m1: 'الصداع اليومي سببه التوتر وضغط العمل فقط ولا علاقة للرقبة به',
+    f1: 'أكثر من ٧٠٪ من الصداع التوتري ينشأ من تشنج عضلات قاعدة الجمجمة واختلال فقرات الرقبة.',
+    m2: 'استخدام وسادة مرتفعة وقاسية يحمي الرقبة أثناء النوم',
+    f2: 'الوسادة المرتفعة تضع الرقبة في وضعية انحناء مستمر يضغط الديسك والأعصاب طوال الليل.',
+    m3: 'طقطقة الرقبة بعنف باليد يخفف التشنج ويعالج المشكلة',
+    f3: 'الطقطقة العشوائية ترخي الأربطة وتزيد من عدم استقرار الفقرات؛ التقويم الطبي المتخصص هو الآمن.',
+    footerCta: '💡 تخلص من الصداع المزمن بمعالجة سببه الحقيقي في الرقبة والفقرات',
+    footerPhone: '0790360440',
+    footerAddr: '📍 عمّان - خلدا - بالقرب من إشارة البنك العربي',
+    footerCred: 'تقويم يدوي متخصص للفقرات العنقية • تحرير عضلات الرقبة والكتفين',
+    footerBadge: '⭐ راحة فورية وصفاء ذهني بعد الجلسة'
   },
   'custom': {
+    hdrTitle: 'مركز وداعاً للألم',
+    hdrSub: 'للعلاج الطبيعي والكايبروبراكتيك وتأهيل العمود الفقري والمفاصل',
     badge: 'معلومة هامة ⚡',
-    title: 'اكتب العنوان الرئيسي لجمهورك هنا:',
-    sub: '"الفكرة البارزة التي تريد تصحيحها"',
-    m1: 'المفهوم الخاطئ الأول',
-    f1: 'الحقيقة والتوضيح الطبي السليم الأول',
-    m2: 'المفهوم الخاطئ الثاني',
-    f2: 'الحقيقة والتوضيح الطبي السليم الثاني',
-    m3: 'المفهوم الخاطئ الثالث',
-    f3: 'الحقيقة والتوضيح الطبي السليم الثالث'
+    badgeColor: '#d32f2f',
+    title: 'اكتب العنوان الرئيسي الجذاب لمنشورك هنا:',
+    sub: '"اكتب الفكرة البارزة أو المفهوم الذي تريد توضيحه لجمهورك"',
+    badgeMyth: 'خرافة شائعة ❌',
+    badgeFact: 'الحقيقة الطبية ✅',
+    m1: 'اكتب الخرافة أو المفهوم الخاطئ الأول هنا',
+    f1: 'اكتب الحقيقة العلمية والتوضيح السليم الأول هنا بكل وضوح وتفصيل.',
+    m2: 'اكتب الخرافة أو المفهوم الخاطئ الثاني هنا',
+    f2: 'اكتب الحقيقة العلمية والتوضيح السليم الثاني هنا بكل وضوح وتفصيل.',
+    m3: 'اكتب الخرافة أو المفهوم الخاطئ الثالث هنا',
+    f3: 'اكتب الحقيقة العلمية والتوضيح السليم الثالث هنا بكل وضوح وتفصيل.',
+    footerCta: '💡 اكتب النصيحة الذهبية أو نداء الفعل للجمهور هنا',
+    footerPhone: '0790360440',
+    footerAddr: '📍 عمّان - خلدا - بالقرب من إشارة البنك العربي',
+    footerCred: 'فريق طبي متخصص • كشفية وتشخيص سريري متكامل • أحدث الأجهزة',
+    footerBadge: '⭐ رعاية طبية متكاملة'
   }
 };
 
-function loadDesignTpl() {
-  const tpl = DESIGN_TEMPLATES[document.getElementById('ds-tpl').value];
-  if (!tpl) return;
-  document.getElementById('ds-badge').value = tpl.badge;
-  document.getElementById('ds-title').value = tpl.title;
-  document.getElementById('ds-sub').value   = tpl.sub;
-  document.getElementById('ds-m1').value    = tpl.m1;
-  document.getElementById('ds-f1').value    = tpl.f1;
-  document.getElementById('ds-m2').value    = tpl.m2;
-  document.getElementById('ds-f2').value    = tpl.f2;
-  document.getElementById('ds-m3').value    = tpl.m3;
-  document.getElementById('ds-f3').value    = tpl.f3;
-  drawPoster();
-}
+const DESIGN_THEMES = {
+  'navy_gold': {
+    name: 'فخامة ملكية كحلي وذهبي',
+    bgGrad: ['#040f21', '#0a2347', '#030a16'],
+    outerBorder: '#d4af37',
+    hdrTitle: '#ffffff',
+    hdrSub: '#93c5fd',
+    title: '#ffffff',
+    subBg: 'rgba(239, 68, 68, 0.16)',
+    subBorder: '#f87171',
+    subText: '#fecaca',
+    cardBg: '#091c36',
+    cardBorder: 'rgba(212, 175, 55, 0.35)',
+    cardShadow: 'rgba(0, 0, 0, 0.5)',
+    mythBadgeBg: '#dc2626',
+    mythText: '#fca5a5',
+    factBadgeBg: '#10b981',
+    factText: '#dcfce7',
+    divider: 'rgba(212, 175, 55, 0.25)',
+    footerBg: ['#030914', '#02060c'],
+    footerBorder: '#d4af37',
+    footerCta: '#f5c842',
+    phoneBg: '#00e676',
+    phoneText: '#02131e',
+    footerAddr: '#93c5fd',
+    footerCred: '#94a3b8',
+    footerBadgeBorder: 'rgba(245, 200, 66, 0.4)',
+    footerBadgeText: '#f5c842'
+  },
+  'clinical_light': {
+    name: 'أزرق عيادات ناصع',
+    bgGrad: ['#ffffff', '#f1f7fd', '#e0effc'],
+    outerBorder: '#93c5fd',
+    hdrTitle: '#0f2942',
+    hdrSub: '#1e40af',
+    title: '#0f2942',
+    subBg: 'rgba(239, 68, 68, 0.08)',
+    subBorder: '#fca5a5',
+    subText: '#b91c1c',
+    cardBg: '#ffffff',
+    cardBorder: 'rgba(191, 219, 254, 0.85)',
+    cardShadow: 'rgba(15, 30, 60, 0.08)',
+    mythBadgeBg: '#dc2626',
+    mythText: '#991b1b',
+    factBadgeBg: '#16a34a',
+    factText: '#14532d',
+    divider: 'rgba(226, 232, 240, 0.9)',
+    footerBg: ['#0b1e36', '#040d18'],
+    footerBorder: '#d4af37',
+    footerCta: '#f5c842',
+    phoneBg: '#00e676',
+    phoneText: '#061a2b',
+    footerAddr: '#93c5fd',
+    footerCred: '#cbd5e1',
+    footerBadgeBorder: 'rgba(245, 200, 66, 0.4)',
+    footerBadgeText: '#f5c842'
+  },
+  'emerald_care': {
+    name: 'زمردي صحي راقي',
+    bgGrad: ['#021b14', '#053327', '#01120d'],
+    outerBorder: '#10b981',
+    hdrTitle: '#ffffff',
+    hdrSub: '#6ee7b7',
+    title: '#ffffff',
+    subBg: 'rgba(244, 63, 94, 0.16)',
+    subBorder: '#fb7185',
+    subText: '#fecdd3',
+    cardBg: '#062920',
+    cardBorder: 'rgba(16, 185, 129, 0.35)',
+    cardShadow: 'rgba(0, 0, 0, 0.45)',
+    mythBadgeBg: '#f43f5e',
+    mythText: '#fecdd3',
+    factBadgeBg: '#10b981',
+    factText: '#d1fae5',
+    divider: 'rgba(16, 185, 129, 0.25)',
+    footerBg: ['#010f0b', '#010907'],
+    footerBorder: '#10b981',
+    footerCta: '#34d399',
+    phoneBg: '#34d399',
+    phoneText: '#021e17',
+    footerAddr: '#a7f3d0',
+    footerCred: '#94a3b8',
+    footerBadgeBorder: 'rgba(52, 211, 153, 0.4)',
+    footerBadgeText: '#34d399'
+  },
+  'modern_dark': {
+    name: 'دارك مود فيروسي',
+    bgGrad: ['#0a0f1d', '#131e36', '#060a14'],
+    outerBorder: '#38bdf8',
+    hdrTitle: '#f8fafc',
+    hdrSub: '#38bdf8',
+    title: '#ffffff',
+    subBg: 'rgba(239, 68, 68, 0.16)',
+    subBorder: '#ef4444',
+    subText: '#fca5a5',
+    cardBg: '#0f1a2e',
+    cardBorder: 'rgba(56, 189, 248, 0.25)',
+    cardShadow: 'rgba(0, 0, 0, 0.5)',
+    mythBadgeBg: '#ef4444',
+    mythText: '#fca5a5',
+    factBadgeBg: '#06b6d4',
+    factText: '#cffafe',
+    divider: 'rgba(56, 189, 248, 0.2)',
+    footerBg: ['#050811', '#030509'],
+    footerBorder: '#38bdf8',
+    footerCta: '#38bdf8',
+    phoneBg: '#00e676',
+    phoneText: '#05111d',
+    footerAddr: '#7dd3fc',
+    footerCred: '#94a3b8',
+    footerBadgeBorder: 'rgba(56, 189, 248, 0.4)',
+    footerBadgeText: '#38bdf8'
+  }
+};
 
 let _logoImg = new Image();
 _logoImg.crossOrigin = 'anonymous';
@@ -1630,6 +1916,63 @@ _logoImg.onload = function() {
   drawPoster();
 };
 _logoImg.src = 'logo.jpg';
+
+function handleLogoUpload(input) {
+  if (input.files && input.files[0]) {
+    const file = input.files[0];
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const img = new Image();
+      img.onload = function() {
+        _logoImg = img;
+        drawPoster();
+        toast('✅ تم تطبيق الشعار المخصص في التصميم بنجاح!');
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+function resetLogo() {
+  const img = new Image();
+  img.onload = function() {
+    _logoImg = img;
+    drawPoster();
+    toast('🔄 تم استعادة شعار المركز الافتراضي');
+  };
+  img.src = 'logo.jpg';
+  const fi = document.getElementById('ds-logo-file');
+  if (fi) fi.value = '';
+}
+
+function loadDesignTpl() {
+  const tplKey = document.getElementById('ds-tpl').value;
+  const tpl = DESIGN_TEMPLATES[tplKey];
+  if (!tpl) return;
+  
+  if (tpl.hdrTitle && document.getElementById('ds-hdr-title')) document.getElementById('ds-hdr-title').value = tpl.hdrTitle;
+  if (tpl.hdrSub && document.getElementById('ds-hdr-sub')) document.getElementById('ds-hdr-sub').value = tpl.hdrSub;
+  if (tpl.badge && document.getElementById('ds-badge')) document.getElementById('ds-badge').value = tpl.badge;
+  if (tpl.badgeColor && document.getElementById('ds-badge-color')) document.getElementById('ds-badge-color').value = tpl.badgeColor;
+  if (tpl.title && document.getElementById('ds-title')) document.getElementById('ds-title').value = tpl.title;
+  if (tpl.sub && document.getElementById('ds-sub')) document.getElementById('ds-sub').value = tpl.sub;
+  if (tpl.badgeMyth && document.getElementById('ds-badge-myth')) document.getElementById('ds-badge-myth').value = tpl.badgeMyth;
+  if (tpl.badgeFact && document.getElementById('ds-badge-fact')) document.getElementById('ds-badge-fact').value = tpl.badgeFact;
+  if (tpl.m1 && document.getElementById('ds-m1')) document.getElementById('ds-m1').value = tpl.m1;
+  if (tpl.f1 && document.getElementById('ds-f1')) document.getElementById('ds-f1').value = tpl.f1;
+  if (tpl.m2 && document.getElementById('ds-m2')) document.getElementById('ds-m2').value = tpl.m2;
+  if (tpl.f2 && document.getElementById('ds-f2')) document.getElementById('ds-f2').value = tpl.f2;
+  if (tpl.m3 && document.getElementById('ds-m3')) document.getElementById('ds-m3').value = tpl.m3;
+  if (tpl.f3 && document.getElementById('ds-f3')) document.getElementById('ds-f3').value = tpl.f3;
+  if (tpl.footerCta && document.getElementById('ds-footer-cta')) document.getElementById('ds-footer-cta').value = tpl.footerCta;
+  if (tpl.footerPhone && document.getElementById('ds-footer-phone')) document.getElementById('ds-footer-phone').value = tpl.footerPhone;
+  if (tpl.footerAddr && document.getElementById('ds-footer-addr')) document.getElementById('ds-footer-addr').value = tpl.footerAddr;
+  if (tpl.footerCred && document.getElementById('ds-footer-cred')) document.getElementById('ds-footer-cred').value = tpl.footerCred;
+  if (tpl.footerBadge && document.getElementById('ds-footer-badge')) document.getElementById('ds-footer-badge').value = tpl.footerBadge;
+
+  drawPoster();
+}
 
 // Polyfill roundRect for broader browser compatibility
 if (typeof CanvasRenderingContext2D !== 'undefined' && !CanvasRenderingContext2D.prototype.roundRect) {
@@ -1651,33 +1994,115 @@ if (typeof CanvasRenderingContext2D !== 'undefined' && !CanvasRenderingContext2D
   };
 }
 
+// Helper to wrap Arabic text smoothly across multiple lines
+function wrapText(ctx, text, x, y, maxWidth, lineHeight, align = 'right') {
+  if (!text) return y;
+  const words = String(text).trim().split(/\s+/);
+  let line = '';
+  let curY = y;
+  const prevAlign = ctx.textAlign;
+  ctx.textAlign = align;
+
+  for (let n = 0; n < words.length; n++) {
+    const testLine = line ? (line + ' ' + words[n]) : words[n];
+    const metrics = ctx.measureText(testLine);
+    if (metrics.width > maxWidth && n > 0) {
+      ctx.fillText(line, x, curY);
+      line = words[n];
+      curY += lineHeight;
+    } else {
+      line = testLine;
+    }
+  }
+  if (line) {
+    ctx.fillText(line, x, curY);
+  }
+  ctx.textAlign = prevAlign;
+  return curY;
+}
+
+// Vector fallback if image is not loaded
+function drawClinicSealFallback(ctx, x, y, size, accentColor) {
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(x + size / 2, y + size / 2, size / 2, 0, Math.PI * 2);
+  ctx.fillStyle = '#0f2942';
+  ctx.fill();
+  ctx.strokeStyle = accentColor || '#d4af37';
+  ctx.lineWidth = 3;
+  ctx.stroke();
+
+  // Draw medical cross
+  ctx.fillStyle = accentColor || '#d4af37';
+  const cx = x + size / 2, cy = y + size / 2;
+  const cw = size * 0.18, cl = size * 0.52;
+  ctx.fillRect(cx - cw / 2, cy - cl / 2, cw, cl);
+  ctx.fillRect(cx - cl / 2, cy - cw / 2, cl, cw);
+  ctx.restore();
+}
+
 function drawPoster() {
   const cvs = document.getElementById('posterCanvas');
   if (!cvs) return;
   const ctx = cvs.getContext('2d');
-  const W = 1080, H = 1520;
+  const W = 1080, H = 1560;
+  cvs.width = W;
+  cvs.height = H;
+
+  // Retrieve user choices
+  const themeKey = (document.getElementById('ds-theme') && document.getElementById('ds-theme').value) || 'navy_gold';
+  const theme = DESIGN_THEMES[themeKey] || DESIGN_THEMES['navy_gold'];
+
+  const hdrTitle = (document.getElementById('ds-hdr-title') && document.getElementById('ds-hdr-title').value) || 'مركز وداعاً للألم';
+  const hdrSub = (document.getElementById('ds-hdr-sub') && document.getElementById('ds-hdr-sub').value) || 'للعلاج الطبيعي والكايبروبراكتيك وتأهيل العمود الفقري';
+  const badgeText = (document.getElementById('ds-badge') && document.getElementById('ds-badge').value) || 'توقف ! ❌';
+  const badgeColor = (document.getElementById('ds-badge-color') && document.getElementById('ds-badge-color').value) || '#d32f2f';
+  const mainTitle = (document.getElementById('ds-title') && document.getElementById('ds-title').value) || 'هذه معلومات خاطئة عن ألم الظهر يصدقها الجميع:';
+  const subText = (document.getElementById('ds-sub') && document.getElementById('ds-sub').value) || '"الراحة التامة هي أفضل علاج للألم"';
+  
+  const badgeMyth = (document.getElementById('ds-badge-myth') && document.getElementById('ds-badge-myth').value) || 'خرافة شائعة ❌';
+  const badgeFact = (document.getElementById('ds-badge-fact') && document.getElementById('ds-badge-fact').value) || 'الحقيقة العلمية المعتمدة ✅';
+
+  const cards = [
+    {
+      m: (document.getElementById('ds-m1') && document.getElementById('ds-m1').value) || 'الراحة التامة هي أفضل علاج للألم',
+      f: (document.getElementById('ds-f1') && document.getElementById('ds-f1').value) || 'الراحة الطويلة تُضعف العضلات وتُعقد الحالة. الحركة الموجهة هي الحل.'
+    },
+    {
+      m: (document.getElementById('ds-m2') && document.getElementById('ds-m2').value) || 'العلاج اليدوي والكايروبراكتيك مؤلم ومخيف',
+      f: (document.getElementById('ds-f2') && document.getElementById('ds-f2').value) || '٩٥٪ من مرضانا يشعرون براحة فورية وانفراج الضغط أثناء الجلسة بدون ألم.'
+    },
+    {
+      m: (document.getElementById('ds-m3') && document.getElementById('ds-m3').value) || 'لا يتحسن ألم الديسك إلا بعملية جراحية',
+      f: (document.getElementById('ds-f3') && document.getElementById('ds-f3').value) || 'أكثر من ٩٠٪ من حالات ألم الظهر والفقرات تُعالج بدون جراحة إطلاقاً.'
+    }
+  ];
+
+  const footerCta = (document.getElementById('ds-footer-cta') && document.getElementById('ds-footer-cta').value) || '💡 لا تصدق كل ما تسمع — استشر متخصصاً قبل تفاقم حالتك';
+  const footerPhone = (document.getElementById('ds-footer-phone') && document.getElementById('ds-footer-phone').value) || '0790360440';
+  const footerAddr = (document.getElementById('ds-footer-addr') && document.getElementById('ds-footer-addr').value) || '📍 عمّان - خلدا - بالقرب من إشارة البنك العربي';
+  const footerCred = (document.getElementById('ds-footer-cred') && document.getElementById('ds-footer-cred').value) || 'فريق طبي معتمد • كشفية وتشخيص سريري متكامل • أحدث أجهزة العلاج الطبيعي والكايروبراكتيك';
+  const footerBadge = (document.getElementById('ds-footer-badge') && document.getElementById('ds-footer-badge').value) || '⭐ رعاية طبية متكاملة 100% بدون جراحة';
+
   ctx.save();
 
-  // Background gradient: light blue/cyan medical gradient
+  // 1. BACKGROUND GRADIENT
   const bgGrad = ctx.createLinearGradient(0, 0, 0, H);
-  bgGrad.addColorStop(0, '#f2f8fc');
-  bgGrad.addColorStop(0.3, '#e5f3fb');
-  bgGrad.addColorStop(1, '#dff0fa');
+  bgGrad.addColorStop(0, theme.bgGrad[0]);
+  bgGrad.addColorStop(0.4, theme.bgGrad[1]);
+  bgGrad.addColorStop(1, theme.bgGrad[2]);
   ctx.fillStyle = bgGrad;
   ctx.fillRect(0, 0, W, H);
 
-  // Background subtle medical grid lines
-  ctx.strokeStyle = 'rgba(64, 160, 220, 0.08)';
-  ctx.lineWidth = 1;
-  for (let x = 40; x < W; x += 60) {
-    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
-  }
-  for (let y = 40; y < H; y += 60) {
-    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
-  }
+  // Subtle outer framing border
+  ctx.save();
+  ctx.strokeStyle = theme.outerBorder;
+  ctx.lineWidth = 2.5;
+  ctx.strokeRect(12, 12, W - 24, H - 24);
+  ctx.restore();
 
-  // HEADER: Top Branding & Circular Logo (Top-Left)
-  const logoX = 55, logoY = 35, logoSize = 90;
+  // 2. HEADER: Top Branding & Circular Logo (Top-Left)
+  const logoX = 55, logoY = 35, logoSize = 105;
   if (_logoImg.complete && _logoImg.naturalWidth > 0) {
     ctx.save();
     ctx.beginPath();
@@ -1690,175 +2115,170 @@ function drawPoster() {
     ctx.save();
     ctx.beginPath();
     ctx.arc(logoX + logoSize / 2, logoY + logoSize / 2, logoSize / 2, 0, Math.PI * 2);
-    ctx.strokeStyle = '#d4af37';
-    ctx.lineWidth = 4;
+    ctx.strokeStyle = theme.outerBorder;
+    ctx.lineWidth = 3.5;
     ctx.shadowColor = 'rgba(212, 175, 55, 0.4)';
     ctx.shadowBlur = 10;
     ctx.stroke();
     ctx.restore();
+  } else {
+    drawClinicSealFallback(ctx, logoX, logoY, logoSize, theme.outerBorder);
   }
 
-  // Top-Right: Clinic Title
+  // Clinic Title & Subtitle (Top-Right)
   ctx.save();
-  ctx.fillStyle = '#0f2942';
-  ctx.font = 'bold 24px Segoe UI, Tahoma, Arial';
+  ctx.fillStyle = theme.hdrTitle;
+  ctx.font = 'bold 28px Cairo, Segoe UI, Tahoma, sans-serif';
   ctx.textAlign = 'right';
-  ctx.fillText('مركز وداعاً للألم', W - 55, 68);
-  ctx.fillStyle = '#1976d2';
-  ctx.font = 'bold 16px Segoe UI, Tahoma, Arial';
-  ctx.fillText('للعلاج الطبيعي والكايبروبراكتيك', W - 55, 98);
+  ctx.fillText(hdrTitle, W - 55, 70);
+
+  ctx.fillStyle = theme.hdrSub;
+  ctx.font = '600 17px Cairo, Segoe UI, Tahoma, sans-serif';
+  ctx.fillText(hdrSub, W - 55, 102);
   ctx.restore();
 
-  // 1. TOP BADGE: Red alert pill (Centered)
-  const badgeText = document.getElementById('ds-badge').value || 'توقف ! ❌';
+  // Top-Center Warning Badge Pill
+  const badgeW = 320, badgeH = 56, badgeX = (W - badgeW) / 2, badgeY = 46;
   ctx.save();
-  ctx.fillStyle = '#d32f2f';
-  const badgeW = 320, badgeH = 65, badgeX = (W - badgeW) / 2, badgeY = 45;
+  ctx.fillStyle = badgeColor;
   ctx.beginPath();
-  ctx.roundRect(badgeX, badgeY, badgeW, badgeH, 33);
-  ctx.fill();
-  ctx.shadowColor = 'rgba(211,47,47,0.4)';
-  ctx.shadowBlur = 18;
-  ctx.shadowOffsetY = 6;
+  ctx.roundRect(badgeX, badgeY, badgeW, badgeH, 28);
+  ctx.shadowColor = badgeColor + '66';
+  ctx.shadowBlur = 16;
+  ctx.shadowOffsetY = 4;
   ctx.fill();
   ctx.restore();
 
+  ctx.save();
   ctx.fillStyle = '#ffffff';
-  ctx.font = 'bold 32px Segoe UI, Tahoma, Arial';
+  ctx.font = 'bold 26px Cairo, Segoe UI, Tahoma, sans-serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.fillText(badgeText, W / 2, badgeY + badgeH / 2);
-
-  // 2. MAIN TITLE
-  const mainTitle = document.getElementById('ds-title').value || 'هذه معلومات خاطئة عن ألم الظهر يصدقها الجميع:';
-  ctx.fillStyle = '#0f2942';
-  ctx.font = 'bold 36px Segoe UI, Tahoma, Arial';
-  ctx.textAlign = 'center';
-  ctx.fillText(mainTitle, W / 2, 155);
-
-  // 3. SUBTITLE HIGHLIGHT (Red box)
-  const subText = document.getElementById('ds-sub').value || '"الراحة التامة هي أفضل علاج للألم"';
-  const subBoxW = 860, subBoxH = 65, subBoxX = (W - subBoxW) / 2, subBoxY = 195;
-  ctx.save();
-  ctx.fillStyle = 'rgba(255, 235, 238, 0.9)';
-  ctx.strokeStyle = '#ef9a9a';
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  ctx.roundRect(subBoxX, subBoxY, subBoxW, subBoxH, 18);
-  ctx.fill(); ctx.stroke();
   ctx.restore();
 
-  ctx.fillStyle = '#b71c1c';
-  ctx.font = 'bold 30px Segoe UI, Tahoma, Arial';
+  // 3. MAIN TITLE & SUBTITLE HOOK
+  ctx.save();
+  ctx.fillStyle = theme.title;
+  ctx.font = '800 32px Cairo, Segoe UI, Tahoma, sans-serif';
+  wrapText(ctx, mainTitle, W / 2, 168, 960, 40, 'center');
+  ctx.restore();
+
+  const subBoxW = 960, subBoxH = 58, subBoxX = (W - subBoxW) / 2, subBoxY = 205;
+  ctx.save();
+  ctx.fillStyle = theme.subBg;
+  ctx.strokeStyle = theme.subBorder;
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.roundRect(subBoxX, subBoxY, subBoxW, subBoxH, 16);
+  ctx.fill();
+  ctx.stroke();
+  ctx.restore();
+
+  ctx.save();
+  ctx.fillStyle = theme.subText;
+  ctx.font = 'bold 24px Cairo, Segoe UI, Tahoma, sans-serif';
   ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
   ctx.fillText(subText, W / 2, subBoxY + subBoxH / 2);
+  ctx.restore();
 
   // 4. THREE COMPARISON CARDS
-  const cards = [
-    { m: document.getElementById('ds-m1').value, f: document.getElementById('ds-f1').value },
-    { m: document.getElementById('ds-m2').value, f: document.getElementById('ds-f2').value },
-    { m: document.getElementById('ds-m3').value, f: document.getElementById('ds-f3').value }
-  ];
-
+  const cardW = 960, cardH = 275, cardX = (W - cardW) / 2;
   let cardY = 285;
-  const cardH = 290, cardW = 960, cardX = (W - cardW) / 2;
 
-  cards.forEach((c, idx) => {
-    // Outer white card container
+  cards.forEach((c) => {
+    // Outer Card container
     ctx.save();
-    ctx.fillStyle = '#ffffff';
-    ctx.shadowColor = 'rgba(15, 41, 66, 0.08)';
+    ctx.fillStyle = theme.cardBg;
+    ctx.shadowColor = theme.cardShadow;
     ctx.shadowBlur = 18;
     ctx.shadowOffsetY = 8;
     ctx.beginPath();
-    ctx.roundRect(cardX, cardY, cardW, cardH, 24);
+    ctx.roundRect(cardX, cardY, cardW, cardH, 22);
     ctx.fill();
-    ctx.strokeStyle = 'rgba(200, 225, 242, 0.8)';
+    ctx.strokeStyle = theme.cardBorder;
     ctx.lineWidth = 1.5;
     ctx.stroke();
     ctx.restore();
 
-    // Myth section inside card (Top half)
-    const mPillX = cardX + cardW - 200, mPillY = cardY + 25;
-    ctx.fillStyle = '#d32f2f';
-    ctx.beginPath(); ctx.roundRect(mPillX, mPillY, 175, 40, 20); ctx.fill();
-    ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 20px Segoe UI, Tahoma';
-    ctx.textAlign = 'center';
-    ctx.fillText('خرافة شائعة ❌', mPillX + 87, mPillY + 20);
-
-    ctx.fillStyle = '#b71c1c';
-    ctx.font = 'bold 25px Segoe UI, Tahoma';
-    ctx.textAlign = 'right';
-    ctx.fillText(`"${c.m}"`, cardX + cardW - 35, cardY + 100);
-
-    // Separator line
-    ctx.strokeStyle = 'rgba(220, 230, 240, 0.9)';
-    ctx.lineWidth = 1.5;
+    // Myth Pill
+    const mPillW = 185, mPillH = 36, mPillX = cardX + cardW - mPillW - 25, mPillY = cardY + 16;
+    ctx.save();
+    ctx.fillStyle = theme.mythBadgeBg;
     ctx.beginPath();
-    ctx.moveTo(cardX + 30, cardY + 138);
-    ctx.lineTo(cardX + cardW - 30, cardY + 138);
-    ctx.stroke();
-
-    // Fact section inside card (Bottom half)
-    const fPillX = cardX + cardW - 200, fPillY = cardY + 155;
-    ctx.fillStyle = '#2e7d32';
-    ctx.beginPath(); ctx.roundRect(fPillX, fPillY, 175, 40, 20); ctx.fill();
+    ctx.roundRect(mPillX, mPillY, mPillW, mPillH, 18);
+    ctx.fill();
     ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 20px Segoe UI, Tahoma';
+    ctx.font = 'bold 17px Cairo, Segoe UI, Tahoma, sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText('الحقيقة العلمية ✅', fPillX + 87, fPillY + 20);
+    ctx.textBaseline = 'middle';
+    ctx.fillText(badgeMyth, mPillX + mPillW / 2, mPillY + mPillH / 2);
+    ctx.restore();
 
-    ctx.fillStyle = '#1b5e20';
-    ctx.font = '600 24px Segoe UI, Tahoma';
-    ctx.textAlign = 'right';
-    
-    // wrap text if needed
-    const maxTextW = cardW - 70;
-    const words = c.f.split(' ');
-    let line1 = '', line2 = '';
-    for (let w of words) {
-      if (ctx.measureText(line1 + w).width < maxTextW && !line2) {
-        line1 += w + ' ';
-      } else {
-        line2 += w + ' ';
-      }
-    }
-    if (line2) {
-      ctx.fillText(line1.trim(), cardX + cardW - 35, cardY + 225);
-      ctx.fillText(line2.trim(), cardX + cardW - 35, cardY + 258);
-    } else {
-      ctx.fillText(line1.trim(), cardX + cardW - 35, cardY + 235);
-    }
+    // Myth Text
+    ctx.save();
+    ctx.fillStyle = theme.mythText;
+    ctx.font = 'bold 22px Cairo, Segoe UI, Tahoma, sans-serif';
+    wrapText(ctx, `"${c.m}"`, cardX + cardW - 35, cardY + 76, 900, 30, 'right');
+    ctx.restore();
 
-    cardY += cardH + 25;
+    // Elegant Divider
+    ctx.save();
+    ctx.strokeStyle = theme.divider;
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    ctx.moveTo(cardX + 35, cardY + 130);
+    ctx.lineTo(cardX + cardW - 35, cardY + 130);
+    ctx.stroke();
+    ctx.restore();
+
+    // Fact Pill
+    const fPillW = 215, fPillH = 36, fPillX = cardX + cardW - fPillW - 25, fPillY = cardY + 144;
+    ctx.save();
+    ctx.fillStyle = theme.factBadgeBg;
+    ctx.beginPath();
+    ctx.roundRect(fPillX, fPillY, fPillW, fPillH, 18);
+    ctx.fill();
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 17px Cairo, Segoe UI, Tahoma, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(badgeFact, fPillW / 2 + fPillX, fPillH / 2 + fPillY);
+    ctx.restore();
+
+    // Fact Text
+    ctx.save();
+    ctx.fillStyle = theme.factText;
+    ctx.font = '600 21px Cairo, Segoe UI, Tahoma, sans-serif';
+    wrapText(ctx, c.f, cardX + cardW - 35, cardY + 206, 900, 28, 'right');
+    ctx.restore();
+
+    cardY += cardH + 20;
   });
 
   // 5. FOOTER BANNER WITH LOGO & FULL CLINIC CREDENTIALS
-  const footerCta = document.getElementById('ds-footer-cta').value || 'لا تصدق كل ما تسمع — استشر متخصصاً قبل تفاقم الحالة';
-  const footerInfo = document.getElementById('ds-footer-info').value || 'مركز وداعاً للألم | 0790360440';
-  const footY = 1245, footH = 230, footW = 960, footX = (W - footW) / 2;
+  const footY = 1175, footH = 345, footW = 960, footX = (W - footW) / 2;
 
   ctx.save();
   const fGrad = ctx.createLinearGradient(footX, footY, footX + footW, footY + footH);
-  fGrad.addColorStop(0, '#0d2238');
-  fGrad.addColorStop(1, '#05111d');
+  fGrad.addColorStop(0, theme.footerBg[0]);
+  fGrad.addColorStop(1, theme.footerBg[1]);
   ctx.fillStyle = fGrad;
-  ctx.shadowColor = 'rgba(0,0,0,0.3)';
+  ctx.shadowColor = 'rgba(0,0,0,0.4)';
   ctx.shadowBlur = 24;
   ctx.shadowOffsetY = 10;
   ctx.beginPath();
-  ctx.roundRect(footX, footY, footW, footH, 28);
+  ctx.roundRect(footX, footY, footW, footH, 26);
   ctx.fill();
 
-  // Gold border
-  ctx.strokeStyle = '#d4af37';
+  ctx.strokeStyle = theme.footerBorder;
   ctx.lineWidth = 2.5;
   ctx.stroke();
   ctx.restore();
 
-  // Footer Circular Logo (Left side of footer)
-  const footLogoSize = 130;
+  // Footer Circular Logo (Left side)
+  const footLogoSize = 135;
   const footLogoX = footX + 45;
   const footLogoY = footY + (footH - footLogoSize) / 2;
 
@@ -1874,42 +2294,80 @@ function drawPoster() {
     ctx.save();
     ctx.beginPath();
     ctx.arc(footLogoX + footLogoSize / 2, footLogoY + footLogoSize / 2, footLogoSize / 2, 0, Math.PI * 2);
-    ctx.strokeStyle = '#f5c842';
+    ctx.strokeStyle = theme.footerBorder;
     ctx.lineWidth = 4;
     ctx.stroke();
     ctx.restore();
+  } else {
+    drawClinicSealFallback(ctx, footLogoX, footLogoY, footLogoSize, theme.footerBorder);
   }
 
   // Footer Info content (Center and Right aligned)
-  const textCenterX = footX + 170 + (footW - 170) / 2;
+  const textCenterX = footX + 195 + (footW - 195) / 2;
 
-  // CTA text with lightbulb
-  ctx.fillStyle = '#f5c842';
-  ctx.font = 'bold 28px Segoe UI, Tahoma';
+  // Row 1: CTA text
+  ctx.save();
+  ctx.fillStyle = theme.footerCta;
+  ctx.font = 'bold 23px Cairo, Segoe UI, Tahoma, sans-serif';
   ctx.textAlign = 'center';
-  ctx.fillText('💡 ' + footerCta, textCenterX, footY + 50);
+  ctx.fillText(footerCta, textCenterX, footY + 46);
+  ctx.restore();
 
-  // Phone & Clinic Info pill
-  const pBoxW = 600, pBoxH = 56, pBoxX = textCenterX - pBoxW / 2, pBoxY = footY + 80;
-  ctx.fillStyle = '#00e676';
+  // Row 2: Phone & Clinic Info pill button
+  const pBoxW = 540, pBoxH = 54, pBoxX = textCenterX - pBoxW / 2, pBoxY = footY + 76;
+  ctx.save();
+  ctx.fillStyle = theme.phoneBg;
   ctx.beginPath();
-  ctx.roundRect(pBoxX, pBoxY, pBoxW, pBoxH, 28);
+  ctx.roundRect(pBoxX, pBoxY, pBoxW, pBoxH, 27);
+  ctx.shadowColor = theme.phoneBg + '66';
+  ctx.shadowBlur = 16;
+  ctx.shadowOffsetY = 4;
   ctx.fill();
+  ctx.restore();
 
-  ctx.fillStyle = '#071626';
-  ctx.font = 'bold 26px Segoe UI, Tahoma';
+  ctx.save();
+  ctx.fillStyle = theme.phoneText;
+  ctx.font = 'bold 23px Cairo, Segoe UI, Tahoma, sans-serif';
   ctx.textAlign = 'center';
-  ctx.fillText('📞 ' + footerInfo + ' • خلدا، عمّان', textCenterX, pBoxY + 28);
+  ctx.textBaseline = 'middle';
+  ctx.fillText('📞 للحجز والاستفسار: ' + footerPhone, textCenterX, pBoxY + pBoxH / 2);
+  ctx.restore();
 
-  // Address and specialty sub-bar
-  ctx.fillStyle = '#90caf9';
-  ctx.font = 'bold 20px Segoe UI, Tahoma';
+  // Row 3: Address & landmarks
+  ctx.save();
+  ctx.fillStyle = theme.footerAddr;
+  ctx.font = 'bold 19px Cairo, Segoe UI, Tahoma, sans-serif';
   ctx.textAlign = 'center';
-  ctx.fillText('📍 عمّان - خلدا - بالقرب من إشارة البنك العربي | كشفية وتشخيص متكامل', textCenterX, footY + 175);
+  ctx.fillText(footerAddr, textCenterX, footY + 168);
+  ctx.restore();
 
-  ctx.fillStyle = '#cfd8dc';
-  ctx.font = '600 17px Segoe UI, Tahoma';
-  ctx.fillText('إشراف متخصص بالعلاج الطبيعي، الكايروبراكتيك، وتأهيل العمود الفقري والمفاصل', textCenterX, footY + 205);
+  // Row 4: Credentials
+  ctx.save();
+  ctx.fillStyle = theme.footerCred;
+  ctx.font = '600 16px Cairo, Segoe UI, Tahoma, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText(footerCred, textCenterX, footY + 208);
+  ctx.restore();
+
+  // Row 5: Quality Guarantee Badge
+  if (footerBadge) {
+    const bW = 390, bH = 34, bX = textCenterX - bW / 2, bY = footY + 238;
+    ctx.save();
+    ctx.fillStyle = 'rgba(255,255,255,0.06)';
+    ctx.strokeStyle = theme.footerBadgeBorder;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.roundRect(bX, bY, bW, bH, 17);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = theme.footerBadgeText;
+    ctx.font = 'bold 15px Cairo, Segoe UI, Tahoma, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(footerBadge, textCenterX, bY + bH / 2);
+    ctx.restore();
+  }
 
   ctx.restore();
 }
@@ -1919,12 +2377,52 @@ function downloadPoster() {
   const cvs = document.getElementById('posterCanvas');
   if (!cvs) return;
   const link = document.createElement('a');
-  link.download = 'wada3an_infographic.png';
+  const title = (document.getElementById('ds-title') && document.getElementById('ds-title').value) || 'infographic';
+  const cleanTitle = title.slice(0, 30).replace(/[\\/:*?"<>| ]+/g, '_');
+  link.download = `wada3an_${cleanTitle}.png`;
   link.href = cvs.toDataURL('image/png');
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
-  toast('📥 تم تحميل بوستر الإنفوجرافيك بدقة عالية!');
+  toast('📥 تم تحميل بوستر الإنفوجرافيك بدقة عالية (1080×1560) جاهز للفيسبوك!');
+}
+
+function copyPosterCaption() {
+  const title = (document.getElementById('ds-title') && document.getElementById('ds-title').value) || '';
+  const sub = (document.getElementById('ds-sub') && document.getElementById('ds-sub').value) || '';
+  const m1 = (document.getElementById('ds-m1') && document.getElementById('ds-m1').value) || '';
+  const f1 = (document.getElementById('ds-f1') && document.getElementById('ds-f1').value) || '';
+  const m2 = (document.getElementById('ds-m2') && document.getElementById('ds-m2').value) || '';
+  const f2 = (document.getElementById('ds-f2') && document.getElementById('ds-f2').value) || '';
+  const m3 = (document.getElementById('ds-m3') && document.getElementById('ds-m3').value) || '';
+  const f3 = (document.getElementById('ds-f3') && document.getElementById('ds-f3').value) || '';
+  const cta = (document.getElementById('ds-footer-cta') && document.getElementById('ds-footer-cta').value) || '';
+  const phone = (document.getElementById('ds-footer-phone') && document.getElementById('ds-footer-phone').value) || '';
+  const addr = (document.getElementById('ds-footer-addr') && document.getElementById('ds-footer-addr').value) || '';
+  const clinic = (document.getElementById('ds-hdr-title') && document.getElementById('ds-hdr-title').value) || 'مركز وداعاً للألم';
+
+  const caption = `${title}\n\n${sub}\n\n` +
+    `❌ الخرافة: ${m1}\n✅ الحقيقة: ${f1}\n\n` +
+    `❌ الخرافة: ${m2}\n✅ الحقيقة: ${f2}\n\n` +
+    `❌ الخرافة: ${m3}\n✅ الحقيقة: ${f3}\n\n` +
+    `---------------------------\n` +
+    `${cta}\n\n` +
+    `🏥 ${clinic}\n` +
+    `📞 للحجز والاستفسار: ${phone}\n` +
+    `${addr}\n\n` +
+    `#علاج_طبيعي #كايروبراكتيك #الديسك #عرق_النسا #الم_الظهر #عمان #الاردن #خلدا #صحة_العمود_الفقري`;
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(caption).then(() => {
+      toast('📋 تم نسخ كابشن المنشور مع الهاشتاجات وأرقام التواصل! جاهز للصق على فيسبوك');
+    }).catch(() => {
+      copyTextFallback(caption);
+      toast('📋 تم نسخ كابشن المنشور!');
+    });
+  } else {
+    copyTextFallback(caption);
+    toast('📋 تم نسخ كابشن المنشور!');
+  }
 }
 
 // ═══════════════════ REELS ═══════════════════

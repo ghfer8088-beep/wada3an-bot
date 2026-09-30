@@ -165,6 +165,17 @@ app.get('/hub', (req, res) => {
   res.sendFile(path.join(__dirname, 'viral_hub.html'));
 });
 
+// Meta Conversation Intelligence & Reactivation Engine SaaS Platform
+const intelligenceRoutes = require('./src/routes/intelligenceRoutes');
+app.use('/api/intelligence', intelligenceRoutes);
+
+app.get('/conversation-intelligence', (req, res) => {
+  res.sendFile(path.join(__dirname, 'conversation_intelligence.html'));
+});
+app.get('/reactivation', (req, res) => {
+  res.sendFile(path.join(__dirname, 'conversation_intelligence.html'));
+});
+
 // ══════════════════════════════════════════════════════
 // MISSION CONTROL — Server-side session (single user)
 // ══════════════════════════════════════════════════════

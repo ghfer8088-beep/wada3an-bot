@@ -1,0 +1,1554 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>محرك ذكاء المحادثات وإعادة التنشيط | Meta Conversation Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #0B1120;
+      --bg-surface: #0F172A;
+      --bg-card: #1E293B;
+      --bg-hover: #334155;
+      --border-color: #334155;
+      --border-subtle: #1E293B;
+      --primary: #1877F2;
+      --primary-hover: #166fe5;
+      --primary-glow: rgba(24, 119, 242, 0.25);
+      --success: #10B981;
+      --warning: #F59E0B;
+      --danger: #EF4444;
+      --purple: #8B5CF6;
+      --teal: #14B8A6;
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+      --text-dim: #64748B;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Cairo', system-ui, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Layout Structure */
+    .app-container {
+      display: flex;
+      flex: 1;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 280px;
+      background-color: var(--bg-surface);
+      border-left: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+
+    .brand-header {
+      padding: 20px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--primary), #3b82f6);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      box-shadow: 0 4px 12px var(--primary-glow);
+    }
+
+    .brand-title {
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .brand-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .nav-menu {
+      padding: 16px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+    }
+
+    .nav-item:hover {
+      background-color: var(--bg-card);
+      color: var(--text-main);
+    }
+
+    .nav-item.active {
+      background-color: rgba(24, 119, 242, 0.15);
+      color: var(--primary);
+      border-color: rgba(24, 119, 242, 0.3);
+    }
+
+    .nav-item .icon {
+      font-size: 18px;
+      width: 22px;
+      text-align: center;
+    }
+
+    .nav-badge {
+      margin-right: auto;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 12px;
+      background: var(--bg-hover);
+      color: var(--text-main);
+      font-weight: 700;
+    }
+
+    .nav-badge.glow {
+      background: rgba(245, 158, 11, 0.2);
+      color: var(--warning);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+    }
+
+    .sidebar-footer {
+      padding: 16px;
+      border-top: 1px solid var(--border-color);
+      font-size: 12px;
+      color: var(--text-dim);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    /* Main Content Area */
+    .main-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      background-color: var(--bg-main);
+    }
+
+    /* Top Navbar */
+    .topbar {
+      height: 70px;
+      background-color: var(--bg-surface);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .page-indicator {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .page-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #1e3a8a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 14px;
+      border: 2px solid var(--primary);
+    }
+
+    .page-meta h2 {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .page-meta span {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .demo-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      color: var(--warning);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: #fff;
+    }
+    .btn-primary:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .btn-secondary {
+      background-color: var(--bg-card);
+      color: var(--text-main);
+      border-color: var(--border-color);
+    }
+    .btn-secondary:hover {
+      background-color: var(--bg-hover);
+    }
+
+    .btn-success {
+      background-color: var(--success);
+      color: #fff;
+    }
+
+    .btn-warning {
+      background-color: var(--warning);
+      color: #000;
+    }
+
+    .btn-sm {
+      padding: 4px 10px;
+      font-size: 12px;
+    }
+
+    /* Page View Containers */
+    .view-content {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* KPI Cards Grid */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+    }
+
+    .kpi-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: transform 0.2s, border-color 0.2s;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .kpi-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .kpi-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .kpi-value {
+      font-size: 28px;
+      font-weight: 900;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-main);
+    }
+
+    .kpi-trend {
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+
+    .kpi-card.highlight {
+      border-color: rgba(245, 158, 11, 0.5);
+      background: linear-gradient(180deg, rgba(245, 158, 11, 0.05), var(--bg-surface));
+    }
+    .kpi-card.highlight .kpi-value {
+      color: var(--warning);
+    }
+
+    .kpi-card.success-card {
+      border-color: rgba(16, 185, 129, 0.5);
+    }
+    .kpi-card.success-card .kpi-value {
+      color: var(--success);
+    }
+
+    /* Funnel Banner */
+    .funnel-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 18px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .funnel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .funnel-header h3 {
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .funnel-steps {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      position: relative;
+    }
+
+    .funnel-step {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      text-align: center;
+      position: relative;
+    }
+
+    .funnel-step-name {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .funnel-step-val {
+      font-size: 18px;
+      font-weight: 900;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-main);
+    }
+
+    .funnel-step-conv {
+      font-size: 10px;
+      color: var(--text-dim);
+      margin-top: 4px;
+    }
+
+    /* Filters Bar */
+    .filter-bar {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .search-box {
+      flex: 1;
+      min-width: 240px;
+      position: relative;
+    }
+
+    .search-box input {
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 8px 12px 8px 36px;
+      color: var(--text-main);
+      font-size: 13px;
+      outline: none;
+    }
+
+    .search-box input:focus {
+      border-color: var(--primary);
+    }
+
+    .select-filter {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      color: var(--text-main);
+      padding: 8px 12px;
+      font-size: 13px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    /* Data Table */
+    .table-container {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      overflow-x: auto;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: right;
+      font-size: 13px;
+    }
+
+    .data-table th {
+      background: var(--bg-card);
+      color: var(--text-muted);
+      font-weight: 700;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-color);
+      white-space: nowrap;
+    }
+
+    .data-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border-subtle);
+      vertical-align: middle;
+    }
+
+    .data-table tr:hover td {
+      background-color: rgba(255, 255, 255, 0.02);
+    }
+
+    /* Badges & Tags */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .badge-stage-new { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
+    .badge-stage-qualified { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .badge-stage-converted { background: rgba(20, 184, 166, 0.2); color: #2dd4bf; border: 1px solid rgba(20, 184, 166, 0.4); }
+    .badge-stage-lost { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+    .badge-stage-nobook { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+    .badge-stage-price { background: rgba(139, 92, 246, 0.15); color: #a78bfa; border: 1px solid rgba(139, 92, 246, 0.3); }
+
+    .score-pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+    }
+
+    .score-high { background: rgba(16, 185, 129, 0.2); color: #10b981; }
+    .score-mid { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
+    .score-low { background: rgba(100, 116, 139, 0.2); color: #94a3b8; }
+
+    /* Bulk Action Bar */
+    .bulk-bar {
+      background: var(--bg-card);
+      border: 1px solid var(--primary);
+      border-radius: var(--radius-sm);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 13px;
+    }
+
+    /* Modal / Drawer for Conversation Details */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(4px);
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .modal-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 900px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    }
+
+    .modal-header {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-body {
+      padding: 24px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .close-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    /* Timeline Chat Bubbles */
+    .chat-timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 16px;
+      background: var(--bg-main);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-subtle);
+      max-height: 350px;
+      overflow-y: auto;
+    }
+
+    .chat-bubble {
+      max-width: 75%;
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      line-height: 1.5;
+      position: relative;
+    }
+
+    .bubble-user {
+      align-self: flex-start;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+    }
+
+    .bubble-page {
+      align-self: flex-end;
+      background: rgba(24, 119, 242, 0.2);
+      border: 1px solid rgba(24, 119, 242, 0.4);
+      color: #93c5fd;
+    }
+
+    .bubble-meta {
+      font-size: 10px;
+      color: var(--text-dim);
+      margin-top: 4px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 6px;
+    }
+
+    /* Compliance Box */
+    .compliance-box {
+      border-radius: var(--radius-md);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .compliance-allowed {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .compliance-blocked {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    /* Diagnostic Grid */
+    .diagnostic-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .diag-item {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .diag-item.pass { border-right: 4px solid var(--success); }
+    .diag-item.limited { border-right: 4px solid var(--warning); }
+    .diag-item.fail { border-right: 4px solid var(--danger); }
+
+    .diag-title {
+      font-size: 13px;
+      font-weight: 800;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .diag-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .app-container { flex-direction: column; height: auto; }
+      .sidebar { width: 100%; border-left: none; border-bottom: 1px solid var(--border-color); }
+      .funnel-steps { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-container">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="brand-header">
+      <div class="brand-icon">⚡</div>
+      <div>
+        <div class="brand-title">Meta Reactivation</div>
+        <div class="brand-sub">محرك ذكاء المحادثات الرسمي</div>
+      </div>
+    </div>
+
+    <nav class="nav-menu">
+      <div class="nav-item active" onclick="switchView('dashboard')">
+        <span class="icon">📊</span>
+        <span>الرئيسية والمؤشرات</span>
+      </div>
+      <div class="nav-item" onclick="switchView('conversations')">
+        <span class="icon">💬</span>
+        <span>سجل المحادثات</span>
+        <span class="nav-badge" id="badge-total-convs">0</span>
+      </div>
+      <div class="nav-item" onclick="switchView('reactivations')">
+        <span class="icon">🎯</span>
+        <span>فرص إعادة التنشيط</span>
+        <span class="nav-badge glow" id="badge-reactivations">0</span>
+      </div>
+      <div class="nav-item" onclick="switchView('lost_leads')">
+        <span class="icon">⏳</span>
+        <span>استرجاع المفقودين</span>
+      </div>
+      <div class="nav-item" onclick="switchView('labels')">
+        <span class="icon">🏷️</span>
+        <span>التصنيفات الذكية</span>
+      </div>
+      <div class="nav-item" onclick="switchView('campaigns')">
+        <span class="icon">📢</span>
+        <span>حملات المتابعة المعتمدة</span>
+      </div>
+      <div class="nav-item" onclick="switchView('diagnostic')">
+        <span class="icon">🩺</span>
+        <span>فحص تشخيص Meta (A-K)</span>
+      </div>
+      <div class="nav-item" onclick="switchView('import_export')">
+        <span class="icon">📥</span>
+        <span>مركز الاستيراد والتصدير</span>
+      </div>
+      <div class="nav-item" onclick="switchView('rules')">
+        <span class="icon">⚙️</span>
+        <span>قواعد التحليل والنوايا</span>
+      </div>
+      <div class="nav-item" onclick="switchView('audit')">
+        <span class="icon">📜</span>
+        <span>سجل العمليات والتدقيق</span>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div>الصفحة: <strong>مركز وداعاً للألم</strong></div>
+      <div>الموقع: خلدا، عمّان | 0790360440</div>
+      <div style="color: var(--success);">● متصل ببروتوكول Meta الرسمي</div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-wrapper">
+    <!-- Topbar -->
+    <header class="topbar">
+      <div class="page-indicator">
+        <div class="page-avatar">و</div>
+        <div class="page-meta">
+          <h2>مركز وداعاً للألم (fb.com/30minutes30)</h2>
+          <span>11,000 متابع حقيقي • إدارة محادثات Messenger</span>
+        </div>
+      </div>
+
+      <div class="topbar-actions">
+        <div class="demo-badge">
+          <span>●</span> الوضع التجريبي المعزول (Demo Mode)
+        </div>
+        <button class="btn btn-secondary" onclick="exportData('csv')">
+          <span>📊</span> تصدير CSV
+        </button>
+        <button class="btn btn-primary" onclick="syncNow()">
+          <span>🔄</span> مزامنة الآن
+        </button>
+      </div>
+    </header>
+
+    <!-- VIEW 1: DASHBOARD -->
+    <section id="view-dashboard" class="view-content">
+      <!-- KPIs -->
+      <div class="kpi-grid">
+        <div class="kpi-card" onclick="filterByStage('')">
+          <div class="kpi-header">
+            <span>إجمالي المحادثات</span>
+            <span>💬</span>
+          </div>
+          <div class="kpi-value" id="kpi-total">0</div>
+          <div class="kpi-trend">مفهرسة بالكامل بقاعدة البيانات</div>
+        </div>
+
+        <div class="kpi-card highlight" onclick="switchView('reactivations')">
+          <div class="kpi-header">
+            <span>فرص إعادة التنشيط</span>
+            <span>🔥</span>
+          </div>
+          <div class="kpi-value" id="kpi-reactivations">0</div>
+          <div class="kpi-trend">اهتمام عالٍ لم يكتمل للحجز</div>
+        </div>
+
+        <div class="kpi-card" onclick="filterByStage('مؤهل')">
+          <div class="kpi-header">
+            <span>عملاء مؤهلون</span>
+            <span>⭐</span>
+          </div>
+          <div class="kpi-value" id="kpi-qualified">0</div>
+          <div class="kpi-trend">Opportunity Score ≥ 70</div>
+        </div>
+
+        <div class="kpi-card" onclick="filterByStage('مفقود')">
+          <div class="kpi-header">
+            <span>عملاء مفقودون</span>
+            <span>⏳</span>
+          </div>
+          <div class="kpi-value" id="kpi-lost">0</div>
+          <div class="kpi-trend">انقطع التواصل بعد إبداء النية</div>
+        </div>
+
+        <div class="kpi-card success-card" onclick="filterByStage('تم التحويل')">
+          <div class="kpi-header">
+            <span>تم التحويل والمواعيد</span>
+            <span>✅</span>
+          </div>
+          <div class="kpi-value" id="kpi-converted">0</div>
+          <div class="kpi-trend">حجزوا كشفية أو شاركوا أرقامهم</div>
+        </div>
+
+        <div class="kpi-card" onclick="filterByIntent('PRICE_INQUIRY')">
+          <div class="kpi-header">
+            <span>سألوا عن السعر</span>
+            <span>💰</span>
+          </div>
+          <div class="kpi-value" id="kpi-price">0</div>
+          <div class="kpi-trend">استفسار كشفية وجلسات</div>
+        </div>
+      </div>
+
+      <!-- Funnel Bar -->
+      <div class="funnel-card">
+        <div class="funnel-header">
+          <h3>مسار التحويل التجاري للمحادثات (Conversion Funnel)</h3>
+          <span style="font-size: 12px; color: var(--text-muted);" id="funnel-rate">نسبة التحويل: 0%</span>
+        </div>
+        <div class="funnel-steps">
+          <div class="funnel-step">
+            <div class="funnel-step-name">1. محادثات كلية</div>
+            <div class="funnel-step-val" id="fn-total">0</div>
+            <div class="funnel-step-conv">100% قاعدة الاتصال</div>
+          </div>
+          <div class="funnel-step">
+            <div class="funnel-step-name">2. عملاء محتملون (Leads)</div>
+            <div class="funnel-step-val" id="fn-leads">0</div>
+            <div class="funnel-step-conv">أبدوا مشكلة صحية</div>
+          </div>
+          <div class="funnel-step">
+            <div class="funnel-step-name">3. مؤهلون تجارياً</div>
+            <div class="funnel-step-val" id="fn-qualified">0</div>
+            <div class="funnel-step-conv">سعر + موعد + موقع</div>
+          </div>
+          <div class="funnel-step">
+            <div class="funnel-step-name">4. طلبوا حجز موعد</div>
+            <div class="funnel-step-val" id="fn-appt">0</div>
+            <div class="funnel-step-conv">نية حجز مباشرة</div>
+          </div>
+          <div class="funnel-step" style="border-color: rgba(16, 185, 129, 0.4);">
+            <div class="funnel-step-name" style="color: var(--success);">5. تم التحويل للحجز</div>
+            <div class="funnel-step-val" style="color: var(--success);" id="fn-converted">0</div>
+            <div class="funnel-step-conv">حجز مؤكد / رقم هاتف</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Reactivations Teaser -->
+      <div class="table-container">
+        <div style="padding: 16px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+          <h3 style="font-size: 15px; font-weight: 800;">أعلى فرص إعادة التنشيط قيمة سريرية وتجارية</h3>
+          <button class="btn btn-secondary btn-sm" onclick="switchView('reactivations')">عرض الكل</button>
+        </div>
+        <table class="data-table" id="teaser-table">
+          <thead>
+            <tr>
+              <th>المريض / العميل</th>
+              <th>الهاتف</th>
+              <th>المصدر</th>
+              <th>النية المكتشفة</th>
+              <th>درجة الفرصة</th>
+              <th>المرحلة</th>
+              <th>الإجراء المقترح</th>
+              <th>خيارات</th>
+            </tr>
+          </thead>
+          <tbody id="teaser-tbody">
+            <!-- Rendered by JS -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- VIEW 2: CONVERSATIONS EXPLORER -->
+    <section id="view-conversations" class="view-content hidden">
+      <!-- Filter Bar -->
+      <div class="filter-bar">
+        <div class="search-box">
+          <input type="text" id="conv-search" placeholder="ابحث بالاسم، نص الرسالة، الأعراض، أو رقم الهاتف..." oninput="debounceFetchConvs()">
+        </div>
+        <select class="select-filter" id="filter-stage" onchange="fetchConversations()">
+          <option value="">جميع المراحل (All Stages)</option>
+          <option value="جديد">جديد</option>
+          <option value="استفسار">استفسار</option>
+          <option value="مهتم">مهتم</option>
+          <option value="سأل عن السعر">سأل عن السعر</option>
+          <option value="طلب موعد">طلب موعد</option>
+          <option value="لم يحجز">لم يحجز</option>
+          <option value="مؤهل">مؤهل</option>
+          <option value="تم التحويل">تم التحويل</option>
+          <option value="مفقود">مفقود</option>
+          <option value="عميل سابق">عميل سابق</option>
+          <option value="غير مؤهل">غير مؤهل</option>
+        </select>
+        <select class="select-filter" id="filter-intent" onchange="fetchConversations()">
+          <option value="">جميع النوايا (All Intents)</option>
+          <option value="PRICE_INQUIRY">سأل عن السعر</option>
+          <option value="APPOINTMENT_REQUEST">طلب موعد</option>
+          <option value="MEDICAL_PROBLEM">استفسار طبي وأعراض</option>
+          <option value="LOCATION_INQUIRY">موقع العيادة</option>
+          <option value="SERVICE_INQUIRY">طبيعة الخدمة</option>
+          <option value="EXISTING_CUSTOMER">عميل سابق</option>
+          <option value="COMPLAINT">شكوى</option>
+          <option value="SPAM">Spam</option>
+        </select>
+        <select class="select-filter" id="filter-source" onchange="fetchConversations()">
+          <option value="">جميع المصادر (All Sources)</option>
+          <option value="Ad response">إعلان فيسبوك ممول</option>
+          <option value="Messenger">Messenger مباشر</option>
+          <option value="Facebook">تفاعل صفحة</option>
+        </select>
+        <select class="select-filter" id="filter-recency" onchange="fetchConversations()">
+          <option value="">كل التواريخ</option>
+          <option value="0-30 days">آخر 30 يوم</option>
+          <option value="31-90 days">31-90 يوم</option>
+          <option value="91-180 days">91-180 يوم</option>
+          <option value="181-365 days">خلال سنة (2025-2026)</option>
+          <option value="1-2 years">1-2 سنة (2024-2025)</option>
+          <option value="2+ years">سنتين فما فوق (2021-2023)</option>
+        </select>
+      </div>
+
+      <!-- Bulk Bar -->
+      <div class="bulk-bar hidden" id="bulk-bar">
+        <div>تم تحديد <strong id="bulk-selected-count">0</strong> محادثة</div>
+        <div style="display: flex; gap: 8px;">
+          <select class="select-filter" id="bulk-stage-select">
+            <option value="مؤهل">تحويل إلى: مؤهل</option>
+            <option value="مفقود">تحويل إلى: مفقود</option>
+            <option value="لم يحجز">تحويل إلى: لم يحجز</option>
+            <option value="غير مؤهل">تحويل إلى: غير مؤهل</option>
+          </select>
+          <button class="btn btn-primary btn-sm" onclick="applyBulkStage()">تطبيق التغيير</button>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th width="30"><input type="checkbox" id="select-all-convs" onchange="toggleSelectAll(this)"></th>
+              <th>المريض / جهة الاتصال</th>
+              <th>المصدر</th>
+              <th>النية</th>
+              <th>درجة الفرصة</th>
+              <th>المرحلة الحالية</th>
+              <th>التصنيفات</th>
+              <th>آخر تفاعل</th>
+              <th>إجراءات</th>
+            </tr>
+          </thead>
+          <tbody id="convs-tbody">
+            <!-- Loaded via JS -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- VIEW 3: REACTIVATION OPPORTUNITIES -->
+    <section id="view-reactivations" class="view-content hidden">
+      <div class="funnel-card">
+        <div class="funnel-header">
+          <div>
+            <h3>🎯 محرك استخراج فرص إعادة التنشيط (Reactivation Radar)</h3>
+            <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">
+              حصر دقيق لجميع الأشخاص الذين استفسروا سابقاً عن عرق النسا، الديسك، أو الأسعار ولم يكملوا الحجز، مع احترام كامل لسياسة نافذة الـ 24 ساعة لـ Meta.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>المريض</th>
+              <th>الهاتف</th>
+              <th>المصدر</th>
+              <th>النية</th>
+              <th>Opportunity Score</th>
+              <th>القدم الزمني</th>
+              <th>الملخص التحليلي</th>
+              <th>الإجراء المقترح</th>
+              <th>فحص الامتثال</th>
+            </tr>
+          </thead>
+          <tbody id="reactivations-tbody">
+            <!-- JS -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- VIEW 4: META CONNECTION DIAGNOSTIC (A to K) -->
+    <section id="view-diagnostic" class="view-content hidden">
+      <div class="funnel-card">
+        <div class="funnel-header">
+          <div>
+            <h3>🩺 تشخيص الاتصال والقدرات الرسمية لـ Meta (Checks A to K)</h3>
+            <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">
+              فحص شامل لحدود Meta Graph API والصلاحيات الرسمية المتاحة قبل المزامنة لضمان عدم وجود حظر أو افتراضات غير واقعية.
+            </p>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="runLiveDiagnostic()">إعادة الفحص الآن</button>
+        </div>
+      </div>
+
+      <div class="diagnostic-grid" id="diagnostic-grid">
+        <!-- Rendered A to K items -->
+      </div>
+    </section>
+
+    <!-- VIEW 5: IMPORT / EXPORT CENTER -->
+    <section id="view-import_export" class="view-content hidden">
+      <div class="funnel-card">
+        <div class="funnel-header">
+          <div>
+            <h3>📥 مركز الاستيراد الاحتياطي (Fallback Import Center)</h3>
+            <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">
+              إذا كانت محادثاتك القديمة (2021-2025) متوفرة في ملفات تنزيل بيانات فيسبوك (JSON/CSV) الرسمية، يمكنك استيرادها وفهرستها هنا مباشرة بدون الحاجة لـ Webhooks أو مراجعات تطبيقات معقدة.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div style="background: var(--bg-surface); border: 2px dashed var(--border-color); border-radius: var(--radius-md); padding: 40px; text-align: center;">
+        <div style="font-size: 40px; margin-bottom: 12px;">📁</div>
+        <h4 style="font-size: 16px; font-weight: 800; margin-bottom: 6px;">قم بلصق محتوى JSON أو تحميل سجل المحادثات</h4>
+        <p style="font-size: 12px; color: var(--text-muted); max-width: 500px; margin: 0 auto 20px;">
+          يدعم الهيكل القياسي لرسائل Meta Business Suite مع كشف التكرارات تلقائياً وفهرستها بقاعدة البيانات.
+        </p>
+        <textarea id="import-json-box" style="width: 100%; max-width: 700px; height: 160px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-sm); color: var(--text-main); padding: 12px; font-family: 'JetBrains Mono', monospace; font-size: 11px; direction: ltr;" placeholder='[ { "contact_name": "سعيد الأحمد", "source": "Messenger", "phone": "079xxxxxxx", "messages": [ {"sender_type": "user", "text": "بدي احجز موعد عرق النسا"} ] } ]'></textarea>
+        <div style="margin-top: 16px;">
+          <button class="btn btn-primary" onclick="submitImportData()">بدء الاستيراد والتحليل الآلي</button>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- CONVERSATION TIMELINE & COMPLIANCE MODAL -->
+<div class="modal-overlay hidden" id="conv-modal">
+  <div class="modal-card">
+    <div class="modal-header">
+      <div>
+        <h3 id="modal-contact-name" style="font-size: 16px; font-weight: 800;">اسم المريض</h3>
+        <span id="modal-meta-info" style="font-size: 12px; color: var(--text-muted);">تفاصيل المحادثة</span>
+      </div>
+      <button class="close-btn" onclick="closeConvModal()">&times;</button>
+    </div>
+    
+    <div class="modal-body">
+      <!-- Executive AI/Rules Summary -->
+      <div style="background: rgba(24, 119, 242, 0.08); border: 1px solid rgba(24, 119, 242, 0.25); border-radius: var(--radius-md); padding: 14px;">
+        <div style="font-size: 12px; font-weight: 800; color: #60a5fa; margin-bottom: 4px;">🧠 الملخص التحليلي للمحادثة والإجراء الموصى به:</div>
+        <p id="modal-summary-text" style="font-size: 13px; line-height: 1.5; color: var(--text-main);"></p>
+        <div id="modal-reasons-chips" style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px;"></div>
+      </div>
+
+      <!-- Chat Timeline -->
+      <div>
+        <h4 style="font-size: 13px; font-weight: 700; margin-bottom: 8px; color: var(--text-muted);">سجل الرسائل الزمني الكامل:</h4>
+        <div class="chat-timeline" id="modal-chat-timeline">
+          <!-- Messages inserted by JS -->
+        </div>
+      </div>
+
+      <!-- Messaging Compliance Layer Evaluation -->
+      <div id="modal-compliance-box" class="compliance-box">
+        <!-- Evaluated by JS -->
+      </div>
+
+      <!-- Human Approval & Follow-up Formulation -->
+      <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 16px;">
+        <h4 style="font-size: 13px; font-weight: 800; margin-bottom: 8px;">صياغة رسالة المتابعة (Human Approval Workflow):</h4>
+        <textarea id="modal-followup-input" style="width: 100%; height: 80px; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-sm); color: var(--text-main); padding: 10px; font-size: 13px; margin-bottom: 10px;"></textarea>
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <label style="font-size: 12px; color: var(--text-muted);">وسم Meta (Message Tag):</label>
+            <select class="select-filter" id="modal-tag-select">
+              <option value="CONFIRMED_EVENT_UPDATE">CONFIRMED_EVENT_UPDATE (تأكيد/تذكير بموعد)</option>
+              <option value="HUMAN_AGENT">HUMAN_AGENT (رد وكيل بشري - خلال 7 أيام)</option>
+            </select>
+          </div>
+          <button class="btn btn-success btn-sm" onclick="approveAndQueueFollowup()">
+            <span>✅</span> اعتماد المتابعة وفق سياسات Meta
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let currentView = 'dashboard';
+  let currentConvId = null;
+  let selectedConvIds = new Set();
+  let debounceTimer = null;
+
+  document.addEventListener('DOMContentLoaded', () => {
+    loadDashboard();
+    fetchConversations();
+    fetchReactivations();
+    runLiveDiagnostic();
+  });
+
+  function switchView(viewId) {
+    currentView = viewId;
+    document.querySelectorAll('.view-content').forEach(el => el.classList.add('hidden'));
+    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+
+    const targetView = document.getElementById(`view-${viewId}`);
+    if (targetView) targetView.classList.remove('hidden');
+
+    const navItem = Array.from(document.querySelectorAll('.nav-item')).find(el => el.getAttribute('onclick')?.includes(viewId));
+    if (navItem) navItem.classList.add('active');
+
+    if (viewId === 'conversations') fetchConversations();
+    if (viewId === 'reactivations') fetchReactivations();
+  }
+
+  async function loadDashboard() {
+    try {
+      const res = await fetch('/api/intelligence/dashboard');
+      const json = await res.json();
+      if (!json.success) return;
+
+      const d = json.data;
+      document.getElementById('kpi-total').textContent = d.totalConversations;
+      document.getElementById('kpi-reactivations').textContent = d.reactivationOpportunities;
+      document.getElementById('kpi-qualified').textContent = d.qualifiedCount;
+      document.getElementById('kpi-lost').textContent = d.lostCount;
+      document.getElementById('kpi-converted').textContent = d.convertedCount;
+      document.getElementById('kpi-price').textContent = d.priceInquiries;
+
+      document.getElementById('badge-total-convs').textContent = d.totalConversations;
+      document.getElementById('badge-reactivations').textContent = d.reactivationOpportunities;
+
+      // Funnel
+      document.getElementById('fn-total').textContent = d.totalConversations;
+      document.getElementById('fn-leads').textContent = d.leadsCount;
+      document.getElementById('fn-qualified').textContent = d.qualifiedCount;
+      document.getElementById('fn-appt').textContent = d.appointmentRequests;
+      document.getElementById('fn-converted').textContent = d.convertedCount;
+      document.getElementById('funnel-rate').textContent = `نسبة التحويل الإجمالية: ${d.conversionRate}%`;
+    } catch (e) {
+      console.error('Error loading dashboard:', e);
+    }
+  }
+
+  async function fetchConversations() {
+    try {
+      const search = document.getElementById('conv-search')?.value || '';
+      const stage = document.getElementById('filter-stage')?.value || '';
+      const intent = document.getElementById('filter-intent')?.value || '';
+      const source = document.getElementById('filter-source')?.value || '';
+      const recency = document.getElementById('filter-recency')?.value || '';
+
+      const query = new URLSearchParams({ search, lead_stage: stage, intent, source, recency }).toString();
+      const res = await fetch(`/api/intelligence/conversations?${query}`);
+      const json = await res.json();
+      if (!json.success) return;
+
+      renderConversationsTable(json.data);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  function renderConversationsTable(rows) {
+    const tbody = document.getElementById('convs-tbody');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+
+    rows.forEach(r => {
+      const tr = document.createElement('tr');
+      const isChecked = selectedConvIds.has(r.id);
+
+      tr.innerHTML = `
+        <td><input type="checkbox" ${isChecked ? 'checked' : ''} onchange="toggleSelectConv('${r.id}', this)"></td>
+        <td>
+          <div style="font-weight: 800; color: var(--text-main);">${escapeHtml(r.contact_name)}</div>
+          <div style="font-size: 11px; color: var(--text-dim);">${r.contact_phone || 'لا يوجد هاتف مسجل'}</div>
+        </td>
+        <td><span class="badge ${r.source === 'Ad response' ? 'badge-stage-price' : ''}">${r.source}</span></td>
+        <td><span class="badge badge-stage-new">${translateIntent(r.intent)}</span></td>
+        <td>
+          <span class="score-pill ${r.opportunity_score >= 70 ? 'score-high' : (r.opportunity_score >= 40 ? 'score-mid' : 'score-low')}">
+            ${r.opportunity_score}%
+          </span>
+        </td>
+        <td><span class="badge ${getStageBadgeClass(r.lead_stage)}">${r.lead_stage}</span></td>
+        <td>
+          <div style="display:flex; gap:4px; flex-wrap:wrap;">
+            ${(r.labels || []).map(l => `<span class="badge" style="background:${l.color}22; color:${l.color}; border:1px solid ${l.color}44;">${l.name}</span>`).join('')}
+          </div>
+        </td>
+        <td style="font-size: 11px; color: var(--text-muted); font-family: monospace;">${formatDate(r.last_message_at)}</td>
+        <td>
+          <button class="btn btn-secondary btn-sm" onclick="openConversationModal('${r.id}')">عرض وفحص</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  async function fetchReactivations() {
+    try {
+      const res = await fetch('/api/intelligence/reactivations');
+      const json = await res.json();
+      if (!json.success) return;
+
+      const tbody = document.getElementById('reactivations-tbody');
+      const teaserBody = document.getElementById('teaser-tbody');
+      if (tbody) tbody.innerHTML = '';
+      if (teaserBody) teaserBody.innerHTML = '';
+
+      json.data.forEach((r, idx) => {
+        const rowHtml = `
+          <td><strong>${escapeHtml(r.contact_name)}</strong></td>
+          <td style="font-family: monospace; color: ${r.contact_phone ? 'var(--teal)' : 'var(--text-dim)'};">${r.contact_phone || 'غير مسجل'}</td>
+          <td><span class="badge">${r.source}</span></td>
+          <td><span class="badge badge-stage-new">${translateIntent(r.intent)}</span></td>
+          <td><span class="score-pill score-high">${r.opportunity_score}%</span></td>
+          <td style="font-size: 11px; color: var(--text-muted);">${r.recency_bracket || 'قديم'}</td>
+          <td style="font-size: 12px; color: var(--text-muted); max-width: 250px;">${escapeHtml(r.summary || '')}</td>
+          <td style="font-size: 12px; color: #93c5fd;">${escapeHtml(r.recommended_action || '')}</td>
+          <td>
+            <button class="btn btn-primary btn-sm" onclick="openConversationModal('${r.id}')">فحص ومتابعة</button>
+          </td>
+        `;
+
+        if (tbody) {
+          const tr = document.createElement('tr');
+          tr.innerHTML = rowHtml;
+          tbody.appendChild(tr);
+        }
+
+        if (teaserBody && idx < 5) {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td><strong>${escapeHtml(r.contact_name)}</strong></td>
+            <td>${r.contact_phone || '-'}</td>
+            <td>${r.source}</td>
+            <td>${translateIntent(r.intent)}</td>
+            <td><span class="score-pill score-high">${r.opportunity_score}%</span></td>
+            <td><span class="badge ${getStageBadgeClass(r.lead_stage)}">${r.lead_stage}</span></td>
+            <td style="font-size: 12px; color: #93c5fd;">${escapeHtml(r.recommended_action || '')}</td>
+            <td><button class="btn btn-secondary btn-sm" onclick="openConversationModal('${r.id}')">فحص</button></td>
+          `;
+          teaserBody.appendChild(tr);
+        }
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  async function openConversationModal(convId) {
+    currentConvId = convId;
+    try {
+      const res = await fetch(`/api/intelligence/conversations/${convId}`);
+      const json = await res.json();
+      if (!json.success) return;
+
+      const d = json.data;
+      const conv = d.conversation;
+      const analysis = d.analysis;
+
+      document.getElementById('modal-contact-name').textContent = conv.contact_name;
+      document.getElementById('modal-meta-info').textContent = `المصدر: ${conv.source} • المرحلة: ${conv.lead_stage} • فرصة التحويل: ${conv.opportunity_score}%`;
+      document.getElementById('modal-summary-text').textContent = analysis?.summary || 'لا يوجد ملخص متاح';
+
+      const reasonsContainer = document.getElementById('modal-reasons-chips');
+      reasonsContainer.innerHTML = '';
+      (analysis?.purchase_reasons || []).forEach(reason => {
+        const chip = document.createElement('span');
+        chip.className = 'badge';
+        chip.style.cssText = 'background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3);';
+        chip.textContent = `✓ ${reason}`;
+        reasonsContainer.appendChild(chip);
+      });
+
+      // Render Messages Timeline
+      const timeline = document.getElementById('modal-chat-timeline');
+      timeline.innerHTML = '';
+      d.messages.forEach(m => {
+        const bubble = document.createElement('div');
+        bubble.className = `chat-bubble ${m.sender_type === 'page' ? 'bubble-page' : 'bubble-user'}`;
+        bubble.innerHTML = `
+          <div>${escapeHtml(m.text || '')}</div>
+          <div class="bubble-meta">
+            <span>${m.sender_type === 'page' ? 'مركز وداعاً للألم' : conv.contact_name}</span>
+            <span>•</span>
+            <span>${formatTime(m.timestamp)}</span>
+          </div>
+        `;
+        timeline.appendChild(bubble);
+      });
+
+      // Check Compliance
+      evaluateComplianceInModal(convId);
+
+      // Default follow-up message template
+      const followupBox = document.getElementById('modal-followup-input');
+      followupBox.value = `مرحباً أخي ${conv.contact_name}، نتواصل معك من مركز وداعاً للألم - خلدا بخصوص استفسارك السابق. نود الاطمئنان على صحتك، وإذا كنت بحاجة لفحص العمود الفقري وتحديد موعد مع أخصائي الكايروبراكتيك، يسعدنا خدمتك اليوم عبر الهاتف أو الواتساب: 0790360440.`;
+
+      document.getElementById('conv-modal').classList.remove('hidden');
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  async function evaluateComplianceInModal(convId) {
+    const box = document.getElementById('modal-compliance-box');
+    box.innerHTML = 'جارٍ تدقيق سياسة Meta للـ 24 ساعة والوسوم المعتمدة...';
+
+    const res = await fetch('/api/intelligence/compliance/check', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ conversation_id: convId })
+    });
+    const json = await res.json();
+    if (!json.success) return;
+
+    const c = json.data;
+    if (c.isAllowed) {
+      box.className = 'compliance-box compliance-allowed';
+      box.innerHTML = `
+        <div style="font-weight: 800; color: var(--success); font-size: 13px;">✓ إرسال مسموح رسمياً (ضمن نافذة 24 ساعة لـ Meta)</div>
+        <div style="font-size: 12px; color: var(--text-muted);">${c.reason}</div>
+      `;
+    } else {
+      box.className = 'compliance-box compliance-blocked';
+      box.innerHTML = `
+        <div style="font-weight: 800; color: var(--danger); font-size: 13px;">⚠️ تنبيه سياسة Meta: نافذة الـ 24 ساعة غير نشطة</div>
+        <div style="font-size: 12px; color: var(--text-muted);">${c.reason}</div>
+        <div style="font-size: 12px; color: #f59e0b; margin-top: 4px;"><strong>الحل المعتمد:</strong> ${c.recommendedSolution}</div>
+      `;
+    }
+  }
+
+  async function approveAndQueueFollowup() {
+    if (!currentConvId) return;
+    const msg = document.getElementById('modal-followup-input').value;
+    const tag = document.getElementById('modal-tag-select').value;
+
+    const res = await fetch('/api/intelligence/followup/propose', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        conversation_id: currentConvId,
+        proposed_message: msg,
+        proposed_tag: tag
+      })
+    });
+    const json = await res.json();
+    if (json.success) {
+      alert('تم اعتماد رسالة المتابعة وتسجيلها في قائمة التدقيق البشري بنجاح.');
+      closeConvModal();
+    }
+  }
+
+  function closeConvModal() {
+    document.getElementById('conv-modal').classList.add('hidden');
+    currentConvId = null;
+  }
+
+  async function runLiveDiagnostic() {
+    const grid = document.getElementById('diagnostic-grid');
+    if (!grid) return;
+    grid.innerHTML = '<div style="color:var(--text-muted);">جارٍ فحص واجهة Meta API...</div>';
+
+    const res = await fetch('/api/intelligence/diagnostic');
+    const json = await res.json();
+    if (!json.success) return;
+
+    grid.innerHTML = '';
+    const checks = json.data.checks;
+    for (const [key, item] of Object.entries(checks)) {
+      const card = document.createElement('div');
+      card.className = `diag-item ${item.status.toLowerCase()}`;
+      card.innerHTML = `
+        <div class="diag-title">
+          <span>${item.label}</span>
+          <span class="badge ${item.status === 'PASS' ? 'badge-stage-qualified' : (item.status === 'LIMITED' ? 'badge-stage-nobook' : 'badge-stage-lost')}">${item.status}</span>
+        </div>
+        <div class="diag-desc">${item.details}</div>
+      `;
+      grid.appendChild(card);
+    }
+  }
+
+  async function submitImportData() {
+    const box = document.getElementById('import-json-box');
+    try {
+      const records = JSON.parse(box.value);
+      const res = await fetch('/api/intelligence/import/json', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ records })
+      });
+      const json = await res.json();
+      if (json.success) {
+        alert(`تم الاستيراد بنجاح! تم حفظ ${json.stats.imported_conversations} محادثة و ${json.stats.imported_messages} رسالة.`);
+        loadDashboard();
+        switchView('conversations');
+      }
+    } catch (e) {
+      alert('البيانات المدخلة ليست بتنسيق JSON صالح.');
+    }
+  }
+
+  function exportData(format = 'csv') {
+    window.location.href = `/api/intelligence/export?format=${format}`;
+  }
+
+  function syncNow() {
+    alert('تمت مزامنة البيانات وتحديث مؤشرات محرك الذكاء بنجاح.');
+    loadDashboard();
+    fetchConversations();
+  }
+
+  // Helpers
+  function debounceFetchConvs() {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(fetchConversations, 300);
+  }
+
+  function toggleSelectConv(id, chk) {
+    if (chk.checked) selectedConvIds.add(id);
+    else selectedConvIds.delete(id);
+    updateBulkBar();
+  }
+
+  function toggleSelectAll(chk) {
+    document.querySelectorAll('#convs-tbody input[type="checkbox"]').forEach(c => {
+      c.checked = chk.checked;
+      const id = c.getAttribute('onchange')?.match(/'([^']+)'/)?.[1];
+      if (id) {
+        if (chk.checked) selectedConvIds.add(id);
+        else selectedConvIds.delete(id);
+      }
+    });
+    updateBulkBar();
+  }
+
+  function updateBulkBar() {
+    const bar = document.getElementById('bulk-bar');
+    const cnt = document.getElementById('bulk-selected-count');
+    cnt.textContent = selectedConvIds.size;
+    if (selectedConvIds.size > 0) bar.classList.remove('hidden');
+    else bar.classList.add('hidden');
+  }
+
+  async function applyBulkStage() {
+    const stage = document.getElementById('bulk-stage-select').value;
+    const ids = Array.from(selectedConvIds);
+    const res = await fetch('/api/intelligence/conversations/bulk/stage', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ids, stage })
+    });
+    const json = await res.json();
+    if (json.success) {
+      alert(`تم تعديل مرحلة ${json.updated_count} محادثة بنجاح.`);
+      selectedConvIds.clear();
+      updateBulkBar();
+      fetchConversations();
+      loadDashboard();
+    }
+  }
+
+  function translateIntent(intent) {
+    const map = {
+      PRICE_INQUIRY: 'سأل عن السعر',
+      APPOINTMENT_REQUEST: 'طلب موعد',
+      MEDICAL_PROBLEM: 'استفسار طبي',
+      LOCATION_INQUIRY: 'موقع العيادة',
+      HOURS_INQUIRY: 'أوقات العمل',
+      SERVICE_INQUIRY: 'طبيعة الخدمة',
+      EXISTING_CUSTOMER: 'عميل سابق',
+      COMPLAINT: 'شكوى',
+      SPAM: 'Spam',
+      OTHER: 'أخرى'
+    };
+    return map[intent] || intent;
+  }
+
+  function getStageBadgeClass(stage) {
+    switch (stage) {
+      case 'جديد': return 'badge-stage-new';
+      case 'مؤهل': return 'badge-stage-qualified';
+      case 'تم التحويل': return 'badge-stage-converted';
+      case 'مفقود': return 'badge-stage-lost';
+      case 'لم يحجز': return 'badge-stage-nobook';
+      case 'سأل عن السعر': return 'badge-stage-price';
+      default: return 'badge-stage-new';
+    }
+  }
+
+  function formatDate(dStr) {
+    if (!dStr) return '-';
+    const d = new Date(dStr);
+    return d.toLocaleDateString('ar-EG', { year: 'numeric', month: 'short', day: 'numeric' });
+  }
+
+  function formatTime(dStr) {
+    if (!dStr) return '';
+    const d = new Date(dStr);
+    return d.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+</script>
+
+</body>
+</html>

@@ -1176,6 +1176,20 @@
       document.getElementById('fn-appt').textContent = d.appointmentRequests;
       document.getElementById('fn-converted').textContent = d.convertedCount;
       document.getElementById('funnel-rate').textContent = `نسبة التحويل الإجمالية: ${d.conversionRate}%`;
+
+      const badge = document.querySelector('.demo-badge');
+      if (badge) {
+        if (json.meta_status?.is_demo_mode) {
+          badge.innerHTML = '<span>●</span> الوضع التجريبي المعزول (Demo Mode)';
+          badge.style.color = 'var(--warning)';
+          badge.style.borderColor = 'rgba(245, 158, 11, 0.4)';
+        } else {
+          badge.innerHTML = '<span>●</span> بيانات حية رسمية من Meta (' + d.totalConversations + ' محادثة مفهرسة)';
+          badge.style.color = 'var(--success)';
+          badge.style.borderColor = 'rgba(16, 185, 129, 0.4)';
+          badge.style.background = 'rgba(16, 185, 129, 0.15)';
+        }
+      }
     } catch (e) {
       console.error('Error loading dashboard:', e);
     }

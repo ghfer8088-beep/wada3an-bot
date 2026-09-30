@@ -13,8 +13,9 @@ app.use('/api/growth', growthRoutes);
 
 
 // Configuration
-const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN || 'EAAW983LxTGwBSnQsU1OY6nIEzbCqbExeDPkH3OlAuv9UZCMAh0FqMwNbmoMopTXY8ViWdOZBffTUuOUldj9ZAxCF1t6JeoCCK4KQPZAS1jSTnGdEo7N6B5Fl3x5o0RcGXcjSZBEOMCj21DtCvEeq6LhZATR8eODlagjme7WRNmtT8EAK9QBsS8m5hNfkpNirIqoocmQwAhtocbBuiM0uXNKNkAqJlBjiym9iIgF8lXuZAfdPVUEk7sYxwZDZD';
-const VERIFY_TOKEN = process.env.VERIFY_TOKEN || 'wada3an_pain_free_2026';
+const config = require('./src/config');
+const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN || config.meta.pageAccessToken;
+const VERIFY_TOKEN = process.env.VERIFY_TOKEN || config.meta.verifyToken;
 const PORT = process.env.PORT || 3000;
 
 // In-memory conversation state & leads store

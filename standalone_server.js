@@ -83,7 +83,7 @@ const server = http.createServer(async (req, res) => {
       meta_status: {
         page_id: config.clinic?.pageId || '30minutes30',
         clinic_name: config.clinic?.name || 'مركز وداعاً للألم',
-        is_demo_mode: isDemo !== null ? isDemo : true
+        is_demo_mode: isDemo !== null ? isDemo : false
       }
     });
   }

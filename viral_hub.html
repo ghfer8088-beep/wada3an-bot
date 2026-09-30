@@ -2635,6 +2635,7 @@ async function loadGrowthPlan() {
   if (!tbody) return;
   try {
     const res = await fetch('/api/growth/growth-plan-7days');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
     if (data.success && data.plan && data.plan.days) {
       tbody.innerHTML = data.plan.days.map(d => `
@@ -2658,6 +2659,7 @@ async function loadExperiments() {
   if (!el) return;
   try {
     const res = await fetch('/api/growth/experiments');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
     if (data.success && data.experiments && data.experiments.length) {
       el.innerHTML = data.experiments.map(exp => `
@@ -2709,6 +2711,7 @@ async function loadRecycleCandidates() {
   if (!el) return;
   try {
     const res = await fetch('/api/growth/recycle-candidates');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
     if (data.success && data.candidates && data.candidates.length) {
       el.innerHTML = data.candidates.slice(0, 3).map(c => `
@@ -2755,6 +2758,7 @@ async function loadTrendRadar() {
   if (!el) return;
   try {
     const res = await fetch('/api/growth/trend-radar');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
     if (data.success && data.trendRadar) {
       const items = data.trendRadar.painPoints || [];
@@ -2795,6 +2799,7 @@ async function loadTeam12() {
   if (!el) return;
   try {
     const res = await fetch('/api/growth/human-amplification');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
     if (data.success && data.team && data.team.length) {
       el.innerHTML = data.team.map((m, i) => `

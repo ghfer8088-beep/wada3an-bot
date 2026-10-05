@@ -1,0 +1,46 @@
+{
+  "manifest_version": 3,
+  "name": "GrowthEngine Meta Suite Pro",
+  "version": "1.0.0",
+  "description": "Smart Facebook Automation, Multi-Account Detection, Carousel 2-Box Posting and Growth Tools",
+  "permissions": [
+    "cookies",
+    "storage",
+    "tabs",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://*.facebook.com/*",
+    "https://*.messenger.com/*",
+    "http://localhost:3000/*",
+    "http://127.0.0.1:3000/*",
+    "https://*.onrender.com/*",
+    "https://*.vercel.app/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.facebook.com/*"
+      ],
+      "js": ["content_fb.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "http://localhost:3000/*",
+        "http://127.0.0.1:3000/*",
+        "https://*.onrender.com/*",
+        "https://*.vercel.app/*"
+      ],
+      "js": ["content_bridge.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "GrowthEngine Meta Suite"
+  }
+}

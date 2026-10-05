@@ -1,0 +1,90 @@
+[
+  {
+    "id": "acc_100095020153634",
+    "uid": "100095020153634",
+    "name": "Donia Mohmmad",
+    "avatar": "https://graph.facebook.com/100095020153634/picture?type=large",
+    "role": "support",
+    "roleLabel": "حساب داعم (تفاعل وإعجابات)",
+    "liveStatus": "online",
+    "connectedAt": "2026-10-05T14:52:52.155Z",
+    "cookies": "",
+    "url": ""
+  },
+  {
+    "id": "acc_61585412889124",
+    "uid": "61585412889124",
+    "name": "Huda Faris",
+    "avatar": "https://graph.facebook.com/61585412889124/picture?type=large",
+    "role": "inquirer",
+    "roleLabel": "المتسائل الأول (The Inquirer)",
+    "liveStatus": "online",
+    "connectedAt": "2026-10-03T20:14:14.630Z"
+  },
+  {
+    "id": "acc_61584795883711",
+    "uid": "61584795883711",
+    "name": "رامي العبدالله",
+    "avatar": "https://graph.facebook.com/61584795883711/picture?type=large",
+    "role": "booster",
+    "roleLabel": "المُوصي والمُجرّب بخلدا (Social Proof)",
+    "liveStatus": "online",
+    "connectedAt": "2026-10-04T12:57:46.243Z",
+    "cookies": "",
+    "url": ""
+  },
+  {
+    "id": "acc_61579098603560",
+    "uid": "61579098603560",
+    "name": "Reem Abbas",
+    "avatar": "https://graph.facebook.com/61579098603560/picture?type=large",
+    "role": "booster",
+    "roleLabel": "سيدة متعافية ومُوصية (Social Proof 2)",
+    "liveStatus": "online",
+    "connectedAt": "2026-10-03T19:44:20.377Z"
+  },
+  {
+    "id": "acc_100029226100315",
+    "uid": "100029226100315",
+    "name": "Nesreen Waleed",
+    "avatar": "https://graph.facebook.com/100029226100315/picture?type=large",
+    "role": "support",
+    "roleLabel": "حساب داعم (تفاعل وإعجابات)",
+    "liveStatus": "online",
+    "connectedAt": "2026-10-04T12:47:33.263Z",
+    "cookies": "",
+    "url": ""
+  },
+  {
+    "id": "acc_61592553076728",
+    "uid": "61592553076728",
+    "name": "عبدالعزيز الحسن",
+    "avatar": "https://graph.facebook.com/61592553076728/picture?type=large",
+    "role": "support",
+    "roleLabel": "حساب داعم ومستفسر عن المواعيد",
+    "liveStatus": "online",
+    "connectedAt": "2026-10-03T19:41:50.424Z"
+  },
+  {
+    "id": "acc_61594738456151",
+    "uid": "61594738456151",
+    "name": "رانيا فاخوري",
+    "avatar": "https://graph.facebook.com/61594738456151/picture?type=large",
+    "role": "support",
+    "roleLabel": "حساب داعم (تفاعل وإعجابات)",
+    "liveStatus": "online",
+    "connectedAt": "2026-10-04T12:45:10.216Z",
+    "cookies": "",
+    "url": ""
+  },
+  {
+    "id": "acc_100004347403957",
+    "uid": "100004347403957",
+    "name": "وداعاً للألم",
+    "avatar": "https://graph.facebook.com/100004347403957/picture?type=large",
+    "role": "clinic",
+    "roleLabel": "الصفحة الرسمية (الرد والتأكيد بخلدا)",
+    "liveStatus": "online",
+    "connectedAt": "2026-10-03T19:47:54.527Z"
+  }
+]

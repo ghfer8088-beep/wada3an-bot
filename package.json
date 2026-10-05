@@ -2,9 +2,9 @@
   "name": "wada3an-facebook-bot",
   "version": "1.0.0",
   "description": "Facebook Messenger & Instagram AI Bot for Wada3an Lil Alam (30minutes30)",
-  "main": "server.js",
+  "main": "standalone_server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node standalone_server.js"
   },
   "dependencies": {
     "express": "^4.19.2",

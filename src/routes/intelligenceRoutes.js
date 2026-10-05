@@ -79,7 +79,7 @@ router.get('/conversations/:id', (req, res) => {
   }
 });
 
-// 5. Update Lead Stage
+// 5. Update Lead Stage & Manual Override
 router.post('/conversations/:id/stage', (req, res) => {
   try {
     const { stage, user_name } = req.body;
@@ -87,6 +87,51 @@ router.post('/conversations/:id/stage', (req, res) => {
 
     const success = db.updateLeadStage(req.params.id, stage, user_name || 'المسؤول');
     res.json({ success });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+router.post('/conversations/:id/override', (req, res) => {
+  try {
+    const { manual_stage, override_reason, user_name } = req.body;
+    if (!manual_stage) return res.status(400).json({ success: false, error: 'المرحلة اليدوية مطلوبة' });
+
+    const success = db.updateManualOverride(
+      req.params.id,
+      manual_stage,
+      override_reason || 'تعديل يدوي عبر لوحة التحكم',
+      user_name || 'المسؤول'
+    );
+    res.json({ success });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Analytics Audit Metric Catalog
+router.get('/audit/metrics', (req, res) => {
+  try {
+    const catalog = db.getMetricsCatalog();
+    const changeLogs = db.getMetricChangeLogs();
+    res.json({ success: true, catalog, changeLogs });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Audit of the 14 conversions
+router.get('/audit/conversions', (req, res) => {
+  try {
+    const ids = [
+      't_1822597454958128', 't_1063602851266624', 't_122240524886089091',
+      't_10160709551607513', 't_1311237532578661', 't_2367325373404378',
+      't_1261548031868995', 't_666798251193414', 't_1083642796521775',
+      't_2969998906624985', 't_932713525075767', 't_259024363578409',
+      't_1832524767142887', 't_1724820887984016'
+    ];
+    const cases = ids.map(id => db.getConversationDetails(id)).filter(Boolean);
+    res.json({ success: true, count: cases.length, cases });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
@@ -120,8 +165,9 @@ router.post('/conversations/bulk/label', (req, res) => {
 // 7. Reactivation Opportunities
 router.get('/reactivations', (req, res) => {
   try {
-    const limit = parseInt(req.query.limit) || 30;
-    const opps = db.getReactivationOpportunities(limit);
+    const limit = parseInt(req.query.limit) || 100;
+    const tier = req.query.tier || null;
+    const opps = db.getReactivationOpportunities(tier, limit);
     res.json({ success: true, count: opps.length, data: opps });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });

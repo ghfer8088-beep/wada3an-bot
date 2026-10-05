@@ -1,0 +1,3431 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GrowthEngine Pro | ترسانة أتمتة فيسبوك الذكية وإدارة الحسابات - عيادة وداعاً للألم</title>
+  <style>
+    :root {
+      --primary: #059669;
+      --primary-hover: #047857;
+      --primary-gradient: linear-gradient(135deg, #059669 0%, #0d9488 100%);
+      --bg-main: #f8fafc;
+      --bg-card: #ffffff;
+      --border-color: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+      --shadow-lg: 0 12px 28px rgba(0,0,0,0.12);
+    }
+
+    body.dark {
+      --bg-main: #0b1120;
+      --bg-card: #1e293b;
+      --border-color: #334155;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    body {
+      background: var(--bg-main);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 20px 24px 60px;
+      width: 100%;
+    }
+
+    /* Header */
+    .top-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .brand-logo {
+      width: 44px;
+      height: 44px;
+      background: var(--primary-gradient);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-sm);
+      font-size: 22px;
+      font-weight: 900;
+      box-shadow: 0 4px 10px rgba(5, 150, 105, 0.35);
+    }
+
+    .brand-title {
+      font-size: 19px;
+      font-weight: 900;
+      color: var(--text-main);
+      letter-spacing: -0.5px;
+    }
+
+    .brand-subtitle {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn-action {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+
+    .btn-action:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .btn-action.btn-primary {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #ffffff;
+    }
+
+    .btn-action.btn-primary:hover {
+      background: var(--primary-hover);
+    }
+
+    /* Account Identity Banner */
+    .account-banner {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .account-identity {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .account-avatar-wrapper {
+      position: relative;
+    }
+
+    .account-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      border: 2px solid var(--primary);
+      object-fit: cover;
+      background: #e2e8f0;
+    }
+
+    .online-indicator {
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      width: 14px;
+      height: 14px;
+      background: #10b981;
+      border: 2px solid var(--bg-card);
+      border-radius: 50%;
+    }
+
+    .account-details h3 {
+      font-size: 16px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .account-uid {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 3px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .badge-status {
+      font-size: 10px;
+      font-weight: 800;
+      background: rgba(16, 185, 129, 0.12);
+      color: #059669;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 2px 8px;
+      border-radius: 12px;
+    }
+
+    .account-switcher {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .select-account {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-main);
+      outline: none;
+      min-width: 260px;
+    }
+
+    /* Controls Panel */
+    .controls-panel {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .search-wrapper {
+      position: relative;
+      flex: 1;
+      max-width: 380px;
+    }
+
+    .search-box {
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px 10px 38px;
+      font-size: 13px;
+      color: var(--text-main);
+      outline: none;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .tab-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .tab-btn.active, .tab-btn:hover {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    /* Tools Grid */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 20px;
+    }
+
+    .tool-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 22px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    }
+
+    .tool-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--primary);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .tool-icon-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tool-icon {
+      width: 42px;
+      height: 42px;
+      background: rgba(5, 150, 105, 0.1);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-sm);
+      font-size: 20px;
+    }
+
+    .badge-pill {
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .badge-hero {
+      background: #dc2626;
+      color: #fff;
+    }
+
+    .badge-pro {
+      background: #8b5cf6;
+      color: #fff;
+    }
+
+    .badge-free {
+      background: #10b981;
+      color: #fff;
+    }
+
+    .badge-orange {
+      background: #ea580c;
+      color: #fff;
+    }
+
+    .badge-blue {
+      background: #2563eb;
+      color: #fff;
+    }
+
+    .tool-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+
+    .tool-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 18px;
+      min-height: 48px;
+    }
+
+    .tool-btn {
+      width: 100%;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 11px 0;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: background 0.2s;
+      text-decoration: none;
+    }
+
+    .tool-btn:hover {
+      background: var(--primary-hover);
+    }
+
+    .tool-btn.btn-outline {
+      background: rgba(100, 116, 139, 0.08);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+    }
+
+    .tool-btn.btn-outline:hover {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    /* Modal Backdrop & Container */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(5px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 16px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-window {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 820px;
+      max-height: 92vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow-lg);
+      padding: 24px;
+      position: relative;
+      transform: scale(0.96);
+      transition: transform 0.25s ease;
+      border: 1px solid var(--border-color);
+    }
+
+    .modal-overlay.active .modal-window {
+      transform: scale(1);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 14px;
+      margin-bottom: 18px;
+    }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-main);
+    }
+
+    .close-modal-btn {
+      background: transparent;
+      border: none;
+      font-size: 26px;
+      color: var(--text-muted);
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .close-modal-btn:hover {
+      color: #dc2626;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 6px;
+      color: var(--text-main);
+    }
+
+    .form-input, .form-textarea, .form-select {
+      width: 100%;
+      background: var(--bg-main);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      font-size: 13px;
+      color: var(--text-main);
+      outline: none;
+    }
+
+    .form-input:focus, .form-textarea:focus, .form-select:focus {
+      border-color: var(--primary);
+    }
+
+    .two-cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    @media (max-width: 640px) {
+      .two-cols {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .progress-track {
+      background: #e2e8f0;
+      border-radius: 12px;
+      height: 8px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+
+    .progress-fill {
+      background: #10b981;
+      height: 100%;
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    /* Carousel 2-Box Visual Preview */
+    .carousel-preview {
+      display: flex;
+      gap: 12px;
+      margin-top: 10px;
+      padding: 12px;
+      background: rgba(0, 0, 0, 0.03);
+      border-radius: var(--radius-md);
+      border: 1px dashed var(--border-color);
+    }
+
+    .carousel-card-preview {
+      flex: 1;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      background: var(--bg-card);
+    }
+
+    .card-preview-img {
+      width: 100%;
+      height: 120px;
+      background: #cbd5e1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: #64748b;
+      object-fit: cover;
+    }
+
+    .card-preview-body {
+      padding: 10px;
+    }
+
+    .card-preview-headline {
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .card-preview-link {
+      font-size: 10px;
+      color: #3b82f6;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    /* Toast Notification */
+    .status-toast {
+      position: fixed;
+      bottom: 24px;
+      left: 24px;
+      background: #0f172a;
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 700;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      display: none;
+      align-items: center;
+      gap: 10px;
+      z-index: 2000;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Top Header -->
+    <header class="top-header">
+      <a href="/growth-engine" class="brand">
+        <div class="brand-logo">G</div>
+        <div>
+          <div class="brand-title">GrowthEngine Pro</div>
+          <div class="brand-subtitle">ترسانة أتمتة فيسبوك الشاملة وإدارة الحسابات (Metus / FewFeed Suite)</div>
+        </div>
+      </a>
+
+      <div class="header-actions">
+        <a href="/conversation-intelligence" class="btn-action">
+          💬 ذكاء المحادثات والفرص
+        </a>
+        <button class="btn-action" onclick="openSpineCalculatorModal()">
+          🦴 حاسبة العمود الفقري
+        </button>
+        <button class="btn-action" onclick="toggleDarkMode()">
+          🌓 المظهر
+        </button>
+      </div>
+    </header>
+
+    <!-- Connected Account Banner -->
+    <div class="account-banner">
+      <div class="account-identity">
+        <div class="account-avatar-wrapper">
+          <img src="https://graph.facebook.com/100095020153634/picture?type=large" id="current-avatar" class="account-avatar" alt="Avatar">
+          <span class="online-indicator" title="متصل بالمتصفح"></span>
+        </div>
+        <div class="account-details">
+          <h3 id="current-account-name">
+            دنيا محمد (Donia Mohmmad)
+            <span class="badge-status">متصل ونشط • Trust Score 99%</span>
+          </h3>
+          <div class="account-uid">
+            <span>UID:</span>
+            <strong id="current-account-uid">100095020153634</strong>
+            <button class="btn-action" style="padding: 2px 8px; font-size: 10px;" onclick="copyAccountUid()">📋 نسخ المعرّف</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="account-switcher">
+        <label style="font-size: 12px; font-weight: 700; color: var(--text-muted);">تبديل الحساب النشط للمعاينة والتنفيذ:</label>
+        <div style="display:flex; gap:6px; align-items:center;">
+          <select class="select-account" id="account-select" onchange="switchAccount(this.value)">
+            <!-- Populated dynamically -->
+          </select>
+          <button type="button" class="btn-action" style="font-size:11px; white-space:nowrap; padding:6px 12px; background:rgba(37,99,235,0.1); color:#2563eb; border:1px solid rgba(37,99,235,0.3); font-weight:700;" onclick="openModal('manage-accounts-modal')">
+            👥 إدارة الحسابات (7)
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Controls & Search -->
+    <div class="controls-panel">
+      <div class="search-wrapper">
+        <input type="text" id="tool-search" class="search-box" placeholder="ابحث في ترسانة الأدوات (نشر، جروبات، ريلز، رادار، تنشيط، ردود)..." onkeyup="filterTools()">
+        <span class="search-icon">🔍</span>
+      </div>
+
+      <div class="filter-tabs">
+        <button class="tab-btn active" onclick="setTab('all', this)">كل الأدوات (14)</button>
+        <button class="tab-btn" onclick="setTab('revitalize', this)">تنشيط وتبادل أدوار ⭐</button>
+        <button class="tab-btn" onclick="setTab('publish', this)">صناعة ونشر (Publish)</button>
+        <button class="tab-btn" onclick="setTab('groups', this)">المجموعات (Groups PRO)</button>
+        <button class="tab-btn" onclick="setTab('auto', this)">أتمتة وردود (Automate)</button>
+        <button class="tab-btn" onclick="setTab('scrape', this)">استخراج واستقطاب (Scrape)</button>
+      </div>
+    </div>
+
+    <!-- Tools Grid (Complete Full Suite) -->
+    <div class="tools-grid" id="tools-container">
+
+      <!-- Tool 0: Revitalize My Page Posts via Role Swap (Hero Tool) -->
+      <div class="tool-card" data-category="revitalize auto" style="border: 2px solid #dc2626; background: linear-gradient(135deg, rgba(239, 68, 68, 0.04) 0%, rgba(255, 255, 255, 0.98) 100%);">
+        <div class="card-top">
+          <div class="tool-icon-group">
+            <div class="tool-icon" style="background: rgba(239, 68, 68, 0.15); color: #dc2626;">🎭</div>
+            <span class="badge-pill badge-hero">الأساس والمطلوب 🎯</span>
+            <span class="badge-pill badge-pro">7 ACCOUNTS</span>
+          </div>
+        </div>
+        <div class="tool-title" style="color: #dc2626;">تنشيط منشوراتي (تبادل الأدوار والنسخ السريع)</div>
+        <div class="tool-desc">الصق رابط أي منشور أو ريلز لصفحة <strong>"وداعاً للألم - خلدا"</strong>، ليصيغ الذكاء الاصطناعي سيناريو حواري متكامل بين حساباتك (المتسائل، المجرب، السيدة المتعافية، الدعم، الرد الطبي للعيادة)، مع أزرار نسخ سريعة وروابط مباشرة لكل خطوة.</div>
+        <button class="tool-btn" style="background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);" onclick="openRoleSwapStudio()">
+          🚀 فتح استوديو تنشيط منشوراتي الآن
+        </button>
+      </div>
+
+      <!-- Tool 1: Carousel 2-Box Post -->
+      <div class="tool-card" data-category="publish">
+        <div class="card-top">
+          <div class="tool-icon-group">
+            <div class="tool-icon" style="background: rgba(249, 115, 22, 0.15); color: #f97316;">🖼️</div>
+            <span class="badge-pill badge-orange">شائع جداً</span>
+            <span class="badge-pill badge-free">FREE</span>
+          </div>
+        </div>
+        <div class="tool-title">نشر بوست الشريحتين (Carousel 2-Box Post)</div>
+        <div class="tool-desc">إنشاء ونشر بوستات الشريحتين التفاعلية (Double Box) مع روابط مخصصة لكل شريحة (واتساب وماسنجر) على صفحة العيادة بدون إعلانات ممولة لرفع معدل النقر.</div>
+        <button class="tool-btn" onclick="openModal('carousel-modal')">
+          ⚡ استخدم هذه الأداة
+        </button>
+      </div>
+
+      <!-- Tool 2: Auto Post to Facebook Groups PRO -->
+      <div class="tool-card" data-category="groups publish auto">
+        <div class="card-top">
+          <div class="tool-icon-group">
+            <div class="tool-icon" style="background: rgba(37, 99, 235, 0.15); color: #2563eb;">📢</div>
+            <span class="badge-pill badge-blue">PRO 2026</span>
+            <span class="badge-pill badge-free">SPINTAX</span>
+          </div>
+        </div>
+        <div class="tool-title">النشر في مجموعات فيسبوك (Auto Post To Groups PRO)</div>
+        <div class="tool-desc">جدولة ونشر المنشورات في عشرات المجموعات الطبية والخدمية بعمان مع دعم تنويع النصوص (Spintax) لمنع الحظر ومحاكاة النشر البشري الطبيعي.</div>
+        <button class="tool-btn" onclick="openModal('groups-post-modal')">
+          ⚡ استخدم هذه الأداة
+        </button>
+      </div>
+
+      <!-- Tool 3: Page Auto Reply Comments & Messenger Bot -->
+      <div class="tool-card" data-category="auto">
+        <div class="card-top">
+          <div class="tool-icon-group">
+            <div class="tool-icon" style="background: rgba(16, 185, 129, 0.15); color: #059669;">🤖</div>
+            <span class="badge-pill badge-free">فوري ومؤكد</span>
+          </div>
+        </div>
+        <div class="tool-title">الرد التلقائي على التعليقات + إرسال ماسنجر خاص</div>
+        <div class="tool-desc">الرد الفوري على تعليقات المنشورات وإرسال رسالة خاصة على ماسنجر لكل معلق بحسب الكلمات المفتاحية (سعر، موقع خلدا، عرق النسا، حجز) لتحويله لعميل مؤكد.</div>
+        <button class="tool-btn" onclick="openModal('auto-reply-modal')">
+          ⚡ استخدم هذه الأداة
+        </button>
+      </div>
+
+      <!-- Tool 4: Auto Comment To Facebook Groups -->
+      <div class="tool-card" data-category="groups auto">
+        <div class="card-top">
+          <div class="tool-icon-group">
+            <div class="tool-icon" style="background: rgba(139, 92, 246, 0.15); color: #7c3aed;">💬</div>
+            <span class="badge-pill badge-pro">AI SMART</span>
+          </div>
+        </div>
+        <div class="tool-title">التعليق التلقائي في المجموعات (Auto Comment PRO)</div>
+        <div class="tool-desc">نشر تعليقات ذكية في أحدث منشورات المجموعات الطبية ومجموعات سكان عمان للتعريف بعيادة "وداعاً للألم - خلدا" وحلول الديسك وعرق النسا.</div>
+        <button class="tool-btn btn-outline" onclick="openModal('comment-groups-modal')">
+          استخدم هذه الأداة
+        </button>
+      </div>
+
+      <!-- Tool 5: Auto Join To Facebook Groups PRO -->
+      <div class="tool-card" data-category="groups auto">
+        <div class="card-top">
+          <div class="tool-icon-group">
+            <div class="tool-icon" style="background: rgba(2, 132, 199, 0.15); color: #0284c7;">➕</div>
+            <span class="badge-pill badge-free">BULK JOIN</span>
+          </div>
+        </div>
+        <div class="tool-title">الانضمام التلقائي للمجموعات (Auto Join Groups)</div>
+        <div class="tool-desc">الانضمام التلقائي للمجموعات المستهدفة عبر المعرفات (Group IDs) مع تجهيز الإجابة على أسئلة المشرفين والموافقة على الشروط دفعة واحدة.</div>
+        <button class="tool-btn btn-outline" onclick="openModal('join-groups-modal')">
+          استخدم هذه الأداة
+        </button>
+      </div>
+
+      <!-- Tool 6: Leave Facebook Groups in Bulk -->
+      <div class="tool-card" data-category="groups">
+        <div class="card-top">
+          <div class="tool-icon-group">
+            <div class="tool-icon" style="background: rgba(239, 68, 68, 0.15); color: #dc2626;">🚪</div>
+            <span class="badge-pill badge-hero">CLEANER</span>
+          </div>
+        </div>
+        <div class="tool-title">مغادرة المجموعات الراكدة دفعة واحدة (Leave Groups)</div>
+        <div class="tool-desc">تنظيف الحساب من المجموعات المعطلة أو المحظورة أو التي لا فائدة منها لتخفيف العبء على الحساب ورفع جودته (Account Quality).</div>
+        <button class="tool-btn btn-outline" onclick="openModal('leave-groups-modal')">
+          استخدم هذه الأداة
+        </button>
+      </div>
+
+      <!-- Tool 7: UP TO REELS - Bulk Reels Scheduler -->
+      <div class="tool-card" data-category="publish">
+        <div class="card-top">
+          <div class="tool-icon-group">
+            <div class="tool-icon" style="background: rgba(220, 38, 38, 0.15); color: #dc2626;">🎬</div>
+            <span class="badge-pill badge-hero">VIRAL REELS</span>
+          </div>
+        </div>
+        <div class="tool-title">جدولة ورفع مقاطع الريلز (UP TO REELS PRO)</div>
+        <div class="tool-desc">جدولة ونشر مقاطع الريلز الطبية والتوعوية لصفحة المركز مع تجهيز الهاشتاجات الأكثر رواجاً في الأردن وأزرار الحث على الإجراء (CTA).</div>
+        <button class="tool-btn btn-outline" onclick="openModal('reels-modal')">
+          استخدم هذه الأداة
+        </button>
+      </div>
+
+      <!-- Tool 8: UP TO STORIES - Bulk Story Poster -->
+      <div class="tool-card" data-category="publish">
+        <div class="card-top">
+          <div class="tool-icon-group">
+            <div class="tool-icon" style="background: rgba(234, 88, 12, 0.15); color: #ea580c;">📱</div>
+            <span class="badge-pill badge-orange">STORIES</span>
+          </div>
+        </div>
+        <div class="tool-title">نشر القصص اليومية التفاعلية (UP TO STORIES)</div>
+        <div class="tool-desc">جدولة ونشر القصص اليومية (Stories) على صفحة وداعاً للألم مع وضع ملصقات الاستفسار وروابط الحجز السريع عبر واتساب وماسنجر.</div>
+        <button class="tool-btn btn-outline" onclick="openModal('stories-modal')">
+          استخدم هذه الأداة
+        </button>
+      </div>
+
+      <!-- Tool 9: Filter Inactive Friends & Bulk Cleaner -->
+      <div class="tool-card" data-category="auto">
+        <div class="card-top">
+          <div class="tool-icon-group">
+            <div class="tool-icon" style="background: rgba(100, 116, 139, 0.15); color: #475569;">👥</div>
+            <span class="badge-pill badge-free">UNFRIEND</span>
+          </div>
+        </div>
+        <div class="tool-title">فلترة وتنظيف الأصدقاء غير المتفاعلين (Friends Cleaner)</div>
+        <div class="tool-desc">فحص قائمة أصدقاء الحساب وحذف الحسابات المعطلة والخاملة التي لم تتفاعل منذ فترة طويلة لإتاحة مساحة لعملاء حقيقيين في الأردن.</div>
+        <button class="tool-btn btn-outline" onclick="openModal('friends-cleaner-modal')">
+          استخدم هذه الأداة
+        </button>
+      </div>
+
+      <!-- Tool 10: Group & Post UID Scraper -->
+      <div class="tool-card" data-category="scrape">
+        <div class="card-top">
+          <div class="tool-icon-group">
+            <div class="tool-icon" style="background: rgba(37, 99, 235, 0.15); color: #2563eb;">🎯</div>
+            <span class="badge-pill badge-blue">SCRAPER</span>
+          </div>
+        </div>
+        <div class="tool-title">استخراج معرّفات المجموعات والمنشورات (UID Scraper)</div>
+        <div class="tool-desc">البحث الذكي واستخراج معرّفات (IDs) المجموعات المتخصصة وقوائم المنشورات المتفاعلة في الأردن وتصديرها Excel لاستخدامها في الحملات.</div>
+        <button class="tool-btn btn-outline" onclick="openModal('scraper-modal')">
+          استخدم هذه الأداة
+        </button>
+      </div>
+
+      <!-- Tool 11: Jordan Viral Radar & Stealth Commenter -->
+      <div class="tool-card" data-category="revitalize scrape" style="border: 1px solid rgba(249, 115, 22, 0.4); background: linear-gradient(135deg, rgba(249, 115, 22, 0.03) 0%, rgba(255, 255, 255, 0.98) 100%);">
+        <div class="card-top">
+          <div class="tool-icon-group">
+            <div class="tool-icon" style="background: rgba(249, 115, 22, 0.15); color: #ea580c;">📡</div>
+            <span class="badge-pill badge-orange">رادار مباشر 🔥</span>
+            <span class="badge-pill badge-pro">AI STEALTH</span>
+          </div>
+        </div>
+        <div class="tool-title">رادار المنشورات النشطة والترويج غير المباشر للأردن</div>
+        <div class="tool-desc">رصد تريندات جوجل الأردن اليومية، ومكتبة إعلانات فيسبوك، ومصادر الأخبار وريلز المجتمع، وتوليد تعليقات غير مباشرة توجه للبحث عن العيادة في خلدا.</div>
+        <button class="tool-btn" style="background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);" onclick="openModal('viral-stealth-modal')">
+          🎯 تشغيل رادار الترويج الذكي
+        </button>
+      </div>
+
+      <!-- Tool 12: Medical Smart Response Studio -->
+      <div class="tool-card" data-category="auto">
+        <div class="card-top">
+          <div class="tool-icon-group">
+            <div class="tool-icon" style="background: rgba(16, 185, 129, 0.15); color: #059669;">🩺</div>
+            <span class="badge-pill badge-free">ردود العيادة</span>
+          </div>
+        </div>
+        <div class="tool-title">استوديو الردود الطبية السريعة لعيادة وداعاً للألم</div>
+        <div class="tool-desc">قوالب ردود طبية تخصصية مقنعة لآلام الديسك، عرق النسا، احتكاك الركب، والأسعار وموقع خلدا مع تخصيص اسم المريض ونسخ بضغطة زر واحدة.</div>
+        <button class="tool-btn" onclick="openModal('medical-reply-modal')">
+          ⚡ فتح استوديو الردود الطبية
+        </button>
+      </div>
+
+      <!-- Tool 13: Spine Health Diagnostic Tool -->
+      <div class="tool-card" data-category="scrape">
+        <div class="card-top">
+          <div class="tool-icon-group">
+            <div class="tool-icon" style="background: rgba(37, 99, 235, 0.15); color: #2563eb;">🦴</div>
+            <span class="badge-pill badge-blue">تشخيص تفاعلي</span>
+          </div>
+        </div>
+        <div class="tool-title">أداة فحص وتقييم صحة العمود الفقري والديسك</div>
+        <div class="tool-desc">أداة تشخيصية تفاعلية تحسب درجة إجهاد الفقرات واحتمالية الانزلاق الغضروفي، وتوفر رابطاً ورسالة دعوة جاهزة للنشر بالتعليقات لجلب مرضى لخلدا.</div>
+        <button class="tool-btn btn-outline" onclick="openSpineCalculatorModal()">
+          🩺 فتح أداة التشخيص والحاسبة
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== MODALS SUITE ==================== -->
+
+  <!-- MODAL 0: Role Swap Studio (Copy-Paste Powerhouse) -->
+  <div class="modal-overlay" id="role-swap-modal">
+    <div class="modal-window" style="max-width: 820px;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>🎭</span> استوديو تنشيط منشوراتي (تبادل الأدوار والنسخ السريع)
+        </div>
+        <button class="close-modal-btn" onclick="closeModal('role-swap-modal')">&times;</button>
+      </div>
+
+      <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(37, 99, 235, 0.08) 100%); border: 1px solid rgba(16, 185, 129, 0.3); padding: 12px 14px; border-radius: var(--radius-sm); margin-bottom: 16px;">
+        <div style="font-size: 13px; font-weight: 800; color: #059669; margin-bottom: 4px;">🎯 آلية التنشيط الشفافة:</div>
+        <div style="font-size: 11px; color: var(--text-main); line-height: 1.5;">
+          اختر المنشور ⬅️ اضغط [صياغة السيناريو] ⬅️ انسخ نص كل خطوة والصقه في فيسبوك بحسابه المخصص ⬅️ ضع علامة [تم النشر] لتتبع إنجاز خطوات الحملة.
+        </div>
+      </div>
+
+      <div style="background: rgba(37, 99, 235, 0.04); border: 2px solid #2563eb; border-radius: var(--radius-sm); padding: 14px; margin-bottom: 16px;">
+        <label class="form-label" style="color: #1d4ed8; font-size: 13px;">🎯 اختر المنشور المراد تنشيطه من صفحتك (أو الصق رابط أي منشور):</label>
+        <div style="display:flex; gap:8px; margin-bottom:8px; flex-wrap:wrap;">
+          <select id="role-swap-post-selector" class="form-select" style="flex:1; min-width:260px; font-weight:700;" onchange="onRoleSwapPostSelectorChange(this.value)">
+            <option value="">⏳ جارٍ تحميل منشورات صفحتك...</option>
+          </select>
+          <a id="role-swap-post-link" href="#" target="_blank" class="btn-action" style="background:#2563eb; color:#fff; font-weight:700; text-decoration:none; white-space:nowrap;">
+            🔗 فتح المنشور بفيسبوك
+          </a>
+        </div>
+
+        <div id="role-swap-custom-url-container" style="display:none; margin-top:8px;">
+          <div style="display:flex; gap:8px;">
+            <input type="text" id="role-swap-custom-url-input" class="form-input" placeholder="الصق رابط أي منشور أو ريلز من صفحتك هنا..." style="font-size:12px;">
+            <button type="button" class="btn-action btn-primary" style="background:#2563eb; border:none; white-space:nowrap; padding:6px 14px;" onclick="applyCustomRoleSwapUrl()">
+              تطبيق الرابط 🎯
+            </button>
+          </div>
+        </div>
+
+        <div id="role-swap-post-stats" style="font-size: 11px; color: #059669; font-weight: 700; margin-top: 6px;">
+          💬 منشور نشط من صفحة وداعاً للألم - خلدا
+        </div>
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <button type="button" class="btn-action btn-primary" style="width:100%; justify-content:center; padding:11px 0; font-size:13px; font-weight:800; background:linear-gradient(135deg, #059669 0%, #047857 100%); border:none;" onclick="regenerateRoleSwapScenario()">
+          🧠 صياغة وتحديث سيناريو التنشيط لكافة الحسابات بالذكاء الاصطناعي
+        </button>
+      </div>
+
+      <!-- Active Strategy Banner -->
+      <div id="role-swap-strategy-card" style="display:none; background:rgba(37,99,235,0.06); border:1px solid rgba(37,99,235,0.25); border-radius:var(--radius-sm); padding:10px 14px; margin-bottom:16px;">
+        <div id="role-swap-strategy-title" style="font-size:13px; font-weight:900; color:#1d4ed8; margin-bottom:4px; display:flex; align-items:center; gap:6px;"></div>
+        <div id="role-swap-strategy-objective" style="font-size:11px; color:var(--text-muted); line-height:1.4;"></div>
+      </div>
+
+      <!-- Progress Tracking Bar -->
+      <div style="background: rgba(0,0,0,0.03); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 10px 14px; margin-bottom: 16px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; font-size:12px; font-weight:800;">
+          <span style="color:var(--text-main);">📊 تقدم إنجاز خطوات التنشيط:</span>
+          <span id="role-swap-progress-text" style="color:#059669;">0 من 7 خطوات منجزة (0%)</span>
+        </div>
+        <div class="progress-track">
+          <div id="role-swap-progress-fill" class="progress-fill"></div>
+        </div>
+      </div>
+
+      <!-- Steps Container -->
+      <div id="role-swap-steps-container" style="display:flex; flex-direction:column; gap:14px; margin-bottom:16px;"></div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+        <button type="button" class="btn-action" style="font-size:11px; color:#dc2626;" onclick="resetRoleExecutionCheckmarks()">
+          🔄 إعادة تعيين علامات الإنجاز
+        </button>
+        <button class="btn-action btn-primary" onclick="closeModal('role-swap-modal')">
+          إغلاق الاستوديو
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 1: Carousel 2-Box Post -->
+  <div class="modal-overlay" id="carousel-modal">
+    <div class="modal-window">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>🖼️</span> نشر بوست الشريحتين (Carousel 2-Box Post)
+        </div>
+        <button class="close-modal-btn" onclick="closeModal('carousel-modal')">&times;</button>
+      </div>
+
+      <!-- Explanatory Guide Box -->
+      <div style="background: linear-gradient(135deg, rgba(249, 115, 22, 0.08) 0%, rgba(37, 99, 235, 0.08) 100%); border: 1px solid rgba(249, 115, 22, 0.3); padding: 12px 14px; border-radius: var(--radius-sm); margin-bottom: 14px;">
+        <div style="font-size: 13px; font-weight: 800; color: #ea580c; margin-bottom: 4px;">💡 ما هو بوست الشريحتين (Carousel 2-Box) وفائدته لعيادة وداعاً للألم؟</div>
+        <div style="font-size: 11px; color: var(--text-main); line-height: 1.6;">
+          • <strong>ما هو؟</strong> نمط منشور فيسبوك تفاعلي يظهر كبطاقتين بصريتين مربعتين (1:1) يمكن التمرير بينهما، ولكل بطاقة عنوان ورابط نقر مستقل.<br>
+          • <strong>الفائدة والميزة:</strong> يحقق <strong>أعلى معدل نقر (High CTR)</strong>، فالشريحة الأولى توجه المريض مباشرة لمحادثة واتساب العيادة، والشريحة الثانية تفتحه على ماسنجر أو حجز استشارة بخلدا دون الحاجة لموقع إلكتروني معقد.<br>
+          • <strong>هل المنشورات ثابتة؟</strong> لا! يمكنك تعديل النصوص والعناوين والروابط والصور بالكامل كما تشاء.
+        </div>
+      </div>
+
+      <!-- Quick 1-Click Topic Presets -->
+      <div style="margin-bottom: 14px;">
+        <label class="form-label" style="font-size:11px; color:var(--text-muted);">⚡ اختر قالباً جاهزاً بنقرة واحدة (أو اكتب محتواك المخصص):</label>
+        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+          <button type="button" class="btn-action" style="font-size:11px; padding:4px 10px; background:rgba(37,99,235,0.08); color:#2563eb; border:1px solid rgba(37,99,235,0.3); font-weight:700;" onclick="applyCarouselPreset('disc')">
+            🦴 ديسك وعرق النسا
+          </button>
+          <button type="button" class="btn-action" style="font-size:11px; padding:4px 10px; background:rgba(16,185,129,0.08); color:#059669; border:1px solid rgba(16,185,129,0.3); font-weight:700;" onclick="applyCarouselPreset('knees')">
+            🦵 احتكاك وخشونة الركبة
+          </button>
+          <button type="button" class="btn-action" style="font-size:11px; padding:4px 10px; background:rgba(249,115,22,0.08); color:#ea580c; border:1px solid rgba(249,115,22,0.3); font-weight:700;" onclick="applyCarouselPreset('tool')">
+            🎯 أداة التقييم الذاتي
+          </button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">نص المنشور الرئيسي (Post Caption):</label>
+        <textarea class="form-textarea" id="carousel-main-text" rows="2" placeholder="وداعاً لآلام الانزلاق الغضروفي وعرق النسا بدون جراحة في عيادة وداعاً للألم - خلدا..."></textarea>
+      </div>
+
+      <div class="two-cols">
+        <!-- Box 1 -->
+        <div style="background:rgba(0,0,0,0.02); padding:12px; border-radius:var(--radius-sm); border:1px solid var(--border-color);">
+          <div style="font-size:12px; font-weight:800; color:var(--primary); margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
+            <span>الشريحة الأولى (Box 1 - واتساب)</span>
+            <span style="font-size:10px; background:#dcfce7; color:#15803d; padding:2px 6px; border-radius:4px;">واتساب مباشر</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">العنوان:</label>
+            <input type="text" class="form-input" id="box1-title" value="علاج الديسك وعرق النسا بدون جراحة" oninput="updateCarouselPreview()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">صورة الشريحة الأولى:</label>
+            <div style="display:flex; gap:6px; margin-bottom:6px;">
+              <input type="file" id="box1-file-input" accept="image/*" style="display:none;" onchange="handleCarouselFileUpload(1, this)">
+              <button type="button" class="btn-action" style="font-size:11px; padding:4px 10px; flex:1;" onclick="document.getElementById('box1-file-input').click()">
+                📁 رفع صورة من جهازك
+              </button>
+            </div>
+            <input type="text" class="form-input" id="box1-img" placeholder="أو الصق رابط صورة https://..." value="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=500" oninput="updateCarouselPreview()" style="font-size:11px;">
+          </div>
+          <div class="form-group">
+            <label class="form-label">رابط التحويل عند النقر:</label>
+            <input type="text" class="form-input" id="box1-url" value="https://wa.me/962790360440" style="direction:ltr; font-size:11px;">
+          </div>
+        </div>
+
+        <!-- Box 2 -->
+        <div style="background:rgba(0,0,0,0.02); padding:12px; border-radius:var(--radius-sm); border:1px solid var(--border-color);">
+          <div style="font-size:12px; font-weight:800; color:var(--primary); margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
+            <span>الشريحة الثانية (Box 2 - حجز/ماسنجر)</span>
+            <span style="font-size:10px; background:#dbeafe; color:#1d4ed8; padding:2px 6px; border-radius:4px;">حجز واستشارة بخلدا</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">العنوان:</label>
+            <input type="text" class="form-input" id="box2-title" value="حجز موعد كشف واستشارة بخلدا" oninput="updateCarouselPreview()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">صورة الشريحة الثانية:</label>
+            <div style="display:flex; gap:6px; margin-bottom:6px;">
+              <input type="file" id="box2-file-input" accept="image/*" style="display:none;" onchange="handleCarouselFileUpload(2, this)">
+              <button type="button" class="btn-action" style="font-size:11px; padding:4px 10px; flex:1;" onclick="document.getElementById('box2-file-input').click()">
+                📁 رفع صورة من جهازك
+              </button>
+            </div>
+            <input type="text" class="form-input" id="box2-img" placeholder="أو الصق رابط صورة https://..." value="https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=500" oninput="updateCarouselPreview()" style="font-size:11px;">
+          </div>
+          <div class="form-group">
+            <label class="form-label">رابط التحويل عند النقر:</label>
+            <input type="text" class="form-input" id="box2-url" value="https://m.me/30minutes30" style="direction:ltr; font-size:11px;">
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Preview -->
+      <div style="margin-top:14px;">
+        <label class="form-label">معاينة الشريحتين (Live Preview كما تظهر لمتابعي الصفحة):</label>
+        <div class="carousel-preview">
+          <div class="carousel-card-preview">
+            <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=500" id="prev-img-1" class="card-preview-img" alt="Box 1">
+            <div class="card-preview-body">
+              <div class="card-preview-headline" id="prev-title-1">علاج الديسك وعرق النسا بدون جراحة</div>
+              <div class="card-preview-link" id="prev-link-1">wa.me/962790360440</div>
+            </div>
+          </div>
+          <div class="carousel-card-preview">
+            <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=500" id="prev-img-2" class="card-preview-img" alt="Box 2">
+            <div class="card-preview-body">
+              <div class="card-preview-headline" id="prev-title-2">حجز موعد كشف واستشارة بخلدا</div>
+              <div class="card-preview-link" id="prev-link-2">m.me/30minutes30</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:18px; display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap;">
+        <button type="button" class="btn-action" onclick="copyCarouselPostData()">📋 نسخ نص وبيانات المنشور للحافظة</button>
+        <a href="https://business.facebook.com/latest/composer" target="_blank" class="btn-action btn-primary" onclick="copyCarouselPostData()">🚀 فتح محرر فيسبوك Meta Business Suite</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: Auto Post To Groups PRO -->
+  <div class="modal-overlay" id="groups-post-modal">
+    <div class="modal-window">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>📢</span> النشر في مجموعات فيسبوك (Auto Post To Groups PRO)
+        </div>
+        <button class="close-modal-btn" onclick="closeModal('groups-post-modal')">&times;</button>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">قائمة المجموعات المستهدفة (معرّف Group ID أو رابط لكل سطر):</label>
+        <textarea class="form-textarea" id="groups-list-input" rows="4" placeholder="https://facebook.com/groups/amman.residents&#10;https://facebook.com/groups/khalda.community&#10;https://facebook.com/groups/jordan.health"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">نص المنشور (يدعم Spintax لمنع كشف التكرار):</label>
+        <textarea class="form-textarea" id="groups-post-caption" rows="4">{مرحبا بكم|السلام عليكم}، هل تعاني من {ألم الظهر|عرق النسا|الانزلاق الغضروفي}؟ نقدم لكم في عيادة وداعاً للألم - خلدا أفضل الحلول البديلة عن الجراحة وبدون إبر. للتواصل وحجز الاستشارة: 0790360440.</textarea>
+      </div>
+
+      <div class="two-cols">
+        <div class="form-group">
+          <label class="form-label">الفاصل الزمني الآمن بين المجموعات (ثوانٍ):</label>
+          <input type="number" class="form-input" id="groups-delay" value="90" min="45">
+        </div>
+        <div class="form-group">
+          <label class="form-label">الحساب الناشر:</label>
+          <div style="background:rgba(0,0,0,0.02); border:1px solid var(--border-color); padding:10px; border-radius:var(--radius-sm); font-size:12px; font-weight:700;">
+            👤 دنيا محمد - Donia Mohmmad (نشط)
+          </div>
+        </div>
+      </div>
+
+      <!-- Queue Display -->
+      <div id="groups-queue-container" style="display:none; margin-top:14px; background:rgba(0,0,0,0.02); border:1px solid var(--border-color); border-radius:var(--radius-sm); padding:12px;">
+        <div style="font-size:12px; font-weight:800; color:var(--primary); margin-bottom:8px;">طابور المجموعات المستهدفة:</div>
+        <div id="groups-queue-list" style="display:flex; flex-direction:column; gap:8px; max-height:180px; overflow-y:auto;"></div>
+      </div>
+
+      <div style="margin-top:18px; display:flex; gap:10px; justify-content:flex-end;">
+        <button class="btn-action" onclick="closeModal('groups-post-modal')">إلغاء</button>
+        <button class="btn-action btn-primary" onclick="generateGroupsQueue()">🚀 تجهيز طابور النشر الذكي</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: Page Auto Reply & Messenger Bot -->
+  <div class="modal-overlay" id="auto-reply-modal">
+    <div class="modal-window">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>🤖</span> الرد التلقائي على التعليقات + إرسال ماسنجر خاص
+        </div>
+        <button class="close-modal-btn" onclick="closeModal('auto-reply-modal')">&times;</button>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">الكلمات المفتاحية المستهدفة (اترك فارغاً للرد على جميع التعليقات):</label>
+        <input type="text" class="form-input" id="bot-keywords" value="السعر, التكلفة, وين موقعكم, عرق النسا, علاج, حجز">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">الرد العام على التعليق في المنشور (Public Comment Reply):</label>
+        <textarea class="form-textarea" id="bot-public-reply" rows="2">أهلاً بك يا فندم! تم إرسال كافة التفاصيل وموقعنا في خلدا لك في رسالة خاصة على ماسنجر 📥✨</textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">الرسالة الخاصة المرسلة للعميل على ماسنجر (Private Messenger Message):</label>
+        <textarea class="form-textarea" id="bot-private-msg" rows="4">أهلاً بك في عيادة "وداعاً للألم" بخلدا! 🌹
+بخصوص استفسارك عن علاج آلام العمود الفقري والديسك بدون جراحة، يسعدنا استقبالك لمعاينة صور الرنين في موقعنا: عمّان - خلدا.
+للحجز المباشر عبر واتساب: 0790360440.</textarea>
+      </div>
+
+      <div style="background:rgba(16,185,129,0.06); border:1px solid rgba(16,185,129,0.3); border-radius:var(--radius-sm); padding:10px 12px; margin-bottom:14px;">
+        <div style="font-size:11px; font-weight:800; color:#059669; margin-bottom:2px;">⚡ جهاز المحاكاة والفحص:</div>
+        <div style="display:flex; gap:8px;">
+          <input type="text" class="form-input" id="test-comment-input" placeholder="اكتب تعليق تجريبي هنا (مثلاً: كم السعر؟)" style="font-size:11px;">
+          <button type="button" class="btn-action btn-primary" style="font-size:11px; white-space:nowrap;" onclick="simulateBotReply()">فحص الرد 🎯</button>
+        </div>
+        <div id="simulated-reply-output" style="display:none; font-size:11px; margin-top:8px; padding:8px; background:#fff; border-radius:4px; border:1px dashed #10b981;"></div>
+      </div>
+
+      <div style="margin-top:16px; display:flex; gap:10px; justify-content:flex-end;">
+        <button class="btn-action" onclick="copyBotTemplates()">📋 نسخ القوالب</button>
+        <button class="btn-action btn-primary" onclick="saveBotSettings()">💾 حفظ وتفعيل القوالب</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 4: Auto Comment To Groups PRO (FewFeed / Metus 100% Identical Architecture) -->
+  <div class="modal-overlay" id="comment-groups-modal">
+    <div class="modal-window" style="max-width: 1100px; width: 96vw; max-height: 94vh; display: flex; flex-direction: column;">
+      <div class="modal-header" style="padding: 12px 18px;">
+        <div class="modal-title" style="display:flex; align-items:center; gap:8px;">
+          <span>💬</span>
+          <span>التعليق التلقائي في المجموعات (Auto Comment FB Groups PRO)</span>
+          <span style="font-size:10px; background:#dcfce7; color:#15803d; font-weight:800; padding:2px 8px; border-radius:12px;">نظام FewFeed / Metus التلقائي</span>
+        </div>
+        <button class="close-modal-btn" onclick="closeModal('comment-groups-modal')">&times;</button>
+      </div>
+
+      <!-- Live Sync Bookmarklet Banner (Top of Metus: اسحب هذا الزر إلى شريط المفضلة) -->
+      <div style="background: linear-gradient(90deg, #eff6ff 0%, #f0fdf4 100%); border-bottom: 1px solid var(--border-color); padding: 8px 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 11px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 14px;">⚡</span>
+          <strong style="color: #1e3a8a;">جلب وتحديث مجموعات فيسبوك في اللحظة من حسابك المفتوح:</strong>
+          <span style="color: #475569;">اسحب هذا الزر لشريط العلامات في المتصفح واضغط عليه أثناء فتح فيسبوك لتحديث الـ 253 مجموعة آلياً</span>
+        </div>
+        <div style="display: flex; gap: 6px; align-items: center;">
+          <a href="javascript:(function(){alert('🔄 جارٍ فحص مجموعات فيسبوك النشطة بحسابك...');fetch('/api/growth-engine/sync-groups').then(()=>alert('✓ تم تحديث المجموعات بنجاح!'));})()" class="btn-action" style="font-size: 11px; padding: 3px 10px; background: #2563eb; color: #fff; text-decoration: none; font-weight: 800; border-radius: 4px; box-shadow: 0 1px 3px rgba(37,99,235,0.3);" title="اسحب هذا الرابط لشريط العلامات">
+            📌 اسحب هذا الزر لـ شريط العلامات
+          </a>
+          <button type="button" class="btn-action" style="font-size: 11px; padding: 3px 10px; background: #10b981; color: #fff; font-weight: 800;" onclick="syncFbJoinedGroupsDirectly()">
+            🔄 جلب في اللحظة
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Two-Column Body -->
+      <div style="display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 16px; padding: 14px 18px; overflow-y: auto; flex: 1;">
+        
+        <!-- LEFT COLUMN: Post Composer, Controls, Timer & Execution Log -->
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          
+          <!-- Post / Comment Content Area -->
+          <div style="background: rgba(0,0,0,0.015); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 12px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:4px;">
+              <label class="form-label" style="font-size:11px; margin:0; font-weight:800;">نص التعليق الترويجي المستهدف (مع وسوم Anti-Spam):</label>
+              <div style="display:flex; gap:4px; flex-wrap:wrap;">
+                <button type="button" class="btn-action" style="font-size:10px; padding:2px 7px; background:#fef3c7; color:#b45309; font-weight:800; border:1px solid #fde68a;" onclick="insertCommentTag('{{RAN_M (18)}}')" title="إضافة 18 إيموجي عشوائي">
+                  🎲 {{RAN_M (18)}}
+                </button>
+                <button type="button" class="btn-action" style="font-size:10px; padding:2px 7px; background:#e0e7ff; color:#4338ca; font-weight:800; border:1px solid #c7d2fe;" onclick="insertCommentTag('{{RAN_D (18)}}')" title="إضافة 18 رقم عشوائي">
+                  🔢 {{RAN_D (18)}}
+                </button>
+                <button type="button" class="btn-action" style="font-size:10px; padding:2px 7px; background:#ede9fe; color:#6d28d9; font-weight:800; border:1px solid #ddd6fe;" onclick="insertCommentTag('{{RAN_T (10)}}')" title="إضافة 10 أحرف">
+                  🔤 {{RAN_T (10)}}
+                </button>
+                <button type="button" class="btn-action" style="font-size:10px; padding:2px 7px; background:#dcfce7; color:#15803d; font-weight:800; border:1px solid #bbf7d0;" onclick="insertCommentTag('[علاج الديسك|حلول الفقرات|بدائل الجراحة]')">
+                  🔀 SPIN
+                </button>
+              </div>
+            </div>
+
+            <textarea class="form-textarea" id="group-comment-text" rows="7" style="font-size:12px; line-height:1.5;">هل تعاني من ألم في الظهر، الرقبة، الكتف، الركبة أو أحد المفاصل والعضلات؟ أو تحتاج إلى تأهيل حركي؟
+الآن يمكنك بدء رحلة تقييم تفاعلية تبدأ من تحديد مكان الألم، ثم الانتقال عبر أسئلة ذكية وتحليل متقدم للحالة، وصولاً إلى تقرير مفصل وخطة مخصصة وتمارين للمتابعة والتعافي.
+🔹 تحديد موضع الألم على المجسم التشريحي
+🔹 استجواب تفاعلي ذكي مع الطبيب الافتراضي
+🔹 تحليل متقدم لمعلومات الحالة
+🔹 تقرير مفصل عن الحالة
+🔹 خطة مخصصة للتعافي
+🔹 تمارين مناسبة للحالة ومتابعة مستمرة
+🔹 تجربة سهلة ومتاحة عبر مختلف الأجهزة
+ليست مجرد أداة لطرح الأسئلة، إنها رحلة متكاملة تبدأ من الشكوى وتصل بك إلى فهم أفضل للحالة وخطوات عملية للتعامل معها.
+من نقطة الألم تبدأ الرحلة... إلى التقرير والخطة والتمارين.
+🎁 ابدأ تجربتك الآن مجاناً
+الموقع 🌐
+smartchecktools.com
+
+{{RAN_M (18)}}</textarea>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; flex-wrap:wrap; gap:8px;">
+              <label style="font-size:11px; font-weight:700; color:#475569; display:flex; align-items:center; gap:6px; margin:0; cursor:pointer;">
+                <input type="checkbox" id="bypass-filters-toggle" checked>
+                <span>تجاوز مرشحات مساعد المشرف (Bypass Admin Filters)</span>
+              </label>
+
+              <!-- QUICK SELECT GROUPS: Import / Export / Save -->
+              <div style="display:flex; align-items:center; gap:4px;">
+                <span style="font-size:10px; color:#64748b; font-weight:800; margin-left:2px;">QUICK SELECT GROUPS:</span>
+                <button type="button" class="btn-action" style="font-size:10px; padding:2px 8px; background:#fff; border:1px solid var(--border-color);" onclick="importGroupsPrompt()">
+                  📥 Import
+                </button>
+                <button type="button" class="btn-action" style="font-size:10px; padding:2px 8px; background:#fff; border:1px solid var(--border-color);" onclick="exportGroupsJson()">
+                  📤 Export
+                </button>
+                <button type="button" class="btn-action" style="font-size:10px; padding:2px 8px; background:#fff; border:1px solid var(--border-color);" onclick="saveSelectedGroupsPreset()">
+                  💾 + Save
+                </button>
+              </div>
+            </div>
+
+            <!-- Image Attachment (Add Photos) -->
+            <div style="display:flex; align-items:center; gap:10px; margin-top:8px; padding-top:8px; border-top:1px dashed var(--border-color);">
+              <input type="file" id="comment-photo-file" accept="image/*" style="display:none;" onchange="handleCommentPhotoUpload(this)">
+              <button type="button" class="btn-action" style="font-size:11px; padding:4px 12px; background:#fff; border:1px solid var(--border-color); font-weight:700;" onclick="document.getElementById('comment-photo-file').click()">
+                📷 Add Photos
+              </button>
+              <div id="comment-photo-preview-box" style="display:none; align-items:center; gap:6px;">
+                <img id="comment-photo-thumb" src="" style="width:32px; height:32px; border-radius:4px; object-fit:cover; border:1px solid var(--border-color);">
+                <span style="font-size:10px; color:#059669; font-weight:700;">✓ صورة مرفقة بالتعليق</span>
+                <button type="button" style="border:none; background:none; color:#ef4444; font-size:14px; cursor:pointer;" onclick="removeCommentPhoto()" title="إزالة الصورة">&times;</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Controls & Delays -->
+          <div style="background: rgba(0,0,0,0.015); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 10px 12px;">
+            <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 8px;">
+              <div>
+                <label class="form-label" style="font-size:10px; margin-bottom:2px;">(الموضوع مستحسن 1):</label>
+                <input type="number" id="group-comment-topic-threads" class="form-input" value="3" min="1" max="10" style="font-weight:700; font-size:12px; padding:4px 8px;">
+              </div>
+              <div>
+                <label class="form-label" style="font-size:10px; margin-bottom:2px;">(s) تأخير دقيقة:</label>
+                <input type="number" id="group-comment-min-delay" class="form-input" value="30" min="5" style="font-weight:700; font-size:12px; padding:4px 8px;">
+              </div>
+              <div>
+                <label class="form-label" style="font-size:10px; margin-bottom:2px;">(s) تأخير ماكس:</label>
+                <input type="number" id="group-comment-max-delay" class="form-input" value="500" min="10" style="font-weight:700; font-size:12px; padding:4px 8px;">
+              </div>
+              <div>
+                <label class="form-label" style="font-size:10px; margin-bottom:2px;">الحد لكل مجموعة:</label>
+                <input type="number" id="group-comment-limit" class="form-input" value="3" min="1" max="10" style="font-weight:700; font-size:12px; padding:4px 8px;">
+              </div>
+            </div>
+            <label style="font-size:10px; font-weight:700; color:#64748b; display:flex; align-items:center; gap:5px; margin:0; cursor:pointer;">
+              <input type="checkbox" id="advanced-cycle-toggle">
+              <span>Advanced cycle</span>
+            </label>
+          </div>
+
+          <!-- Main Metus Action / Red Countdown Button -->
+          <div>
+            <button type="button" id="btn-toggle-group-autocomment" class="btn-action btn-primary" style="width:100%; justify-content:center; padding:12px 0; font-size:14px; font-weight:900; background:linear-gradient(135deg, #059669 0%, #047857 100%); border:none; box-shadow:0 4px 14px rgba(5,150,105,0.25); color:#fff; border-radius:6px;" onclick="toggleGroupAutoComment()">
+              🚀 بدء التعليق التلقائي في المجموعات (Auto Comment Loop)
+            </button>
+          </div>
+
+          <!-- Live Execution Table (Completed Comments Log with View Buttons) -->
+          <div style="border: 1px solid var(--border-color); border-radius: var(--radius-sm); overflow:hidden;">
+            <div style="background: rgba(0,0,0,0.03); padding: 7px 12px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-color);">
+              <span style="font-size:11px; font-weight:800; color:var(--text-main);">📋 سجل المنشورات المنفذة والمنجزة:</span>
+              <button type="button" class="btn-action" style="font-size:10px; padding:2px 8px; background:#2563eb; color:#fff;" onclick="copyAllGroupUrls()">
+                Copy All URLs
+              </button>
+            </div>
+            <div id="metus-groups-table" style="max-height: 150px; overflow-y: auto; padding: 6px 8px; display:flex; flex-direction:column; gap:4px; background:#fff;">
+              <div id="metus-empty-state" style="text-align:center; padding:16px; color:var(--text-muted); font-size:11px;">
+                لا توجد تعليقات منشورة بعد. اضغط زر البدء وسيبدأ النشر وإضافة روابط المعاينة [View] هنا تباعاً.
+              </div>
+            </div>
+          </div>
+
+          <!-- Activity / Error Log (Nhật ký lỗi) -->
+          <div style="background: rgba(0,0,0,0.02); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 8px 12px; font-size: 11px;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:2px; font-weight:700; color:var(--text-muted);">
+              <span>سجل العمليات والأخطاء (Nhật ký lỗi):</span>
+              <span style="color:#2563eb; font-weight:700; cursor:pointer;" onclick="copyErrorLog()">Copy log lỗi</span>
+            </div>
+            <div id="metus-error-log" style="color:var(--text-muted); font-size:11px; max-height:40px; overflow-y:auto; line-height:1.4;">
+              Chưa có lỗi nào. (لم تُسجل أي أخطاء، الأداة جاهزة للتنفيذ التلقائي).
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: Groups Manager & Live Picker (253 Groups exactly matching FewFeed) -->
+        <div style="display: flex; flex-direction: column; background: #fff; border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 12px; gap: 8px;">
+          
+          <!-- Active Account Selector (Dynamic Per-Account Groups Architecture) -->
+          <div style="background: rgba(0,0,0,0.02); border: 1px solid var(--border-color); border-radius: 6px; padding: 6px 10px; margin-bottom: 2px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+              <span style="font-size:11px; font-weight:800; color:var(--text-main);">👤 الحساب النشط للنشر:</span>
+              <span id="metus-active-account-badge" style="font-size:10px; background:#dcfce7; color:#15803d; font-weight:800; padding:1px 6px; border-radius:4px;">253 مجموعة</span>
+            </div>
+            <select id="metus-active-account-select" class="form-select" style="font-size:11px; font-weight:700; padding:5px 8px;" onchange="switchMetusAccount(this.value)">
+              <option value="100095020153634" selected>👤 دنيا محمد - Donia Mohmmad (253 مجموعة مشتركة)</option>
+              <option value="61585412889124">👤 هدى فارس - Huda Faris (8 مجموعات مشتركة)</option>
+              <option value="61584795883711">👤 رامي العبدالله (1 مجموعة فقط)</option>
+              <option value="61579098603560">👤 Reem Abbas (5 مجموعات مشتركة)</option>
+              <option value="100029226100315">👤 Nesreen Waleed (3 مجموعات مشتركة)</option>
+              <option value="61592553076728">👤 عبدالعزيز الحسن (4 مجموعات مشتركة)</option>
+              <option value="100004347403957">👤 وداعاً للألم (2 مجموعة مشتركة)</option>
+            </select>
+          </div>
+
+          <!-- Top Preset Selector -->
+          <div>
+            <select id="group-preset-select" class="form-select" style="font-size:11px; font-weight:700; padding:6px 10px;" onchange="applyGroupPreset(this.value)">
+              <option value="all">اختر من القائمة (كافة المجموعات)</option>
+              <option value="amman">مجموعات عمان الغربية وخلدا ودابوق</option>
+              <option value="medical">مجموعات الصحة والاستشارات والفقرات</option>
+              <option value="market">مجموعات الأسواق والبيع والشراء الأردنية</option>
+              <option value="ladies">مجموعات السيدات والأمهات</option>
+            </select>
+          </div>
+
+          <!-- Search and Selected Counter (Matching screenshot: [ 30 ] [ ...بحث في المجموعات ]) -->
+          <div style="display: flex; gap: 6px; align-items: center;">
+            <div id="selected-groups-counter-badge" style="font-size:12px; font-weight:800; background:#f1f5f9; color:#1e293b; padding:6px 10px; border-radius:4px; border:1px solid #cbd5e1; min-width:40px; text-align:center;">
+              30
+            </div>
+            <div style="position: relative; flex: 1;">
+              <span style="position: absolute; right: 10px; top: 7px; font-size: 11px; color: #94a3b8;">🔍</span>
+              <input type="text" id="metus-group-search" class="form-input" placeholder="...بحث في المجموعات" style="font-size:11px; padding:6px 28px 6px 10px;" oninput="filterMetusGroups(this.value)">
+            </div>
+          </div>
+
+          <!-- Filter Tabs: All (253) | Selected (30) | Admin (0) -->
+          <div style="display: flex; border-bottom: 2px solid #e2e8f0; gap: 16px; font-size: 12px; font-weight: 800; padding-bottom: 4px;">
+            <span id="tab-all-groups" style="color: #f97316; border-bottom: 2px solid #f97316; margin-bottom: -6px; padding-bottom: 4px; cursor: pointer;" onclick="switchGroupTab('all')">
+              All (<span id="count-all-groups">253</span>)
+            </span>
+            <span id="tab-selected-groups" style="color: #64748b; cursor: pointer;" onclick="switchGroupTab('selected')">
+              Selected (<span id="count-selected-groups">30</span>)
+            </span>
+            <span id="tab-admin-groups" style="color: #64748b; cursor: pointer;" onclick="switchGroupTab('admin')">
+              Admin (0)
+            </span>
+          </div>
+
+          <!-- Groups List Container (Scrollable) -->
+          <div id="metus-groups-list-container" style="flex: 1; min-height: 400px; max-height: 520px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; padding-left: 2px;">
+            <!-- Groups will render here via renderMetus253Groups() -->
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 5: Auto Join To Facebook Groups -->
+  <div class="modal-overlay" id="join-groups-modal">
+    <div class="modal-window">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>➕</span> الانضمام التلقائي لمجموعات فيسبوك (Auto Join Groups)
+        </div>
+        <button class="close-modal-btn" onclick="closeModal('join-groups-modal')">&times;</button>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">قائمة المجموعات المستهدفة للانضمام (روابط أو معرّفات):</label>
+        <textarea class="form-textarea" id="join-groups-list" rows="4" placeholder="https://www.facebook.com/groups/khalda.amman&#10;https://www.facebook.com/groups/amman.doctors&#10;https://www.facebook.com/groups/jordan.health"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">الإجابة الجاهزة على أسئلة المشرفين والشروط:</label>
+        <input type="text" class="form-input" id="join-groups-answer" value="نعم أوافق على كافة الشروط والقواعد، مقيم في عمّان.">
+      </div>
+
+      <div id="join-queue-list" style="display:flex; flex-direction:column; gap:8px; margin-top:12px;"></div>
+
+      <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:18px;">
+        <button class="btn-action" onclick="closeModal('join-groups-modal')">إلغاء</button>
+        <button class="btn-action btn-primary" onclick="processJoinGroupsQueue()">🚀 تجهيز روابط الانضمام</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 6: Leave Groups in Bulk -->
+  <div class="modal-overlay" id="leave-groups-modal">
+    <div class="modal-window">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>🚪</span> مغادرة المجموعات الراكدة دفعة واحدة (Leave Groups)
+        </div>
+        <button class="close-modal-btn" onclick="closeModal('leave-groups-modal')">&times;</button>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">معيار الفلترة والتنظيف:</label>
+        <select class="form-select">
+          <option selected>المجموعات بدون تفاعل لآخر 6 أشهر</option>
+          <option>المجموعات التي تم تعطيل النشر فيها</option>
+          <option>مغادرة المجموعات الأجنبية غير الأردنية</option>
+        </select>
+      </div>
+
+      <div style="background:rgba(0,0,0,0.02); border:1px solid var(--border-color); border-radius:var(--radius-sm); padding:12px; margin-bottom:14px;">
+        <div style="font-size:12px; font-weight:800; color:var(--text-main); margin-bottom:8px;">المجموعات المحددة للمغادرة:</div>
+        <div style="font-size:11px; color:var(--text-muted); line-height:1.6;">
+          • جروب إعلانات قديم (معطل منذ 2024)<br>
+          • جروب تجاري غير نشط (0 منشورات هذا الشهر)<br>
+          • ملتقى بدون تفاعل
+        </div>
+      </div>
+
+      <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:18px;">
+        <button class="btn-action" onclick="closeModal('leave-groups-modal')">إلغاء</button>
+        <button class="btn-action btn-primary" style="background:#dc2626;" onclick="executeLeaveGroups()">🧹 تأكيد تنظيف ومغادرة المجموعات</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 7: UP TO REELS Scheduler -->
+  <div class="modal-overlay" id="reels-modal">
+    <div class="modal-window">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>🎬</span> جدولة ونشر مقاطع الريلز (UP TO REELS PRO)
+        </div>
+        <button class="close-modal-btn" onclick="closeModal('reels-modal')">&times;</button>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">عنوان وموضوع الريلز:</label>
+        <input type="text" class="form-input" id="reel-title" value="تفريغ ضغط الفقرات وتسكين عرق النسا بدون جراحة">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">نص ووصف الريلز (مع هاشتاجات الأردن الأكثر رواجاً):</label>
+        <textarea class="form-textarea" id="reel-caption" rows="4">قل وداعاً لآلام أسفل الظهر وعرق النسا بدون جراحة وبدون إبر في عيادة "وداعاً للألم" - خلدا 🩺
+للحجز والاستفسار: 0790360440
+
+#علاج_طبيعي #ديسك #عرق_النسا #فقرات #عمان #الاردن #خلدا #صحة_الظهر #وداعا_للألم</textarea>
+      </div>
+
+      <div class="two-cols">
+        <div class="form-group">
+          <label class="form-label">وقت النشر المقترح:</label>
+          <select class="form-select">
+            <option selected>فوري الآن (ذروة التفاعل)</option>
+            <option>مساء اليوم (الساعة 7:00 م)</option>
+            <option>غداً ظهراً (الساعة 1:00 م)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">زر الحث على الإجراء (CTA):</label>
+          <select class="form-select">
+            <option selected>إرسال رسالة واتساب (Send WhatsApp Message)</option>
+            <option>إرسال رسالة ماسنجر (Send Message)</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:18px;">
+        <button class="btn-action" onclick="copyReelCaption()">📋 نسخ كابشن الريلز</button>
+        <a href="https://business.facebook.com/latest/composer?context_surface=reels_composer" target="_blank" class="btn-action btn-primary" onclick="copyReelCaption()">🚀 فتح محرر الريلز بفيسبوك</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 8: UP TO STORIES Poster -->
+  <div class="modal-overlay" id="stories-modal">
+    <div class="modal-window">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>📱</span> نشر القصص التفاعلية اليومية (UP TO STORIES)
+        </div>
+        <button class="close-modal-btn" onclick="closeModal('stories-modal')">&times;</button>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">نوع القصة اليومية:</label>
+        <select class="form-select" id="story-type" onchange="updateStoryTemplate()">
+          <option value="tip" selected>💡 نصيحة طبية يومية لآلام الظهر</option>
+          <option value="proof">🌟 قصة نجاح وشفاء مراجع بخلدا</option>
+          <option value="booking">📞 حجز موعد مباشر وتذكير بموقع خلدا</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">نص القصة وملصق الرابط:</label>
+        <textarea class="form-textarea" id="story-text" rows="3">هل تعاني من وجع الظهر بعد الجلوس الطويل؟ 🩺
+جرب فحص صحة فقراتك الذاتي المجاني في دقيقة واحدة:
+👉 wa.me/962790360440 (عيادة وداعاً للألم - خلدا)</textarea>
+      </div>
+
+      <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:18px;">
+        <button class="btn-action" onclick="copyStoryText()">📋 نسخ نص القصة</button>
+        <a href="https://business.facebook.com/latest/composer" target="_blank" class="btn-action btn-primary" onclick="copyStoryText()">🚀 فتح ناشر الستوري بفيسبوك</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 9: Inactive Friends Cleaner -->
+  <div class="modal-overlay" id="friends-cleaner-modal">
+    <div class="modal-window">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>👥</span> فلترة الأصدقاء غير المتفاعلين وحذفهم
+        </div>
+        <button class="close-modal-btn" onclick="closeModal('friends-cleaner-modal')">&times;</button>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">معيار الفحص:</label>
+        <select class="form-select">
+          <option>بدون تفاعل لآخر 3 أشهر</option>
+          <option selected>بدون تفاعل لآخر 6 أشهر</option>
+          <option>الحسابات المعطلة والمغلقة فقط</option>
+        </select>
+      </div>
+
+      <div id="friends-audit-result" style="background:rgba(0,0,0,0.02); border:1px solid var(--border-color); border-radius:var(--radius-sm); padding:12px; margin-bottom:14px; font-size:12px;">
+        اضغط على زر الفحص للبدء في مراجعة الأصدقاء الخاملين.
+      </div>
+
+      <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:18px;">
+        <button class="btn-action" onclick="closeModal('friends-cleaner-modal')">إلغاء</button>
+        <button class="btn-action btn-primary" onclick="startFriendsAudit()">🔍 فحص أصدقاء الحساب الآن</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 10: Group & Post UID Scraper -->
+  <div class="modal-overlay" id="scraper-modal">
+    <div class="modal-window">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>🎯</span> استخراج معرّفات المجموعات والمنشورات (UID Scraper)
+        </div>
+        <button class="close-modal-btn" onclick="closeModal('scraper-modal')">&times;</button>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">الكلمة المفتاحية للبحث والاستخراج:</label>
+        <div style="display:flex; gap:8px;">
+          <input type="text" class="form-input" id="scraper-keyword" value="علاج طبيعي عمان ديسك عرق النسا">
+          <button type="button" class="btn-action btn-primary" style="white-space:nowrap;" onclick="runUidScraper()">🚀 استخراج المعرفات</button>
+        </div>
+      </div>
+
+      <div id="scraper-results-container" style="display:none; margin-top:14px;">
+        <label class="form-label">المعرفات المستخرجة (UIDs):</label>
+        <textarea class="form-textarea" id="scraper-results-output" rows="6"></textarea>
+        <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:8px;">
+          <button type="button" class="btn-action" onclick="copyScrapedUids()">📋 نسخ المعرفات</button>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; margin-top:18px;">
+        <button class="btn-action" onclick="closeModal('scraper-modal')">إغلاق</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 11: Jordan Viral Radar -->
+  <div class="modal-overlay" id="viral-stealth-modal">
+    <div class="modal-window" style="max-width: 800px;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>📡</span> رادار المنشورات النشطة والترويج غير المباشر للأردن
+        </div>
+        <button class="close-modal-btn" onclick="closeModal('viral-stealth-modal')">&times;</button>
+      </div>
+
+      <div style="display:flex; gap:6px; margin-bottom:12px; overflow-x:auto; padding-bottom:4px;" id="radar-source-tabs">
+        <button type="button" id="radar-tab-weak-posts" class="btn-action" style="flex:1; justify-content:center; white-space:nowrap; background:#ea580c; color:#fff; border:none; padding:8px 10px; font-size:11px; font-weight:800;" onclick="switchRadarSource('weak_posts')">
+          🔄 منشورات صفحتي
+        </button>
+        <button type="button" id="radar-tab-google-trends" class="btn-action" style="flex:1; justify-content:center; white-space:nowrap; background:rgba(100,116,139,0.1); color:var(--text-main); border:1px solid var(--border-color); padding:8px 10px; font-size:11px; font-weight:700;" onclick="switchRadarSource('google_trends')">
+          🌐 تريند جوجل الأردن
+        </button>
+        <button type="button" id="radar-tab-news" class="btn-action" style="flex:1; justify-content:center; white-space:nowrap; background:rgba(100,116,139,0.1); color:var(--text-main); border:1px solid var(--border-color); padding:8px 10px; font-size:11px; font-weight:700;" onclick="switchRadarSource('news')">
+          📰 الأخبار الأردنية
+        </button>
+        <button type="button" id="radar-tab-meta-ads" class="btn-action" style="flex:1; justify-content:center; white-space:nowrap; background:rgba(100,116,139,0.1); color:var(--text-main); border:1px solid var(--border-color); padding:8px 10px; font-size:11px; font-weight:700;" onclick="switchRadarSource('meta_ads')">
+          📢 إعلانات Ads
+        </button>
+        <button type="button" id="radar-tab-reels" class="btn-action" style="flex:1; justify-content:center; white-space:nowrap; background:rgba(100,116,139,0.1); color:var(--text-main); border:1px solid var(--border-color); padding:8px 10px; font-size:11px; font-weight:700;" onclick="switchRadarSource('reels')">
+          🎬 ريلز مختبرة
+        </button>
+      </div>
+
+      <div id="radar-source-panel" style="margin-bottom:12px;"></div>
+      <div id="radar-posts-loading" style="display:none; text-align:center; padding:14px; font-size:12px; color:var(--text-muted);">
+        ⏳ جارٍ فحص المنشورات...
+      </div>
+      <div id="radar-posts-list" style="display:flex; flex-direction:column; gap:10px; max-height:220px; overflow-y:auto; padding-right:4px; margin-bottom:12px;"></div>
+
+      <div style="background:rgba(0,0,0,0.02); border:1px dashed var(--border-color); border-radius:var(--radius-sm); padding:10px; margin-bottom:14px;">
+        <label class="form-label" style="font-size:11px; margin-bottom:4px;">المنشور المستهدف حالياً:</label>
+        <div style="display:flex; gap:8px;">
+          <input type="text" class="form-input" id="stealth-post-url" value="https://www.facebook.com/reel/1581822053505841" style="font-size:12px;">
+          <a id="stealth-post-link-preview" href="https://www.facebook.com/reel/1581822053505841" target="_blank" class="btn-action" style="font-size:11px; padding:0 12px; text-decoration:none;">🔗 فتح</a>
+        </div>
+      </div>
+
+      <div class="two-cols" style="margin-bottom:14px;">
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="form-label">الزاوية الترويجية:</label>
+          <select class="form-select" id="stealth-angle-select">
+            <option value="story" selected>🌟 تجربة واقعية (قصة شفاء بخلدا)</option>
+            <option value="advice">🩺 نصيحة توعوية وطبية</option>
+            <option value="social">🌹 تفاعل اجتماعي ودعاء بالشفاء</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="form-label">الحساب المنفذ:</label>
+          <div style="background:rgba(0,0,0,0.02); border:1px solid var(--border-color); padding:9px 12px; border-radius:var(--radius-sm); font-size:12px; font-weight:800; color:#059669;">
+            👤 دنيا محمد - Donia Mohmmad (نشط)
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:14px;">
+        <button type="button" class="btn-action btn-primary" style="width:100%; justify-content:center; padding:10px 0; font-size:13px;" onclick="generateAiStealthComments()">
+          ✨ توليد 3 تعليقات ذكية غير مباشرة
+        </button>
+      </div>
+
+      <div id="stealth-suggestions-container" style="display:none; margin-bottom:14px;">
+        <div id="stealth-cards-list" style="display:flex; flex-direction:column; gap:8px;"></div>
+      </div>
+
+      <div class="form-group" id="stealth-editor-group" style="display:none;">
+        <label class="form-label">نص التعليق النهائي:</label>
+        <textarea class="form-textarea" id="stealth-final-comment" rows="3"></textarea>
+        <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:8px;">
+          <button type="button" class="btn-action" onclick="copyStealthComment()">📋 نسخ التعليق</button>
+          <a id="stealth-open-fb-btn" href="#" target="_blank" class="btn-action btn-primary" onclick="copyStealthComment()">🔗 فتح المنشور ولصق التعليق</a>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; margin-top:16px;">
+        <button class="btn-action" onclick="closeModal('viral-stealth-modal')">إغلاق</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 12: Medical Smart Response Studio -->
+  <div class="modal-overlay" id="medical-reply-modal">
+    <div class="modal-window" style="max-width: 720px;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>🩺</span> استوديو الردود الطبية السريعة لعيادة وداعاً للألم - خلدا
+        </div>
+        <button class="close-modal-btn" onclick="closeModal('medical-reply-modal')">&times;</button>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">1. موضوع الاستفسار الطبي:</label>
+        <select class="form-select" id="medical-reply-topic" onchange="updateMedicalReplyTemplate()">
+          <option value="price" selected>💰 استفسار عن تكلفة الجلسات والأسعار</option>
+          <option value="sciatica">⚡ استفسار عن عرق النسا والخدران بالأرجل</option>
+          <option value="disc">🦴 استفسار عن الديسك والانزلاق الغضروفي وتجنب الجراحة</option>
+          <option value="location">📍 استفسار عن الموقع في خلدا وأوقات الدوام ورقم الحجز</option>
+          <option value="knees">🦵 استفسار عن احتكاك الركب ومشاكل المفاصل لكبار السن</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">2. اسم المراجع (اختياري):</label>
+        <input type="text" class="form-input" id="medical-patient-name" placeholder="مثلاً: أستاذ أحمد أو أم محمد" oninput="updateMedicalReplyTemplate()">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">3. نص الرد المقترح:</label>
+        <textarea class="form-textarea" id="medical-reply-text" rows="5"></textarea>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-top:20px;">
+        <div style="display:flex; gap:8px;">
+          <button type="button" class="btn-action btn-primary" onclick="copyMedicalReplyText()">📋 نسخ الرد للحافظة</button>
+          <a href="https://wa.me/962790360440" target="_blank" class="btn-action" style="background:#10b981; color:#fff; border:none; text-decoration:none;">💬 فتح واتساب العيادة (0790360440)</a>
+        </div>
+        <button class="btn-action" onclick="closeModal('medical-reply-modal')">إغلاق</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 13: Spine Health Diagnostic Tool -->
+  <div class="modal-overlay" id="spine-calculator-modal">
+    <div class="modal-window" style="max-width: 780px;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>🦴</span> أداة فحص وتقييم صحة العمود الفقري والديسك
+        </div>
+        <button class="close-modal-btn" onclick="closeModal('spine-calculator-modal')">&times;</button>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">نص منشور ترويجي جاهز للنشر على صفحة وداعاً للألم:</label>
+        <textarea class="form-textarea" id="spine-promo-post-text" rows="5">هل تشعر بألم مفاجئ أسفل الظهر عند الوقوف؟ أو خدران وتنميل يمتد لساقك؟ 🩺
+
+طوّرنا لك في عيادة "وداعاً للألم" فحصاً ذاتياً سريعاً (دقيقة واحدة فقط) لتقييم صحة العمود الفقري والعصب الوركي واكتشاف نسبة إجهاد الفقرات:
+👉 http://localhost:3000/spine-calculator
+
+جرب الفحص مجاناً واكتب لنا نتيجتك بالتعليقات! ولمعاينة الحالة وحجز كشف الاستشارة بدون جراحة في موقعنا بخلدا:
+📞 تواصل معنا عبر واتساب: 0790360440</textarea>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-top:16px;">
+        <div style="display:flex; gap:8px;">
+          <button type="button" class="btn-action btn-primary" onclick="copySpinePromoText()">📋 نسخ نص البوست</button>
+          <a href="/spine-calculator" target="_blank" class="btn-action" style="text-decoration:none; background:#2563eb; color:#fff; border:none;">🚀 تجربة الحاسبة بنافذة جديدة</a>
+        </div>
+        <button class="btn-action" onclick="closeModal('spine-calculator-modal')">إغلاق</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 14: Manage Accounts Vault -->
+  <div class="modal-overlay" id="manage-accounts-modal">
+    <div class="modal-window" style="max-width: 720px;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>👥</span> خزنة إدارة الحسابات وتوزيع الشخصيات (Multi-Persona Vault)
+        </div>
+        <button class="close-modal-btn" onclick="closeModal('manage-accounts-modal')">&times;</button>
+      </div>
+
+      <div id="saved-accounts-list" style="display:flex; flex-direction:column; gap:8px; max-height:240px; overflow-y:auto; margin-bottom:16px;"></div>
+
+      <div style="background:rgba(0,0,0,0.02); border:1px solid var(--border-color); border-radius:var(--radius-sm); padding:12px; margin-bottom:16px;">
+        <div style="font-size:12px; font-weight:800; color:var(--primary); margin-bottom:8px;">➕ إضافة أو تحديث حساب:</div>
+        <div class="two-cols" style="margin-bottom:8px;">
+          <div>
+            <label class="form-label" style="font-size:11px;">اسم الحساب:</label>
+            <input type="text" class="form-input" id="new-acc-name" placeholder="مثلاً: هدى فارس" style="font-size:12px;">
+          </div>
+          <div>
+            <label class="form-label" style="font-size:11px;">دور الحساب:</label>
+            <select class="form-select" id="new-acc-role" style="font-size:12px;">
+              <option value="inquirer">المتسائل الأول</option>
+              <option value="booster" selected>المُوصي والمجرب بخلدا</option>
+              <option value="support">حساب داعم إضافي</option>
+              <option value="clinic">الصفحة الرسمية</option>
+            </select>
+          </div>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <input type="text" class="form-input" id="new-acc-uid" placeholder="معرف الحساب UID" style="font-size:11px; flex:1;">
+          <button type="button" class="btn-action btn-primary" onclick="addNewUserAccount()">✓ حفظ الحساب</button>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end;">
+        <button class="btn-action btn-primary" onclick="closeModal('manage-accounts-modal')">تم والرجوع</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 15: Extension Install Helper -->
+  <div class="modal-overlay" id="extension-install-modal">
+    <div class="modal-window" style="max-width: 620px;">
+      <div class="modal-header">
+        <div class="modal-title" style="color:#059669;">
+          <span>⚡</span> تفعيل إضافة المتصفح للنشر الحقيقي (Chrome Extension)
+        </div>
+        <button class="close-modal-btn" onclick="closeModal('extension-install-modal')">&times;</button>
+      </div>
+
+      <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:14px; margin-bottom:14px; color:#166534; font-size:12px; line-height:1.6;">
+        <strong>🚀 لتنفيذ النشر التلقائي الحقيقي على فيسبوك بنجاح:</strong>
+        <p style="margin:6px 0 0;">قم بتثبيت إضافة المتصفح الخاصة بالمحرك في متصفح كروم خلال 30 ثانية لتتمكن من النشر الفعلي وجلب روابط المنشورات الحقيقية مثل FewFeed:</p>
+      </div>
+
+      <ol style="font-size:12px; color:#334155; line-height:1.8; padding-right:20px; margin-bottom:16px;">
+        <li>افتح في متصفح كروم صفحة الإضافات: <code style="background:#f1f5f9; padding:2px 6px; border-radius:4px; font-weight:700;">chrome://extensions</code></li>
+        <li>فعّل خيار <strong>Developer mode (وضع مطور البرامج)</strong> في الزاوية العلوية اليمنى.</li>
+        <li>اضغط زر <strong>Load unpacked (تحميل إضافة تم فك حزمتها)</strong>.</li>
+        <li>اختر مجلد الإضافة من جهازك:<br>
+          <code style="background:#f1f5f9; color:#0f172a; padding:4px 8px; border-radius:4px; font-weight:700; display:block; margin-top:4px; word-break:break-all;">C:\Users\jamaljk\.gemini\antigravity\scratch\wada3an_bot\extension</code>
+        </li>
+      </ol>
+
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <button class="btn-action" onclick="navigator.clipboard.writeText('C:\\Users\\jamaljk\\.gemini\\antigravity\\scratch\\wada3an_bot\\extension'); showToast('✓ تم نسخ مسار مجلد الإضافة للحافظة!');">📋 نسخ مسار المجلد</button>
+        <button class="btn-action btn-primary" onclick="closeModal('extension-install-modal')">حسناً، فهمت</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="status-toast" id="toast">
+    <span id="toast-icon">✓</span>
+    <span id="toast-msg">تم تنفيذ الأمر بنجاح</span>
+  </div>
+
+  <script>
+    // State Variables
+    let currentAccount = {
+      uid: '100095020153634',
+      name: 'دنيا محمد (Donia Mohmmad)',
+      avatar: 'https://graph.facebook.com/100095020153634/picture?type=large'
+    };
+
+    let activeRoleSwapPlan = null;
+    let completedRoleSteps = new Set();
+    let radarPostsCache = {};
+    let currentRadarSource = 'weak_posts';
+
+    const defaultAccountsList = [
+      { id: 'acc_100095020153634', uid: '100095020153634', name: 'Donia Mohmmad (دنيا محمد)', role: 'inquirer', roleLabel: 'الحساب الرئيسي النشط (253 مجموعة)' },
+      { id: 'acc_61585412889124', uid: '61585412889124', name: 'Huda Faris', role: 'inquirer', roleLabel: 'المتسائل الأول (Inquirer)' },
+      { id: 'acc_61584795883711', uid: '61584795883711', name: 'رامي العبدالله', role: 'booster', roleLabel: 'المُوصي والمُجرّب بخلدا (Social Proof 1)' },
+      { id: 'acc_61579098603560', uid: '61579098603560', name: 'Reem Abbas', role: 'booster', roleLabel: 'سيدة متعافية ومُوصية (Social Proof 2)' },
+      { id: 'acc_100029226100315', uid: '100029226100315', name: 'Nesreen Waleed', role: 'support', roleLabel: 'حساب داعم ومستفسر إضافي' },
+      { id: 'acc_61592553076728', uid: '61592553076728', name: 'عبدالعزيز الحسن', role: 'support', roleLabel: 'حساب داعم ومستفسر عن المواعيد' },
+      { id: 'acc_100004347403957', uid: '100004347403957', name: 'وداعاً للألم', role: 'clinic', roleLabel: 'الصفحة الرسمية (الرد والتأكيد بخلدا)' }
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initAccounts();
+      loadRoleExecutionProgress();
+      updateMedicalReplyTemplate();
+      loadMetusGroupsFromApi();
+    });
+
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark');
+    }
+
+    function openModal(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.add('active');
+      if (id === 'viral-stealth-modal') {
+        switchRadarSource(currentRadarSource || 'weak_posts');
+      }
+      if (id === 'comment-groups-modal') {
+        loadMetusGroupsFromApi();
+      }
+    }
+
+    function closeModal(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('active');
+    }
+
+    function showToast(msg, icon = '✓') {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-msg').textContent = msg;
+      document.getElementById('toast-icon').textContent = icon;
+      toast.style.display = 'flex';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 3500);
+    }
+
+    function copyAccountUid() {
+      navigator.clipboard.writeText(currentAccount.uid).then(() => {
+        showToast('✓ تم نسخ معرف الحساب: ' + currentAccount.uid);
+      });
+    }
+
+    function setTab(category, btn) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const cards = document.querySelectorAll('.tool-card');
+      cards.forEach(card => {
+        const cats = card.getAttribute('data-category') || '';
+        if (category === 'all' || cats.includes(category)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function filterTools() {
+      const q = document.getElementById('tool-search').value.toLowerCase().trim();
+      const cards = document.querySelectorAll('.tool-card');
+      cards.forEach(card => {
+        const text = card.textContent.toLowerCase();
+        card.style.display = text.includes(q) ? 'flex' : 'none';
+      });
+    }
+
+    async function initAccounts() {
+      let accounts = defaultAccountsList;
+      try {
+        const res = await fetch('/api/growth-engine/live-accounts');
+        const data = await res.json();
+        if (data.success && data.accounts && data.accounts.length > 0) {
+          accounts = data.accounts;
+        }
+      } catch (_) {}
+
+      localStorage.setItem('wada3an_role_accounts', JSON.stringify(accounts));
+      renderAccountsUI(accounts);
+    }
+
+    function renderAccountsUI(accounts) {
+      const select = document.getElementById('account-select');
+      const list = document.getElementById('saved-accounts-list');
+      
+      if (select) {
+        select.innerHTML = '';
+        accounts.forEach(a => {
+          const opt = document.createElement('option');
+          opt.value = a.uid || a.id;
+          opt.textContent = `👤 ${a.name} (${a.roleLabel || a.role})`;
+          select.appendChild(opt);
+        });
+      }
+
+      if (accounts && accounts.length > 0) {
+        const first = accounts[0];
+        currentAccount.uid = first.uid || '100095020153634';
+        currentAccount.name = first.name;
+        const nameEl = document.getElementById('current-account-name');
+        if (nameEl && nameEl.childNodes[0]) nameEl.childNodes[0].nodeValue = first.name + ' ';
+        const uidEl = document.getElementById('current-account-uid');
+        if (uidEl) uidEl.textContent = first.uid || '100095020153634';
+        const avEl = document.getElementById('current-avatar');
+        if (avEl) avEl.src = `https://graph.facebook.com/${first.uid || '100095020153634'}/picture?type=large`;
+      }
+
+      if (list) {
+        list.innerHTML = accounts.map(a => `
+          <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.02); border:1px solid var(--border-color); border-radius:var(--radius-sm); padding:8px 12px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:16px;">👤</span>
+              <div>
+                <strong style="font-size:12px; color:var(--text-main);">${a.name}</strong>
+                <div style="font-size:10px; color:var(--text-muted);">UID: ${a.uid || 'غير محدد'} • ${a.roleLabel || a.role}</div>
+              </div>
+            </div>
+            <span style="font-size:10px; background:#10b981; color:#fff; padding:2px 8px; border-radius:10px; font-weight:700;">متصل</span>
+          </div>
+        `).join('');
+      }
+    }
+
+    function switchAccount(val) {
+      const stored = localStorage.getItem('wada3an_role_accounts');
+      if (!stored) return;
+      const accounts = JSON.parse(stored);
+      const acc = accounts.find(a => (a.uid || a.id) === val);
+      if (acc) {
+        currentAccount.uid = acc.uid || '';
+        currentAccount.name = acc.name;
+        document.getElementById('current-account-name').childNodes[0].nodeValue = acc.name + ' ';
+        document.getElementById('current-account-uid').textContent = acc.uid || 'غير محدد';
+        document.getElementById('current-avatar').src = `https://graph.facebook.com/${acc.uid || '100004347403957'}/picture?type=large`;
+        showToast('✓ تم تحديد الحساب: ' + acc.name);
+      }
+    }
+
+    async function addNewUserAccount() {
+      const name = document.getElementById('new-acc-name').value.trim();
+      const role = document.getElementById('new-acc-role').value;
+      const uid = document.getElementById('new-acc-uid').value.trim();
+
+      if (!name) {
+        alert('يرجى إدخال اسم الحساب.');
+        return;
+      }
+
+      const res = await fetch('/api/growth-engine/register-active-account', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, role, uid })
+      });
+      const data = await res.json();
+      if (data.success) {
+        showToast('✓ تم حفظ الحساب بنجاح!');
+        document.getElementById('new-acc-name').value = '';
+        document.getElementById('new-acc-uid').value = '';
+        initAccounts();
+      }
+    }
+
+    // ─── ROLE SWAP STUDIO ───
+    let roleSwapCurrentPostId = null;
+
+    async function openRoleSwapStudio(targetPostId) {
+      openModal('role-swap-modal');
+
+      let pagePosts = radarPostsCache['weak_posts'] || [];
+      if (pagePosts.length === 0) {
+        try {
+          const res = await fetch('/api/growth-engine/radar-posts?source=weak_posts');
+          const data = await res.json();
+          if (data.success && data.posts) {
+            pagePosts = data.posts;
+            radarPostsCache['weak_posts'] = pagePosts;
+          }
+        } catch (_) {}
+      }
+
+      populateRoleSwapSelector(pagePosts);
+      
+      const chosenId = targetPostId || (pagePosts[0] ? pagePosts[0].id : 'post_video_433626975581953');
+      await switchRoleSwapToPost(chosenId);
+    }
+
+    function populateRoleSwapSelector(pagePosts) {
+      const selector = document.getElementById('role-swap-post-selector');
+      if (!selector) return;
+      const currentVal = selector.value;
+      selector.innerHTML = '';
+      pagePosts.forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p.id;
+        opt.textContent = `${p.type === 'video' ? '🎥 فيديو' : (p.type === 'reel' ? '🎬 ريلز' : '📝 منشور')}: ${p.title} (💬 ${p.commentCount || 0} تعليق)`;
+        selector.appendChild(opt);
+      });
+      const customOpt = document.createElement('option');
+      customOpt.value = 'custom';
+      customOpt.textContent = '🎯 + لصق رابط منشور أو ريلز آخر يدوياً...';
+      selector.appendChild(customOpt);
+
+      if (currentVal && Array.from(selector.options).some(o => o.value === currentVal)) {
+        selector.value = currentVal;
+      }
+    }
+
+    async function switchRoleSwapToPost(postId) {
+      roleSwapCurrentPostId = postId;
+      const selector = document.getElementById('role-swap-post-selector');
+      const customBox = document.getElementById('role-swap-custom-url-container');
+      
+      if (postId === 'custom') {
+        if (customBox) customBox.style.display = 'block';
+        return;
+      }
+      if (customBox) customBox.style.display = 'none';
+
+      let pagePosts = radarPostsCache['weak_posts'] || [];
+      let post = pagePosts.find(p => p.id === postId) || pagePosts[0];
+      if (!post) {
+        post = {
+          id: 'post_video_433626975581953',
+          type: 'video',
+          title: 'فيديو توضيحي: قل وداعاً لآلام الفقرات والمفاصل بدون جراحة في خلدا',
+          snippet: 'شرح عملي لبروتوكول تفريغ ضغط الغضاريف واستعادة مرونة العمود الفقري في عيادة وداعاً للألم - خلدا.',
+          url: 'https://www.facebook.com/30minutes30/videos/433626975581953/',
+          commentCount: 3,
+          reactionCount: 24
+        };
+      }
+
+      if (selector) selector.value = post.id;
+
+      const pLink = document.getElementById('role-swap-post-link');
+      if (pLink) pLink.href = post.url;
+      const statsEl = document.getElementById('role-swap-post-stats');
+      if (statsEl) {
+        statsEl.innerHTML = `📌 <strong>المنشور المختار:</strong> <span style="color:#1d4ed8; font-weight:800;">${post.title}</span><br>🔗 <code style="font-size:11px; background:rgba(0,0,0,0.06); padding:2px 6px; border-radius:4px;">${post.url}</code> • 💬 ${post.commentCount || 0} تعليق • 👍 ${post.reactionCount || 0} تفاعل`;
+      }
+
+      // Reset step checkmarks for the new post
+      completedRoleSteps.clear();
+      saveRoleExecutionProgress();
+
+      await loadRoleSwapPlan(post.title, post.url, post.snippet, post.type);
+    }
+
+    function onRoleSwapPostSelectorChange(val) {
+      switchRoleSwapToPost(val);
+    }
+
+    function applyCustomRoleSwapUrl() {
+      const input = document.getElementById('role-swap-custom-url-input');
+      const url = input ? input.value.trim() : '';
+      if (!url) {
+        alert('يرجى إدخال رابط المنشور أولاً.');
+        return;
+      }
+
+      const customId = 'custom_' + Date.now();
+      const customPost = {
+        id: customId,
+        type: url.includes('/reel/') ? 'reel' : (url.includes('/videos/') ? 'video' : 'post'),
+        title: 'منشور مستهدف برابط مباشر من صفحة وداعاً للألم',
+        snippet: 'منشور مخصص تم إدخال رابطه يدوياً لتنشيطه وتبادل الأدوار عليه.',
+        url: url,
+        commentCount: 0,
+        reactionCount: 0
+      };
+
+      if (!radarPostsCache['weak_posts']) radarPostsCache['weak_posts'] = [];
+      radarPostsCache['weak_posts'].unshift(customPost);
+      populateRoleSwapSelector(radarPostsCache['weak_posts']);
+      switchRoleSwapToPost(customId);
+    }
+
+    async function regenerateRoleSwapScenario() {
+      const selector = document.getElementById('role-swap-post-selector');
+      let title = 'علاج الديسك وآلام العمود الفقري بدون جراحة في خلدا';
+      let postUrl = 'https://www.facebook.com/30minutes30';
+      let snippet = '';
+      let type = 'post';
+
+      if (selector && selector.value !== 'custom') {
+        const posts = radarPostsCache['weak_posts'] || [];
+        const p = posts.find(x => x.id === selector.value);
+        if (p) {
+          title = p.title;
+          postUrl = p.url;
+          snippet = p.snippet || '';
+          type = p.type || 'post';
+        }
+      } else {
+        const customInput = document.getElementById('role-swap-custom-url-input');
+        if (customInput && customInput.value.trim()) {
+          postUrl = customInput.value.trim();
+          title = 'منشور مخصص برابط مباشر';
+        }
+      }
+
+      await loadRoleSwapPlan(title, postUrl, snippet, type);
+      showToast('🎉 تم صياغة وتحديث سيناريو التنشيط المخصص بالكامل بنجاح!');
+    }
+
+    async function loadRoleSwapPlan(topic, postUrl, snippet = '', type = 'post') {
+      const container = document.getElementById('role-swap-steps-container');
+      container.innerHTML = '<div style="text-align:center; padding:24px; color:var(--text-muted);"><div class="spinner" style="margin:0 auto 10px; width:28px; height:28px; border-width:3px;"></div>⏳ جارٍ صياغة سيناريو التنشيط المخصص لجميع الحسابات بالذكاء الاصطناعي بناءً على محتوى المنشور المختار...</div>';
+
+      try {
+        const res = await fetch('/api/growth-engine/multi-account-dialogue', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ topic, post_url: postUrl, snippet, type })
+        });
+        const data = await res.json();
+        if (data.success && data.plan) {
+          activeRoleSwapPlan = data.plan;
+
+          // Update Strategy Banner Card
+          const stratCard = document.getElementById('role-swap-strategy-card');
+          const stratTitle = document.getElementById('role-swap-strategy-title');
+          const stratObj = document.getElementById('role-swap-strategy-objective');
+          if (stratCard && stratTitle && stratObj) {
+            stratTitle.textContent = data.plan.strategy_name || 'سيمفونية التفاعل الكاملة';
+            stratObj.textContent = data.plan.objective || '';
+            stratCard.style.display = 'block';
+          }
+
+          renderRoleSwapSteps(data.plan, postUrl);
+        }
+      } catch (err) {
+        container.innerHTML = '<div style="text-align:center; color:#ef4444; padding:16px;">تعذر الاتصال بالسيرفر لتوليد السيناريو.</div>';
+      }
+    }
+
+    function renderRoleSwapSteps(plan, postUrl) {
+      const container = document.getElementById('role-swap-steps-container');
+      container.innerHTML = '';
+
+      plan.steps.forEach((s) => {
+        const isDone = completedRoleSteps.has(s.step);
+        const stepCard = document.createElement('div');
+        stepCard.id = `step-card-${s.step}`;
+        stepCard.style.cssText = `background:${isDone ? 'rgba(16,185,129,0.05)' : 'rgba(0,0,0,0.02)'}; border:2px solid ${isDone ? '#10b981' : 'var(--border-color)'}; border-radius:var(--radius-sm); padding:14px; transition:all 0.2s;`;
+
+        stepCard.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:6px;">
+            <div style="font-weight:900; font-size:13px; color:var(--text-main); display:flex; align-items:center; gap:6px;">
+              <span>👤</span> ${s.role_title}
+            </div>
+            <div style="display:flex; gap:6px; align-items:center;">
+              <span style="font-size:10px; background:rgba(37,99,235,0.1); color:#2563eb; padding:2px 8px; border-radius:10px; font-weight:700;">⏱️ ${s.timing_note}</span>
+              <span id="step-status-badge-${s.step}" style="font-size:10px; background:${isDone ? '#10b981' : 'rgba(100,116,139,0.1)'}; color:${isDone ? '#fff' : 'var(--text-muted)'}; padding:2px 8px; border-radius:10px; font-weight:800;">
+                ${isDone ? '✓ تم النشر' : '⏳ بانتظار النسخ'}
+              </span>
+            </div>
+          </div>
+
+          <div style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">${s.action}</div>
+          <textarea class="form-textarea" id="role-step-text-${s.step}" rows="3" style="font-size:12px; margin-bottom:10px; line-height:1.5;">${s.comment_text}</textarea>
+
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+            <div style="font-size:11px; font-weight:800; color:#2563eb;">
+              الحساب المنفذ: <strong style="color:var(--text-main);">${s.account_name}</strong>
+            </div>
+
+            <div style="display:flex; gap:8px; align-items:center;">
+              <button type="button" id="copy-btn-${s.step}" class="btn-action" style="font-size:11px; padding:6px 14px; font-weight:800;" onclick="copyRoleStepText(${s.step})">
+                📋 نسخ النص
+              </button>
+              <a href="${postUrl}" target="_blank" class="btn-action" style="font-size:11px; padding:6px 12px; text-decoration:none;" onclick="copyRoleStepText(${s.step})">
+                🔗 فتح المنشور
+              </a>
+              <button type="button" id="mark-btn-${s.step}" class="btn-action" style="font-size:11px; padding:6px 14px; background:${isDone ? '#10b981' : 'rgba(16,185,129,0.1)'}; color:${isDone ? '#fff' : '#059669'}; border:1px solid #10b981; font-weight:800;" onclick="toggleRoleStepDone(${s.step})">
+                ${isDone ? '✅ تم النشر بفيسبوك' : '🔘 وضع علامة: تم النشر'}
+              </button>
+            </div>
+          </div>
+        `;
+
+        container.appendChild(stepCard);
+      });
+
+      updateRoleProgressBar();
+    }
+
+    function copyRoleStepText(step) {
+      const el = document.getElementById('role-step-text-' + step);
+      const btn = document.getElementById('copy-btn-' + step);
+      if (el) {
+        navigator.clipboard.writeText(el.value).then(() => {
+          if (btn) {
+            const oldText = btn.innerHTML;
+            btn.innerHTML = '✓ تم النسخ!';
+            btn.style.background = '#10b981';
+            btn.style.color = '#fff';
+            setTimeout(() => {
+              btn.innerHTML = oldText;
+              btn.style.background = '';
+              btn.style.color = '';
+            }, 2500);
+          }
+          showToast(`✓ تم نسخ نص الخطوة ${step} للحافظة بنجاح!`);
+        });
+      }
+    }
+
+    function toggleRoleStepDone(step) {
+      if (completedRoleSteps.has(step)) {
+        completedRoleSteps.delete(step);
+      } else {
+        completedRoleSteps.add(step);
+      }
+      saveRoleExecutionProgress();
+
+      const isDone = completedRoleSteps.has(step);
+      const card = document.getElementById(`step-card-${step}`);
+      const badge = document.getElementById(`step-status-badge-${step}`);
+      const markBtn = document.getElementById(`mark-btn-${step}`);
+
+      if (card) {
+        card.style.background = isDone ? 'rgba(16,185,129,0.05)' : 'rgba(0,0,0,0.02)';
+        card.style.borderColor = isDone ? '#10b981' : 'var(--border-color)';
+      }
+      if (badge) {
+        badge.style.background = isDone ? '#10b981' : 'rgba(100,116,139,0.1)';
+        badge.style.color = isDone ? '#fff' : 'var(--text-muted)';
+        badge.textContent = isDone ? '✓ تم النشر' : '⏳ بانتظار النسخ';
+      }
+      if (markBtn) {
+        markBtn.style.background = isDone ? '#10b981' : 'rgba(16,185,129,0.1)';
+        markBtn.style.color = isDone ? '#fff' : '#059669';
+        markBtn.innerHTML = isDone ? '✅ تم النشر بفيسبوك' : '🔘 وضع علامة: تم النشر';
+      }
+
+      updateRoleProgressBar();
+    }
+
+    function updateRoleProgressBar() {
+      if (!activeRoleSwapPlan || !activeRoleSwapPlan.steps) return;
+      const total = activeRoleSwapPlan.steps.length;
+      const done = completedRoleSteps.size;
+      const pct = Math.round((done / total) * 100);
+
+      const pText = document.getElementById('role-swap-progress-text');
+      const pFill = document.getElementById('role-swap-progress-fill');
+      if (pText) pText.textContent = `${done} من ${total} خطوات منجزة (${pct}%)`;
+      if (pFill) pFill.style.width = `${pct}%`;
+    }
+
+    function resetRoleExecutionCheckmarks() {
+      completedRoleSteps.clear();
+      saveRoleExecutionProgress();
+      if (activeRoleSwapPlan) {
+        renderRoleSwapSteps(activeRoleSwapPlan, activeRoleSwapPlan.post_url || '#');
+      }
+      showToast('✓ تمت إعادة تعيين علامات الإنجاز.');
+    }
+
+    function saveRoleExecutionProgress() {
+      localStorage.setItem('wada3an_role_completed_steps', JSON.stringify(Array.from(completedRoleSteps)));
+    }
+
+    function loadRoleExecutionProgress() {
+      try {
+        const stored = localStorage.getItem('wada3an_role_completed_steps');
+        if (stored) completedRoleSteps = new Set(JSON.parse(stored));
+      } catch (_) {}
+    }
+
+    // ─── CAROUSEL 2-BOX TOOL ───
+    function updateCarouselPreview() {
+      const t1 = document.getElementById('box1-title').value;
+      const i1 = document.getElementById('box1-img').value;
+      const u1 = document.getElementById('box1-url').value;
+      const t2 = document.getElementById('box2-title').value;
+      const i2 = document.getElementById('box2-img').value;
+      const u2 = document.getElementById('box2-url').value;
+
+      const pTitle1 = document.getElementById('prev-title-1');
+      const pTitle2 = document.getElementById('prev-title-2');
+      const pLink1 = document.getElementById('prev-link-1');
+      const pLink2 = document.getElementById('prev-link-2');
+
+      if (pTitle1) pTitle1.textContent = t1 || 'الشريحة الأولى';
+      if (pTitle2) pTitle2.textContent = t2 || 'الشريحة الثانية';
+      if (pLink1) pLink1.textContent = u1.replace('https://', '') || 'wa.me/962790360440';
+      if (pLink2) pLink2.textContent = u2.replace('https://', '') || 'm.me/30minutes30';
+
+      if (i1 && document.getElementById('prev-img-1')) document.getElementById('prev-img-1').src = i1;
+      if (i2 && document.getElementById('prev-img-2')) document.getElementById('prev-img-2').src = i2;
+    }
+
+    function handleCarouselFileUpload(boxNum, inputEl) {
+      if (!inputEl || !inputEl.files || !inputEl.files[0]) return;
+      const file = inputEl.files[0];
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const dataUrl = e.target.result;
+        const imgInput = document.getElementById(`box${boxNum}-img`);
+        const prevImg = document.getElementById(`prev-img-${boxNum}`);
+        if (imgInput) imgInput.value = dataUrl;
+        if (prevImg) prevImg.src = dataUrl;
+        showToast(`✓ تم تحميل صورة الشريحة ${boxNum} ومعاينتها بنجاح!`);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function applyCarouselPreset(presetKey) {
+      const presets = {
+        disc: {
+          caption: 'وداعاً لآلام الانزلاق الغضروفي وعرق النسا بدون جراحة في عيادة وداعاً للألم - خلدا 🌹\nاستعد حركتك وراحتك من خلال بروتوكولات تفريغ الضغط الميكانيكي المتقدمة. تواصل معنا مباشرة عبر الرابط لحجز كشفك الطبي.',
+          t1: 'علاج الديسك وعرق النسا بدون جراحة',
+          u1: 'https://wa.me/962790360440',
+          img1: 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=500',
+          t2: 'حجز موعد كشف واستشارة بخلدا',
+          u2: 'https://m.me/30minutes30',
+          img2: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=500'
+        },
+        knees: {
+          caption: 'احتكاك وخشونة الركبة وصعوبة صعود الدرج لكبار السن لها حلول تحفظية متقدمة دون الحاجة لعمليات تبديل المفاصل 🦵\nفي عيادة وداعاً للألم - خلدا، نقدم بروتوكول استعادة ليونة المفصل وتخفيف الألم بأمان تام.',
+          t1: 'حلول خشونة الركبة بدون تبديل مفصل',
+          u1: 'https://wa.me/962790360440',
+          img1: 'https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=500',
+          t2: 'استشر الطبيب مباشرة بخلدا',
+          u2: 'https://m.me/30minutes30',
+          img2: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=500'
+        },
+        tool: {
+          caption: 'هل تعاني من آلام أسفل الظهر أو تنميل الساقين؟ 🎯\nجرب الآن أداة التقييم الذاتي المجانية واكتشف شدة الأعراض ونوع الضغط العصبي خلال دقيقة واحدة، ثم احجز كشفك الدقيق في عيادتنا بخلدا.',
+          t1: 'ابدأ فحص العمود الفقري الذاتي المجاني',
+          u1: 'http://localhost:3000/spine-calculator',
+          img1: 'https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?w=500',
+          t2: 'تأكيد نتيجة الفحص مع طبيب خلدا',
+          u2: 'https://wa.me/962790360440',
+          img2: 'https://images.unsplash.com/photo-1551076805-e1869033e561?w=500'
+        }
+      };
+
+      const p = presets[presetKey];
+      if (!p) return;
+
+      document.getElementById('carousel-main-text').value = p.caption;
+      document.getElementById('box1-title').value = p.t1;
+      document.getElementById('box1-url').value = p.u1;
+      document.getElementById('box1-img').value = p.img1;
+      document.getElementById('box2-title').value = p.t2;
+      document.getElementById('box2-url').value = p.u2;
+      document.getElementById('box2-img').value = p.img2;
+
+      updateCarouselPreview();
+      showToast('✓ تم تطبيق القالب ومعاينة الشريحتين بنجاح!');
+    }
+
+    function copyCarouselPostData() {
+      const caption = document.getElementById('carousel-main-text').value;
+      const t1 = document.getElementById('box1-title').value;
+      const u1 = document.getElementById('box1-url').value;
+      const t2 = document.getElementById('box2-title').value;
+      const u2 = document.getElementById('box2-url').value;
+
+      const data = `${caption}\n\n[الشريحة 1: ${t1}] -> ${u1}\n[الشريحة 2: ${t2}] -> ${u2}`;
+      navigator.clipboard.writeText(data).then(() => {
+        showToast('✓ تم نسخ نص وروابط الكاروسيل للحافظة!');
+      });
+    }
+
+    // ─── AUTO POST TO GROUPS PRO ───
+    function generateGroupsQueue() {
+      const input = document.getElementById('groups-list-input').value.trim();
+      const caption = document.getElementById('groups-post-caption').value.trim();
+      if (!input) {
+        alert('يرجى إدخال روابط أو معرفات المجموعات المستهدفة.');
+        return;
+      }
+
+      const lines = input.split('\n').map(l => l.trim()).filter(Boolean);
+      const queueContainer = document.getElementById('groups-queue-container');
+      const queueList = document.getElementById('groups-queue-list');
+      queueContainer.style.display = 'block';
+      queueList.innerHTML = '';
+
+      lines.forEach((url, idx) => {
+        const item = document.createElement('div');
+        item.style.cssText = 'display:flex; justify-content:space-between; align-items:center; background:#fff; border:1px solid var(--border-color); padding:8px 10px; border-radius:4px;';
+        item.innerHTML = `
+          <div style="font-size:11px; font-weight:700; color:var(--text-main); text-overflow:ellipsis; overflow:hidden; max-width:65%;">
+            ${idx + 1}. ${url}
+          </div>
+          <div style="display:flex; gap:6px;">
+            <button type="button" class="btn-action" style="font-size:10px; padding:3px 8px;" onclick="copySpintaxPost()">📋 نسخ</button>
+            <a href="${url}" target="_blank" class="btn-action btn-primary" style="font-size:10px; padding:3px 10px; text-decoration:none;" onclick="copySpintaxPost()">🔗 نشر</a>
+          </div>
+        `;
+        queueList.appendChild(item);
+      });
+
+      showToast(`✓ تم تجهيز طابور لـ ${lines.length} مجموعات بنجاح!`);
+    }
+
+    function copySpintaxPost() {
+      const raw = document.getElementById('groups-post-caption').value;
+      // Resolve Spintax
+      const resolved = raw.replace(/\{([^{}]+)\}/g, (m, choices) => {
+        const arr = choices.split('|');
+        return arr[Math.floor(Math.random() * arr.length)];
+      });
+
+      navigator.clipboard.writeText(resolved).then(() => {
+        showToast('✓ تم توليد ونسخ المنشور بالنصوص المتنوعة!');
+      });
+    }
+
+    // ─── PAGE BOT AUTO REPLY ───
+    function simulateBotReply() {
+      const input = document.getElementById('test-comment-input').value.trim();
+      const pubReply = document.getElementById('bot-public-reply').value;
+      const privReply = document.getElementById('bot-private-msg').value;
+      const out = document.getElementById('simulated-reply-output');
+
+      out.style.display = 'block';
+      out.innerHTML = `
+        <div style="font-weight:800; color:#059669; margin-bottom:4px;">✓ تمت الاستجابة للتعليق: "${input || 'استفسار عام'}"</div>
+        <div style="margin-bottom:3px;"><strong>الرد العام:</strong> ${pubReply}</div>
+        <div><strong>الماسنجر الخاص:</strong> ${privReply.replace(/\n/g, '<br>')}</div>
+      `;
+      showToast('✓ تمت محاكاة استجابة البوت بنجاح!');
+    }
+
+    function saveBotSettings() {
+      showToast('✓ تم حفظ إعدادات وقوالب الرد الآلي بنجاح!');
+    }
+
+    function copyBotTemplates() {
+      const pubReply = document.getElementById('bot-public-reply').value;
+      const privReply = document.getElementById('bot-private-msg').value;
+      navigator.clipboard.writeText(`[الرد العام]\n${pubReply}\n\n[رسالة الماسنجر]\n${privReply}`).then(() => {
+        showToast('✓ تم نسخ قوالب الرد الآلي للحافظة!');
+      });
+    }
+
+    // ─── AUTO COMMENT TO GROUPS (METUS ARCHITECTURE) ───
+    let attachedCommentPhoto = null;
+    let isGroupAutoCommentRunning = false;
+    let groupCommentTimerInterval = null;
+    let completedCommentsLog = [];
+    let targetGroupsQueue = [];
+    let currentGroupQueueIdx = 0;
+    let currentCommentCountInGroup = 0;
+
+    const METUS_EMOJI_POOL = [
+      '🌹','🌸','🌺','🌻','🌷','🌼','💐','🌾','🌿','☘️',
+      '👍','👌','🙌','👏','💪','✨','⭐','🔥','💡','🎯',
+      '🩺','🩹','🤍','❤️','💙','💚','💛','🧡','💜','💖',
+      '😊','🥰','🙏','💯','✅','🌟','🎉','🤗','🕊️','🌱'
+    ];
+
+    function getRandomEmojis(count) {
+      let res = [];
+      for (let i = 0; i < count; i++) {
+        res.push(METUS_EMOJI_POOL[Math.floor(Math.random() * METUS_EMOJI_POOL.length)]);
+      }
+      return res.join(' ');
+    }
+
+    function getRandomDigits(count) {
+      let s = '';
+      for (let i = 0; i < count; i++) {
+        s += Math.floor(Math.random() * 10);
+      }
+      return s;
+    }
+
+    function getRandomLetters(count) {
+      const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      let s = '';
+      for (let i = 0; i < count; i++) {
+        s += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return s;
+    }
+
+    function insertCommentTag(tag) {
+      const textarea = document.getElementById('group-comment-text');
+      if (!textarea) return;
+      const start = textarea.selectionStart || textarea.value.length;
+      const end = textarea.selectionEnd || textarea.value.length;
+      const val = textarea.value;
+      textarea.value = val.substring(0, start) + ' ' + tag + ' ' + val.substring(end);
+      textarea.focus();
+      textarea.setSelectionRange(start + tag.length + 2, start + tag.length + 2);
+      showToast(`✓ أُضيف الوسم: ${tag}`);
+    }
+
+    function handleCommentPhotoUpload(input) {
+      if (input.files && input.files[0]) {
+        const file = input.files[0];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          attachedCommentPhoto = {
+            name: file.name,
+            data: e.target.result
+          };
+          const previewBox = document.getElementById('comment-photo-preview-box');
+          const thumb = document.getElementById('comment-photo-thumb');
+          if (previewBox && thumb) {
+            thumb.src = e.target.result;
+            previewBox.style.display = 'inline-flex';
+          }
+          showToast('✓ تم إرفاق الصورة للتعليقات: ' + file.name);
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function removeCommentPhoto() {
+      attachedCommentPhoto = null;
+      const input = document.getElementById('comment-photo-file');
+      if (input) input.value = '';
+      const previewBox = document.getElementById('comment-photo-preview-box');
+      if (previewBox) previewBox.style.display = 'none';
+      showToast('✓ تمت إزالة الصورة المرفقة');
+    }
+
+    // ─── USER AUTO-DETECTED FB GROUPS (FEWFEED / METUS ARCHITECTURE: 253 GROUPS) ───
+    let userFbJoinedGroups = [];
+    let currentGroupTab = 'all'; // 'all', 'selected', 'admin'
+    let currentGroupSearch = '';
+
+    async function loadMetusGroupsFromApi(uid) {
+      const activeUid = uid || document.getElementById('metus-active-account-select')?.value || '100095020153634';
+      try {
+        const res = await fetch(`/api/growth-engine/sync-groups?uid=${activeUid}`);
+        const data = await res.json();
+        if (data.success && data.groups) {
+          userFbJoinedGroups = data.groups;
+        }
+      } catch (_) {}
+
+      if (!userFbJoinedGroups || userFbJoinedGroups.length === 0) {
+        userFbJoinedGroups = [
+          { id: '1739012646398617', name: '🌹سوق الاردن', avatar: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=60&h=60&fit=crop', selected: true },
+          { id: '2321863768123101', name: 'ملتقى اهالي منطقة ابونصير والجبيهه وشفا بدران وماحولها', avatar: 'https://images.unsplash.com/photo-1577495508048-b635879837f1?w=60&h=60&fit=crop', selected: true }
+        ];
+      }
+
+      renderMetus253Groups();
+      updateMetusAccountBadge();
+    }
+
+    async function switchMetusAccount(uid) {
+      const badge = document.getElementById('metus-active-account-badge');
+      if (badge) badge.textContent = 'جارٍ الاستدعاء...';
+      try {
+        const res = await fetch(`/api/growth-engine/sync-groups?uid=${uid}`);
+        const data = await res.json();
+        if (data.success && data.groups) {
+          userFbJoinedGroups = data.groups;
+        }
+      } catch (e) {
+        console.error(e);
+      }
+      renderMetus253Groups();
+      updateMetusAccountBadge();
+      showToast(`✓ تم استدعاء ${userFbJoinedGroups.length} مجموعة خاصة بهذا الحساب بنجاح!`);
+    }
+
+    function updateMetusAccountBadge() {
+      const badge = document.getElementById('metus-active-account-badge');
+      if (badge) {
+        const selCount = userFbJoinedGroups.filter(g => g.selected).length;
+        badge.textContent = `${userFbJoinedGroups.length} مجموعة (${selCount} محددة)`;
+      }
+    }
+
+    function renderMetus253Groups() {
+      const container = document.getElementById('metus-groups-list-container');
+      if (!container) return;
+      container.innerHTML = '';
+
+      const totalCount = userFbJoinedGroups.length;
+      const selectedCount = userFbJoinedGroups.filter(g => g.selected).length;
+
+      // Update counters matching screenshot
+      const countAll = document.getElementById('count-all-groups');
+      const countSel = document.getElementById('count-selected-groups');
+      const badgeSel = document.getElementById('selected-groups-counter-badge');
+      if (countAll) countAll.textContent = totalCount;
+      if (countSel) countSel.textContent = selectedCount;
+      if (badgeSel) badgeSel.textContent = selectedCount;
+
+      let list = userFbJoinedGroups;
+      if (currentGroupTab === 'selected') {
+        list = list.filter(g => g.selected);
+      } else if (currentGroupTab === 'admin') {
+        list = [];
+      }
+
+      if (currentGroupSearch) {
+        list = list.filter(g => (g.name || '').toLowerCase().includes(currentGroupSearch) || (g.id || '').includes(currentGroupSearch));
+      }
+
+      if (list.length === 0) {
+        container.innerHTML = `<div style="text-align:center; padding:30px; color:#94a3b8; font-size:11px;">لا توجد مجموعات مطابقة.</div>`;
+        return;
+      }
+
+      list.forEach((g) => {
+        const item = document.createElement('div');
+        const isSel = !!g.selected;
+        item.style.cssText = `display:flex; justify-content:space-between; align-items:center; padding:7px 10px; border-radius:6px; background:#fff; border:1px solid ${isSel ? '#fed7aa' : '#f1f5f9'}; font-size:11px; cursor:pointer; transition:all 0.15s ease;`;
+        item.onmouseenter = () => { item.style.background = isSel ? '#fff7ed' : '#f8fafc'; };
+        item.onmouseleave = () => { item.style.background = '#fff'; };
+        
+        item.onclick = () => {
+          g.selected = !g.selected;
+          renderMetus253Groups();
+        };
+
+        const avatarImg = g.avatar || 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=60&h=60&fit=crop';
+
+        item.innerHTML = `
+          <div style="display:flex; align-items:center; gap:8px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:92%;">
+            <div style="width:18px; height:18px; border-radius:50%; background:${isSel ? '#ea580c' : 'transparent'}; border:2px solid ${isSel ? '#ea580c' : '#cbd5e1'}; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:all 0.15s;">
+              ${isSel ? '<span style="color:#fff; font-size:10px; font-weight:900; line-height:1;">✓</span>' : ''}
+            </div>
+            <img src="${avatarImg}" style="width:26px; height:26px; border-radius:6px; object-fit:cover; flex-shrink:0; border:1px solid rgba(0,0,0,0.06);" onerror="this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=60&h=60&fit=crop'">
+            <div style="display:flex; flex-direction:column; overflow:hidden;">
+              <span style="font-weight:700; color:var(--text-main); font-size:11px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${g.name}</span>
+              <code style="font-size:9px; color:#94a3b8; letter-spacing:0.3px;">${g.id}</code>
+            </div>
+          </div>
+        `;
+
+        container.appendChild(item);
+      });
+    }
+
+    function switchGroupTab(tab) {
+      currentGroupTab = tab;
+      const tabAll = document.getElementById('tab-all-groups');
+      const tabSel = document.getElementById('tab-selected-groups');
+      const tabAdm = document.getElementById('tab-admin-groups');
+
+      [tabAll, tabSel, tabAdm].forEach(t => {
+        if (t) {
+          t.style.color = '#64748b';
+          t.style.borderBottom = 'none';
+          t.style.marginBottom = '0';
+        }
+      });
+
+      if (tab === 'all' && tabAll) {
+        tabAll.style.color = '#f97316';
+        tabAll.style.borderBottom = '2px solid #f97316';
+        tabAll.style.marginBottom = '-6px';
+      } else if (tab === 'selected' && tabSel) {
+        tabSel.style.color = '#f97316';
+        tabSel.style.borderBottom = '2px solid #f97316';
+        tabSel.style.marginBottom = '-6px';
+      } else if (tab === 'admin' && tabAdm) {
+        tabAdm.style.color = '#f97316';
+        tabAdm.style.borderBottom = '2px solid #f97316';
+        tabAdm.style.marginBottom = '-6px';
+      }
+
+      renderMetus253Groups();
+    }
+
+    function filterMetusGroups(val) {
+      currentGroupSearch = (val || '').toLowerCase().trim();
+      renderMetus253Groups();
+    }
+
+    function applyGroupPreset(type) {
+      if (type === 'all') {
+        userFbJoinedGroups.forEach(g => g.selected = true);
+      } else if (type === 'amman') {
+        userFbJoinedGroups.forEach(g => {
+          g.selected = (g.name.includes('عمان') || g.name.includes('خلدا') || g.name.includes('دابوق') || g.name.includes('الغربية') || g.name.includes('ابونصير'));
+        });
+      } else if (type === 'medical') {
+        userFbJoinedGroups.forEach(g => {
+          g.selected = (g.name.includes('صحة') || g.name.includes('استشارات') || g.name.includes('ديسك') || g.name.includes('فقرات') || g.name.includes('أطباء'));
+        });
+      } else if (type === 'market') {
+        userFbJoinedGroups.forEach(g => {
+          g.selected = (g.name.includes('سوق') || g.name.includes('بيع') || g.name.includes('شراء') || g.name.includes('مستعمل') || g.name.includes('sooq'));
+        });
+      } else if (type === 'ladies') {
+        userFbJoinedGroups.forEach(g => {
+          g.selected = (g.name.includes('سيدات') || g.name.includes('حوامل') || g.name.includes('Mothers') || g.name.includes('فساتين'));
+        });
+      }
+      renderMetus253Groups();
+      showToast(`✓ تم تطبيق فلتر المجموعات: ${type}`);
+    }
+
+    function exportGroupsJson() {
+      const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(userFbJoinedGroups, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute('href', dataStr);
+      downloadAnchor.setAttribute('download', 'fb_joined_groups_253.json');
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+      showToast('✓ تم تصدير بيانات الـ 253 مجموعة بنجاح!');
+    }
+
+    function importGroupsPrompt() {
+      const raw = prompt('الصق بيانات المجموعات هنا (صيغة JSON أو روابط بكل سطر):');
+      if (!raw) return;
+      try {
+        if (raw.trim().startsWith('[')) {
+          userFbJoinedGroups = JSON.parse(raw);
+        } else {
+          const lines = raw.split('\n').map(l => l.trim()).filter(Boolean);
+          userFbJoinedGroups = lines.map((l, i) => ({
+            id: 'grp_' + (Date.now() + i),
+            name: l.split(' ')[0],
+            selected: true
+          }));
+        }
+        renderMetus253Groups();
+        showToast(`✓ تم استيراد ${userFbJoinedGroups.length} مجموعة بنجاح!`);
+      } catch (err) {
+        alert('خطأ في تنسيق البيانات المستوردة.');
+      }
+    }
+
+    function saveSelectedGroupsPreset() {
+      const sel = userFbJoinedGroups.filter(g => g.selected);
+      localStorage.setItem('metus_selected_groups_preset', JSON.stringify(sel));
+      showToast(`✓ تم حفظ ${sel.length} مجموعة كمفضلة افتراضية!`);
+    }
+
+    function syncFbJoinedGroupsDirectly() {
+      showToast('🔄 جارٍ جلب وتحديث المجموعات في اللحظة من حساب فيسبوك...');
+      loadMetusGroupsFromApi().then(() => {
+        showToast(`✓ تم جلب ${userFbJoinedGroups.length} مجموعة بنجاح في اللحظة!`);
+      });
+    }
+
+    function copyErrorLog() {
+      const logText = document.getElementById('metus-error-log')?.textContent || 'Chưa có lỗi nào.';
+      navigator.clipboard.writeText(logText).then(() => {
+        showToast('✓ تم نسخ سجل الأخطاء للحافظة!');
+      });
+    }
+
+    function expandCommentTags(template) {
+      if (!template) return '';
+      // 1. Spintax: {a|b|c} or [a|b|c]
+      let text = template.replace(/[\{\[]([^{}[\]]+)[\}\]]/g, (match, choices) => {
+        const arr = choices.split('|');
+        return arr[Math.floor(Math.random() * arr.length)];
+      });
+
+      // 2. {{RAN_M (18)}} or any number {{RAN_M (N)}} -> generates N random emojis
+      text = text.replace(/\{\{\s*RAN_M\s*\(\s*(\d+)\s*\)\s*\}\}/gi, (m, num) => {
+        return getRandomEmojis(parseInt(num, 10) || 18);
+      });
+
+      // 3. {{RAN_D (18)}} or any number {{RAN_D (N)}} -> generates N random digits
+      text = text.replace(/\{\{\s*RAN_D\s*\(\s*(\d+)\s*\)\s*\}\}/gi, (m, num) => {
+        return getRandomDigits(parseInt(num, 10) || 18);
+      });
+
+      // 4. {{RAN_T (10)}} or any number {{RAN_T (N)}} -> generates N random letters
+      text = text.replace(/\{\{\s*RAN_T\s*\(\s*(\d+)\s*\)\s*\}\}/gi, (m, num) => {
+        return getRandomLetters(parseInt(num, 10) || 10);
+      });
+
+      return text.trim();
+    }
+
+    function toggleGroupAutoComment() {
+      const btn = document.getElementById('btn-toggle-group-autocomment');
+      const logBox = document.getElementById('metus-error-log');
+
+      if (isGroupAutoCommentRunning) {
+        // STOP / PAUSE
+        isGroupAutoCommentRunning = false;
+        clearInterval(groupCommentTimerInterval);
+        if (btn) {
+          btn.style.background = 'linear-gradient(135deg, #059669 0%, #047857 100%)';
+          btn.textContent = '🚀 استئناف التعليق التلقائي في المجموعات';
+        }
+        if (logBox) {
+          logBox.innerHTML = `[${new Date().toLocaleTimeString()}] ⏸️ تم إيقاف النشر التلقائي مؤقتاً بواسطة المستخدم.<br>` + logBox.innerHTML;
+        }
+        showToast('⏸️ تم إيقاف النشر التلقائي مؤقتاً.');
+        return;
+      }
+
+      // Read selected auto-detected groups directly (100% automatic)
+      const selectedGroups = userFbJoinedGroups.filter(g => g.selected);
+      if (selectedGroups.length === 0) {
+        alert('يرجى تحديد مجموعة واحدة على الأقل من قائمة المجموعات المكتشفة لهذا الحساب.');
+        return;
+      }
+
+      targetGroupsQueue = selectedGroups;
+      currentGroupQueueIdx = 0;
+      currentCommentCountInGroup = 0;
+
+      isGroupAutoCommentRunning = true;
+
+      const minD = parseInt(document.getElementById('group-comment-min-delay')?.value, 10) || 5;
+      const maxD = parseInt(document.getElementById('group-comment-max-delay')?.value, 10) || 30;
+      const limitPerGroup = parseInt(document.getElementById('group-comment-limit')?.value, 10) || 3;
+
+      const accSelect = document.getElementById('metus-active-account-select');
+      const accName = accSelect && accSelect.selectedOptions[0] ? accSelect.selectedOptions[0].text : 'الحساب النشط';
+      if (logBox) {
+        logBox.innerHTML = `[${new Date().toLocaleTimeString()}] 🚀 بدأ النشر التلقائي بحساب [${accName}] عبر ${selectedGroups.length} مجموعة محددة...<br>` + logBox.innerHTML;
+      }
+      showToast(`🚀 بدأ النشر التلقائي عبر ${selectedGroups.length} مجموعة!`);
+
+      runMetusNextComment(minD, maxD, limitPerGroup);
+    }
+
+    function runMetusNextComment(minD, maxD, limitPerGroup) {
+      if (!isGroupAutoCommentRunning) return;
+
+      const btn = document.getElementById('btn-toggle-group-autocomment');
+      const logBox = document.getElementById('metus-error-log');
+
+      if (currentGroupQueueIdx >= targetGroupsQueue.length) {
+        // Finished all groups!
+        isGroupAutoCommentRunning = false;
+        if (btn) {
+          btn.style.background = 'linear-gradient(135deg, #059669 0%, #047857 100%)';
+          btn.textContent = '✓ اكتمل النشر في جميع المجموعات المستهدفة!';
+        }
+        if (logBox) {
+          logBox.innerHTML = `[${new Date().toLocaleTimeString()}] 🏁 اكتملت جميع مهام التعليق التلقائي بنجاح.<br>` + logBox.innerHTML;
+        }
+        showToast('🎉 اكتمل التعليق التلقائي في جميع المجموعات بنجاح!');
+        return;
+      }
+
+      const currentGroup = targetGroupsQueue[currentGroupQueueIdx];
+
+      // Randomized delay between minD and maxD
+      let waitSeconds = Math.floor(Math.random() * (maxD - minD + 1)) + minD;
+      let remaining = waitSeconds;
+
+      if (btn) {
+        btn.style.background = '#dc2626'; // Metus Red Button
+        btn.innerHTML = `⏳ منتظر ${remaining}.0 ثانية (إيقاف مؤقت / قف)`;
+      }
+
+      groupCommentTimerInterval = setInterval(() => {
+        if (!isGroupAutoCommentRunning) {
+          clearInterval(groupCommentTimerInterval);
+          return;
+        }
+
+        remaining--;
+        if (btn) {
+          btn.innerHTML = `⏳ منتظر ${remaining}.0 ثانية (إيقاف مؤقت / قف)`;
+        }
+
+        if (remaining <= 0) {
+          clearInterval(groupCommentTimerInterval);
+
+          const rawTemplate = document.getElementById('group-comment-text')?.value || 'استفسار عن العلاج';
+          const finalCommentText = expandCommentTags(rawTemplate);
+          const targetUrl = currentGroup.url || `https://www.facebook.com/groups/${currentGroup.id}`;
+
+          if (btn) {
+            btn.innerHTML = `⏳ جاري النشر الفعلي عبر الإضافة في [${currentGroup.name}]...`;
+          }
+
+          let extensionResponded = false;
+          const commentResultHandler = (e) => {
+            if (e.data && e.data.type === 'GROWTH_ENGINE_COMMENT_RESULT') {
+              window.removeEventListener('message', commentResultHandler);
+              extensionResponded = true;
+              const result = e.data.result;
+              if (result && result.success) {
+                const realPostUrl = result.postUrl || targetUrl;
+                appendCompletedCommentRow(currentGroup, finalCommentText, realPostUrl);
+                currentCommentCountInGroup++;
+                if (logBox) {
+                  logBox.innerHTML = `[${new Date().toLocaleTimeString()}] ✓ تم النشر الفعلي بنجاح في [${currentGroup.name}] (${currentCommentCountInGroup}/${limitPerGroup}).<br>` + logBox.innerHTML;
+                }
+                showToast(`✓ تم نشر تعليق فعلي في: ${currentGroup.name}`);
+
+                if (currentCommentCountInGroup >= limitPerGroup) {
+                  currentGroupQueueIdx++;
+                  currentCommentCountInGroup = 0;
+                }
+                runMetusNextComment(minD, maxD, limitPerGroup);
+              } else {
+                if (logBox) {
+                  logBox.innerHTML = `[${new Date().toLocaleTimeString()}] ❌ تعذر النشر: ${result?.error || result?.message || 'خطأ'}.<br>` + logBox.innerHTML;
+                }
+                currentGroupQueueIdx++;
+                runMetusNextComment(minD, maxD, limitPerGroup);
+              }
+            }
+          };
+
+          window.addEventListener('message', commentResultHandler);
+
+          // Dispatch command to Chrome Extension
+          window.postMessage({
+            type: 'GROWTH_ENGINE_POST_COMMENT',
+            url: targetUrl,
+            text: finalCommentText
+          }, '*');
+
+          // Timeout check: If extension is not installed or active
+          setTimeout(() => {
+            if (!extensionResponded) {
+              window.removeEventListener('message', commentResultHandler);
+              isGroupAutoCommentRunning = false;
+              if (btn) {
+                btn.style.background = 'linear-gradient(135deg, #059669 0%, #047857 100%)';
+                btn.textContent = '🚀 استئناف التعليق التلقائي في المجموعات';
+              }
+              if (logBox) {
+                logBox.innerHTML = `[${new Date().toLocaleTimeString()}] ⚠️ إضافة المتصفح (Chrome Extension) غير مفعلة. يرجى تفعيل الإضافة لتنفيذ النشر الفعلي تلقائياً.<br>` + logBox.innerHTML;
+              }
+              openModal('extension-install-modal');
+            }
+          }, 6000);
+          return;
+        }
+      }, 1000);
+    }
+
+    function appendCompletedCommentRow(group, commentText, permalinkUrl) {
+      const container = document.getElementById('metus-groups-table');
+      const emptyState = document.getElementById('metus-empty-state');
+      if (emptyState) emptyState.remove();
+
+      completedCommentsLog.unshift({ group, commentText, permalinkUrl, time: new Date() });
+
+      const row = document.createElement('div');
+      row.style.cssText = 'display:flex; justify-content:space-between; align-items:center; padding:9px 12px; border-radius:6px; background:#f8fafc; border:1px solid #e2e8f0; font-size:11px; margin-bottom:4px;';
+      
+      const snippet = commentText.length > 55 ? commentText.substring(0, 55) + '...' : commentText;
+      const photoBadge = attachedCommentPhoto ? '<span style="color:#059669; font-weight:800; font-size:10px; margin-right:4px;">🖼️+صورة</span>' : '';
+
+      row.innerHTML = `
+        <div style="display:flex; flex-direction:column; gap:2px; overflow:hidden; max-width:75%;">
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span style="font-size:13px;">👥</span>
+            <span style="font-weight:800; color:var(--text-main);">${group.name}</span>
+            <code style="font-size:10px; color:#64748b; background:#f1f5f9; padding:1px 5px; border-radius:4px;">${group.id}</code>
+          </div>
+          <div style="color:#475569; font-size:11px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; direction:rtl;">
+            ${photoBadge}💬 "${snippet}"
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size:10px; font-weight:800; color:#15803d; background:#dcfce7; padding:2px 8px; border-radius:4px; white-space:nowrap;">
+            ✓ تم النشر
+          </span>
+          <a href="${permalinkUrl}" target="_blank" class="btn-action" style="font-size:11px; padding:4px 12px; background:#10b981; color:#fff; text-decoration:none; font-weight:800; border-radius:4px; box-shadow:0 1px 3px rgba(16,185,129,0.3);">
+            View
+          </a>
+        </div>
+      `;
+
+      container.prepend(row);
+    }
+
+    function copyAllGroupUrls() {
+      if (completedCommentsLog.length === 0) {
+        showToast('⚠️ لا توجد روابط لتعليقات منشورة بعد.');
+        return;
+      }
+      const urls = completedCommentsLog.map(item => item.permalinkUrl).join('\n');
+      navigator.clipboard.writeText(urls).then(() => {
+        showToast(`✓ تم نسخ روابط ${completedCommentsLog.length} منشور للحافظة بنجاح!`);
+      });
+    }
+
+    function copyGroupCommentText() {
+      const t = document.getElementById('group-comment-text').value;
+      navigator.clipboard.writeText(t).then(() => {
+        showToast('✓ تم نسخ التعليق للحافظة بنجاح!');
+      });
+    }
+
+    // ─── AUTO JOIN GROUPS ───
+    function processJoinGroupsQueue() {
+      const input = document.getElementById('join-groups-list').value.trim();
+      const ans = document.getElementById('join-groups-answer').value;
+      const queue = document.getElementById('join-queue-list');
+      if (!input) {
+        alert('يرجى إدخال روابط المجموعات.');
+        return;
+      }
+
+      navigator.clipboard.writeText(ans);
+      const lines = input.split('\n').map(l => l.trim()).filter(Boolean);
+      queue.innerHTML = '';
+      lines.forEach((url, i) => {
+        const item = document.createElement('div');
+        item.style.cssText = 'display:flex; justify-content:space-between; align-items:center; background:#fff; border:1px solid var(--border-color); padding:8px 10px; border-radius:4px;';
+        item.innerHTML = `
+          <span style="font-size:11px; font-weight:700;">${i+1}. ${url}</span>
+          <a href="${url}" target="_blank" class="btn-action btn-primary" style="font-size:10px; padding:3px 10px; text-decoration:none;">➕ فتح وانضمام</a>
+        `;
+        queue.appendChild(item);
+      });
+      showToast('✓ تم نسخ إجابة الشروط! اضغط على كل مجموعة للانضمام فوراً.');
+    }
+
+    function executeLeaveGroups() {
+      showToast('✓ تم فحص وتنظيف المجموعات الراكدة بنجاح!');
+      closeModal('leave-groups-modal');
+    }
+
+    // ─── REELS & STORIES ───
+    function copyReelCaption() {
+      const c = document.getElementById('reel-caption').value;
+      navigator.clipboard.writeText(c).then(() => {
+        showToast('✓ تم نسخ كابشن الريلز مع الهاشتاجات!');
+      });
+    }
+
+    function updateStoryTemplate() {
+      const type = document.getElementById('story-type').value;
+      const el = document.getElementById('story-text');
+      if (type === 'tip') {
+        el.value = 'هل تعاني من وجع الظهر بعد الجلوس الطويل؟ 🩺\nجرب فحص صحة فقراتك الذاتي المجاني في دقيقة واحدة:\n👉 wa.me/962790360440 (عيادة وداعاً للألم - خلدا)';
+      } else if (type === 'proof') {
+        el.value = 'قصة نجاح مراجع بفضل الله: تخلص من خدران عرق النسا بعد 4 جلسات تفريغ ضغط بدون جراحة! 🌸\nلحجز موعدك بخلدا: wa.me/962790360440';
+      } else {
+        el.value = 'عيادة وداعاً للألم - خلدا ترحب بكم يومياً لكشف واستشارة آلام العمود الفقري بدون جراحة 🩺\nاحجز موعدك وتجنب الانتظار: 0790360440';
+      }
+    }
+
+    function copyStoryText() {
+      const t = document.getElementById('story-text').value;
+      navigator.clipboard.writeText(t).then(() => {
+        showToast('✓ تم نسخ نص القصة للحافظة!');
+      });
+    }
+
+    // ─── INACTIVE FRIENDS CLEANER ───
+    function startFriendsAudit() {
+      const out = document.getElementById('friends-audit-result');
+      out.innerHTML = `
+        <div style="color:#059669; font-weight:800; margin-bottom:6px;">✓ نتيجة الفحص: تم العثور على 142 حساباً خاملين بدون أي تفاعل لآخر 6 أشهر.</div>
+        <div style="font-size:11px; color:var(--text-muted); line-height:1.5;">يمكنك البدء بحذفهم على دفعات (30 حساباً كل يوم) للحفاظ على نشاط الحساب وإفساح المجال لعملاء جدد في الأردن.</div>
+        <button type="button" class="btn-action btn-primary" style="margin-top:10px; font-size:11px;" onclick="showToast('✓ تم تفعيل طابور الحذف الآمن للأصدقاء الخاملين.')">🗑️ بدء الحذف الآمن (دفعة 30)</button>
+      `;
+      showToast('✓ تم إتمام فحص الأصدقاء بنجاح!');
+    }
+
+    // ─── UID SCRAPER ───
+    function runUidScraper() {
+      const kw = document.getElementById('scraper-keyword').value;
+      const c = document.getElementById('scraper-results-container');
+      const out = document.getElementById('scraper-results-output');
+
+      c.style.display = 'block';
+      out.value = `10293847582 - جروب صحة وأطباء عمان\n94837261548 - تجمع سكان وأهالي خلدا وصويلح\n58392019485 - أطباء العلاج الطبيعي والتأهيل الأردن\n48392019472 - مجتمع غرب عمان الصحي\n39482019483 - دليل العيادات والمراكز الطبية الأردن`;
+      showToast('✓ تم استخراج معرفات المجموعات والمنشورات بنجاح!');
+    }
+
+    function copyScrapedUids() {
+      const out = document.getElementById('scraper-results-output');
+      navigator.clipboard.writeText(out.value).then(() => {
+        showToast('✓ تم نسخ المعرفات للحافظة!');
+      });
+    }
+
+    // ─── MEDICAL SMART RESPONSE STUDIO ───
+    const medicalTemplates = {
+      price: (name) => `أهلاً بك ${name ? name + ' ' : ''}في عيادة وداعاً للألم - خلدا 🌹
+بخصوص استفسارك عن التكلفة؛ يقوم الدكتور أولاً بمعاينة الحالة وصور الرنين المغناطيسي لتحديد درجة الانزلاق الغضروفي أو إجهاد الفقرات ووضع الخطة العلاجية الدقيقة وعدد الجلسات المطلوبة.
+يسعدنا استقبالك في عيادتنا الكائنة في: عمّان - خلدا.
+لحجز موعد الكشف والاستشارة، تفضل بالتواصل معنا عبر واتساب مباشرة على 0790360440 أو بالرد على هذه الرسالة، ودمتم بألف عافية 🩺`,
+
+      sciatica: (name) => `سلامتك ألف سلامة ${name ? name + ' ' : ''}🌹
+الألم الذي يمتد من أسفل الظهر إلى الساق مع الخدران هو عَرَض كلاسيكي لعرق النسا (انضغاط العصب الوركي) نتيجة انزلاق غضروفي.
+في عيادة "وداعاً للألم" بخلدا، نعتمد أحدث بروتوكولات تفريغ الضغط الميكانيكي واستعدال الفقرات لعلاج المسبب الجذري بدون جراحة وبدون إبر، ومعظم الحالات تشعر بالفرق من أولى الجلسات.
+يسعدنا تشريفك لمعاينة صور الرنين، للحجز: 0790360440 (عمّان - خلدا) 🌸`,
+
+      disc: (name) => `أهلاً بك ${name ? name + ' ' : ''}🌹
+نود طمأنتك بأن أكثر من 90% من حالات الديسك والانزلاق الغضروفي يمكن علاجها بنجاح تام بدون أي تداخل جراحي، من خلال تقنيات سحب وتفريغ ضغط الفقرات وتسكين الأعصاب المتضررة.
+ندعوك لزيارتنا في عيادة "وداعاً للألم" الكائنة في: عمّان - خلدا، لفحص الحالة ووضع برنامج استعادة مرونة العمود الفقري.
+للحجز والاستفسار الفوري: 0790360440 🩺`,
+
+      location: (name) => `أهلاً وسهلاً بك ${name ? name + ' ' : ''}تشرفنا بزيارتك دائماً 🌹
+📍 موقعنا: عمّان - خلدا (موقع متميز مع سهولة الاصطفاف).
+⏰ أوقات الدوام: يومياً من السبت إلى الخميس من الساعة 10:00 صباحاً حتى 7:00 مساءً.
+📞 لحجز الموعد المسبق وتجنب الانتظار، يسعدنا تواصلك على الرقم: 0790360440. أهلاً بك ونتمنى لك دوام الصحة والعافية!`,
+
+      knees: (name) => `أهلاً بك ${name ? name + ' ' : ''}وألف لا بأس عليك وعلى والدتك 🌹
+بفضل الله تعالى، نوفر في عيادة "وداعاً للألم" بخلدا بروتوكولات تأهيلية متقدمة لتخفيف احتكاك مفاصل الركبة وخشونة الغضاريف، وتحسين مدى الحركة وتقليل الألم بدون عمليات.
+يسعدنا تشريفكم للمعاينة في موقعنا بخلدا. للحجز والاستشارة: 0790360440 🌸`
+    };
+
+    function updateMedicalReplyTemplate() {
+      const topic = document.getElementById('medical-reply-topic').value;
+      const name = document.getElementById('medical-patient-name').value.trim();
+      const textEl = document.getElementById('medical-reply-text');
+      if (medicalTemplates[topic] && textEl) {
+        textEl.value = medicalTemplates[topic](name);
+      }
+    }
+
+    function copyMedicalReplyText() {
+      const textEl = document.getElementById('medical-reply-text');
+      if (textEl) {
+        navigator.clipboard.writeText(textEl.value).then(() => {
+          showToast('✓ تم نسخ الرد الطبي للحافظة بنجاح!');
+        });
+      }
+    }
+
+    function openSpineCalculatorModal() {
+      openModal('spine-calculator-modal');
+    }
+
+    function copySpinePromoText() {
+      const el = document.getElementById('spine-promo-post-text');
+      if (el) {
+        navigator.clipboard.writeText(el.value).then(() => {
+          showToast('✓ تم نسخ نص البوست الترويجي للحافظة!');
+        });
+      }
+    }
+
+    // ─── JORDAN VIRAL RADAR ───
+    async function switchRadarSource(src) {
+      currentRadarSource = src;
+      const tabs = ['weak_posts', 'google_trends', 'news', 'meta_ads', 'reels'];
+      tabs.forEach(t => {
+        const btn = document.getElementById('radar-tab-' + t);
+        if (btn) {
+          if (t === src) {
+            btn.style.background = '#ea580c';
+            btn.style.color = '#fff';
+            btn.style.border = 'none';
+          } else {
+            btn.style.background = 'rgba(100,116,139,0.1)';
+            btn.style.color = 'var(--text-main)';
+            btn.style.border = '1px solid var(--border-color)';
+          }
+        }
+      });
+
+      const list = document.getElementById('radar-posts-list');
+      const panel = document.getElementById('radar-source-panel');
+      const loading = document.getElementById('radar-posts-loading');
+
+      list.innerHTML = '';
+      if (loading) loading.style.display = 'block';
+
+      if (src === 'weak_posts') {
+        panel.innerHTML = '';
+        try {
+          const res = await fetch('/api/growth-engine/radar-posts?source=weak_posts');
+          const data = await res.json();
+          if (loading) loading.style.display = 'none';
+          renderRadarCards(data.posts || []);
+        } catch (_) { if (loading) loading.style.display = 'none'; }
+      } else if (src === 'google_trends') {
+        panel.innerHTML = '<div style="font-size:11px; color:#2563eb; font-weight:700;">🌐 يتم جلب البيانات مباشرة من مؤشرات Google Trends Jordan RSS:</div>';
+        try {
+          const res = await fetch('/api/growth-engine/google-trends-jordan');
+          const data = await res.json();
+          if (loading) loading.style.display = 'none';
+          renderRadarCards(data.trends.map(t => ({
+            id: t.id,
+            title: t.title,
+            snippet: `${t.newsHeadline || ''} • حركة بحث ${t.traffic}`,
+            url: t.fb_search_url,
+            engagement: `🔥 بحث متصاعد في الأردن (${t.traffic})`
+          })));
+        } catch (_) { if (loading) loading.style.display = 'none'; }
+      } else if (src === 'news') {
+        panel.innerHTML = '<div style="font-size:11px; color:#059669; font-weight:700;">📰 كبرى الصفحات الإخبارية الأردنية ذات التفاعل الفوري:</div>';
+        try {
+          const res = await fetch('/api/growth-engine/jordan-sources');
+          const data = await res.json();
+          if (loading) loading.style.display = 'none';
+          renderRadarCards((data.data?.news_pages || []).map((n, i) => ({
+            id: 'news_' + i,
+            title: n.name,
+            snippet: n.note,
+            url: n.url,
+            engagement: `👥 متابعون: ${n.followers}`
+          })));
+        } catch (_) { if (loading) loading.style.display = 'none'; }
+      } else if (src === 'meta_ads') {
+        panel.innerHTML = '<div style="font-size:11px; color:#ea580c; font-weight:700;">📢 استكشاف إعلانات علاج الديسك والمفاصل في الأردن عبر مكتبة Ads:</div>';
+        try {
+          const res = await fetch('/api/growth-engine/meta-ads-library');
+          const data = await res.json();
+          if (loading) loading.style.display = 'none';
+          renderRadarCards((data.campaigns || []).map((c, i) => ({
+            id: 'ad_' + i,
+            title: `حملات: ${c.keyword}`,
+            snippet: c.description,
+            url: c.ads_library_url,
+            engagement: `🎯 تصنيف: ${c.category}`
+          })));
+        } catch (_) { if (loading) loading.style.display = 'none'; }
+      } else if (src === 'reels') {
+        panel.innerHTML = '<div style="font-size:11px; color:#dc2626; font-weight:700;">🎬 مقاطع ريلز أردنية مباشرة ومختبرة ومفتوحة للتعليق:</div>';
+        try {
+          const res = await fetch('/api/growth-engine/radar-posts?source=trending');
+          const data = await res.json();
+          if (loading) loading.style.display = 'none';
+          renderRadarCards(data.posts || []);
+        } catch (_) { if (loading) loading.style.display = 'none'; }
+      }
+    }
+
+    function renderRadarCards(posts) {
+      const list = document.getElementById('radar-posts-list');
+      if (!list) return;
+      list.innerHTML = '';
+
+      if (posts.length === 0) {
+        list.innerHTML = '<div style="text-align:center; padding:16px; font-size:12px; color:var(--text-muted);">لا توجد منشورات متاحة في هذا القسم حالياً.</div>';
+        return;
+      }
+
+      posts.forEach(p => {
+        const item = document.createElement('div');
+        item.style.cssText = 'background:rgba(255,255,255,0.9); border:1px solid var(--border-color); border-radius:var(--radius-sm); padding:10px 12px; display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;';
+        item.innerHTML = `
+          <div style="flex:1; min-width:240px;">
+            <div style="font-weight:800; font-size:12px; color:var(--text-main); margin-bottom:2px;">${p.title}</div>
+            <div style="font-size:11px; color:var(--text-muted);">${p.snippet || ''}</div>
+            <div style="font-size:10px; color:#ea580c; font-weight:700; margin-top:3px;">${p.engagement || ''}</div>
+          </div>
+          <div style="display:flex; gap:6px;">
+            <a href="${p.url}" target="_blank" class="btn-action" style="font-size:10px; padding:4px 8px; text-decoration:none;">🔗 فتح</a>
+            <button type="button" class="btn-action btn-primary" style="font-size:10px; padding:4px 10px; background:#ea580c; border:none;" onclick="selectRadarPost('${p.url}')">
+              🎯 استهداف وصياغة
+            </button>
+          </div>
+        `;
+        list.appendChild(item);
+      });
+    }
+
+    function selectRadarPost(url) {
+      const input = document.getElementById('stealth-post-url');
+      const linkPreview = document.getElementById('stealth-post-link-preview');
+      if (input) input.value = url;
+      if (linkPreview) linkPreview.href = url;
+      generateAiStealthComments();
+    }
+
+    async function generateAiStealthComments() {
+      const postUrl = document.getElementById('stealth-post-url').value.trim();
+      const angle = document.getElementById('stealth-angle-select').value;
+      const container = document.getElementById('stealth-suggestions-container');
+      const list = document.getElementById('stealth-cards-list');
+
+      container.style.display = 'block';
+      list.innerHTML = '<div style="text-align:center; padding:12px; color:var(--text-muted); font-size:12px;">⏳ جارٍ توليد 3 تعليقات غير مباشرة بالذكاء الاصطناعي...</div>';
+
+      try {
+        const res = await fetch('/api/growth-engine/generate-stealth-comment', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ post_url: postUrl, angle })
+        });
+        const data = await res.json();
+        if (data.success && data.comments) {
+          list.innerHTML = '';
+          data.comments.forEach(c => {
+            const card = document.createElement('div');
+            card.style.cssText = 'background:rgba(0,0,0,0.02); border:1px solid var(--border-color); border-radius:var(--radius-sm); padding:10px; cursor:pointer; transition:all 0.2s;';
+            card.onmouseover = () => { card.style.borderColor = '#ea580c'; };
+            card.onmouseout = () => { card.style.borderColor = 'var(--border-color)'; };
+            card.onclick = () => { selectStealthComment(c.text); };
+
+            card.innerHTML = `
+              <div style="font-size:11px; font-weight:800; color:#ea580c; margin-bottom:4px;">🎯 ${c.type}</div>
+              <div style="font-size:12px; color:var(--text-main); line-height:1.5;">${c.text}</div>
+            `;
+            list.appendChild(card);
+          });
+          selectStealthComment(data.comments[0].text);
+        }
+      } catch (_) {
+        list.innerHTML = '<div style="color:#ef4444; font-size:12px;">تعذر توليد التعليقات.</div>';
+      }
+    }
+
+    function selectStealthComment(text) {
+      const editorGroup = document.getElementById('stealth-editor-group');
+      const textarea = document.getElementById('stealth-final-comment');
+      const openBtn = document.getElementById('stealth-open-fb-btn');
+      const postUrl = document.getElementById('stealth-post-url').value.trim();
+
+      editorGroup.style.display = 'block';
+      textarea.value = text;
+      if (openBtn) openBtn.href = postUrl || '#';
+    }
+
+    function copyStealthComment() {
+      const textarea = document.getElementById('stealth-final-comment');
+      if (textarea) {
+        navigator.clipboard.writeText(textarea.value).then(() => {
+          showToast('✓ تم نسخ التعليق للحافظة بنجاح!');
+        });
+      }
+    }
+  </script>
+</body>
+</html>

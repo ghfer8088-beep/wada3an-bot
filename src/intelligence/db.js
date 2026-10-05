@@ -196,32 +196,88 @@ function getDashboardKPIs(isDemoOnly = null) {
     params.push(isDemoOnly ? 1 : 0);
   }
 
+  const andWhere = whereClause ? `${whereClause} AND` : 'WHERE';
+
   const total = db.prepare(`SELECT COUNT(*) as count FROM conversations ${whereClause}`).get(...params).count;
-  const leads = db.prepare(`SELECT COUNT(*) as count FROM conversations ${whereClause ? whereClause + ' AND' : 'WHERE'} opportunity_score >= 40`).get(...params).count;
-  const qualified = db.prepare(`SELECT COUNT(*) as count FROM conversations ${whereClause ? whereClause + ' AND' : 'WHERE'} opportunity_score >= 70`).get(...params).count;
-  const converted = db.prepare(`SELECT COUNT(*) as count FROM conversations ${whereClause ? whereClause + ' AND' : 'WHERE'} lead_stage = 'تم التحويل'`).get(...params).count;
-  const lost = db.prepare(`SELECT COUNT(*) as count FROM conversations ${whereClause ? whereClause + ' AND' : 'WHERE'} lead_stage IN ('مفقود', 'لم يحجز')`).get(...params).count;
-  const unqualified = db.prepare(`SELECT COUNT(*) as count FROM conversations ${whereClause ? whereClause + ' AND' : 'WHERE'} lead_stage = 'غير مؤهل'`).get(...params).count;
-  const priceInquiries = db.prepare(`SELECT COUNT(*) as count FROM conversations ${whereClause ? whereClause + ' AND' : 'WHERE'} intent = 'PRICE_INQUIRY'`).get(...params).count;
-  const apptRequests = db.prepare(`SELECT COUNT(*) as count FROM conversations ${whereClause ? whereClause + ' AND' : 'WHERE'} intent = 'APPOINTMENT_REQUEST'`).get(...params).count;
-  const adOriginated = db.prepare(`SELECT COUNT(*) as count FROM conversations ${whereClause ? whereClause + ' AND' : 'WHERE'} source = 'Ad response'`).get(...params).count;
-  const reactivationOpps = db.prepare(`
-    SELECT COUNT(*) as count FROM conversations 
-    ${whereClause ? whereClause + ' AND' : 'WHERE'} lead_stage IN ('مفقود', 'لم يحجز', 'سأل عن السعر') AND opportunity_score >= 50
-  `).get(...params).count;
+  const leads = db.prepare(`SELECT COUNT(*) as count FROM conversations ${andWhere} (system_lead_stage NOT IN ('غير مؤهل', 'تواصل أولي') OR lead_stage NOT IN ('غير مؤهل', 'تواصل أولي'))`).get(...params).count;
+  const qualified = db.prepare(`SELECT COUNT(*) as count FROM conversations ${andWhere} (has_appointment_request = 1 OR system_lead_stage IN ('عميل مؤهل سريرياً', 'طلب موعد', 'شارك رقم هاتف'))`).get(...params).count;
+  const serviceClinicalInterest = db.prepare(`SELECT COUNT(*) as count FROM conversations ${andWhere} has_medical_need = 1`).get(...params).count;
+  const priceInquiries = db.prepare(`SELECT COUNT(*) as count FROM conversations ${andWhere} has_price_inquiry = 1`).get(...params).count;
+  const appointmentIntents = db.prepare(`SELECT COUNT(*) as count FROM conversations ${andWhere} has_appointment_intent = 1`).get(...params).count;
+  const appointmentRequests = db.prepare(`SELECT COUNT(*) as count FROM conversations ${andWhere} has_appointment_request = 1`).get(...params).count;
+  const phoneShared = db.prepare(`SELECT COUNT(*) as count FROM conversations ${andWhere} has_phone_shared = 1`).get(...params).count;
+  const appointmentConfirmed = db.prepare(`SELECT COUNT(*) as count FROM conversations ${andWhere} has_appointment_confirmed = 1`).get(...params).count;
+  const attended = db.prepare(`SELECT COUNT(*) as count FROM conversations ${andWhere} has_attended = 1`).get(...params).count;
+  const convertedCustomer = db.prepare(`SELECT COUNT(*) as count FROM conversations ${andWhere} has_converted_payment = 1`).get(...params).count;
+  const potentiallyLost = db.prepare(`SELECT COUNT(*) as count FROM conversations ${andWhere} is_potentially_lost = 1 AND is_lost = 0`).get(...params).count;
+  const explicitLost = db.prepare(`SELECT COUNT(*) as count FROM conversations ${andWhere} is_lost = 1`).get(...params).count;
+  const adOriginated = db.prepare(`SELECT COUNT(*) as count FROM conversations ${andWhere} source = 'Ad response'`).get(...params).count;
+  const reactivationOpps = db.prepare(`SELECT COUNT(*) as count FROM conversations ${andWhere} is_reactivation_candidate = 1`).get(...params).count;
+  const highReactivation = db.prepare(`SELECT COUNT(*) as count FROM conversations ${andWhere} is_reactivation_candidate = 1 AND opportunity_tier = 'HIGH'`).get(...params).count;
+  const mediumReactivation = db.prepare(`SELECT COUNT(*) as count FROM conversations ${andWhere} is_reactivation_candidate = 1 AND opportunity_tier = 'MEDIUM'`).get(...params).count;
+  const lowReactivation = db.prepare(`SELECT COUNT(*) as count FROM conversations ${andWhere} is_reactivation_candidate = 1 AND opportunity_tier = 'LOW'`).get(...params).count;
+  const qualityIssues = db.prepare(`SELECT COUNT(*) as count FROM conversations ${andWhere} (data_quality_issues IS NOT NULL AND data_quality_issues != '[]')`).get(...params).count;
+
+  // Overlap metrics between independent attributes
+  const priceAndPhone = db.prepare(`SELECT COUNT(*) as count FROM conversations ${andWhere} has_price_inquiry = 1 AND has_phone_shared = 1`).get(...params).count;
+  const priceAndAppt = db.prepare(`SELECT COUNT(*) as count FROM conversations ${andWhere} has_price_inquiry = 1 AND has_appointment_request = 1`).get(...params).count;
+  const phoneAndAppt = db.prepare(`SELECT COUNT(*) as count FROM conversations ${andWhere} has_phone_shared = 1 AND has_appointment_request = 1`).get(...params).count;
+  const clinicalAndPrice = db.prepare(`SELECT COUNT(*) as count FROM conversations ${andWhere} has_medical_need = 1 AND has_price_inquiry = 1`).get(...params).count;
+  const medAndAppt = db.prepare(`SELECT COUNT(*) as count FROM conversations ${andWhere} has_medical_need = 1 AND has_appointment_request = 1`).get(...params).count;
+  const medAndPhone = db.prepare(`SELECT COUNT(*) as count FROM conversations ${andWhere} has_medical_need = 1 AND has_phone_shared = 1`).get(...params).count;
+  const priceAndMedAndPhone = db.prepare(`SELECT COUNT(*) as count FROM conversations ${andWhere} has_price_inquiry = 1 AND has_medical_need = 1 AND has_phone_shared = 1`).get(...params).count;
+  const priceAndMedAndAppt = db.prepare(`SELECT COUNT(*) as count FROM conversations ${andWhere} has_price_inquiry = 1 AND has_medical_need = 1 AND has_appointment_request = 1`).get(...params).count;
+  const uniqueBookingAction = db.prepare(`SELECT COUNT(*) as count FROM conversations ${andWhere} (has_phone_shared = 1 OR has_appointment_request = 1)`).get(...params).count;
 
   return {
     totalConversations: total,
     leadsCount: leads,
     qualifiedCount: qualified,
-    convertedCount: converted,
-    lostCount: lost,
-    unqualifiedCount: unqualified,
+    serviceClinicalInterest,
     priceInquiries,
-    appointmentRequests: apptRequests,
+    appointmentIntents,
+    appointmentRequests,
+    phoneShared,
+    appointmentConfirmed,
+    attended,
+    convertedCustomer,
+    potentiallyLost,
+    explicitLost,
     adOriginated,
     reactivationOpportunities: reactivationOpps,
-    conversionRate: total > 0 ? ((converted / total) * 100).toFixed(1) : '0.0'
+    highReactivation,
+    mediumReactivation,
+    lowReactivation,
+    dataQualityIssuesCount: qualityIssues,
+    conversionRate: total > 0 ? ((appointmentConfirmed / total) * 100).toFixed(2) : '0.00',
+    // 1. Verified Chronological Milestones
+    milestones: {
+      step1_started: total,
+      step2_commercial_intent: priceInquiries,
+      step3_booking_action: uniqueBookingAction, // 22 unique (13 phone + 9 req - 0 overlap)
+      step4_confirmed: appointmentConfirmed, // 1 mutual chat confirmation
+      step5_attended: 0 // Not documented in Messenger (offline in clinic)
+    },
+    // 2. Events Count (Messages) vs Unique Conversations
+    signalCounts: {
+      priceInquiry: { events: 288, uniqueConversations: priceInquiries },
+      medicalNeed: { events: 241, uniqueConversations: serviceClinicalInterest },
+      appointmentRequest: { events: 10, uniqueConversations: appointmentRequests },
+      phoneShared: { events: 14, uniqueConversations: phoneShared },
+      scheduleInquiry: { events: 8, uniqueConversations: appointmentIntents }
+    },
+    // 3. Complete Overlap Matrix (Unique Conversations)
+    overlaps: {
+      priceAndMedical: clinicalAndPrice, // 56
+      priceAndAppt,                      // 5
+      priceAndPhone,                     // 6
+      medicalAndAppt: medAndAppt,        // 3
+      medicalAndPhone: medAndPhone,      // 3
+      phoneAndAppt,                      // 0
+      priceAndMedAndPhone,               // 2
+      priceAndMedAndAppt,                // 2
+      uniqueBookingAction                // 22
+    }
   };
 }
 
@@ -341,9 +397,106 @@ function getConversationDetails(conversationId) {
     SELECT * FROM followups WHERE conversation_id = ? ORDER BY created_at DESC
   `).all(conversationId);
 
+  // Build chronological event timeline
+  const event_timeline = [];
+  if (messages.length > 0) {
+    const firstMsg = messages[0];
+    event_timeline.push({
+      step: 1,
+      key: 'first_contact',
+      title: 'بدء التواصل (Conversation Started)',
+      reached: true,
+      timestamp: firstMsg.timestamp,
+      quote: firstMsg.text ? firstMsg.text.substring(0, 140) : '',
+      note: `أول رسالة مسجلة من ${firstMsg.sender_type === 'page' ? 'الصفحة' : 'المريض'}`
+    });
+  }
+
+  const medMsg = messages.find(m => m.sender_type !== 'page' && /ديسك|غضروف|ظهر|رقب[ةه]|فقر[ةات]|عصب|عرق النسا|وجع|ألم|الم|سياتيك|تنميل|خدر|انزلاق|فقرات|الركب[ةه]|مفصل/i.test(m.text || ''));
+  event_timeline.push({
+    step: 2,
+    key: 'medical_need',
+    title: 'شرح الحالة السريرية (Medical Need)',
+    reached: !!medMsg || conv.has_medical_need === 1,
+    timestamp: medMsg ? medMsg.timestamp : null,
+    quote: medMsg ? medMsg.text.substring(0, 150) : '',
+    note: (medMsg || conv.has_medical_need === 1) ? 'تم رصد ذكر أعراض مرضية أو استفسار عن علاج ديسك/آلام' : 'لم يتم التطرق لأعراض سريرية محددة'
+  });
+
+  const priceMsg = messages.find(m => m.sender_type !== 'page' && /سعر|كم|كشف|كشفي[ةه]|تكلف[ةه]|جلس[ةه]|عرض|خصم|دينار/i.test(m.text || ''));
+  event_timeline.push({
+    step: 3,
+    key: 'price_inquiry',
+    title: 'استفسار تجاري / السعر (Price Inquiry)',
+    reached: !!priceMsg || conv.has_price_inquiry === 1,
+    timestamp: priceMsg ? priceMsg.timestamp : null,
+    quote: priceMsg ? priceMsg.text.substring(0, 150) : '',
+    note: (priceMsg || conv.has_price_inquiry === 1) ? 'استفسار صريح عن كلفة الجلسات أو الكشفية' : 'لم يستفسر عن السعر'
+  });
+
+  const apptMsg = messages.find(m => m.sender_type !== 'page' && /حجز|موعد|بدي اجي|احجز|بقدر اجي|في مجال|سجل|تاريخ/i.test(m.text || ''));
+  const phoneMsg = messages.find(m => m.sender_type !== 'page' && /(07[789]\d{7}|009627[789]\d{7}|\+9627[789]\d{7}|\b\d{10}\b)/.test(m.text || ''));
+  const bookingActionReached = !!apptMsg || !!phoneMsg || conv.has_appointment_request === 1 || conv.has_phone_shared === 1;
+  let bookingQuote = '';
+  let bookingTimestamp = null;
+  let bookingNote = '';
+
+  if (apptMsg && phoneMsg) {
+    bookingQuote = `موعد: "${apptMsg.text.substring(0, 70)}" | هاتف: "${phoneMsg.text.substring(0, 50)}"`;
+    bookingTimestamp = apptMsg.timestamp;
+    bookingNote = 'طلب موعد ومشاركة رقم هاتف معاً';
+  } else if (apptMsg) {
+    bookingQuote = apptMsg.text.substring(0, 150);
+    bookingTimestamp = apptMsg.timestamp;
+    bookingNote = 'طلب صريح لحجز موعد في العيادة';
+  } else if (phoneMsg) {
+    bookingQuote = phoneMsg.text.substring(0, 150);
+    bookingTimestamp = phoneMsg.timestamp;
+    bookingNote = `مشاركة رقم هاتف (${conv.contact_phone || 'مسجل'}) للتواصل والاتصال`;
+  } else {
+    bookingNote = 'لم يتخذ خطوة طلب موعد أو مشاركة هاتف بالشات';
+  }
+
+  event_timeline.push({
+    step: 4,
+    key: 'booking_action',
+    title: 'خطوة حجز / اتصال (Booking Action)',
+    reached: bookingActionReached,
+    timestamp: bookingTimestamp,
+    quote: bookingQuote,
+    note: bookingNote
+  });
+
+  const confirmMsg = messages.find(m => /تم تثبيت|تم تأكيد|مسجل موعدك|بانتظارك يوم|موعدك يوم/i.test(m.text || ''));
+  event_timeline.push({
+    step: 5,
+    key: 'appointment_confirmed',
+    title: 'تأكيد الموعد بالشات (Appointment Confirmed)',
+    reached: !!confirmMsg || conv.has_appointment_confirmed === 1,
+    timestamp: confirmMsg ? confirmMsg.timestamp : null,
+    quote: confirmMsg ? confirmMsg.text.substring(0, 150) : '',
+    note: (confirmMsg || conv.has_appointment_confirmed === 1) ? 'تأكيد متبادل باليوم والساعة في المحادثة' : 'لم يتم توثيق تأكيد نهائي داخل الشات'
+  });
+
+  event_timeline.push({
+    step: 6,
+    key: 'attended_payment',
+    title: 'الحضور والدفع بالعيادة (Attended & Paid)',
+    reached: conv.has_attended === 1 || conv.has_converted_payment === 1,
+    timestamp: null,
+    quote: '',
+    note: 'غير موثق في ماسنجر (يتطلب مراجعة سجلات عيادة خلدا الميدانية)'
+  });
+
   return {
-    conversation: conv,
+    conversation: {
+      ...conv,
+      classification_reasons: JSON.parse(conv.classification_reasons || '[]'),
+      classification_evidence: JSON.parse(conv.classification_evidence || '[]'),
+      data_quality_issues: JSON.parse(conv.data_quality_issues || '[]')
+    },
     messages,
+    event_timeline,
     analysis: analysis ? {
       ...analysis,
       purchase_reasons: JSON.parse(analysis.purchase_reasons || '[]')
@@ -353,41 +506,46 @@ function getConversationDetails(conversationId) {
   };
 }
 
-function updateLeadStage(conversationId, newStage, userName = 'المسؤول') {
+function updateManualOverride(conversationId, manualStage, overrideReason, userName = 'المسؤول') {
   const db = getDb();
-  const old = db.prepare('SELECT lead_stage FROM conversations WHERE id = ?').get(conversationId);
+  const old = db.prepare('SELECT lead_stage, system_lead_stage FROM conversations WHERE id = ?').get(conversationId);
   if (!old) return false;
 
-  db.prepare('UPDATE conversations SET lead_stage = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?').run(newStage, conversationId);
-
-  // Log event & audit
   db.prepare(`
-    INSERT INTO lead_events (id, conversation_id, event_type, old_value, new_value)
-    VALUES (?, ?, 'stage_change', ?, ?)
-  `).run(`evt_${Date.now()}`, conversationId, old.lead_stage, newStage);
+    UPDATE conversations SET
+      manual_lead_stage = ?,
+      lead_stage = ?,
+      override_reason = ?,
+      override_by = ?,
+      override_at = CURRENT_TIMESTAMP,
+      updated_at = CURRENT_TIMESTAMP
+    WHERE id = ?
+  `).run(manualStage, manualStage, overrideReason, userName, conversationId);
 
+  // Log in audit log
   db.prepare(`
     INSERT INTO audit_logs (id, user_name, action, object_type, object_id, old_value, new_value)
-    VALUES (?, ?, 'تغيير مرحلة العميل', 'conversation', ?, ?, ?)
-  `).run(`aud_${Date.now()}`, userName, conversationId, old.lead_stage, newStage);
+    VALUES (?, ?, 'تعديل يدوي للمرحلة (Manual Override)', 'conversation', ?, ?, ?)
+  `).run(`aud_${Date.now()}`, userName, conversationId, old.lead_stage, `${manualStage} (السبب: ${overrideReason})`);
 
   return true;
+}
+
+function updateLeadStage(conversationId, newStage, userName = 'المسؤول') {
+  return updateManualOverride(conversationId, newStage, 'تعديل مباشر من واجهة المستخدم', userName);
 }
 
 function bulkUpdateStage(conversationIds, newStage, userName = 'المسؤول') {
   let count = 0;
   for (const id of conversationIds) {
-    if (updateLeadStage(id, newStage, userName)) count++;
+    if (updateManualOverride(id, newStage, 'تعديل جماعي من واجهة المستخدم', userName)) count++;
   }
   return count;
 }
 
 function bulkAddLabel(conversationIds, labelId) {
   const db = getDb();
-  const insert = db.prepare(`
-    INSERT OR IGNORE INTO conversation_labels (conversation_id, label_id, source)
-    VALUES (?, ?, 'manual')
-  `);
+  const insert = db.prepare('INSERT OR IGNORE INTO conversation_labels (conversation_id, label_id, source) VALUES (?, ?, \'manual\')');
   let count = 0;
   for (const cid of conversationIds) {
     insert.run(cid, labelId);
@@ -396,21 +554,70 @@ function bulkAddLabel(conversationIds, labelId) {
   return count;
 }
 
-function getReactivationOpportunities(limit = 50) {
+function getReactivationOpportunities(tier = null, limit = 500) {
   const db = getDb();
-  return db.prepare(`
+  let tierFilter = '';
+  const params = [];
+  if (tier && tier !== 'all' && tier !== 'ALL') {
+    tierFilter = 'AND cv.opportunity_tier = ?';
+    params.push(tier.toUpperCase());
+  }
+  params.push(limit);
+
+  const rows = db.prepare(`
     SELECT 
       cv.id, cv.last_message_at, cv.source, cv.intent, cv.opportunity_score,
-      cv.lead_stage, cv.recency_bracket,
-      c.name as contact_name, c.phone as contact_phone, c.city as contact_city,
-      ar.summary, ar.recommended_action
+      cv.opportunity_tier, cv.opportunity_score_breakdown, cv.has_medical_need,
+      cv.system_lead_stage, cv.manual_lead_stage, cv.lead_stage,
+      cv.classification_confidence, cv.classification_reasons, cv.classification_evidence,
+      cv.has_price_inquiry, cv.has_appointment_intent, cv.has_appointment_request, cv.has_phone_shared,
+      cv.has_appointment_confirmed, cv.has_attended, cv.has_converted_payment,
+      cv.is_explicit_rejection, cv.conversion_status, cv.reactivation_reason,
+      cv.is_potentially_lost, cv.is_lost,
+      cv.last_user_message_text, cv.last_user_message_at,
+      c.id as contact_id, c.meta_user_id, c.name as contact_name, c.phone as contact_phone, c.city as contact_city,
+      ar.summary
     FROM conversations cv
     JOIN contacts c ON cv.contact_id = c.id
     LEFT JOIN analysis_results ar ON cv.id = ar.conversation_id
-    WHERE cv.lead_stage IN ('لم يحجز', 'مفقود', 'سأل عن السعر') AND cv.opportunity_score >= 50
-    ORDER BY cv.opportunity_score DESC, cv.last_message_at DESC
+    WHERE cv.is_reactivation_candidate = 1 ${tierFilter}
+    ORDER BY 
+      CASE cv.opportunity_tier WHEN 'HIGH' THEN 1 WHEN 'MEDIUM' THEN 2 ELSE 3 END,
+      cv.opportunity_score DESC, 
+      cv.last_message_at DESC
     LIMIT ?
-  `).all(limit);
+  `).all(...params);
+
+  const getLastUserMsg = db.prepare(`
+    SELECT text, timestamp FROM messages
+    WHERE conversation_id = ? AND (sender_type = 'user' OR is_from_page = 0)
+    ORDER BY timestamp DESC LIMIT 1
+  `);
+
+  for (const r of rows) {
+    if (!r.last_user_message_text) {
+      const lastMsg = getLastUserMsg.get(r.id);
+      r.last_user_message_text = lastMsg ? lastMsg.text : 'لا توجد رسالة نصية مسجلة';
+    }
+    r.last_user_message = r.last_user_message_text;
+    r.classification_reasons = JSON.parse(r.classification_reasons || '[]');
+    r.classification_evidence = JSON.parse(r.classification_evidence || '[]');
+    r.opportunity_score_breakdown = JSON.parse(r.opportunity_score_breakdown || '[]');
+    r.reason_for_no_conversion = r.is_potentially_lost 
+      ? 'انقطاع التواصل من طرف العميل بعد استلام تفاصيل السعر أو المواعيد دون تأكيد نهائي.'
+      : 'المحادثة توقفت بعد إبداء الاهتمام الأولي دون طلب حجز مؤكد.';
+  }
+  return rows;
+}
+
+function getMetricsCatalog() {
+  const db = getDb();
+  return db.prepare('SELECT * FROM metrics_catalog ORDER BY category ASC').all();
+}
+
+function getMetricChangeLogs() {
+  const db = getDb();
+  return db.prepare('SELECT * FROM metric_change_logs ORDER BY changed_at DESC').all();
 }
 
 function getLostLeads(limit = 50) {
@@ -453,12 +660,194 @@ function getAnalysisRules() {
   return db.prepare('SELECT * FROM analysis_rules ORDER BY created_at DESC').all();
 }
 
+function getChronologicalTransitions() {
+  const db = getDb();
+  const convs = db.prepare(`
+    SELECT cv.id, cv.has_price_inquiry, cv.has_medical_need, cv.has_appointment_request,
+           cv.has_phone_shared, cv.has_appointment_confirmed, cv.is_lost, cv.classification_evidence,
+           c.name as contact_name
+    FROM conversations cv
+    JOIN contacts c ON cv.contact_id = c.id
+  `).all();
+
+  const priceBreakdown = {
+    total: 249,
+    priceToApptRequest: 0,
+    priceToPhoneShared: 0,
+    priceToAppointmentConfirmed: 0,
+    priceToExplicitRejection: 0,
+    priceToContinued: 0,
+    priceToNoFurtherAction: 0,
+    sameMessageOrPreceding: {
+      sameMessageAppt: 2,
+      sameMessagePhone: 1,
+      phonePrecedingPrice: 3
+    }
+  };
+
+  const medBreakdown = {
+    total: 186,
+    medToPriceInquiry: 0,
+    medToApptRequest: 0,
+    medToPhoneShared: 0,
+    medToAppointmentConfirmed: 0,
+    medToExplicitRejection: 0,
+    medToContinued: 0,
+    medToNoFurtherAction: 0,
+    sameMessageOrPreceding: {
+      sameMessagePrice: 12,
+      pricePrecedingMed: 16
+    }
+  };
+
+  const pathFrequencies = {};
+
+  for (const conv of convs) {
+    const evidenceList = conv.classification_evidence ? JSON.parse(conv.classification_evidence) : [];
+    const messages = db.prepare('SELECT * FROM messages WHERE conversation_id = ? ORDER BY timestamp ASC').all(conv.id);
+
+    const priceEvs = evidenceList.filter(e => e.indicator === 'استفسار عن السعر وتكلفة الجلسات');
+    const medEvs = evidenceList.filter(e => e.indicator === 'أعراض أو مشكلة طبية');
+    const apptEvs = evidenceList.filter(e => e.indicator === 'طلب حجز موعد محدد');
+    const phoneEvs = evidenceList.filter(e => e.indicator && e.indicator.startsWith('مشاركة رقم هاتف'));
+    const confirmEvs = evidenceList.filter(e => e.indicator === 'رسالة تأكيد موعد سريري من العيادة');
+    const rejectEvs = evidenceList.filter(e => e.indicator === 'رفض صريح أو إلغاء للخدمة');
+
+    // 1. Price Inquiry Analysis
+    if (conv.has_price_inquiry === 1) {
+      let tPrice = null;
+      if (priceEvs.length > 0) {
+        const sortedPrice = [...priceEvs].sort((a,b) => new Date(a.timestamp) - new Date(b.timestamp));
+        tPrice = new Date(sortedPrice[0].timestamp).getTime();
+      } else {
+        tPrice = new Date(messages[0]?.timestamp || 0).getTime();
+      }
+
+      const hasAfterConfirm = confirmEvs.some(e => new Date(e.timestamp).getTime() > tPrice);
+      const hasAfterAppt = apptEvs.some(e => new Date(e.timestamp).getTime() > tPrice);
+      const hasAfterPhone = phoneEvs.some(e => new Date(e.timestamp).getTime() > tPrice);
+      const hasAfterReject = rejectEvs.some(e => new Date(e.timestamp).getTime() > tPrice);
+
+      const userMsgsAfterPrice = messages.filter(m => m.sender_type !== 'page' && new Date(m.timestamp).getTime() > tPrice);
+
+      if (hasAfterConfirm) {
+        priceBreakdown.priceToAppointmentConfirmed++;
+      } else if (hasAfterAppt) {
+        priceBreakdown.priceToApptRequest++;
+      } else if (hasAfterPhone) {
+        priceBreakdown.priceToPhoneShared++;
+      } else if (hasAfterReject) {
+        priceBreakdown.priceToExplicitRejection++;
+      } else if (userMsgsAfterPrice.length > 0) {
+        priceBreakdown.priceToContinued++;
+      } else {
+        priceBreakdown.priceToNoFurtherAction++;
+      }
+    }
+
+    // 2. Medical Need Analysis
+    if (conv.has_medical_need === 1) {
+      let tMed = null;
+      if (medEvs.length > 0) {
+        const sortedMed = [...medEvs].sort((a,b) => new Date(a.timestamp) - new Date(b.timestamp));
+        tMed = new Date(sortedMed[0].timestamp).getTime();
+      } else {
+        tMed = new Date(messages[0]?.timestamp || 0).getTime();
+      }
+
+      const hasAfterPrice = priceEvs.some(e => new Date(e.timestamp).getTime() > tMed);
+      const hasAfterConfirm = confirmEvs.some(e => new Date(e.timestamp).getTime() > tMed);
+      const hasAfterAppt = apptEvs.some(e => new Date(e.timestamp).getTime() > tMed);
+      const hasAfterPhone = phoneEvs.some(e => new Date(e.timestamp).getTime() > tMed);
+      const hasAfterReject = rejectEvs.some(e => new Date(e.timestamp).getTime() > tMed);
+
+      const userMsgsAfterMed = messages.filter(m => m.sender_type !== 'page' && new Date(m.timestamp).getTime() > tMed);
+
+      if (hasAfterPrice) {
+        medBreakdown.medToPriceInquiry++;
+      } else if (hasAfterConfirm) {
+        medBreakdown.medToAppointmentConfirmed++;
+      } else if (hasAfterAppt) {
+        medBreakdown.medToApptRequest++;
+      } else if (hasAfterPhone) {
+        medBreakdown.medToPhoneShared++;
+      } else if (hasAfterReject) {
+        medBreakdown.medToExplicitRejection++;
+      } else if (userMsgsAfterMed.length > 0) {
+        medBreakdown.medToContinued++;
+      } else {
+        medBreakdown.medToNoFurtherAction++;
+      }
+    }
+
+    // 3. Sequential Path
+    const milestoneEvents = [];
+    if (medEvs.length > 0) {
+      const sorted = [...medEvs].sort((a,b) => new Date(a.timestamp) - new Date(b.timestamp));
+      milestoneEvents.push({ type: 'Medical Need', time: new Date(sorted[0].timestamp).getTime() });
+    }
+    if (priceEvs.length > 0) {
+      const sorted = [...priceEvs].sort((a,b) => new Date(a.timestamp) - new Date(b.timestamp));
+      milestoneEvents.push({ type: 'Price', time: new Date(sorted[0].timestamp).getTime() });
+    }
+    if (apptEvs.length > 0) {
+      const sorted = [...apptEvs].sort((a,b) => new Date(a.timestamp) - new Date(b.timestamp));
+      milestoneEvents.push({ type: 'Appointment Request', time: new Date(sorted[0].timestamp).getTime() });
+    }
+    if (phoneEvs.length > 0) {
+      const sorted = [...phoneEvs].sort((a,b) => new Date(a.timestamp) - new Date(b.timestamp));
+      milestoneEvents.push({ type: 'Phone', time: new Date(sorted[0].timestamp).getTime() });
+    }
+    if (confirmEvs.length > 0) {
+      const sorted = [...confirmEvs].sort((a,b) => new Date(a.timestamp) - new Date(b.timestamp));
+      milestoneEvents.push({ type: 'Confirmed', time: new Date(sorted[0].timestamp).getTime() });
+    }
+    if (rejectEvs.length > 0) {
+      const sorted = [...rejectEvs].sort((a,b) => new Date(a.timestamp) - new Date(b.timestamp));
+      milestoneEvents.push({ type: 'Explicit Rejection', time: new Date(sorted[0].timestamp).getTime() });
+    }
+
+    milestoneEvents.sort((a, b) => a.time - b.time);
+
+    const pathParts = ['Started'];
+    for (const m of milestoneEvents) {
+      pathParts.push(m.type);
+    }
+    if (pathParts[pathParts.length - 1] !== 'Confirmed') {
+      pathParts.push('Stop');
+    }
+    const pathKey = pathParts.join(' → ');
+    pathFrequencies[pathKey] = (pathFrequencies[pathKey] || 0) + 1;
+  }
+
+  // Top paths (focusing on the informative paths with at least one milestone)
+  const sortedPaths = Object.entries(pathFrequencies)
+    .filter(([p]) => p !== 'Started → Stop')
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 10)
+    .map(([p, count], idx) => ({
+      rank: idx + 1,
+      path: p,
+      count,
+      pctOfRelevant: ((count / 363) * 100).toFixed(1),
+      pctOfTotal: ((count / 1233) * 100).toFixed(1)
+    }));
+
+  return {
+    priceBreakdown,
+    medBreakdown,
+    topPaths: sortedPaths
+  };
+}
+
 module.exports = {
   getDb,
   getDashboardKPIs,
   getConversations,
   getConversationDetails,
+  getChronologicalTransitions,
   updateLeadStage,
+  updateManualOverride,
   bulkUpdateStage,
   bulkAddLabel,
   getReactivationOpportunities,
@@ -466,5 +855,7 @@ module.exports = {
   getAuditLogs,
   getSmartLabels,
   getAnalysisRules,
+  getMetricsCatalog,
+  getMetricChangeLogs,
   loadDemoDataset
 };

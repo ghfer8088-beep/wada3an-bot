@@ -65,11 +65,51 @@ CREATE TABLE IF NOT EXISTS conversations (
   appointment_intent_score INTEGER DEFAULT 0, -- 0-100
   purchase_intent_score INTEGER DEFAULT 0, -- 0-100
   recency_bracket TEXT, -- 0-30 days, 31-90 days, 91-180 days, 181-365 days, 1-2 years, 2+ years
+  system_lead_stage TEXT,
+  manual_lead_stage TEXT,
+  classification_confidence REAL DEFAULT 0,
+  classification_reasons TEXT,
+  classification_evidence TEXT,
+  has_price_inquiry INTEGER DEFAULT 0,
+  has_appointment_intent INTEGER DEFAULT 0,
+  has_appointment_request INTEGER DEFAULT 0,
+  has_phone_shared INTEGER DEFAULT 0,
+  has_appointment_confirmed INTEGER DEFAULT 0,
+  has_attended INTEGER DEFAULT 0,
+  has_converted_payment INTEGER DEFAULT 0,
+  is_explicit_rejection INTEGER DEFAULT 0,
+  is_potentially_lost INTEGER DEFAULT 0,
+  is_lost INTEGER DEFAULT 0,
+  is_reactivation_candidate INTEGER DEFAULT 0,
+  reactivation_reason TEXT,
+  reactivation_disqualification_reason TEXT,
+  data_quality_issues TEXT,
+  override_reason TEXT,
+  override_by TEXT,
+  override_at DATETIME,
+  opportunity_tier TEXT DEFAULT NULL,
+  opportunity_score_breakdown TEXT DEFAULT NULL,
+  has_medical_need INTEGER DEFAULT 0,
+  last_user_message_text TEXT DEFAULT NULL,
+  last_user_message_at DATETIME DEFAULT NULL,
   is_demo INTEGER DEFAULT 0,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (page_id) REFERENCES meta_pages(id) ON DELETE SET NULL,
   FOREIGN KEY (contact_id) REFERENCES contacts(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS metrics_catalog (
+  metric_key TEXT PRIMARY KEY,
+  name_ar TEXT NOT NULL,
+  category TEXT NOT NULL,
+  entity_level TEXT DEFAULT 'محادثة (Conversation)',
+  can_overlap TEXT DEFAULT 'لا (No)',
+  count INTEGER DEFAULT 0,
+  definition_ar TEXT,
+  clinical_rationale TEXT,
+  formula TEXT,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS messages (
